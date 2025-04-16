@@ -1,33 +1,24 @@
 <section>
-    <div class="doc-display">
-        <h1>
-            Collection-title
-        </h1>
-        <p class="value-display col-title">
-            test-collection (for the test, the name is hard coded, it can be replaced by the name/key of the collection
-            wich is used to subscribe the docList)
-        </p>
+  <div class="doc-display">
+    <h1>Collection-title</h1>
+    <p class="value-display col-title">
+      test-collection (for the test, the name is hard coded, it can be replaced
+      by the name/key of the collection wich is used to subscribe the docList)
+    </p>
 
+    @if (collection$ | async; as docList) {
+    <h2>Document-title</h2>
+    @for (doc of docList; track $index) {
 
-        @if (collection$ | async; as docList) {
-            <h2>
-                Document-title
-            </h2>
-            @for (doc of docList; track $index) {
-                
-                <p class="value-display doc-title">
-                    {{doc['title']}}
-                </p>
-            }
-            <h2>
-                Document-value
-            </h2>
-            @for (doc of docList; track $index) {
-                <p class="value-display doc-value">
-                    {{doc['value']}}
-                </p>
-            }
-        }
-
-    </div>
+    <p class="value-display doc-title">
+      {{ doc["title"] }}
+    </p>
+    }
+    <h2>Document-value</h2>
+    @for (doc of docList; track $index) {
+    <p class="value-display doc-value">
+      {{ doc["value"] }}
+    </p>
+    } }
+  </div>
 </section>
