@@ -4,21 +4,30 @@
             Collection-title
         </h1>
         <p class="value-display col-title">
-            test
+            test-collection (for the test, the name is hard coded, it can be replaced by the name/key of the collection
+            wich is used to subscribe the docList)
         </p>
-        <h2>
-            Document-title
-        </h2>
-        <p class="value-display doc-title">
-            test
-        </p>
-        <h2>
-            Document-value
-        </h2>
-        <div class="value-display doc-value">
-            <i>
-                test
-            </i>
-        </div>
+
+
+        @if (collection$ | async; as docList) {
+            <h2>
+                Document-title
+            </h2>
+            @for (doc of docList; track $index) {
+                
+                <p class="value-display doc-title">
+                    {{doc['title']}}
+                </p>
+            }
+            <h2>
+                Document-value
+            </h2>
+            @for (doc of docList; track $index) {
+                <p class="value-display doc-value">
+                    {{doc['value']}}
+                </p>
+            }
+        }
+
     </div>
 </section>
