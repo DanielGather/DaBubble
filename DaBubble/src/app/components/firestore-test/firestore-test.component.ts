@@ -19,8 +19,9 @@ export class FirestoreTestComponent {
   userMessages: any;
 
   async ngOnInit() {
-    this.userMessages = await this.firestoreService.fetchUserMessages(123);
+    this.userMessages = await this.firestoreService.fetchUserMessages(123);     
   }
+
   /**
    * variable to access the data of the collection
    */
@@ -46,11 +47,18 @@ export class FirestoreTestComponent {
     this.selectedDocTitle = docTitle;
   }
 
-  // test
-  logValue() {
-    console.log(this.newDocumentValue);
+  /**
+   * this function submits the form wich will update the selected document, with the values from the form input (text-area field).
+   * 
+   */
+  submitChange() {
+    const newValueObject = {
+      title: this.selectedDocTitle,
+      value: this.newDocumentValue
+    }
+
+    this.firestoreService.updateDoc('test-collection', this.selectedDocTitle, newValueObject);
     this.selectedDocTitle = '';
     this.newDocumentValue = '';
   }
-  // testend
 }

@@ -18,19 +18,18 @@
             commonModule
         -->
     @if (collection$ | async; as docList) {
-    <h2>Document-title</h2>
+    
     @for (doc of docList; track $index) {
-
+    <h2>Document {{$index}} of test-collection</h2>
     <p class="value-display doc-title">
       {{ doc["title"] }}
+      ({{doc['id']}})
+    </p>
+    <p class="value-display doc-value">
+        {{ doc["value"] }}
     </p>
     }
-    <h2>Document-value</h2>
-    @for (doc of docList; track $index) {
-    <p class="value-display doc-value">
-      {{ doc["value"] }}
-    </p>
-    } }
+    }
 
     <form
       #ngform
@@ -42,7 +41,7 @@
         gap: 0.5rem;
         flex-direction: column;
       "
-      (ngSubmit)="logValue()"
+      (ngSubmit)="submitChange()"
     >
       <p class="value-display doc-title">
         Select the document wich should be changed
@@ -52,13 +51,13 @@
       <app-select-option
         (docTitleOutput)="selectDoc($event)"
         class="w-full"
-        [docTitle]="doc['title']"
+        [docTitle]="doc['id']"
       ></app-select-option>
       } } @if(selectedDocTitle != '') {
       <h2>Selected Document is {{ selectedDocTitle }}</h2>
       }
 
-      <div class="w-full border border-[rgba(0,0,0,0.2)] p-2">
+      <div *ngIf="selectedDocTitle != ''" class="w-full border border-[rgba(0,0,0,0.2)] p-2">
         <textarea
           [(ngModel)]="newDocumentValue"
           name="changeValue"
