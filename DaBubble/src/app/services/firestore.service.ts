@@ -40,6 +40,23 @@ export class FirestoreService {
     return collectionData(this.getCollectionRef(collectionKey));
   }
 
+  /**
+   * Fetches all messages from the `messages` subcollection of the room
+   * that contains the specified user (`userId`).
+   *
+   * The function first queries the `rooms` collection to find a room
+   * whose `userIds` array includes the given `userId`. If a matching
+   * document is found, it retrieves all messages from the
+   * `rooms/{roomId}/messages` subcollection and returns them as an array.
+   *
+   * @async
+   * @function fetchRoomsAndMessages
+   * @param {number} userId - The ID of the user to search for in rooms.
+   * @returns {Promise<any[]|undefined>} A promise that resolves to an array
+   *   of message data objects (`any[]`), or `undefined` if no room containing
+   *   the userId is found.
+   */
+
   async fetchUserMessages(userId: number) {
     const roomsSnapshot = await getDocs(collection(this.firestore, 'rooms'));
     const matchingDoc = roomsSnapshot.docs.find(
