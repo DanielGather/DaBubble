@@ -19,7 +19,7 @@ export class FirestoreTestComponent {
   userMessages: any;
 
   async ngOnInit() {
-    this.userMessages = await this.firestoreService.fetchRoomsAndMessages(123);
+    this.userMessages = await this.firestoreService.fetchUserMessages(123);
   }
   /**
    * variable to access the data of the collection

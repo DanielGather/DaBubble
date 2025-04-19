@@ -40,34 +40,24 @@ export class FirestoreService {
     return collectionData(this.getCollectionRef(collectionKey));
   }
 
-  async fetchRoomsAndMessages(userId: number) {
+  async fetchUserMessages(userId: number) {
     const roomsSnapshot = await getDocs(collection(this.firestore, 'rooms'));
     const matchingDoc = roomsSnapshot.docs.find(
       (doc, index) => doc.data()['userIds'][index] === userId
     );
     if (matchingDoc) {
       console.log('Gefundes Dokument', matchingDoc.id, matchingDoc.data());
-      let array: any[] = [];
+      let subCollectionArray: any[] = [];
       const querySnapshot = await getDocs(
         collection(this.firestore, 'rooms', matchingDoc.id, 'messages')
       );
       querySnapshot.forEach((doc) => {
-        array.push(doc.data());
+        subCollectionArray.push(doc.data());
       });
-      return array;
+      return subCollectionArray;
     } else {
       console.log('Kein Dokument mit dieser userId gefunden.');
       return;
     }
-
-    // for (const roomDoc of roomsSnapshot.docs) {
-    //   const messagesSnapshot = await getDocs(
-    //     collection(this.firestore, getCollection, roomDoc.id, subCollection)
-    //   );
-    //   return messagesSnapshot;
-    //   // messagesSnapshot.forEach((messageDoc) => {
-    //   //   console.log('Nachricht:', messageDoc.id, messageDoc.data());
-    //   // });
-    // }
   }
 }
