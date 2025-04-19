@@ -5,15 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { SelectOptionComponent } from './select-option/select-option.component';
 import { doc } from '@angular/fire/firestore';
 
-
-
 @Component({
   selector: 'app-firestore-test',
-  imports: [
-    CommonModule,
-    FormsModule,
-    SelectOptionComponent
-  ],
+  imports: [CommonModule, FormsModule, SelectOptionComponent],
   templateUrl: './firestore-test.component.html',
   styleUrl: './firestore-test.component.scss',
 })
@@ -23,6 +17,14 @@ export class FirestoreTestComponent {
    */
   firestoreService: FirestoreService = inject(FirestoreService);
 
+  ngOnInit() {
+    let rooms = this.firestoreService.getCollectionRef('rooms');
+    console.log(rooms);
+    let data = this.firestoreService.getCollectionData('rooms');
+    console.log(data);
+    this.firestoreService.fetchRooms();
+    this.firestoreService.fetchRoomsAndMessages();
+  }
   /**
    * variable to access the data of the collection
    */
@@ -31,22 +33,20 @@ export class FirestoreTestComponent {
   /**
    * variable to store the title of the selected document
    */
-  selectedDocTitle:string = '';
+  selectedDocTitle: string = '';
 
   /**
-   * the variable wich will store the new value for the selected document 
+   * the variable wich will store the new value for the selected document
    */
-  newDocumentValue:string = '';
-  
+  newDocumentValue: string = '';
 
   constructor() {}
 
-  
   /**
    * is used to select a document from the list of the html template
    * @param docTitle sets the selected docTitle
    */
-  selectDoc(docTitle:string) {
+  selectDoc(docTitle: string) {
     this.selectedDocTitle = docTitle;
   }
 
@@ -57,7 +57,4 @@ export class FirestoreTestComponent {
     this.newDocumentValue = '';
   }
   // testend
-  
-
-  
 }
