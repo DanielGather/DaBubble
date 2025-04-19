@@ -5,6 +5,7 @@ import {
   collectionData,
   getDocs,
 } from '@angular/fire/firestore';
+import { RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
 Observable;
 
@@ -19,10 +20,7 @@ export class FirestoreService {
 
   constructor() {}
 
-  ngOnInit() {
-    let rooms = this.getCollectionRef('rooms');
-    console.log(rooms);
-  }
+  ngOnInit() {}
 
   /**
    * this function returns the specific collection-reference of the firestore database.
@@ -42,32 +40,34 @@ export class FirestoreService {
     return collectionData(this.getCollectionRef(collectionKey));
   }
 
-  async fetchRooms() {
-    const querySnapshot = await getDocs(collection(this.firestore, 'rooms'));
-
-    querySnapshot.forEach((doc) => {
-      console.log('📄 ID:', doc.id);
-      console.log('📦 Daten:', doc.data());
-    });
-  }
-
-  async fetchRoomsAndMessages() {
+  async fetchRoomsAndMessages(userId: number) {
     const roomsSnapshot = await getDocs(collection(this.firestore, 'rooms'));
-
-    for (const roomDoc of roomsSnapshot.docs) {
-      console.log('🛋️ Raum:', roomDoc.id, roomDoc.data());
-
-      const messagesRef = collection(
-        this.firestore,
-        'rooms',
-        roomDoc.id,
-        'messages'
+    const matchingDoc = roomsSnapshot.docs.find(
+      (doc, index) => doc.data()['userIds'][index] === userId
+    );
+    if (matchingDoc) {
+      console.log('Gefundes Dokument', matchingDoc.id, matchingDoc.data());
+      let array: any[] = [];
+      const querySnapshot = await getDocs(
+        collection(this.firestore, 'rooms', matchingDoc.id, 'messages')
       );
-      const messagesSnapshot = await getDocs(messagesRef);
-
-      messagesSnapshot.forEach((messageDoc) => {
-        console.log('   💬 Nachricht:', messageDoc.id, messageDoc.data());
+      querySnapshot.forEach((doc) => {
+        array.push(doc.data());
       });
+      return array;
+    } else {
+      console.log('Kein Dokument mit dieser userId gefunden.');
+      return;
     }
+
+    // for (const roomDoc of roomsSnapshot.docs) {
+    //   const messagesSnapshot = await getDocs(
+    //     collection(this.firestore, getCollection, roomDoc.id, subCollection)
+    //   );
+    //   return messagesSnapshot;
+    //   // messagesSnapshot.forEach((messageDoc) => {
+    //   //   console.log('Nachricht:', messageDoc.id, messageDoc.data());
+    //   // });
+    // }
   }
 }

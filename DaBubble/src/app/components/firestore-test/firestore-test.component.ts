@@ -3,7 +3,7 @@ import { FirestoreService } from '../../services/firestore.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SelectOptionComponent } from './select-option/select-option.component';
-import { doc } from '@angular/fire/firestore';
+import { doc, docData, collectionData } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-firestore-test',
@@ -16,14 +16,10 @@ export class FirestoreTestComponent {
    * firstoreService variable
    */
   firestoreService: FirestoreService = inject(FirestoreService);
+  userMessages: any;
 
-  ngOnInit() {
-    let rooms = this.firestoreService.getCollectionRef('rooms');
-    console.log(rooms);
-    let data = this.firestoreService.getCollectionData('rooms');
-    console.log(data);
-    this.firestoreService.fetchRooms();
-    this.firestoreService.fetchRoomsAndMessages();
+  async ngOnInit() {
+    this.userMessages = await this.firestoreService.fetchRoomsAndMessages(123);
   }
   /**
    * variable to access the data of the collection
