@@ -84,9 +84,9 @@ export class FirestoreService {
    */
 
   async fetchUserMessages(userId: number) {
-    const roomsSnapshot = await getDocs(collection(this.firestore, 'rooms'));
+    const roomsSnapshot = await getDocs(collection(this.firestore, 'rooms'));    
     const matchingDoc = roomsSnapshot.docs.find(
-      (doc, index) => doc.data()['userIds'][index] === userId
+      (doc) => doc.data()['userIds'].includes(userId) 
     );
     if (matchingDoc) {
       let subCollectionArray = await this.getSubCollection(matchingDoc);

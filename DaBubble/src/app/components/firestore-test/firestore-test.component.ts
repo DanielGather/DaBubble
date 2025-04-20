@@ -16,6 +16,10 @@ export class FirestoreTestComponent {
    * firstoreService variable
    */
   firestoreService: FirestoreService = inject(FirestoreService);
+
+  /**
+   * array of user messages
+   */
   userMessages: any;
   userId: number = 123;
   async ngOnInit() {
