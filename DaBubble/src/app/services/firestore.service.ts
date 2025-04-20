@@ -9,8 +9,7 @@ import {
 } from '@angular/fire/firestore';
 import { RouterModule } from '@angular/router';
 import { DocumentReference, getDoc } from 'firebase/firestore';
-import { Observable } from 'rxjs';
-Observable;
+import { Observable, shareReplay } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -41,7 +40,7 @@ export class FirestoreService {
    * @returns the collection itself. it contains a list of documents.
    */
   getCollectionData(collectionKey: string) {
-    return collectionData(this.getCollectionRef(collectionKey),{ idField: 'id' });
+    return collectionData(this.getCollectionRef(collectionKey),{ idField: 'id' }).pipe(shareReplay(1));
   }
 
   /**
