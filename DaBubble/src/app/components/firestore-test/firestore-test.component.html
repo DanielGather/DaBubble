@@ -17,19 +17,17 @@
             imports needed:
             commonModule
         -->
-    @if (collection$ | async; as docList) {
-    
-    @for (doc of docList; track $index) {
-    <h2>Document {{$index}} of test-collection</h2>
+    @if (collection$ | async; as docList) { @for (doc of docList; track $index)
+    {
+    <h2>Document {{ $index }} of test-collection</h2>
     <p class="value-display doc-title">
       {{ doc["title"] }}
-      ({{doc['id']}})
+      ({{ doc["id"] }})
     </p>
     <p class="value-display doc-value">
-        {{ doc["value"] }}
+      {{ doc["value"] }}
     </p>
-    }
-    }
+    } }
 
     <form
       #ngform
@@ -57,7 +55,10 @@
       <h2>Selected Document is {{ selectedDocTitle }}</h2>
       }
 
-      <div *ngIf="selectedDocTitle != ''" class="w-full border border-[rgba(0,0,0,0.2)] p-2">
+      <div
+        *ngIf="selectedDocTitle != ''"
+        class="w-full border border-[rgba(0,0,0,0.2)] p-2"
+      >
         <textarea
           [(ngModel)]="newDocumentValue"
           name="changeValue"

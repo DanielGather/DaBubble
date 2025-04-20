@@ -36,7 +36,7 @@ export class FirestoreTestComponent {
   /**
    * variable to store the title of the selected document
    */
-  selectedDocTitle: string = '';
+  selectedDocTitle: string = 'Das ist ein merge test';
 
   /**
    * the variable wich will store the new value for the selected document
@@ -55,15 +55,19 @@ export class FirestoreTestComponent {
 
   /**
    * this function submits the form wich will update the selected document, with the values from the form input (text-area field).
-   * 
+   *
    */
   submitChange() {
     const newValueObject = {
       title: this.selectedDocTitle,
-      value: this.newDocumentValue
-    }
+      value: this.newDocumentValue,
+    };
 
-    this.firestoreService.updateDoc('test-collection', this.selectedDocTitle, newValueObject);
+    this.firestoreService.updateDoc(
+      'test-collection',
+      this.selectedDocTitle,
+      newValueObject
+    );
     this.selectedDocTitle = '';
     this.newDocumentValue = '';
   }
