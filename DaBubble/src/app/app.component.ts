@@ -25,7 +25,11 @@ export class AppComponent implements AfterViewInit {
    * @param el variable to an elementreference
    * @param renderer variable to use the renderer, wich is used to give dynamic styles to specific elements.
    */
-  constructor(private el: ElementRef, private renderer: Renderer2) {}
+  constructor(private el: ElementRef, private renderer: Renderer2) {
+    setTimeout(() => {
+      this.updateContentHeight();
+    }, 100);
+  }
 
   /**
    * this hostlistener listens to the reisize event. it will fire the function updateContentHeight
@@ -35,11 +39,11 @@ export class AppComponent implements AfterViewInit {
    */
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
-      this.updateContentHeight();
+      this.updateContentHeight();  
   }
 
   ngAfterViewInit(): void {
-    this.updateContentHeight();
+
   }
 
   /**
@@ -49,6 +53,6 @@ export class AppComponent implements AfterViewInit {
   updateContentHeight() {
     let contentElement = this.el.nativeElement.querySelector('#content');
     this.renderer.setStyle(contentElement, 'height', `auto`);
-    this.renderer.setStyle(contentElement, 'height', `${contentElement.getBoundingClientRect().height}px`);    
+    this.renderer.setStyle(contentElement, 'height', `${contentElement.getBoundingClientRect().height}px`);        
   }
 }
