@@ -3,7 +3,12 @@ import { FirestoreService } from '../../services/firestore.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SelectOptionComponent } from './select-option/select-option.component';
-import { doc, docData, collectionData } from '@angular/fire/firestore';
+import {
+  doc,
+  docData,
+  collectionData,
+  updateDoc,
+} from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-firestore-test',
