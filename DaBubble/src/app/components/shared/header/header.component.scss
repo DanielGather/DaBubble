@@ -1,9 +1,10 @@
-header {
-  background-color: aqua;
+.currentUserName {
+  white-space: nowrap;
 }
 
-.logoWrapper {
-  img {
-    width: 4.375rem;
-  }
+
+.arrowDown {
+  width: 0.62rem;
+  right: 1.2rem;
+  top: 1.5rem;
 }
