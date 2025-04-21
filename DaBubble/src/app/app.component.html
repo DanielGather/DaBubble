@@ -1,5 +1,39 @@
-<app-header></app-header>
+<main class="
+    min-w-full
+    min-h-screen
+    flex
+    flex-col
+">
+    <app-header></app-header>
 
+    <div id="content" class="
+        flex
+        justify-center
+        items-center
+        flex-grow
+        min-h-0
+    ">
+
+    <!-- test starts: just an element to give me a feeling for the navbar -->
+        <div class="
+            border
+            border-black
+        ">
+            just a example to have a feeling about the upcoming navbar
+        </div>
+    <!-- test ends -->
+
+        <div id="roouter-outlet-wrap" class="
+            flex-grow
+            p-[5rem]
+            bg-red-600
+            h-full min-h-0
+        ">
+           <router-outlet /> 
+        </div>
+        
+    </div>
+
+</main>
 
 <!-- <app-firestore-test></app-firestore-test> -->
-<router-outlet />
