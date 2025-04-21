@@ -7,12 +7,14 @@
 ::before {
   margin: 0;
   box-sizing: border-box;
+  background-color: rgba(236, 238, 254);
 }
 
 app-root {
   min-width: 100%;
   min-height: 100vh;
   display: block;
+  max-width: 120rem;
 }
 
 app-root > * {
