@@ -2,6 +2,8 @@ import { Component, HostListener, AfterViewInit, Renderer2, ElementRef } from '@
 import { RouterOutlet } from '@angular/router';
 import { FirestoreTestComponent } from './components/firestore-test/firestore-test.component'; //test
 import { HeaderComponent } from './components/shared/header/header.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+
 
 
 @Component({
@@ -10,6 +12,7 @@ import { HeaderComponent } from './components/shared/header/header.component';
     RouterOutlet,
     FirestoreTestComponent, //test
     HeaderComponent,
+    SidebarComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -18,6 +21,7 @@ export class AppComponent implements AfterViewInit {
   title = 'DaBubble';
 
   /**
+   * 
    * @param el variable to an elementreference
    * @param renderer variable to use the renderer, wich is used to give dynamic styles to specific elements.
    */
