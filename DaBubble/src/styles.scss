@@ -8,9 +8,7 @@
   margin: 0;
   box-sizing: border-box;
   font-family: 'Nunito', sans-serif;
-  &:not(.router-outlet-wrap > *) {
-    background-color: rgba(236, 238, 254);
-  }
+  background-color: rgba(236, 238, 254);
 }
 
 app-root {
