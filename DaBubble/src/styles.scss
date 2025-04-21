@@ -7,8 +7,10 @@
 ::before {
   margin: 0;
   box-sizing: border-box;
-  background-color: rgba(236, 238, 254);
   font-family: 'Nunito', sans-serif;
+  &:not(.router-outlet-wrap > *) {
+    background-color: rgba(236, 238, 254);
+  }
 }
 
 app-root {
