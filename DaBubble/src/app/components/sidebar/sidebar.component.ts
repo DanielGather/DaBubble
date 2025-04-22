@@ -5,10 +5,17 @@ import { FirestoreService } from '../../services/firestore.service';
 import { CreateChannelComponent } from './create-channel/create-channel.component';
 import { NgIf } from '@angular/common';
 import { FirestoreTestComponent } from '../firestore-test/firestore-test.component';
+import { ProfileUserComponent } from '../profile-user/profile-user.component';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [HeaderComponent, SearchbarComponent, CreateChannelComponent, NgIf],
+  imports: [
+    HeaderComponent,
+    SearchbarComponent,
+    CreateChannelComponent,
+    NgIf,
+    ProfileUserComponent,
+  ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
