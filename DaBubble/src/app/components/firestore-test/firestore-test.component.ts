@@ -26,7 +26,7 @@ export class FirestoreTestComponent {
    * array of user messages
    */
   userMessages: any;
-  userId: number = 123;
+  userId: number = 123123;
   async ngOnInit() {
     this.userMessages = await this.firestoreService.fetchUserMessages(
       this.userId
