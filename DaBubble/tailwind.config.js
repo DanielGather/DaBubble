@@ -4,13 +4,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "bg-main": "#eceefe",
-        "bg-component": "#ffffff",
-        "bg-button": "#444df2",
+        "bg-main": "var(--bg-main)",
+        "bg-component": "var(--bg-component)",
+        "bg-button": "var(--bg-button)",
       },
       fontSize: {
-        24: "24px",
-        fontSizeChat: "18px",
+        24: "var(--font-size-bold)",
+        fontSizeChat: "var(--font-size-chat)",
       },
       borderRadius: {
         standard: "var(--border-radius)",
