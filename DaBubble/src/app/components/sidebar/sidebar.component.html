@@ -1,5 +1,6 @@
-<app-searchbar class="block md:hidden"></app-searchbar>
-<div class="pl-4">
+<app-searchbar class="block md:hidden pt-4"></app-searchbar>
+<div class="pl-4 pt-4 w-80 [@media(max-width:480px)]:pl-0">
+  @if(clicked){
   <div
     class="flex pl-4 gap-4 pt-8 relative bg-bg-component rounded-tl-standard rounded-tr-standard"
   >
@@ -28,13 +29,24 @@
           />
         </div>
       </div>
-      <div class="flex gap-4 items-center hover:cursor-pointer">
-        <p class="w-5 self-center justify-center flex font-bold text-[2xl]">
-          #
-        </p>
-        <p>Entwicklerteam</p>
+      <div
+        id="channel"
+        class="flex flex-col gap-4 items-start hover:cursor-pointer"
+      >
+        <div class="flex">
+          <p class="w-5 self-center justify-center flex font-bold text-[2xl]">
+            #
+          </p>
+          <p>Entwicklerteam</p>
+        </div>
+        <div class="flex">
+          <p class="w-5 self-center justify-center flex font-bold text-[2xl]">
+            #
+          </p>
+          <p>Entwicklerteam</p>
+        </div>
       </div>
-      <div class="flex gap-4 hover:cursor-pointer">
+      <div (click)="addNewChannel()" class="flex gap-4 hover:cursor-pointer">
         <img
           class="w-5 h-5"
           src="./../../../assets/img/add_circle.svg"
@@ -211,36 +223,39 @@
         <p>Frederik Beck (DU)</p>
       </div>
     </div>
-    <div
-      class="hoverWorkspace p-3 gap-2 absolute flex items-center justify-center left-0 bottom-16 -rotate-90 origin-top-left rounded-br-standard rounded-bl-standard bg-white shadow"
+  </div>
+  }
+
+  <div
+    (click)="navBarClicked()"
+    class="hoverWorkspace p-3 gap-2 absolute flex items-center justify-center left-0 bottom-16 -rotate-90 origin-top-left rounded-br-standard rounded-bl-standard bg-white shadow [@media(max-width:480px)]:hidden"
+  >
+    <p class="bg-white font-bold">Workspace-Menü schließen</p>
+    <svg
+      class="rotate-90 bg-white"
+      width="32"
+      height="32"
+      viewBox="0 0 32 32"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
     >
-      <p class="bg-white font-bold">Workspace-Menü schließen</p>
-      <svg
-        class="rotate-90 bg-white"
-        width="32"
-        height="32"
-        viewBox="0 0 32 32"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <rect
-          class=""
-          x="8"
-          y="8"
-          width="16"
-          height="16"
-          rx="1"
-          stroke="black"
-          stroke-width="2"
-        />
-        <path d="M13.7142 8V24" stroke="black" stroke-width="2" />
-        <path
-          d="M19.4285 18.2857L17.4964 16.3535C17.3011 16.1583 17.3011 15.8417 17.4964 15.6464L19.4285 13.7143"
-          stroke="black"
-          stroke-width="2"
-          stroke-linecap="round"
-        />
-      </svg>
-    </div>
+      <rect
+        class=""
+        x="8"
+        y="8"
+        width="16"
+        height="16"
+        rx="1"
+        stroke="black"
+        stroke-width="2"
+      />
+      <path d="M13.7142 8V24" stroke="black" stroke-width="2" />
+      <path
+        d="M19.4285 18.2857L17.4964 16.3535C17.3011 16.1583 17.3011 15.8417 17.4964 15.6464L19.4285 13.7143"
+        stroke="black"
+        stroke-width="2"
+        stroke-linecap="round"
+      />
+    </svg>
   </div>
 </div>

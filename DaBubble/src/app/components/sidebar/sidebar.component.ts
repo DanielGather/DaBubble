@@ -10,4 +10,11 @@ import { SearchbarComponent } from '../shared/searchbar/searchbar.component';
 })
 export class SidebarComponent {
   online: boolean = true;
+  clicked: boolean = true;
+
+  navBarClicked() {
+    this.clicked = !this.clicked;
+  }
+
+  addNewChannel() {}
 }
