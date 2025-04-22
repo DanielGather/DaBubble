@@ -1,5 +1,5 @@
 <app-searchbar class="block md:hidden pt-4"></app-searchbar>
-<div class="pl-4 pt-4 w-80 [@media(max-width:480px)]:pl-0">
+<div class="pl-4 pt-4 w-80 relative [@media(max-width:480px)]:pl-0">
   @if(clicked){
   <div
     class="flex pl-4 gap-4 pt-8 relative bg-bg-component rounded-tl-standard rounded-tr-standard"
@@ -218,8 +218,5 @@
       />
     </svg>
   </div>
-  <app-create-channel
-    class="absolute left-2/4 top-2/4"
-    *ngIf="showModal"
-  ></app-create-channel>
 </div>
+<app-create-channel></app-create-channel>

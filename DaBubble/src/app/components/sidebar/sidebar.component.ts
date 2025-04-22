@@ -2,19 +2,13 @@ import { Component, inject } from '@angular/core';
 import { HeaderComponent } from '../shared/header/header.component';
 import { SearchbarComponent } from '../shared/searchbar/searchbar.component';
 import { FirestoreService } from '../../services/firestore.service';
-import { CreateChannelComponent } from '../create-channel/create-channel.component';
+import { CreateChannelComponent } from './create-channel/create-channel.component';
 import { NgIf } from '@angular/common';
 import { FirestoreTestComponent } from '../firestore-test/firestore-test.component';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [
-    HeaderComponent,
-    SearchbarComponent,
-    CreateChannelComponent,
-    NgIf,
-    FirestoreTestComponent,
-  ],
+  imports: [HeaderComponent, SearchbarComponent, CreateChannelComponent, NgIf],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
