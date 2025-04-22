@@ -5,8 +5,12 @@ import { SearchbarComponent } from '../searchbar/searchbar.component';
   selector: 'app-header',
   imports: [SearchbarComponent],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
+  headerPopup: boolean = false;
 
+  togglePopup() {
+    this.headerPopup = !this.headerPopup;
+  }
 }

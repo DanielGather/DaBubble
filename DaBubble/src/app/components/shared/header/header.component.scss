@@ -7,3 +7,25 @@
   right: 1.2rem;
   top: 1.5rem;
 }
+
+.popup {
+  position: absolute;
+  top: 6rem;
+  right: -18rem; /* entspricht -right-72 */
+  transition: right 0.5s ease-in-out;
+}
+
+.popup.show {
+  right: 2rem;
+}
+
+.popupBg {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.popupBg.show {
+  opacity: 1;
+  pointer-events: auto;
+}
