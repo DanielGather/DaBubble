@@ -7,51 +7,39 @@
     <div class="items-start flex justify-center pt-2">
       <img
         class="w-4 h-4 hover:cursor-pointer"
-        src="./../../../assets/img/arrow_drop_down.svg"
+        src="img/arrow_drop_down.svg"
         alt=""
       />
     </div>
     <div class="pr-4 gap-4 flex flex-col w-full hover:cursor-pointer">
       <div class="flex">
         <div class="flex gap-4 items-center">
-          <img
-            class="w-5 h-5"
-            src="./../../../assets/img/workspaces.svg"
-            alt=""
-          />
+          <img class="w-5 h-5" src="img/workspaces.svg" alt="" />
           <p class="font-bold text-24">Channels</p>
         </div>
         <div class="w-full flex justify-end items-center">
-          <img
-            class="w-5 h-5 hover:cursor-pointer"
-            src="./../../../assets/img/add.svg"
-            alt=""
-          />
+          <img class="w-5 h-5 hover:cursor-pointer" src="img/add.svg" alt="" />
         </div>
       </div>
       <div
         id="channel"
         class="flex flex-col gap-4 items-start hover:cursor-pointer"
       >
+        @for(channel of channelArray; track channel){
+
         <div class="flex">
           <p class="w-5 self-center justify-center flex font-bold text-[2xl]">
             #
           </p>
-          <p>Entwicklerteam</p>
+          <p>{{ channel }}</p>
         </div>
-        <div class="flex">
-          <p class="w-5 self-center justify-center flex font-bold text-[2xl]">
-            #
-          </p>
-          <p>Entwicklerteam</p>
-        </div>
+        }
       </div>
-      <div (click)="addNewChannel()" class="flex gap-4 hover:cursor-pointer">
-        <img
-          class="w-5 h-5"
-          src="./../../../assets/img/add_circle.svg"
-          alt=""
-        />
+      <div
+        (click)="showModal = !showModal"
+        class="flex gap-4 hover:cursor-pointer"
+      >
+        <img class="w-5 h-5" src="img/add_circle.svg" alt="" />
         <p class="text-[#535AF1]">Channel hinzufügen</p>
       </div>
     </div>
@@ -63,39 +51,31 @@
     <div class="items-start flex justify-center pt-2">
       <img
         class="w-4 h-4 hover:cursor-pointer"
-        src="./../../../assets/img/arrow_drop_down.svg"
+        src="img/arrow_drop_down.svg"
         alt=""
       />
     </div>
     <div class="pr-4 pb-4 gap-4 flex flex-col w-full">
       <div class="flex hover:cursor-pointer">
         <div class="flex gap-4 items-center">
-          <img
-            class="w-5 h-5"
-            src="./../../../assets/img/account_circle.svg"
-            alt=""
-          />
+          <img class="w-5 h-5" src="img/account_circle.svg" alt="" />
           <p class="font-bold text-2xl">Direktnachrichten</p>
         </div>
       </div>
       <div class="flex gap-4 items-center hover:cursor-pointer">
         <div class="relative">
-          <img
-            class="w-10 h-10 rounded-full"
-            src="./../../../assets/img/user_1.png"
-            alt=""
-          />
+          <img class="w-10 h-10 rounded-full" src="img/user_1.png" alt="" />
           @if(online == true){
           <img
             class="absolute right-0 bottom-[-3px] rounded-full"
-            src="./../../../assets/img/online.svg"
+            src="img/online.svg"
             alt=""
           />
 
           } @else {
           <img
             class="absolute right-0 bottom-[-3px] rounded-full"
-            src="./../../../assets/img/offline.svg"
+            src="img/offline.svg"
             alt=""
           />
           }
@@ -104,22 +84,18 @@
       </div>
       <div class="flex gap-4 items-center hover:cursor-pointer">
         <div class="relative">
-          <img
-            class="w-10 h-10 rounded-full"
-            src="./../../../assets/img/user_1.png"
-            alt=""
-          />
+          <img class="w-10 h-10 rounded-full" src="img/user_1.png" alt="" />
           @if(online == true){
           <img
             class="absolute right-0 bottom-[-3px] rounded-full"
-            src="./../../../assets/img/online.svg"
+            src="img/online.svg"
             alt=""
           />
 
           } @else {
           <img
             class="absolute right-0 bottom-[-3px] rounded-full"
-            src="./../../../assets/img/offline.svg"
+            src="img/offline.svg"
             alt=""
           />
           }
@@ -128,22 +104,18 @@
       </div>
       <div class="flex gap-4 items-center hover:cursor-pointer">
         <div class="relative">
-          <img
-            class="w-10 h-10 rounded-full"
-            src="./../../../assets/img/user_1.png"
-            alt=""
-          />
+          <img class="w-10 h-10 rounded-full" src="img/user_1.png" alt="" />
           @if(online == true){
           <img
             class="absolute right-0 bottom-[-3px] rounded-full"
-            src="./../../../assets/img/online.svg"
+            src="img/online.svg"
             alt=""
           />
 
           } @else {
           <img
             class="absolute right-0 bottom-[-3px] rounded-full"
-            src="./../../../assets/img/offline.svg"
+            src="img/offline.svg"
             alt=""
           />
           }
@@ -152,22 +124,18 @@
       </div>
       <div class="flex gap-4 items-center hover:cursor-pointer">
         <div class="relative">
-          <img
-            class="w-10 h-10 rounded-full"
-            src="./../../../assets/img/user_1.png"
-            alt=""
-          />
+          <img class="w-10 h-10 rounded-full" src="img/user_1.png" alt="" />
           @if(online == true){
           <img
             class="absolute right-0 bottom-[-3px] rounded-full"
-            src="./../../../assets/img/online.svg"
+            src="img/online.svg"
             alt=""
           />
 
           } @else {
           <img
             class="absolute right-0 bottom-[-3px] rounded-full"
-            src="./../../../assets/img/offline.svg"
+            src="img/offline.svg"
             alt=""
           />
           }
@@ -176,22 +144,18 @@
       </div>
       <div class="flex gap-4 items-center hover:cursor-pointer">
         <div class="relative">
-          <img
-            class="w-10 h-10 rounded-full"
-            src="./../../../assets/img/user_1.png"
-            alt=""
-          />
+          <img class="w-10 h-10 rounded-full" src="img/user_1.png" alt="" />
           @if(online == true){
           <img
             class="absolute right-0 bottom-[-3px] rounded-full"
-            src="./../../../assets/img/online.svg"
+            src="img/online.svg"
             alt=""
           />
 
           } @else {
           <img
             class="absolute right-0 bottom-[-3px] rounded-full"
-            src="./../../../assets/img/offline.svg"
+            src="img/offline.svg"
             alt=""
           />
           }
@@ -200,22 +164,18 @@
       </div>
       <div class="flex gap-4 items-center hover:cursor-pointer">
         <div class="relative">
-          <img
-            class="w-10 h-10 rounded-full"
-            src="./../../../assets/img/user_1.png"
-            alt=""
-          />
+          <img class="w-10 h-10 rounded-full" src="img/user_1.png" alt="" />
           @if(online == true){
           <img
             class="absolute right-0 bottom-[-3px] rounded-full"
-            src="./../../../assets/img/online.svg"
+            src="img/online.svg"
             alt=""
           />
 
           } @else {
           <img
             class="absolute right-0 bottom-[-3px] rounded-full"
-            src="./../../../assets/img/offline.svg"
+            src="img/offline.svg"
             alt=""
           />
           }
@@ -258,4 +218,8 @@
       />
     </svg>
   </div>
+  <app-create-channel
+    class="absolute left-2/4 top-2/4"
+    *ngIf="showModal"
+  ></app-create-channel>
 </div>

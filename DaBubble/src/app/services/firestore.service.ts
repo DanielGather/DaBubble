@@ -85,15 +85,15 @@ export class FirestoreService {
    */
 
   async fetchUserMessages(userId: number) {
-    const roomsSnapshot = await getDocs(collection(this.firestore, 'rooms'));
-    const matchingDoc = roomsSnapshot.docs.find((doc) =>
-      doc.data()['userIds'].includes(userId)
+    const roomsSnapshot = await getDocs(collection(this.firestore, 'channels'));
+    const matchingDoc = roomsSnapshot.docs.filter((doc, index) =>
+      doc.data()['userIds'][index].includes(userId)
     );
     if (matchingDoc) {
       let subCollectionArray = await this.getSubCollection(matchingDoc);
       return subCollectionArray;
     } else {
-      console.log('No room found for userId', userId);
+      console.log('No channels found for userId', userId);
       return;
     }
   }
@@ -102,10 +102,11 @@ export class FirestoreService {
     console.log('Found Document', matchingDoc.id, matchingDoc.data());
     let Array: any[] = [];
     const querySnapshot = await getDocs(
-      collection(this.firestore, 'rooms', matchingDoc.id, 'messages')
+      collection(this.firestore, 'channels', matchingDoc.id, 'messages')
     );
     querySnapshot.forEach((doc) => {
       Array.push(doc.data());
+      console.log(doc.id);
     });
     return Array;
   }

@@ -13,7 +13,7 @@ module.exports = {
         fontSizeChat: "18px",
       },
       borderRadius: {
-        standard: "1.875rem",
+        standard: "var(--border-radius)",
       },
     },
   },
