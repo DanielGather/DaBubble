@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Output } from '@angular/core';
 import { ButtonComponent } from '../../shared/button/button.component';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-create-channel',
@@ -9,4 +10,10 @@ import { ButtonComponent } from '../../shared/button/button.component';
 })
 export class CreateChannelComponent {
   buttonText: string = 'Erstellen';
+
+  @Output() showModal = new EventEmitter<boolean>();
+
+  closeModal() {
+    this.showModal.emit(false);
+  }
 }

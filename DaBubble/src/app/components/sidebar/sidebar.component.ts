@@ -27,5 +27,7 @@ export class SidebarComponent {
     this.clicked = !this.clicked;
   }
 
-  addNewChannel() {}
+  closeChannelWindow(close: boolean) {
+    this.showModal = close;
+  }
 }
