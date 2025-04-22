@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './private-chat-header.component.scss'
 })
 export class PrivateChatHeaderComponent {
-
+  online:boolean = true;
 }
