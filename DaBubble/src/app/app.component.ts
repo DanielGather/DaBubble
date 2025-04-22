@@ -1,10 +1,9 @@
-import { Component, } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FirestoreTestComponent } from './components/firestore-test/firestore-test.component'; //test
 import { HeaderComponent } from './components/shared/header/header.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-
-
+import { AuthLayoutComponent } from './components/shared/auth-layout/auth-layout.component';
 
 @Component({
   selector: 'app-root',
@@ -12,12 +11,12 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     RouterOutlet,
     FirestoreTestComponent, //test
     HeaderComponent,
-    SidebarComponent
+    SidebarComponent,
+    AuthLayoutComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'DaBubble';
-
 }

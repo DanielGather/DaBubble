@@ -1,0 +1,61 @@
+<div
+    class="
+        flex items-center justify-start
+        flex-row
+        md:px-[2.8rem]
+        px-[1rem]
+        py-5
+        gap-3
+    ">
+
+    <div 
+        class="
+            flex
+            flex-row
+            relative
+        ">
+
+        <div
+            class="
+                h-[3.125rem]
+                w-[3.125rem]
+            ">     
+            
+            <img 
+                class="
+                    w-full
+                    h-full
+                    rounded-[50%]
+                " 
+                src="img/user_1.png" 
+                alt=""
+            >
+            @if (online) {
+                <img 
+                src="img/online.svg" 
+                alt=""
+                class="
+                    absolute bottom-0 right-0
+                "
+            >
+            }@else if (!online) {
+                <img 
+                src="img/offline.svg" 
+                alt=""
+                class="
+                    absolute bottom-0 right-0
+                "
+            >
+            }
+            
+        </div>
+
+    </div>
+    <span 
+            class="
+                text-24
+                font-[700]
+            ">
+                A name
+    </span>
+</div>

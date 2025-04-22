@@ -8,14 +8,14 @@
     class="flex-1 min-w-0 px-12 w-full hidden md:block"
   ></app-searchbar>
 
-  <div class="flex items-center gap-4 w-20 md:w-80 h-16 relative group cursor-pointer">
+  <div (click)="togglePopup()" class="flex items-center gap-4 w-20 md:w-80 h-16 relative group cursor-pointer">
     <div
       class="text-xl md:text-3xl font-bold hidden md:block currentUserName group-hover:text-[rgb(121,126,243)] transition-colors duration-125"
     >
       Kevin Alleine
     </div>
 
-    <img class="w-14 md:w-16 rounded-full ml-auto md:ml-0" src="img/user_1.png" alt="" />
+    <img class="w-14 md:w-16 rounded-full ml-auto md:ml-0" src="img/user_1_small.png" alt="" />
 
 
     <img
@@ -30,8 +30,9 @@
     />
   </div>
 
-  <div class="bg-white rounded-tl-standard w-72 h-44 rounded-bl-standard rounded-br-standard absolute right-8 top-24 flex justify-center items-center flex-col px-8 gap-4">
-    <div class="hover:bg-bg-main hover:text-fc-purple text-24 font-semibold hover:font-bold w-full flex justify-center rounded-standard py-2">Profil</div>
-    <div class="hover:bg-bg-main hover:text-fc-purple text-24 font-semibold hover:font-bold w-full flex justify-center rounded-standard py-2">Log out</div>
+  <div [class.show]="headerPopup" class="popup  bg-white  rounded-tl-standard w-72 h-44 rounded-bl-standard rounded-br-standard absolute z-20 top-24 flex justify-center items-center flex-col px-8 gap-4">
+    <div (click)="togglePopup()" class="hover:bg-bg-main hover:text-fc-dark-purple text-24 font-semibold hover:font-bold w-full flex justify-center rounded-standard py-2 cursor-pointer">Profil</div>
+    <div (click)="togglePopup()" class="hover:bg-bg-main hover:text-fc-dark-purple text-24 font-semibold hover:font-bold w-full flex justify-center rounded-standard py-2 cursor-pointer">Log out</div>
   </div>
 </header>
+<div [class.show]="headerPopup" (click)="togglePopup()" class="popupBg absolute z-10 top-0 left-0 bg-black/50 w-screen h-screen"></div>
