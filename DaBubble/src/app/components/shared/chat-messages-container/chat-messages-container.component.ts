@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-chat-messages-container',
@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './chat-messages-container.component.scss'
 })
 export class ChatMessagesContainerComponent {
-
+  @Input() chatType:ChatType = ChatType.channel; 
 }
