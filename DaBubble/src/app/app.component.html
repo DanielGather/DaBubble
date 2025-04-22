@@ -4,6 +4,7 @@
     flex
     flex-col
     h-screen
+    bg-[rgb(236,238,254)]
 ">
     <app-header></app-header>
 
@@ -13,13 +14,16 @@
         items-start
         h-full
         min-h-0
+        pb-8
+        gap-8
         ">
         <app-sidebar class="h-full"></app-sidebar>
 
         <div id="roouter-outlet-wrap" class="
             flex-grow
-            bg-red-600
             h-full min-h-0
+            pt-8
+            pr-8
         ">
            <router-outlet /> 
         </div>

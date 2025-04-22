@@ -8,7 +8,7 @@
   margin: 0;
   box-sizing: border-box;
   font-family: 'Nunito', sans-serif;
-  background-color: rgba(236, 238, 254);
+  //background-color: rgba(236, 238, 254);
 }
 
 app-root {
@@ -22,7 +22,9 @@ app-root > * {
   min-width: 100%;
 }
 
-
+:root {
+  --border-radius: 1.875rem;
+}
 
 
 /* nunito-200 - latin */
