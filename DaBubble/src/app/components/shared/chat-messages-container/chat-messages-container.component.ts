@@ -1,9 +1,10 @@
 import { Component, Input, AfterViewInit } from '@angular/core';
 import { ChatType } from '../../../types/types';
+import { ChatInfoComponent } from './chat-info/chat-info.component';
 
 @Component({
   selector: 'app-chat-messages-container',
-  imports: [],
+  imports: [ChatInfoComponent],
   templateUrl: './chat-messages-container.component.html',
   styleUrl: './chat-messages-container.component.scss'
 })
@@ -12,7 +13,6 @@ export class ChatMessagesContainerComponent implements AfterViewInit{
   @Input() chatTypeInput:ChatType = ChatType.default; 
 
   ngAfterViewInit(): void {
-    console.log(this.chatTypeInput);
     
   }
 }
