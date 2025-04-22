@@ -8,6 +8,7 @@ module.exports = {
         "bg-component": "var(--bg-component)",
         "bg-button": "var(--bg-button)",
         "fc-purple": "var(--font-color-purple)",
+        "fc-dark-purple": "var(--font-color-dark-purple)",
       },
       fontSize: {
         24: "var(--font-size-bold)",
