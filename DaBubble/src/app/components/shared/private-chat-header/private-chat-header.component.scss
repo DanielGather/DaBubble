@@ -1,0 +1,9 @@
+.private-chat-header-padding-x{
+    padding-inline: 2.8rem;
+} 
+
+@media (max-width: 767px) {
+    .private-chat-header-padding-x {
+        padding-inline: 1.4rem;
+    }
+}
