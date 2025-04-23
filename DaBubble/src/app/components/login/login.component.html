@@ -1,25 +1,26 @@
-<app-modal class="flex flex-col text-center">
-  <span>Anmeldung</span>
-  <p>
-    Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit
-    verwendest.
-  </p>
-  <form action=""></form>
-  <div id="email-imput-wrapper">
-    <input type="email" />
+<app-modal>
+  <div id="login-content-wrapper" class="flex flex-col text-center gap-4">
+    <span class="text-24 font-bold text-fc-dark-purple">Anmeldung</span>
+    <p>
+      Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit
+      verwendest.
+    </p>
+    <form action=""></form>
+    <app-form-input
+      type="email"
+      placeholder="beispielname@email.com"
+    ></app-form-input>
+    <app-form-input type="password" placeholder="Passwort"></app-form-input>
+    <a href="" class="text-fc-purple">Passwort vergessen?</a>
+    <div id="or-wrapper">
+      <div></div>
+      <span>ODER</span>
+      <div></div>
+    </div>
+    <div id="sign-in-google-wrapper">
+      <img src="" alt="" />
+      <span>Anmelden mit Google</span>
+    </div>
+    <div id="buttons-wrapper"></div>
   </div>
-  <div id="password-imput-wrapper">
-    <input type="password" />
-  </div>
-  <a href="">Passwort vergessen?</a>
-  <div id="or-wrapper">
-    <div></div>
-    <span>ODER</span>
-    <div></div>
-  </div>
-  <div id="sign-in-google-wrapper">
-    <img src="" alt="" />
-    <span>Anmelden mit Google</span>
-  </div>
-  <div id="buttons-wrapper"></div>
 </app-modal>
