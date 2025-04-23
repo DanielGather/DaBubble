@@ -1,0 +1,14 @@
+@if(messageTypeInput === 'own') {
+    <div class="p-4 border border-[rgba(0,0,0,0.5)]">
+        <p>{{message.name}} | {{message.userId}}</p>
+        <p>{{message.message}}</p>
+        <p>{{message.timestamp}}</p>
+    </div>
+}
+@else if(messageTypeInput === 'other') {
+    <div class="p-4 border border-[red]">
+        <p>{{message.name}} | {{message.userId}}</p>
+        <p>{{message.message}}</p>
+        <p>{{message.timestamp}}</p>
+    </div>
+}

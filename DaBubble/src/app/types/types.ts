@@ -4,3 +4,16 @@ export enum ChatType {
     channel = 'channel',
     self = 'self'
 }
+
+export enum MessageType {
+    default = 'default',
+    own = 'own',
+    other = 'other'
+}
+
+export interface ChatMessage {
+    message:string,
+    name: string,
+    timestamp:string,
+    userId: string
+}

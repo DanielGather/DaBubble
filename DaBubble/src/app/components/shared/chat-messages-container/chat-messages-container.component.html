@@ -10,8 +10,18 @@
     px-[1rem]
  "
 >
-    <div id="message-field">
-        fbhf
+    <div class="w-full" id="message-field">
+        @if(chatMessages) {
+            @for(message of chatMessages; track message) {
+                @if(message.userId === userId) {
+                    <app-chat-message [message]="message" [messageTypeInput]="messageType.own"></app-chat-message>
+                }
+                @else{
+                    <app-chat-message [message]="message" [messageTypeInput]="messageType.other"></app-chat-message>
+                }
+            }
+        }
+        
     </div>
 
     <div id="chat-info">

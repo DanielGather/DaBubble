@@ -30,23 +30,14 @@
                 src="img/user_1.png" 
                 alt=""
             >
-            @if (online) {
+            
                 <img 
-                src="img/online.svg" 
+                [src]="online ? 'img/online.svg' : 'img/offline.svg'"
                 alt=""
                 class="
                     absolute bottom-0 right-0
                 "
             >
-            }@else if (!online) {
-                <img 
-                src="img/offline.svg" 
-                alt=""
-                class="
-                    absolute bottom-0 right-0
-                "
-            >
-            }
             
         </div>
 
