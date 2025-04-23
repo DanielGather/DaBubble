@@ -1,6 +1,10 @@
 <app-modal>
   <div id="login-content-wrapper" class="flex flex-col text-center gap-4">
-    <span class="text-24 font-bold text-fc-dark-purple">Anmeldung</span>
+    <span
+      id="auth-title"
+      class="text-fontSizeAuthTitle font-bold text-fc-dark-purple"
+      >Anmeldung</span
+    >
     <p>
       Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit
       verwendest.
@@ -12,15 +16,22 @@
     ></app-form-input>
     <app-form-input type="password" placeholder="Passwort"></app-form-input>
     <a href="" class="text-fc-purple">Passwort vergessen?</a>
-    <div id="or-wrapper">
-      <div></div>
+    <div id="or-wrapper" class="flex justify-center items-center gap-4">
+      <div class="h-[1px] w-full bg-bg-main"></div>
       <span>ODER</span>
-      <div></div>
+      <div class="h-[1px] w-full bg-bg-main"></div>
     </div>
-    <div id="sign-in-google-wrapper">
-      <img src="" alt="" />
-      <span>Anmelden mit Google</span>
+    <div
+      id="sign-in-google-wrapper"
+      class="flex w-full bg-bg-main px-7 py-2 my-2 rounded-standard gap-4 justify-center items-center"
+    >
+      <img class="h-10 w-10" src="/img/google.svg" alt="" />
+      <span class="text-fc-purple">Anmelden mit Google</span>
     </div>
-    <div id="buttons-wrapper"></div>
+
+    <div id="buttons-wrapper" class="flex gap-4 justify-center">
+      <app-button></app-button>
+      <app-button></app-button>
+    </div>
   </div>
 </app-modal>

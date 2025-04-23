@@ -14,6 +14,7 @@ module.exports = {
       fontSize: {
         24: "var(--font-size-bold)",
         fontSizeChat: "var(--font-size-chat)",
+        fontSizeAuthTitle: "var(--font-size-auth-title)",
       },
       borderRadius: {
         standard: "var(--border-radius)",
