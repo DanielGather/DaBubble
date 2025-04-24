@@ -1,6 +1,6 @@
 <app-searchbar class="block md:hidden pt-4"></app-searchbar>
+@if(clicked){
 <div class="pl-4 pt-4 w-80 relative [@media(max-width:480px)]:pl-0">
-  @if(clicked){
   <div
     class="flex pl-4 gap-4 pt-8 relative bg-bg-component rounded-tl-standard rounded-tr-standard"
   >
@@ -69,7 +69,11 @@
       </div>
       <div class="flex gap-4 items-center hover:cursor-pointer">
         <div class="relative">
-          <img class="w-10 h-10 rounded-full" src="img/user_1_small.png" alt="" />
+          <img
+            class="w-10 h-10 rounded-full"
+            src="img/user_1_small.png"
+            alt=""
+          />
           @if(online == true){
           <img
             class="absolute right-0 bottom-[-3px] rounded-full"
@@ -89,7 +93,11 @@
       </div>
       <div class="flex gap-4 items-center hover:cursor-pointer">
         <div class="relative">
-          <img class="w-10 h-10 rounded-full" src="img/user_1_small.png" alt="" />
+          <img
+            class="w-10 h-10 rounded-full"
+            src="img/user_1_small.png"
+            alt=""
+          />
           @if(online == true){
           <img
             class="absolute right-0 bottom-[-3px] rounded-full"
@@ -109,7 +117,11 @@
       </div>
       <div class="flex gap-4 items-center hover:cursor-pointer">
         <div class="relative">
-          <img class="w-10 h-10 rounded-full" src="img/user_1_small.png" alt="" />
+          <img
+            class="w-10 h-10 rounded-full"
+            src="img/user_1_small.png"
+            alt=""
+          />
           @if(online == true){
           <img
             class="absolute right-0 bottom-[-3px] rounded-full"
@@ -129,7 +141,11 @@
       </div>
       <div class="flex gap-4 items-center hover:cursor-pointer">
         <div class="relative">
-          <img class="w-10 h-10 rounded-full" src="img/user_1_small.png" alt="" />
+          <img
+            class="w-10 h-10 rounded-full"
+            src="img/user_1_small.png"
+            alt=""
+          />
           @if(online == true){
           <img
             class="absolute right-0 bottom-[-3px] rounded-full"
@@ -149,7 +165,11 @@
       </div>
       <div class="flex gap-4 items-center hover:cursor-pointer">
         <div class="relative">
-          <img class="w-10 h-10 rounded-full" src="img/user_1_small.png" alt="" />
+          <img
+            class="w-10 h-10 rounded-full"
+            src="img/user_1_small.png"
+            alt=""
+          />
           @if(online == true){
           <img
             class="absolute right-0 bottom-[-3px] rounded-full"
@@ -169,7 +189,11 @@
       </div>
       <div class="flex gap-4 items-center hover:cursor-pointer">
         <div class="relative">
-          <img class="w-10 h-10 rounded-full" src="img/user_1_small.png" alt="" />
+          <img
+            class="w-10 h-10 rounded-full"
+            src="img/user_1_small.png"
+            alt=""
+          />
           @if(online == true){
           <img
             class="absolute right-0 bottom-[-3px] rounded-full"
@@ -189,8 +213,8 @@
       </div>
     </div>
   </div>
-  }
 </div>
+}
 <div
   (click)="navBarClicked()"
   class="hoverWorkspace p-3 gap-2 absolute flex items-center justify-center left-0 bottom-16 -rotate-90 origin-top-left rounded-br-standard rounded-bl-standard bg-white shadow [@media(max-width:480px)]:hidden"
