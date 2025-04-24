@@ -10,13 +10,16 @@
 
 .popup {
   position: absolute;
-  top: 6rem;
-  right: -18rem; /* entspricht -right-72 */
-  transition: right 0.5s ease-in-out;
+  bottom: -12rem;
+  right: 0;
+  transition: bottom 0.5s ease-in-out;
+  box-shadow: 0px -3px 10px 0px rgba(0, 0, 0, 0.2);
+
 }
 
 .popup.show {
-  right: 1.5rem;
+  right: 0rem;
+  bottom: 0;
 }
 
 .popupBg {
@@ -39,4 +42,42 @@
 .userProfile.show {
   opacity: 1;
   pointer-events: auto;
+}
+
+@media (min-width: 768px) {
+header{
+  position: relative;
+}
+
+  .popup {
+    top: 6rem;
+    right: -18rem;
+    transition: right 0.5s ease-in-out;
+  }
+
+  .popup.show {
+    right: 1.5rem;
+  }
+
+  .popupBg {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .popupBg.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .userProfile {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .userProfile.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
 }

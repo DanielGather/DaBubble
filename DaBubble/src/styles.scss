@@ -18,6 +18,7 @@ app-root {
 }
 
 app-root > * {
+  position: relative;
   min-width: 100%;
   overflow: hidden;
 }
