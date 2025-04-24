@@ -1,6 +1,6 @@
 <div
   (click)="closeModal()"
-  class="absolute left-0 top-0 w-full h-full flex items-center justify-center bg-black bg-opacity-40"
+  class="absolute left-0 top-0 w-full h-full flex items-center justify-center bg-black bg-opacity-40 z-10"
 >
   <div
     (click)="$event.stopPropagation()"
@@ -21,16 +21,16 @@
     </p>
     <p class="font-bold">Channel-Name</p>
     <input
-      class="rounded-standard border p-3 border-color-border focus-within:border-current"
+      class="rounded-standard border p-3 border-color-border focus:outline-none"
       placeholder="# z.B. Kooperationsprojekte"
       type="text"
     />
     <p class="font-bold">Beschreibung <span>(optional)</span></p>
     <input
-      class="rounded-standard border p-3 border-color-border"
+      class="rounded-standard border p-3 border-color-border focus:outline-none"
       placeholder="Dein Text hier"
       type="text"
     />
-    <app-button class="self-end" [name]="buttonText"></app-button>
+    <app-button type="blueButton" class="self-end"></app-button>
   </div>
 </div>

@@ -6,7 +6,9 @@ module.exports = {
       colors: {
         "bg-main": "var(--bg-main)",
         "bg-component": "var(--bg-component)",
-        "bg-button": "var(--bg-button)",
+        "bg-button-blue": "var(--bg-button-blue)",
+        "bg-button-grey": "var(--bg-button-grey)",
+        "bg-button-transparent": "var(--bg-button-transparent)",
         "fc-purple": "var(--font-color-purple)",
         "fc-dark-purple": "var(--font-color-dark-purple)",
         "fc-error": "var(--font-color-error)",

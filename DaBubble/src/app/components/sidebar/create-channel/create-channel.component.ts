@@ -9,8 +9,6 @@ import { EventEmitter } from '@angular/core';
   styleUrl: './create-channel.component.scss',
 })
 export class CreateChannelComponent {
-  buttonText: string = 'Erstellen';
-
   @Output() showModal = new EventEmitter<boolean>();
 
   closeModal() {
