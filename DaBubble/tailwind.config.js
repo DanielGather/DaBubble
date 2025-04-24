@@ -9,6 +9,7 @@ module.exports = {
         "bg-button": "var(--bg-button)",
         "fc-purple": "var(--font-color-purple)",
         "fc-dark-purple": "var(--font-color-dark-purple)",
+        "fc-error": "var(--font-color-error)",
         "color-border": "var(--color-border)",
       },
       fontSize: {
@@ -18,6 +19,9 @@ module.exports = {
       },
       borderRadius: {
         standard: "var(--border-radius)",
+      },
+      height: {
+        formInputHeight: "var(--form-input-height)",
       },
     },
   },
