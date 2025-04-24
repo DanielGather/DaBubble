@@ -1,22 +1,38 @@
-<header class="flex items-center justify-between md:justify-normal p-4 relative">
+<header
+  class="flex items-center justify-between md:justify-normal p-4 relative"
+>
   <div class="flex items-center gap-4 h-16">
-    <img class="w-12 md:w-14 [@media(min-width:1024px)]:w-16"  src="img/logo.png" alt="" />
-    <div class="text-2xl md:text-3xl [@media(min-width:1024px)]:text-4xl font-bold cursor-default">DABubble</div>
+    <img
+      class="w-12 md:w-14 [@media(min-width:1024px)]:w-16"
+      src="img/logo.png"
+      alt=""
+    />
+    <div
+      class="text-2xl md:text-3xl [@media(min-width:1024px)]:text-4xl font-bold cursor-default"
+    >
+      DABubble
+    </div>
   </div>
 
   <app-searchbar
-    class="flex-1 min-w-0 md:px-8 [@media(min-width:1024px)]:px-12  w-full hidden md:block"
+    class="flex-1 min-w-0 md:px-8 [@media(min-width:1024px)]:px-12 w-full hidden md:block"
   ></app-searchbar>
 
-  <div (click)="togglePopup()" class="flex items-center justify-between gap-4 [@media(min-width:1024px)]:w-80 w-20 md:w-72 h-16 relative group cursor-pointer">
+  <div
+    (click)="togglePopup()"
+    class="flex items-center justify-between gap-4 [@media(min-width:1024px)]:w-80 w-20 md:w-72 h-16 relative group cursor-pointer"
+  >
     <div
       class="text-xl md:text-2xl [@media(min-width:1024px)]:text-3xl font-bold hidden md:block currentUserName group-hover:text-[rgb(121,126,243)] transition-colors duration-125"
     >
       Kevin Alleine
     </div>
 
-    <img class="w-14 md:w-16 rounded-full ml-auto md:ml-0" src="img/user_1_small.png" alt="" />
-
+    <img
+      class="w-14 md:w-16 rounded-full ml-auto md:ml-0"
+      src="img/user_1_small.png"
+      alt=""
+    />
 
     <img
       class="w-8 -rotate-90 hidden md:block transition-opacity duration-125 opacity-100 group-hover:opacity-0"
@@ -30,9 +46,34 @@
     />
   </div>
 
-  <div [class.show]="headerPopup" class="popup  bg-white  rounded-tl-standard w-72 h-44 rounded-bl-standard rounded-br-standard absolute z-20 top-24 flex justify-center items-center flex-col px-8 gap-4">
-    <div (click)="togglePopup()" class="hover:bg-bg-main hover:text-fc-dark-purple text-24 font-semibold hover:font-bold w-full flex justify-center rounded-standard py-2 cursor-pointer">Profil</div>
-    <div (click)="togglePopup()" class="hover:bg-bg-main hover:text-fc-dark-purple text-24 font-semibold hover:font-bold w-full flex justify-center rounded-standard py-2 cursor-pointer">Log out</div>
+  <div
+    [class.show]="headerPopup"
+    class="popup bg-white rounded-tl-standard w-72 h-44 rounded-bl-standard rounded-br-standard absolute z-20 top-24 flex justify-center items-center flex-col px-8 gap-4"
+  >
+    <div
+      (click)="toggleUserProfile()"
+      (click)="togglePopup()"
+      class="hover:bg-bg-main hover:text-fc-dark-purple text-24 font-semibold hover:font-bold w-full flex justify-center rounded-standard py-2 cursor-pointer"
+    >
+      Profil
+    </div>
+    <div
+      (click)="togglePopup()"
+      class="hover:bg-bg-main hover:text-fc-dark-purple text-24 font-semibold hover:font-bold w-full flex justify-center rounded-standard py-2 cursor-pointer"
+    >
+      Log out
+    </div>
   </div>
 </header>
-<div [class.show]="headerPopup" (click)="togglePopup()" class="popupBg absolute z-10 top-0 left-0 bg-black/50 w-screen h-screen"></div>
+
+<div
+  [class.show]="headerPopup"
+  (click)="togglePopup()"
+  class="popupBg absolute z-10 top-0 left-0 bg-black/50 w-screen h-screen"
+></div>
+<app-profile-user
+  [class.show]="userProfilePopup"
+  (close)="toggleUserProfile()"
+  class="userProfile popupBg absolute z-10 top-0 left-0 bg-black/50 w-screen h-screen"
+>
+</app-profile-user>

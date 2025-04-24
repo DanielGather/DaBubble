@@ -1,12 +1,17 @@
 <div
-  class="absolute flex flex-col items-center justify-center top-0 left-0 bg-black bg-opacity-45 w-full h-full"
+  class="absolute flex flex-col items-center justify-center top-0 left-0 w-full h-full"
 >
   <div
     class="bg-bg-component flex flex-col gap-4 pl-4 pr-4 pt-8 pb-8 rounded-standard"
   >
     <div class="flex justify-between max-w-72 min-w-72">
       <p class="font-bold text-24">Profil</p>
-      <img class="hover:cursor-pointer" src="img/close.svg" alt="" />
+      <img
+        (click)="closeProfile()"
+        class="hover:cursor-pointer"
+        src="img/close.svg"
+        alt=""
+      />
     </div>
     <div class="flex items-center justify-center">
       <img

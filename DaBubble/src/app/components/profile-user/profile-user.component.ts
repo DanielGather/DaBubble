@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { NgStyle } from '@angular/common';
 
 @Component({
@@ -10,4 +10,10 @@ import { NgStyle } from '@angular/common';
 export class ProfileUserComponent {
   active: boolean = true;
   green = '#92c83e';
+
+  @Output() close = new EventEmitter<void>();
+
+  closeProfile() {
+    this.close.emit(); // Signal an Elternkomponente
+  }
 }

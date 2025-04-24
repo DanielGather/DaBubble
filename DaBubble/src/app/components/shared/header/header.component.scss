@@ -29,3 +29,14 @@
   opacity: 1;
   pointer-events: auto;
 }
+
+.userProfile {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.userProfile.show {
+  opacity: 1;
+  pointer-events: auto;
+}
