@@ -11,9 +11,16 @@ export class ProfileUserComponent {
   active: boolean = true;
   green = '#92c83e';
 
+  /**
+   * Output event to notify the HeaderComponent to close the profile popup.
+   */
   @Output() close = new EventEmitter<void>();
 
+  /**
+   * Sends a signal to the header component to close the user profile on click.
+   * Emits the `close` event to notify the parent component.
+   */
   closeProfile() {
-    this.close.emit(); // Signal an Elternkomponente
+    this.close.emit();
   }
 }
