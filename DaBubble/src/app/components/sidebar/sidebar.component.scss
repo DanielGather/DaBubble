@@ -1,0 +1,19 @@
+img {
+  max-width: none !important;
+}
+
+.hoverWorkspace:hover {
+  cursor: pointer;
+  p {
+    color: #535af1;
+    scale: 1.025;
+  }
+  svg {
+    rect {
+      stroke: #535af1;
+    }
+    path {
+      stroke: #535af1;
+    }
+  }
+}

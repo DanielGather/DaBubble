@@ -5,7 +5,7 @@ import {
   collectionData,
   getDocs,
   doc,
-  updateDoc
+  updateDoc,
 } from '@angular/fire/firestore';
 import { RouterModule } from '@angular/router';
 import { DocumentReference, getDoc } from 'firebase/firestore';
@@ -15,11 +15,11 @@ import { Observable, shareReplay } from 'rxjs';
   providedIn: 'root',
 })
 export class FirestoreService {
-
   /**
    * firestore service
    */
   firestore: Firestore = inject(Firestore);
+  channelsArray: string[] = ['Entwicklerteam'];
 
   constructor() {}
 
@@ -35,33 +35,35 @@ export class FirestoreService {
   /**
    * this function returns the key specific collection.
    * it is used to get the collection data.
-   * 
+   *
    * @param collectionKey the name/key of the collection
    * @returns the collection itself. it contains a list of documents.
    */
   getCollectionData(collectionKey: string) {
-    return collectionData(this.getCollectionRef(collectionKey),{ idField: 'id' }).pipe(shareReplay(1));
+    return collectionData(this.getCollectionRef(collectionKey), {
+      idField: 'id',
+    }).pipe(shareReplay(1));
   }
 
   /**
    * this function is used to get a single document reference.
-   * 
+   *
    * @param collectionId collection id to tell the function wich collection should be fetched the document from.
    * @param docId document id to tell the function wich document should be fetched.
    * @returns single document reference.
    */
-  getSingleDocRef(collectionId:string, docId:string) {
+  getSingleDocRef(collectionId: string, docId: string) {
     return doc(this.firestore, collectionId, docId);
   }
 
   /**
    * this function allows to update an exsisting document in a specific collection.
-   * 
+   *
    * @param collectionId collection id as a string
    * @param docId document id as a string
    * @param docObject the object wich will update the existing object in the document
    */
-  async updateDoc(collectionId:string, docId:string, docObject:{}) {
+  async updateDoc(collectionId: string, docId: string, docObject: {}) {
     updateDoc(this.getSingleDocRef(collectionId, docId), docObject);
   }
 
@@ -83,16 +85,15 @@ export class FirestoreService {
    */
 
   async fetchUserMessages(userId: number) {
-    const roomsSnapshot = await getDocs(collection(this.firestore, 'rooms'));    
-    const matchingDoc = roomsSnapshot.docs.find(
-      (doc) => doc.data()['userIds'].includes(userId) 
+    const roomsSnapshot = await getDocs(collection(this.firestore, 'channels'));
+    const matchingDoc = roomsSnapshot.docs.filter((doc, index) =>
+      doc.data()['userIds'][index].includes(userId)
     );
     if (matchingDoc) {
       let subCollectionArray = await this.getSubCollection(matchingDoc);
       return subCollectionArray;
- 
     } else {
-      console.log('No room found for userId', userId);
+      console.log('No channels found for userId', userId);
       return;
     }
   }
@@ -101,10 +102,11 @@ export class FirestoreService {
     console.log('Found Document', matchingDoc.id, matchingDoc.data());
     let Array: any[] = [];
     const querySnapshot = await getDocs(
-      collection(this.firestore, 'rooms', matchingDoc.id, 'messages')
+      collection(this.firestore, 'channels', matchingDoc.id, 'messages')
     );
     querySnapshot.forEach((doc) => {
       Array.push(doc.data());
+      console.log(doc.id);
     });
     return Array;
   }

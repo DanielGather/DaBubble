@@ -1,0 +1,4 @@
+.hover-scale-svg:hover svg {
+    transform: scale(1.05);
+    transition: transform ease-in-out 170ms;
+}
