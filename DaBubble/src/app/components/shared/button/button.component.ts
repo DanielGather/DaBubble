@@ -15,28 +15,22 @@ export class ButtonComponent {
 
   buttonConfig = {
     blueButton: {
-      class: 'bg-bg-button-blue text-white rounded-standard h-12 w-36',
-      name: 'Erstellen',
+      class:
+        'bg-bg-button-blue text-white rounded-standard h-12 w-fit pl-4 pr-4',
     },
     greyButton: {
-      class: 'bg-bg-button-grey text-white rounded-standard h-12 w-36',
-      name: 'Passwort ändern',
+      class:
+        'bg-bg-button-grey text-white rounded-standard h-12 w-fit pl-4 pr-4',
     },
     transparentButton: {
-      class: 'bg-bg-button-transparent text-white rounded-standard h-12 w-36',
-      name: 'Speichern',
+      class:
+        'bg-bg-button-transparent text-white rounded-standard h-12 w-fit pl-4 pr-4',
     },
   };
 
   get buttonClass() {
     return (
       this.buttonConfig[this.type]?.class || this.buttonConfig.blueButton.class
-    );
-  }
-
-  get buttonName() {
-    return (
-      this.buttonConfig[this.type]?.name || this.buttonConfig.blueButton.name
     );
   }
 }
