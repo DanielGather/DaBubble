@@ -1,1 +1,46 @@
-<p>signup works!</p>
+<app-modal>
+  <div
+    id="signup-content-wrapper"
+    class="flex flex-col text-center gap-0 lg:gap-2"
+  >
+    <div
+      id="signup-title-wrapper"
+      class="flex relative justify-center items-center"
+    >
+      <img src="/img/arrow-left.svg" alt="" class="absolute left-0" />
+      <span
+        id="signup-title"
+        class="text-fontSizeAuthTitle font-bold text-fc-dark-purple"
+        >Konto erstellen</span
+      >
+    </div>
+
+    <p>
+      Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues
+      DABubble-Konto.
+    </p>
+    <form action="">
+      <app-form-input
+        type="user"
+        placeholder="Name und Nachname"
+        class="mt-2"
+      ></app-form-input>
+
+      <app-form-input
+        type="email"
+        placeholder="beispielname@email.com"
+        class="mt-6"
+      ></app-form-input>
+
+      <app-form-input
+        type="password"
+        placeholder="Passwort"
+        class="mt-6"
+      ></app-form-input>
+    </form>
+
+    <div id="buttons-wrapper" class="flex gap-4 mt-6 justify-end">
+      <app-button type="blueButton"></app-button>
+    </div>
+  </div>
+</app-modal>

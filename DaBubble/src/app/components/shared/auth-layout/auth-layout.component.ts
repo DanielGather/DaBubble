@@ -1,11 +1,17 @@
 import { Component } from '@angular/core';
-import { ModalComponent } from '../modal/modal.component';
 import { LoginComponent } from '../../login/login.component';
 import { ButtonComponent } from '../button/button.component';
+import { SignupComponent } from '../../signup/signup.component';
+import { ChooseAvatarComponent } from '../../choose-avatar/choose-avatar.component';
 
 @Component({
   selector: 'app-auth-layout',
-  imports: [ModalComponent, LoginComponent, ButtonComponent],
+  imports: [
+    LoginComponent,
+    ButtonComponent,
+    SignupComponent,
+    ChooseAvatarComponent,
+  ],
   templateUrl: './auth-layout.component.html',
   styleUrl: './auth-layout.component.scss',
 })

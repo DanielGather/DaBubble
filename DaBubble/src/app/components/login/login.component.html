@@ -1,5 +1,8 @@
 <app-modal>
-  <div id="login-content-wrapper" class="flex flex-col text-center gap-1">
+  <div
+    id="login-content-wrapper"
+    class="flex flex-col text-center gap-0 lg:gap-2"
+  >
     <span
       id="auth-title"
       class="text-fontSizeAuthTitle font-bold text-fc-dark-purple"
@@ -9,29 +12,35 @@
       Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit
       verwendest.
     </p>
-    <form action=""></form>
-    <app-form-input
-      type="email"
-      placeholder="beispielname@email.com"
-    ></app-form-input>
-    <app-form-input type="password" placeholder="Passwort"></app-form-input>
-    <a href="" class="text-fc-purple">Passwort vergessen?</a>
-    <div id="or-wrapper" class="flex justify-center items-center gap-4">
-      <div class="h-[1px] w-full bg-bg-main"></div>
-      <span>ODER</span>
-      <div class="h-[1px] w-full bg-bg-main"></div>
-    </div>
-    <div
-      id="sign-in-google-wrapper"
-      class="flex w-full bg-bg-main px-7 py-2 my-2 rounded-standard gap-4 justify-center items-center"
-    >
-      <img class="h-10 w-10" src="/img/google.svg" alt="" />
-      <span class="text-fc-purple">Anmelden mit Google</span>
-    </div>
+    <form action="">
+      <app-form-input
+        type="email"
+        placeholder="beispielname@email.com"
+        class="mt-2"
+      ></app-form-input>
+      <app-form-input
+        type="password"
+        placeholder="Passwort"
+        class="mt-6"
+      ></app-form-input>
+      <a href="" class="text-fc-purple mt-2">Passwort vergessen?</a>
+      <div id="or-wrapper" class="flex justify-center items-center gap-4 mt-3">
+        <div class="h-[1px] w-full bg-bg-main"></div>
+        <span>ODER</span>
+        <div class="h-[1px] w-full bg-bg-main"></div>
+      </div>
+      <div
+        id="sign-in-google-wrapper"
+        class="flex w-full bg-bg-main px-7 py-2 my-2 rounded-standard gap-4 justify-center items-center mt-4"
+      >
+        <img class="h-10 w-10" src="/img/google.svg" alt="" />
+        <span class="text-fc-purple">Anmelden mit Google</span>
+      </div>
 
-    <div id="buttons-wrapper" class="flex gap-4 justify-center">
-      <app-button></app-button>
-      <app-button></app-button>
-    </div>
+      <div id="buttons-wrapper" class="flex gap-4 justify-center mt-2">
+        <app-button type="blueButton"></app-button>
+        <app-button type="greyButton"></app-button>
+      </div>
+    </form>
   </div>
 </app-modal>
