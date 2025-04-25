@@ -1,1 +1,3 @@
-<button [ngClass]="buttonClass">{{ name }}</button>
+<button #myButton [ngClass]="buttonClass">
+  <ng-content></ng-content>
+</button>
