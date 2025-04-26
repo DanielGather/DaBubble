@@ -1,0 +1,53 @@
+<app-modal>
+  <div
+    id="avatar-content-wrapper"
+    class="flex flex-col items-center text-center gap-0 lg:gap-4"
+  >
+    <div
+      id="avatar-title-wrapper"
+      class="flex relative justify-center items-center"
+    >
+      <img
+        src="/img/arrow_left_black.svg"
+        alt=""
+        class="absolute left-0 cursor-pointer"
+      />
+      <span
+        id="avatar-title"
+        class="text-fontSizeAuthTitle font-bold text-fc-dark-purple mx-10 leading-tight"
+        >Wähle deinen Avatar</span
+      >
+    </div>
+    <div class="relative w-40 h-40">
+      <img
+        [src]="currentAvatarSrc"
+        alt=""
+        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-100 ease-in-out"
+        [ngClass]="avatarIsSelected ? 'w-[140px] h-[140px]' : 'w-32 h-32'"
+      />
+    </div>
+
+    <span id="name" class="font-bold text-3xl">Frederik Beck</span>
+    <div id="avatar-content-wrapper" class="flex flex-col w-full gap-4 mt-1">
+      <span class="self-start">Choose your avatar...</span>
+      <div id="avatars-wrapper" class="flex flex-wrap gap-2">
+        @for (avatar of avatars; track $index) {
+        <div class="relative w-14 h-14 rounded-full">
+          <img
+            src="/img/user_{{ avatar }}_small.png"
+            alt=""
+            class="absolute cursor-pointer w-full h-full hover:scale-110 duration-150"
+            (click)="changeAvatar(`/img/user_${avatar}_small.png`)"
+          />
+        </div>
+        }
+      </div>
+    </div>
+
+    <div id="buttons-wrapper" class="flex gap-4 mt-6 justify-end w-full">
+      <app-button type="blueButton">
+        <span>Weiter</span>
+      </app-button>
+    </div>
+  </div>
+</app-modal>

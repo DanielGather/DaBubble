@@ -8,9 +8,9 @@ import { Component, Input } from '@angular/core';
 })
 export class FormInputComponent {
   imgSources = [
-    { email: 'img/form-mail.svg' },
-    { password: 'img/form-password.svg' },
-    { user: 'img/form-user.svg' },
+    { email: 'img/form_mail.svg' },
+    { password: 'img/form_password.svg' },
+    { user: 'img/form_user.svg' },
   ];
 
   @Input() type: string = 'text';
@@ -19,8 +19,8 @@ export class FormInputComponent {
 
   get iconSrc(): string {
     if (this.imgSrc) return this.imgSrc;
-    if (this.type === 'email') return 'img/form-mail.svg';
-    if (this.type === 'password') return 'img/form-password.svg';
-    return 'img/form-user.svg';
+    if (this.type === 'email') return 'img/form_mail.svg';
+    if (this.type === 'password') return 'img/form_password.svg';
+    return 'img/form_user.svg';
   }
 }

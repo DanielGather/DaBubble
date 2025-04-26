@@ -1,17 +1,26 @@
 <header class="flex items-center justify-between md:justify-normal p-4">
   <!-- icon -->
+
   <div class="flex items-center gap-4 h-16">
     <img
       class="w-12 md:w-14 [@media(min-width:1024px)]:w-16"
-      src="img/logo.png"
+      src="img/logo.svg"
       alt=""
     />
-    <div
-      class="text-2xl md:text-3xl [@media(min-width:1024px)]:text-4xl font-bold cursor-default"
-    >
-      DABubble
-    </div>
+    <h2>DABubble</h2>
   </div>
+
+  <!-- icon devspace -->
+
+  <!-- <div class="flex md:hidden items-center gap-2 h-12">
+    <img class="w-8 md:w-10  rotate-90 [@media(min-width:1024px)]:w-16" src="img/keyboard_arrow_black.svg" alt="">
+    <img
+      class="w-12 md:w-14"
+      src="img/devspace_logo.svg"
+      alt=""
+    />
+    <h2>Devspace</h2>
+  </div> -->
 
   <!-- search bar -->
   <app-searchbar
@@ -36,13 +45,13 @@
     />
 
     <img
-      class="w-8 -rotate-90 hidden md:block transition-opacity duration-125 opacity-100 group-hover:opacity-0"
-      src="img/keyboard_arrow_black.png"
+      class="w-8 hidden md:block transition-opacity duration-125 opacity-100 group-hover:opacity-0"
+      src="img/keyboard_arrow_black.svg"
       alt=""
     />
     <img
-      class="-rotate-90 hidden md:block absolute arrowDown transition-opacity duration-125 opacity-0 group-hover:opacity-100"
-      src="img/keyboard_arrow_colored.png"
+      class="w-8 hidden md:block absolute right-0 transition-opacity duration-125 opacity-0 group-hover:opacity-100"
+      src="img/keyboard_arrow_colored.svg"
       alt=""
     />
   </div>
@@ -56,11 +65,11 @@
       class="w-16 h-1.5 bg-[rgba(217,217,217,1)] rounded-full md:hidden"
     ></div>
 
-    <div class=" w-full">
+    <div class="w-full">
       <div
-        class="flex items-center gap-4  max-w-fit md:max-w-full active:bg-bg-main rounded-standard px-4"
+        class="flex items-center gap-4 max-w-fit md:max-w-full active:bg-bg-main rounded-standard px-4"
       >
-        <img class="md:hidden w-7 h-7" src="img/account_circle.png" alt="" />
+        <img class="md:hidden w-7 h-7" src="img/account_circle.svg" alt="" />
         <div
           (click)="toggleUserProfile()"
           (click)="togglePopup()"
@@ -70,17 +79,19 @@
         </div>
       </div>
 
-      <div
-        class="flex items-center gap-4 max-w-fit md:max-w-full active:bg-bg-main rounded-standard px-4"
-      >
-        <img class="md:hidden w-7 h-7" src="img/logout.png" alt="" />
+      <a routerLink="/">
         <div
-          (click)="togglePopup()"
-          class="md:hover:bg-bg-main md:hover:text-fc-dark-purple md:hover:font-bold text-24 font-semibold w-full flex justify-start md:justify-center rounded-standard py-2 cursor-pointer"
+          class="flex items-center gap-4 max-w-fit md:max-w-full active:bg-bg-main rounded-standard px-4"
         >
-          Log out
+          <img class="md:hidden w-7 h-7" src="img/logout.svg" alt="" />
+          <div
+            (click)="togglePopup()"
+            class="md:hover:bg-bg-main md:hover:text-fc-dark-purple md:hover:font-bold text-24 font-semibold w-full flex justify-start md:justify-center rounded-standard py-2 cursor-pointer"
+          >
+            Log out
+          </div>
         </div>
-      </div>
+      </a>
     </div>
   </div>
 </header>

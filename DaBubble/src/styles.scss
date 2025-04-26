@@ -29,6 +29,7 @@ app-root > * {
   --font-color-purple: #797ef3;
   --font-color-dark-purple: #535af1;
   --font-color-error: rgba(237, 30, 121, 1);
+  --font-color-grey: rgba(104, 104, 104, 1);
   --bg-component: #ffffff;
   --bg-button-blue: #444df2;
   --bg-button-grey: #686868;
@@ -38,6 +39,42 @@ app-root > * {
   --font-size-auth-title: 32px;
   --color-border: #adb0d9;
   --form-input-height: 50px;
+}
+
+h1 {
+  font-size: 2rem; /* text-2xl ≈ 24px */
+  font-weight: 700;
+  cursor: default;
+}
+
+@media (min-width: 768px) {
+  h1 {
+    font-size: 2.5rem; /* text-3xl ≈ 30px */
+  }
+}
+
+@media (min-width: 1024px) {
+  h1 {
+    font-size: 3rem; /* text-4xl ≈ 36px */
+  }
+}
+
+h2 {
+  font-size: 1.5rem; /* text-2xl ≈ 24px */
+  font-weight: 700;
+  cursor: default;
+}
+
+@media (min-width: 768px) {
+  h2 {
+    font-size: 1.875rem; /* text-3xl ≈ 30px */
+  }
+}
+
+@media (min-width: 1024px) {
+  h2 {
+    font-size: 2.25rem; /* text-4xl ≈ 36px */
+  }
 }
 
 /* nunito-200 - latin */
