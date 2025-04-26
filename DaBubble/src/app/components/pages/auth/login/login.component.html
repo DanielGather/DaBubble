@@ -1,3 +1,21 @@
+
+<div
+  id="auth-layout-wrapper"
+  class="h-screen flex flex-col justify-center items-center p-4 gap-6"
+>
+  <div id="mobile-logo-wrapper" class="flex lg:hidden items-center gap-4 w-fit">
+    <img class="h-14 w-14" src="img/logo.svg" alt="" />
+    <span class="font-bold text-fontSizeAuthTitle">DABubble</span>
+  </div>
+
+  <div
+    id="desktop-logo-wrapper"
+    class="absolute hidden lg:flex items-center gap-4 w-fit m-10 top-0 left-0"
+  >
+    <img class="h-14 w-14" src="img/logo.svg" alt="" />
+    <span class="font-bold text-fontSizeAuthTitle">DABubble</span>
+  </div>
+
 <app-modal>
   <div
     id="login-content-wrapper"
@@ -23,7 +41,7 @@
         placeholder="Passwort"
         class="mt-6"
       ></app-form-input>
-      <a href="" class="text-fc-purple mt-2">Passwort vergessen?</a>
+      <a routerLink="/reset-password" class="text-fc-purple mt-2">Passwort vergessen?</a>
       <div id="or-wrapper" class="flex justify-center items-center gap-4 mt-3">
         <div class="h-[1px] w-full bg-bg-main"></div>
         <span>ODER</span>
@@ -49,3 +67,20 @@
     </form>
   </div>
 </app-modal>
+<div id="mobile-signup-wrapper" class="flex lg:hidden flex-col gap-4">
+  <span>Neu bei DABubble?</span>
+  <a routerLink="signup">
+    <app-button type="transparentButton">Konto erstellen</app-button>
+  </a>
+</div>
+
+<div
+  id="desktop-signup-wrapper"
+  class="absolute hidden lg:flex flex-col gap-4 m-10 top-0 right-0 text-end"
+>
+  <span>Neu bei DABubble?</span>
+  <a class="hover:cursor-pointer text-fc-purple"
+    >Konto erstellen</a
+  >
+</div>
+</div>

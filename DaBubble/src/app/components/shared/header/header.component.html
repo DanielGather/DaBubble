@@ -79,20 +79,19 @@
         </div>
       </div>
 
-<a routerLink="/">
-      <div
-        class="flex items-center gap-4 max-w-fit md:max-w-full active:bg-bg-main rounded-standard px-4"
-      >
-        <img class="md:hidden w-7 h-7" src="img/logout.svg" alt="" />
+      <a routerLink="/">
         <div
-          (click)="togglePopup()"
-          class="md:hover:bg-bg-main md:hover:text-fc-dark-purple md:hover:font-bold text-24 font-semibold w-full flex justify-start md:justify-center rounded-standard py-2 cursor-pointer"
+          class="flex items-center gap-4 max-w-fit md:max-w-full active:bg-bg-main rounded-standard px-4"
         >
-          Log out
+          <img class="md:hidden w-7 h-7" src="img/logout.svg" alt="" />
+          <div
+            (click)="togglePopup()"
+            class="md:hover:bg-bg-main md:hover:text-fc-dark-purple md:hover:font-bold text-24 font-semibold w-full flex justify-start md:justify-center rounded-standard py-2 cursor-pointer"
+          >
+            Log out
+          </div>
         </div>
-      </div>
-    </a>
-
+      </a>
     </div>
   </div>
 </header>
