@@ -2,10 +2,12 @@ import { Component } from '@angular/core';
 import { ModalComponent } from '../../../shared/modal/modal.component';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { DaBubbleLogoComponent } from '../../../shared/da-bubble-logo/da-bubble-logo.component';
 
 @Component({
   selector: 'app-choose-avatar',
-  imports: [CommonModule, ModalComponent, ButtonComponent],
+  imports: [CommonModule, ModalComponent, ButtonComponent, RouterLink, DaBubbleLogoComponent],
   templateUrl: './choose-avatar.component.html',
   styleUrl: './choose-avatar.component.scss',
 })
