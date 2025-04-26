@@ -18,5 +18,7 @@ export class HeaderComponent {
 
   toggleUserProfile() {
     this.userProfilePopup = !this.userProfilePopup;
+    console.log('test');
+    
   }
 }

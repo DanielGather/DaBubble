@@ -17,7 +17,7 @@ export class ProfileUserComponent {
   @Output() close = new EventEmitter<void>();
 
   /**
-   * Sends a signal to the header component to close the user profile on click.
+   * Sends a signal ("close") to the header component to close the user profile on click.
    * Emits the `close` event to notify the parent component.
    */
   closeProfile() {

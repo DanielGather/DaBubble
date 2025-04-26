@@ -1,8 +1,14 @@
+<!-- Hintergrund-Overlay -->
 <div
-  class="absolute flex flex-col items-center justify-center top-0 left-0 w-full h-full"
+  class="absolute flex items-center justify-center top-0 left-0 w-full h-full bg-black/50 z-10"
+  (click)="closeProfile()"
 >
+  <!-- Klick im Overlay schließt Profil -->
+
+  <!-- Innen das Profil-Panel -->
   <div
-    class="bg-bg-component flex flex-col gap-4 pl-4 pr-4 pt-8 pb-8 rounded-standard"
+    class="bg-bg-component flex flex-col gap-4 pl-4 pr-4 pt-8 pb-8 rounded-standard z-20"
+    (click)="$event.stopPropagation()"
   >
     <div class="flex justify-between max-w-72 min-w-72">
       <p class="font-bold text-24">Profil</p>
@@ -42,14 +48,8 @@
     <div
       class="inline-grid gap-4 [grid-template-columns:repeat(2,min-content)] [grid-template-rows:repeat(2,auto)] items-center"
     >
-      <!-- Bild über beide Rows in Spalte 1 -->
-      <!-- <p class="row-start-1 row-end-3 col-start-1 col-end-2 object-contain">Test</p> -->
       <img src="img/mail.svg" alt="" class="w-5 h-5" />
-
-      <!-- Oben rechts -->
       <p class="row-start-1 col-start-2 text-lg font-bold">E‑Mail‑Adresse</p>
-
-      <!-- Unten rechts -->
       <p class="row-start-2 col-start-2">email&#64;beispiel.com</p>
     </div>
   </div>

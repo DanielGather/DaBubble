@@ -56,9 +56,9 @@
       class="w-16 h-1.5 bg-[rgba(217,217,217,1)] rounded-full md:hidden"
     ></div>
 
-    <div class=" w-full">
+    <div class="w-full">
       <div
-        class="flex items-center gap-4  max-w-fit md:max-w-full active:bg-bg-main rounded-standard px-4"
+        class="flex items-center gap-4 max-w-fit md:max-w-full active:bg-bg-main rounded-standard px-4"
       >
         <img class="md:hidden w-7 h-7" src="img/account_circle.png" alt="" />
         <div
@@ -88,7 +88,8 @@
 <!-- popup background -->
 <div
   [class.show]="headerPopup"
-  (click)="togglePopup()"
+  (click)="togglePopup(); toggleUserProfile()"
+  
   class="popupBg absolute z-10 top-0 left-0 bg-black/50 w-screen h-screen"
 ></div>
 
