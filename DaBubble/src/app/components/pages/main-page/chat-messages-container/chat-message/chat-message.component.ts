@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { MessageType, ChatMessage } from '../../../../types/types';
+import { MessageType, ChatMessage } from '../../../../../types/types';
 
 @Component({
   selector: 'app-chat-message',

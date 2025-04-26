@@ -1,6 +1,7 @@
 import { Component, Output } from '@angular/core';
-import { ButtonComponent } from '../../shared/button/button.component';
 import { EventEmitter } from '@angular/core';
+import { ButtonComponent } from '../../../../shared/button/button.component';
+
 
 @Component({
   selector: 'app-create-channel',

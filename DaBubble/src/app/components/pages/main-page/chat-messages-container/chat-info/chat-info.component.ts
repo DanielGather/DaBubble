@@ -1,5 +1,5 @@
 import { Component, Input, AfterViewInit } from '@angular/core';
-import { ChatType } from '../../../../types/types';
+import { ChatType } from '../../../../../types/types';
 
 @Component({
   selector: 'app-chat-info',
