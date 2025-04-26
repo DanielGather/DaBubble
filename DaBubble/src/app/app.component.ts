@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FirestoreTestComponent } from './components/firestore-test/firestore-test.component'; //test
-import { HeaderComponent } from './components/shared/header/header.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { AuthLayoutComponent } from './components/shared/auth-layout/auth-layout.component';
-import { PrivateChatComponent } from './components/private-chat/private-chat.component';
 
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { AuthLayoutComponent } from './components/layouts/auth-layout/auth-layout.component';
+import { PrivateChatComponent } from './components/pages/main-page/private-chat/private-chat.component';
+import { HeaderComponent } from './components/pages/main-page/shared/header/header.component';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +15,7 @@ import { PrivateChatComponent } from './components/private-chat/private-chat.com
     HeaderComponent,
     SidebarComponent,
     AuthLayoutComponent,
-    PrivateChatComponent
+    PrivateChatComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import { PrivateChatComponent } from './components/private-chat/private-chat.component';
-import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
-import { LegalNoticeComponent } from './components/legal-notice/legal-notice.component';
-PrivateChatComponent;
+
+import { PrivacyPolicyComponent } from './components/pages/privacy-policy/privacy-policy.component';
+import { LegalNoticeComponent } from './components/pages/legal-notice/legal-notice.component';
+import { PrivateChatComponent } from './components/pages/main-page/private-chat/private-chat.component';
 
 export const routes: Routes = [
   { path: 'a-private-chat-variable', component: PrivateChatComponent },

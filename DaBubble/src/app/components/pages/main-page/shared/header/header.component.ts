@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { SearchbarComponent } from '../searchbar/searchbar.component';
 import { ProfileUserComponent } from '../../profile-user/profile-user.component';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',

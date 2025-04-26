@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ChatInputComponent } from '../shared/chat-input/chat-input.component';
-import { ChatMessagesContainerComponent } from '../shared/chat-messages-container/chat-messages-container.component';
-import { PrivateChatHeaderComponent } from '../shared/private-chat-header/private-chat-header.component';
-import { ChatType, ChatMessage } from '../../types/types';
+import { ChatInputComponent } from '../../../shared/chat-input/chat-input.component';
+import { ChatMessagesContainerComponent } from '../../../shared/chat-messages-container/chat-messages-container.component';
+import { PrivateChatHeaderComponent } from '../../../shared/private-chat-header/private-chat-header.component';
+import { ChatType, ChatMessage } from '../../../../types/types';
 
 
 @Component({
