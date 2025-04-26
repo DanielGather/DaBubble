@@ -12,7 +12,7 @@
       Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit
       verwendest.
     </p>
-    <form action="">
+    <form action="" class="flex flex-col gap-0 lg:gap-2">
       <app-form-input
         type="email"
         placeholder="beispielname@email.com"
@@ -38,8 +38,10 @@
       </div>
 
       <div id="buttons-wrapper" class="flex gap-4 justify-center mt-2">
-        <app-button type="blueButton"></app-button>
-        <app-button type="greyButton"></app-button>
+        <app-button type="blueButton"><span>Anmelden</span></app-button>
+        <app-button type="transparentButton"
+          ><span>Gäste-Login</span></app-button
+        >
       </div>
     </form>
   </div>

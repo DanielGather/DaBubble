@@ -11,6 +11,7 @@ module.exports = {
         "bg-button-transparent": "var(--bg-button-transparent)",
         "fc-purple": "var(--font-color-purple)",
         "fc-dark-purple": "var(--font-color-dark-purple)",
+        "fc-grey": "var(--font-color-grey)",
         "fc-error": "var(--font-color-error)",
         "color-border": "var(--color-border)",
       },
