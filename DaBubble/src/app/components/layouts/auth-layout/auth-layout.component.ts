@@ -6,6 +6,7 @@ import { ResetPasswordComponent } from '../../pages/auth/reset-password/reset-pa
 import { SetPasswordComponent } from '../../pages/auth/set-password/set-password.component';
 import { SignupComponent } from '../../pages/auth/signup/signup.component';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { HeaderComponent } from '../../shared/header/header.component';
 
 @Component({
   selector: 'app-auth-layout',
@@ -17,7 +18,8 @@ import { RouterLink, RouterOutlet } from '@angular/router';
     ResetPasswordComponent,
     SetPasswordComponent,
     RouterLink,
-    RouterOutlet
+    RouterOutlet,
+    HeaderComponent,
   ],
   templateUrl: './auth-layout.component.html',
   styleUrl: './auth-layout.component.scss',
