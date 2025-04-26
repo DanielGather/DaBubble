@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { CreateChannelComponent } from './create-channel/create-channel.component';
 import { NgIf } from '@angular/common';
-import { HeaderComponent } from '../shared/header/header.component';
 import { ProfileUserComponent } from '../profile-user/profile-user.component';
 import { SearchbarComponent } from '../shared/searchbar/searchbar.component';
 import { FirestoreService } from '../../../../services/firestore.service';
 import { FirestoreTestComponent } from '../../../firestore-test/firestore-test.component';
+import { HeaderComponent } from '../../../shared/header/header.component';
 
 @Component({
   selector: 'app-sidebar',

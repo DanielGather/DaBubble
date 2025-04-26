@@ -3,8 +3,8 @@ import { RouterOutlet } from '@angular/router';
 import { FirestoreTestComponent } from './components/firestore-test/firestore-test.component'; //test
 import { AuthLayoutComponent } from './components/layouts/auth-layout/auth-layout.component';
 import { PrivateChatComponent } from './components/pages/main-page/private-chat/private-chat.component';
-import { HeaderComponent } from './components/pages/main-page/shared/header/header.component';
 import { SidebarComponent } from './components/pages/main-page/sidebar/sidebar.component';
+import { HeaderComponent } from './components/shared/header/header.component';
 
 @Component({
   selector: 'app-root',
