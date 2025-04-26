@@ -5,10 +5,11 @@ import { ButtonComponent } from '../../../shared/button/button.component';
 import { RouterLink } from '@angular/router';
 import { DaBubbleLogoComponent } from '../../../shared/da-bubble-logo/da-bubble-logo.component';
 import { LegalNoticeComponent } from '../../legals/legal-notice/legal-notice.component';
+import { LegalLinksComponent } from '../shared/legal-links/legal-links.component';
 
 @Component({
   selector: 'app-signup',
-  imports: [ModalComponent, FormInputComponent, ButtonComponent, RouterLink, DaBubbleLogoComponent, LegalNoticeComponent],
+  imports: [ModalComponent, FormInputComponent, ButtonComponent, RouterLink, DaBubbleLogoComponent, LegalNoticeComponent, LegalLinksComponent],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss',
 })

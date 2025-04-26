@@ -4,6 +4,7 @@ import { FormInputComponent } from '../../../shared/form-input/form-input.compon
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { RouterLink } from '@angular/router';
 import { DaBubbleLogoComponent } from '../../../shared/da-bubble-logo/da-bubble-logo.component';
+import { LegalLinksComponent } from '../shared/legal-links/legal-links.component';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +14,7 @@ import { DaBubbleLogoComponent } from '../../../shared/da-bubble-logo/da-bubble-
     ButtonComponent,
     RouterLink,
     DaBubbleLogoComponent,
+    LegalLinksComponent
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',

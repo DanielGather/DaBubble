@@ -4,10 +4,11 @@ import { ButtonComponent } from '../../../shared/button/button.component';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { DaBubbleLogoComponent } from '../../../shared/da-bubble-logo/da-bubble-logo.component';
+import { LegalLinksComponent } from '../shared/legal-links/legal-links.component';
 
 @Component({
   selector: 'app-choose-avatar',
-  imports: [CommonModule, ModalComponent, ButtonComponent, RouterLink, DaBubbleLogoComponent],
+  imports: [CommonModule, ModalComponent, ButtonComponent, RouterLink, DaBubbleLogoComponent, LegalLinksComponent],
   templateUrl: './choose-avatar.component.html',
   styleUrl: './choose-avatar.component.scss',
 })
