@@ -3,14 +3,10 @@
   <div class="flex items-center gap-4 h-16">
     <img
       class="w-12 md:w-14 [@media(min-width:1024px)]:w-16"
-      src="img/logo.png"
+      src="img/logo.svg"
       alt=""
     />
-    <div
-      class="text-2xl md:text-3xl [@media(min-width:1024px)]:text-4xl font-bold cursor-default"
-    >
-      DABubble
-    </div>
+    <h2>DABubble</h2>
   </div>
 
   <!-- search bar -->
@@ -36,13 +32,13 @@
     />
 
     <img
-      class="w-8 -rotate-90 hidden md:block transition-opacity duration-125 opacity-100 group-hover:opacity-0"
-      src="img/keyboard_arrow_black.png"
+      class="w-8 hidden md:block transition-opacity duration-125 opacity-100 group-hover:opacity-0"
+      src="img/keyboard_arrow_black.svg"
       alt=""
     />
     <img
       class="-rotate-90 hidden md:block absolute arrowDown transition-opacity duration-125 opacity-0 group-hover:opacity-100"
-      src="img/keyboard_arrow_colored.png"
+      src="img/keyboard_arrow_colored.svg"
       alt=""
     />
   </div>
@@ -73,7 +69,7 @@
       <div
         class="flex items-center gap-4 max-w-fit md:max-w-full active:bg-bg-main rounded-standard px-4"
       >
-        <img class="md:hidden w-7 h-7" src="img/logout.png" alt="" />
+        <img class="md:hidden w-7 h-7" src="img/logout.svg" alt="" />
         <div
           (click)="togglePopup()"
           class="md:hover:bg-bg-main md:hover:text-fc-dark-purple md:hover:font-bold text-24 font-semibold w-full flex justify-start md:justify-center rounded-standard py-2 cursor-pointer"
@@ -81,6 +77,19 @@
           Log out
         </div>
       </div>
+      <a
+        routerLink="/legal-notice"
+        class="md:hover:bg-bg-main md:hover:text-fc-dark-purple md:hover:font-bold text-24 font-semibold w-full flex justify-start md:justify-center rounded-standard py-2 cursor-pointer"
+      >
+        Legal notice
+      </a>
+
+      <a
+        routerLink="/privacy-policy"
+        class="md:hover:bg-bg-main md:hover:text-fc-dark-purple md:hover:font-bold text-24 font-semibold w-full flex justify-start md:justify-center rounded-standard py-2 cursor-pointer"
+      >
+        Privacy Policy
+      </a>
     </div>
   </div>
 </header>

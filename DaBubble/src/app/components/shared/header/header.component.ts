@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { SearchbarComponent } from '../searchbar/searchbar.component';
 import { ProfileUserComponent } from '../../profile-user/profile-user.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  imports: [SearchbarComponent, ProfileUserComponent],
+  imports: [SearchbarComponent, ProfileUserComponent, RouterLink],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -19,6 +20,5 @@ export class HeaderComponent {
   toggleUserProfile() {
     this.userProfilePopup = !this.userProfilePopup;
     console.log('test');
-    
   }
 }
