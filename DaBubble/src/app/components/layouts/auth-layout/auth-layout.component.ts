@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
 import { ButtonComponent } from '../../shared/button/button.component';
-import { ChooseAvatarComponent } from '../../pages/choose-avatar/choose-avatar.component';
-import { ResetPasswordComponent } from '../../pages/reset-password/reset-password.component';
-import { LoginComponent } from '../../pages/login/login.component';
-import { SignupComponent } from '../../pages/signup/signup.component';
-import { SetPasswordComponent } from '../../pages/set-password/set-password.component';
-
-
+import { ChooseAvatarComponent } from '../../pages/auth/choose-avatar/choose-avatar.component';
+import { LoginComponent } from '../../pages/auth/login/login.component';
+import { ResetPasswordComponent } from '../../pages/auth/reset-password/reset-password.component';
+import { SetPasswordComponent } from '../../pages/auth/set-password/set-password.component';
+import { SignupComponent } from '../../pages/auth/signup/signup.component';
 
 @Component({
   selector: 'app-auth-layout',
