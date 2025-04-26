@@ -16,8 +16,8 @@ export const routes: Routes = [
     path: '',
     component: AuthLayoutComponent,
     children: [
-      { path: '', redirectTo: 'login', pathMatch: 'full' },
-      { path: 'login', component: LoginComponent },  //loads when entering the main domain
+      { path: '', redirectTo: 'login', pathMatch: 'full' }, //loads when entering the main domain
+      { path: 'login', component: LoginComponent },
       { path: 'choose-avatar', component: ChooseAvatarComponent },
       { path: 'reset-password', component: ResetPasswordComponent },
       { path: 'set-password', component: SetPasswordComponent },
