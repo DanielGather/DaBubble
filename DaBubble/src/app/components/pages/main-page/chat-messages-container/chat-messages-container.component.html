@@ -12,10 +12,10 @@
         @if(chatMessages) {
             @for(message of chatMessages; track message) {
                 @if(message.userId === userId) {
-                    <app-chat-message [message]="message" [messageTypeInput]="messageType.own"></app-chat-message>
+                    <app-chat-message [chatType]="chatType.private" [message]="message" [messageTypeInput]="messageType.own"></app-chat-message>
                 }
                 @else{
-                    <app-chat-message [message]="message" [messageTypeInput]="messageType.other"></app-chat-message>
+                    <app-chat-message [chatType]="chatType.private" [message]="message" [messageTypeInput]="messageType.other"></app-chat-message>
                 }
             }
         }

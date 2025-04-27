@@ -1,0 +1,13 @@
+@media (max-width: 360px) {
+    .name-and-time-mobile-respo {
+        gap: 0.5rem;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 400px) {
+    .profile-img-wrap-mobile {
+        height: 2.5rem;
+        width: 2.5rem;
+    }
+}

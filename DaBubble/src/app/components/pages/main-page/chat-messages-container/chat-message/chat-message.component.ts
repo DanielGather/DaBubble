@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { MessageType, ChatMessage } from '../../../../../types/types';
+import { MessageType, ChatMessage, ChatType } from '../../../../../types/types';
 
 @Component({
   selector: 'app-chat-message',
@@ -8,8 +8,8 @@ import { MessageType, ChatMessage } from '../../../../../types/types';
   styleUrl: './chat-message.component.scss'
 })
 export class ChatMessageComponent {
-  messageType = MessageType;
-  @Input() messageTypeInput:MessageType = this.messageType.default;
+  @Input() chatType:ChatType = ChatType.default;
+  @Input() messageTypeInput:MessageType = MessageType.default;
   @Input() message:ChatMessage = {
     message: '',
     name: '',

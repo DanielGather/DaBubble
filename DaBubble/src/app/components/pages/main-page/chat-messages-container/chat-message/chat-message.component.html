@@ -1,18 +1,165 @@
-@if(messageTypeInput === 'own') {
-    <div class="md:px-[2.8rem] px-[0.5rem]">
-        <div class="p-4 border border-[rgba(0,0,0,0.5)]">
-            <p>{{message.name}} | {{message.userId}}</p>
-            <p>{{message.message}}</p>
-            <p>{{message.timestamp}}</p>
+@if(messageTypeInput === 'own' && chatType === 'private') {
+<div class="px-4">
+    <div class="flex w-full relative gap-4 border-[#ADB0D9] border-t pt-8 pb-12 md:pb-[3.5rem]">
+        <div
+            class="border absolute top-[-1.25rem] bg-white left-[50%] translate-x-[-50%] rounded-standard text-fontSizeChat border-[#ADB0D9] px-4 py-1">
+            <span class="[@media(max-width:440px)]:text-[14px] whitespace-nowrap">
+                Dienstag, 14 Januar
+            </span>
+        </div>
+        <div class="flex flex-col gap-2 flex-grow items-end">
+            <div class="flex justify-center items-center gap-4 name-and-time-mobile-respo">
+                <span class="font-[700] text-fontSizeChat text-center">
+                    {{message.name}}
+                </span>
+                <span class="flex items-center justify-center gap-[0.3rem] text-[#686868]">
+                    <span>
+                        14:25
+                    </span>
+                    <span>
+                        Uhr
+                    </span>
+                </span>
+            </div>
+            <div class="md:max-w-[80%]">
+                <div
+                    class="w-auto bg-[#797EF3] p-3 pl-5 rounded-tl-standard rounded-bl-standard rounded-br-standard text-start">
+                    <p class="text-fontSizeChat text-white">
+                        {{message.message}}
+                    </p>
+                </div>
+                <!-- emoji container -->
+                <div id="emoji-container" class="flex items-start justify-end w-full gap-2 mt-2">
+                    
+                    <div class="flex flex-wrap items-end justify-end gap-2" id="emoji-render-container">
+                        <!-- single emoji -->
+                        <div class="cursor-pointer gap-2 flex justify-center items-center border rounded-standard px-4 py-2">
+                            <div class="w-5 h-5">
+                                <img class="w-full h-full" src="img/emoji_example.svg" alt="emoji alt text">
+                            </div>
+                            <span id="emoji-count">
+                                1
+                            </span>
+                        </div>
+
+                        <div class="cursor-pointer gap-2 flex justify-center items-center border rounded-standard px-4 py-2">
+                            <div class="w-5 h-5">
+                                <img class="w-full h-full" src="img/emoji_example.svg" alt="emoji alt text">
+                            </div>
+                            <span id="emoji-count">
+                                1
+                            </span>
+                        </div>
+                        <div class="cursor-pointer gap-2 flex justify-center items-center border rounded-standard px-4 py-2">
+                            <div class="w-5 h-5">
+                                <img class="w-full h-full" src="img/emoji_example.svg" alt="emoji alt text">
+                            </div>
+                            <span id="emoji-count">
+                                1
+                            </span>
+                        </div>
+                        <div class="cursor-pointer gap-2 flex justify-center items-center border rounded-standard px-4 py-2">
+                            <div class="w-5 h-5">
+                                <img class="w-full h-full" src="img/emoji_example.svg" alt="emoji alt text">
+                            </div>
+                            <span id="emoji-count">
+                                1
+                            </span>
+                        </div>
+
+                    </div>
+                    <div id="open-emoji-menu-btn" class="h-8 w-8 shrink-0">
+                        <img src="img/add_reaction.svg" alt="Open emoji menu" class="h-full w-full cursor-pointer">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="img-wrap" class="profile-img-wrap-mobile w-[4rem] h-[4rem] rounded-[50%] overflow-hidden shrink-0">
+            <img class="w-full h-full" src="img/user_1.png" alt="User profile image">
         </div>
     </div>
+</div>
 }
-@else if(messageTypeInput === 'other') {
-    <div class="md:px-[2.8rem] px-[0.5rem]">
-        <div class="p-4 border border-[red]">
-            <p>{{message.name}} | {{message.userId}}</p>
-            <p>{{message.message}}</p>
-            <p>{{message.timestamp}}</p>
+
+@else if(messageTypeInput === 'other' && chatType === 'private') {
+<div class="px-4">
+    <div class="flex w-full relative gap-4 border-[#ADB0D9] border-t pt-8 pb-12 md:pb-[3.5rem]">
+        <div
+            class="border absolute top-[-1.25rem] bg-white left-[50%] translate-x-[-50%] rounded-standard text-fontSizeChat border-[#ADB0D9] px-4 py-1">
+            <span class="[@media(max-width:440px)]:text-[14px] whitespace-nowrap">
+                Dienstag, 14 Januar
+            </span>
+        </div>
+        <div id="img-wrap" class="profile-img-wrap-mobile w-[4rem] h-[4rem] rounded-[50%] overflow-hidden shrink-0">
+            <img class="w-full h-full" src="img/user_1.png" alt="User profile image">
+        </div>
+        <div class="flex flex-col gap-2 flex-grow items-start">
+            <div class="flex justify-center items-center gap-4 name-and-time-mobile-respo">
+                <span class="font-[700] text-fontSizeChat text-center">
+                    {{message.name}}
+                </span>
+                <span class="flex items-center justify-center gap-[0.3rem] text-[#686868]">
+                    <span>
+                        14:25
+                    </span>
+                    <span>
+                        Uhr
+                    </span>
+                </span>
+            </div>
+            <div class="md:max-w-[80%]">
+                <div
+                    class="w-auto bg-[#ECEEFE] p-3 pl-5 rounded-tr-standard rounded-bl-standard rounded-br-standard text-start">
+                    <p class="text-fontSizeChat">
+                        {{message.message}}
+                    </p>
+                </div>
+                <!-- emoji container -->
+                <div id="emoji-container" class="flex items-start justify-end w-full gap-2 mt-2">
+                    
+                    <div class="flex flex-wrap items-end justify-end gap-2" id="emoji-render-container">
+                        <!-- single emoji -->
+                        <div class="cursor-pointer gap-2 flex justify-center items-center border rounded-standard px-4 py-2">
+                            <div class="w-5 h-5">
+                                <img class="w-full h-full" src="img/emoji_example.svg" alt="emoji alt text">
+                            </div>
+                            <span id="emoji-count">
+                                1
+                            </span>
+                        </div>
+
+                        <div class="cursor-pointer gap-2 flex justify-center items-center border rounded-standard px-4 py-2">
+                            <div class="w-5 h-5">
+                                <img class="w-full h-full" src="img/emoji_example.svg" alt="emoji alt text">
+                            </div>
+                            <span id="emoji-count">
+                                1
+                            </span>
+                        </div>
+                        <div class="cursor-pointer gap-2 flex justify-center items-center border rounded-standard px-4 py-2">
+                            <div class="w-5 h-5">
+                                <img class="w-full h-full" src="img/emoji_example.svg" alt="emoji alt text">
+                            </div>
+                            <span id="emoji-count">
+                                1
+                            </span>
+                        </div>
+                        <div class="cursor-pointer gap-2 flex justify-center items-center border rounded-standard px-4 py-2">
+                            <div class="w-5 h-5">
+                                <img class="w-full h-full" src="img/emoji_example.svg" alt="emoji alt text">
+                            </div>
+                            <span id="emoji-count">
+                                1
+                            </span>
+                        </div>
+
+                    </div>
+                    <div id="open-emoji-menu-btn" class="h-8 w-8 shrink-0">
+                        <img src="img/add_reaction.svg" alt="Open emoji menu" class="h-full w-full cursor-pointer">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 }
