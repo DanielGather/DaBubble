@@ -1,13 +1,18 @@
 @if(messageTypeInput === 'own' && chatType === 'private') {
-<div class="px-4">
-    <div class="flex w-full relative gap-4 border-[#ADB0D9] border-t pt-8 pb-12 md:pb-[3.5rem]">
-        <div
+<div class="px-4 overflow-x-clip">
+    <div class="relative group border-[#ADB0D9] border-t pt-8 pb-12 md:pb-[3.5rem]">
+        
+         <!-- Der Fake-Background -->
+    <div class="absolute inset-0 bg-[#ECEEFE] opacity-0 scale-x-0 group-hover:opacity-50 group-hover:scale-x-150 transition-all duration-300 origin-center pointer-events-none"></div>
+
+        <div class="flex w-full gap-4 transition-shadow">
+            <div
             class="border absolute top-[-1.25rem] bg-white left-[50%] translate-x-[-50%] rounded-standard text-fontSizeChat border-[#ADB0D9] px-4 py-1">
             <span class="[@media(max-width:440px)]:text-[14px] whitespace-nowrap">
                 Dienstag, 14 Januar
             </span>
         </div>
-        <div class="flex flex-col gap-2 flex-grow items-end">
+        <div class="z-10 flex flex-col gap-2 flex-grow items-end">
             <div class="flex justify-center items-center gap-4 name-and-time-mobile-respo">
                 <span class="font-[700] text-fontSizeChat text-center">
                     {{message.name}}
@@ -33,7 +38,7 @@
                     
                     <div class="flex flex-wrap items-end justify-end gap-2" id="emoji-render-container">
                         <!-- single emoji -->
-                        <div class="cursor-pointer gap-2 flex justify-center items-center border rounded-standard px-4 py-2">
+                        <div class="bg-white cursor-pointer gap-2 flex justify-center items-center border rounded-standard px-4 py-2">
                             <div class="w-5 h-5">
                                 <img class="w-full h-full" src="img/emoji_example.svg" alt="emoji alt text">
                             </div>
@@ -42,7 +47,7 @@
                             </span>
                         </div>
 
-                        <div class="cursor-pointer gap-2 flex justify-center items-center border rounded-standard px-4 py-2">
+                        <div class="bg-white cursor-pointer gap-2 flex justify-center items-center border rounded-standard px-4 py-2">
                             <div class="w-5 h-5">
                                 <img class="w-full h-full" src="img/emoji_example.svg" alt="emoji alt text">
                             </div>
@@ -50,7 +55,7 @@
                                 1
                             </span>
                         </div>
-                        <div class="cursor-pointer gap-2 flex justify-center items-center border rounded-standard px-4 py-2">
+                        <div class="bg-white cursor-pointer gap-2 flex justify-center items-center border rounded-standard px-4 py-2">
                             <div class="w-5 h-5">
                                 <img class="w-full h-full" src="img/emoji_example.svg" alt="emoji alt text">
                             </div>
@@ -58,7 +63,7 @@
                                 1
                             </span>
                         </div>
-                        <div class="cursor-pointer gap-2 flex justify-center items-center border rounded-standard px-4 py-2">
+                        <div class="bg-white cursor-pointer gap-2 flex justify-center items-center border rounded-standard px-4 py-2">
                             <div class="w-5 h-5">
                                 <img class="w-full h-full" src="img/emoji_example.svg" alt="emoji alt text">
                             </div>
@@ -74,26 +79,33 @@
                 </div>
             </div>
         </div>
-        <div id="img-wrap" class="profile-img-wrap-mobile w-[4rem] h-[4rem] rounded-[50%] overflow-hidden shrink-0">
+        <div id="img-wrap" class="z-10 profile-img-wrap-mobile w-[4rem] h-[4rem] rounded-[50%] overflow-hidden shrink-0">
             <img class="w-full h-full" src="img/user_1.png" alt="User profile image">
         </div>
+        </div>
+        
     </div>
 </div>
 }
 
 @else if(messageTypeInput === 'other' && chatType === 'private') {
-<div class="px-4">
-    <div class="flex w-full relative gap-4 border-[#ADB0D9] border-t pt-8 pb-12 md:pb-[3.5rem]">
-        <div
+<div class="px-4 hover-over-message-other overflow-x-clip">
+    <div class="relative group border-[#ADB0D9] border-t pt-8 pb-12 md:pb-[3.5rem]">
+
+               <!-- Der Fake-Background -->
+    <div class="absolute inset-0 bg-[#ECEEFE] opacity-0 scale-x-0 group-hover:opacity-50 group-hover:scale-x-150 transition-all duration-300 origin-center pointer-events-none"></div>
+
+        <div class="flex w-full gap-4">
+            <div
             class="border absolute top-[-1.25rem] bg-white left-[50%] translate-x-[-50%] rounded-standard text-fontSizeChat border-[#ADB0D9] px-4 py-1">
             <span class="[@media(max-width:440px)]:text-[14px] whitespace-nowrap">
                 Dienstag, 14 Januar
             </span>
         </div>
-        <div id="img-wrap" class="profile-img-wrap-mobile w-[4rem] h-[4rem] rounded-[50%] overflow-hidden shrink-0">
+        <div id="img-wrap" class="z-10 profile-img-wrap-mobile w-[4rem] h-[4rem] rounded-[50%] overflow-hidden shrink-0">
             <img class="w-full h-full" src="img/user_1.png" alt="User profile image">
         </div>
-        <div class="flex flex-col gap-2 flex-grow items-start">
+        <div class="z-10 flex flex-col gap-2 flex-grow items-start">
             <div class="flex justify-center items-center gap-4 name-and-time-mobile-respo">
                 <span class="font-[700] text-fontSizeChat text-center">
                     {{message.name}}
@@ -109,7 +121,7 @@
             </div>
             <div class="md:max-w-[80%]">
                 <div
-                    class="w-auto bg-[#ECEEFE] p-3 pl-5 rounded-tr-standard rounded-bl-standard rounded-br-standard text-start">
+                id="other-message" class="w-auto bg-[#ECEEFE] p-3 pl-5 rounded-tr-standard rounded-bl-standard rounded-br-standard text-start">
                     <p class="text-fontSizeChat">
                         {{message.message}}
                     </p>
@@ -119,7 +131,7 @@
                     
                     <div class="flex flex-wrap items-end justify-end gap-2" id="emoji-render-container">
                         <!-- single emoji -->
-                        <div class="cursor-pointer gap-2 flex justify-center items-center border rounded-standard px-4 py-2">
+                        <div class="bg-white cursor-pointer gap-2 flex justify-center items-center border rounded-standard px-4 py-2">
                             <div class="w-5 h-5">
                                 <img class="w-full h-full" src="img/emoji_example.svg" alt="emoji alt text">
                             </div>
@@ -128,7 +140,7 @@
                             </span>
                         </div>
 
-                        <div class="cursor-pointer gap-2 flex justify-center items-center border rounded-standard px-4 py-2">
+                        <div class="bg-white cursor-pointer gap-2 flex justify-center items-center border rounded-standard px-4 py-2">
                             <div class="w-5 h-5">
                                 <img class="w-full h-full" src="img/emoji_example.svg" alt="emoji alt text">
                             </div>
@@ -136,7 +148,7 @@
                                 1
                             </span>
                         </div>
-                        <div class="cursor-pointer gap-2 flex justify-center items-center border rounded-standard px-4 py-2">
+                        <div class="bg-white cursor-pointer gap-2 flex justify-center items-center border rounded-standard px-4 py-2">
                             <div class="w-5 h-5">
                                 <img class="w-full h-full" src="img/emoji_example.svg" alt="emoji alt text">
                             </div>
@@ -144,7 +156,7 @@
                                 1
                             </span>
                         </div>
-                        <div class="cursor-pointer gap-2 flex justify-center items-center border rounded-standard px-4 py-2">
+                        <div class="bg-white cursor-pointer gap-2 flex justify-center items-center border rounded-standard px-4 py-2">
                             <div class="w-5 h-5">
                                 <img class="w-full h-full" src="img/emoji_example.svg" alt="emoji alt text">
                             </div>
@@ -160,6 +172,8 @@
                 </div>
             </div>
         </div>
+        </div>
+        
     </div>
 </div>
 }

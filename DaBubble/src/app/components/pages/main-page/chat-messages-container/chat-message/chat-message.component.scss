@@ -1,3 +1,12 @@
+.hover-over-message-other {
+    #other-message {
+        transition: background-color 300ms ease-in-out;
+    }
+    :hover #other-message {
+        background-color: white;
+    }
+}
+
 @media (max-width: 360px) {
     .name-and-time-mobile-respo {
         gap: 0.5rem;
