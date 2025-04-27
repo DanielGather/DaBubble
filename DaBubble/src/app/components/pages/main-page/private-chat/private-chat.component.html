@@ -5,13 +5,14 @@ overflow-hidden
 flex
 flex-col
 justify-between
+h-full
 ">
-    <div class="flex flex-col items-start justify-start h-[79%]">
-
+    
+    <div class="flex flex-col items-start justify-start h-[calc(100%-192px)]">
         <app-private-chat-header></app-private-chat-header>
 
 
-        <app-chat-messages-container class="w-full overflow-y-auto" [chatMessages]="chatMessages"
+        <app-chat-messages-container class="w-full h-[calc(100%-90px)]" [chatMessages]="chatMessages" 
             [chatTypeInput]="chatType.private"></app-chat-messages-container>
 
     </div>
