@@ -2,15 +2,11 @@
   id="auth-layout-wrapper"
   class="h-screen flex flex-col justify-center items-center p-4 gap-6"
 >
-<div id="mobile-logo-wrapper" class="flex lg:hidden items-center gap-4 w-fit">
-  <img class="h-14 w-14" src="img/logo.svg" alt="" />
-  <span class="font-bold text-fontSizeAuthTitle">DABubble</span>
-  <!-- <app-da-bubble-logo></app-da-bubble-logo> -->
-</div>
-
-<div id="desktop-logo-wrapper" class="hidden lg:block">
-  <app-da-bubble-logo></app-da-bubble-logo>
-</div>
+  <div id="mobile-logo-wrapper" class="flex lg:hidden items-center gap-4 w-fit">
+    <img class="h-14 w-14" src="img/logo.svg" alt="" />
+    <span class="font-bold text-fontSizeAuthTitle">DABubble</span>
+    <!-- <app-da-bubble-logo></app-da-bubble-logo> -->
+  </div>
 
   <app-modal>
     <div
@@ -21,13 +17,13 @@
         id="avatar-title-wrapper"
         class="flex relative justify-center items-center"
       >
-      <a routerLink="/signup" class="flex justify-center items-center">
-        <img
-          src="/img/arrow_left_black.svg"
-          alt=""
-          class="absolute left-0 cursor-pointer"
-        />
-      </a>
+        <a routerLink="/signup" class="flex justify-center items-center">
+          <img
+            src="/img/arrow_left_black.svg"
+            alt=""
+            class="absolute left-0 cursor-pointer"
+          />
+        </a>
         <span
           id="avatar-title"
           class="text-fontSizeAuthTitle font-bold text-fc-dark-purple mx-10 leading-tight"
@@ -62,12 +58,11 @@
 
       <div id="buttons-wrapper" class="flex gap-4 mt-6 justify-end w-full">
         <a routerLink="/">
-        <app-button type="blueButton">
-          <span>Weiter</span>
-        </app-button>
-      </a>
+          <app-button type="blueButton">
+            <span>Weiter</span>
+          </app-button>
+        </a>
       </div>
     </div>
   </app-modal>
-
 </div>
