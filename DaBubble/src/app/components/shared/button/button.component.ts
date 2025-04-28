@@ -18,6 +18,7 @@ export class ButtonComponent {
   @Input() type: 'blueButton' | 'greyButton' | 'transparentButton' =
     'blueButton';
   @Input() class: string = '';
+  @Input() disabled: boolean = false;
 
   @ViewChild('myButton') buttonElement!: ElementRef;
 
