@@ -32,3 +32,12 @@ export interface AppUser {
   online: boolean;
   userId: string;
 }
+
+export interface FoldItemState {
+  rotation: number;
+  isRotated: boolean;
+  isFolded: boolean;
+}
+
+export type FoldKey = 'channel' | 'contacts';
+export type FoldState = Record<FoldKey, FoldItemState>;

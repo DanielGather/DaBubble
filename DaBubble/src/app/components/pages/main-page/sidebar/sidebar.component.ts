@@ -6,17 +6,9 @@ import { Observable } from 'rxjs';
 import { trigger, style, transition, animate } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { UsersService } from '../../../../services/users.service';
-import { User } from 'firebase/auth';
 import { map } from 'rxjs';
-import {
-  Firestore,
-  collection,
-  collectionData,
-  getDocs,
-  doc,
-  updateDoc,
-} from '@angular/fire/firestore';
 import { AppUser } from '../../../../types/types';
+import { FoldItemState, FoldKey, FoldState } from '../../../../types/types';
 
 @Component({
   selector: 'app-sidebar',
@@ -37,19 +29,34 @@ import { AppUser } from '../../../../types/types';
 })
 export class SidebarComponent {
   firestoreService: FirestoreService = inject(FirestoreService);
-  rotation = 0;
   online: boolean = true;
   clicked: boolean = true;
   showModal: boolean = false;
-  isRotated: boolean = false;
-  isFolded: boolean = false;
   users: UsersService = inject(UsersService);
   channelArray = this.firestoreService.channelsArray;
   usersList$: Observable<AppUser[]> = this.getSortedUser();
 
+  DEFAULT_FOLD_ITEM: FoldItemState = {
+    rotation: 0,
+    isRotated: false,
+    isFolded: false,
+  };
+
+  foldState: FoldState = {
+    channel: { ...this.DEFAULT_FOLD_ITEM },
+    contacts: { ...this.DEFAULT_FOLD_ITEM },
+  };
+
   ngOnInit() {
     console.log(this.channelArray);
     console.log(this.usersList$);
+  }
+
+  toggleFold(key: FoldKey) {
+    const state = this.foldState[key];
+    state.rotation += state.isRotated ? 90 : -90;
+    state.isRotated = !state.isRotated;
+    state.isFolded = !state.isFolded;
   }
 
   getSortedUser() {
@@ -61,26 +68,13 @@ export class SidebarComponent {
       )
     );
   }
+
   navBarClicked() {
     this.clicked = !this.clicked;
   }
 
   closeChannelWindow(close: boolean) {
     this.showModal = close;
-  }
-
-  foldIn() {
-    this.makeRotation();
-    this.isFolded = !this.isFolded;
-  }
-
-  makeRotation() {
-    if (!this.isRotated) {
-      this.rotation = this.rotation - 90;
-    } else {
-      this.rotation = this.rotation + 90;
-    }
-    this.isRotated = !this.isRotated;
   }
 
   getAvatar(avatarId: number) {

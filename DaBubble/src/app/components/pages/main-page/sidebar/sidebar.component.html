@@ -7,9 +7,9 @@
     <div class="items-start flex justify-center pt-2">
       <img
         style="transition: transform 0.3s"
-        (click)="foldIn()"
+        (click)="toggleFold('channel')"
         class="w-4 h-4 hover:cursor-pointer"
-        [style.transform]="'rotate(' + rotation + 'deg)'"
+        [style.transform]="'rotate(' + foldState.channel.rotation + 'deg)'"
         src="img/arrow_drop_down.svg"
         alt=""
       />
@@ -33,7 +33,8 @@
         id="channel"
         class="flex flex-col gap-4 items-start hover:cursor-pointer"
       >
-        @for(channel of channelArray; track channel){ @if(!isFolded){
+        @for(channel of channelArray; track channel){
+        @if(!foldState.channel.isRotated){
         <div class="flex origin-top" @foldAnimation>
           <p class="w-5 self-center justify-center flex font-bold text-[2xl]">
             #
@@ -57,6 +58,8 @@
   >
     <div class="items-start flex justify-center pt-2">
       <img
+        (click)="toggleFold('contacts')"
+        [style.transform]="'rotate(' + foldState.contacts.rotation + 'deg)'"
         class="w-4 h-4 hover:cursor-pointer"
         src="img/arrow_drop_down.svg"
         alt=""
@@ -74,7 +77,8 @@
           *ngFor="let user of users"
           class="flex gap-4 items-center pb-2 hover:cursor-pointer"
         >
-          <div class="relative">
+          @if(!foldState.contacts.isRotated){
+          <div class="relative" @foldAnimation>
             <img
               class="w-10 h-10 rounded-full"
               [src]="getAvatar(user.avatarId)"
@@ -95,6 +99,7 @@
             </ng-template>
           </div>
           <p>{{ user.firstName }} {{ user.lastName }}</p>
+          }
         </li>
       </ul>
     </div>
