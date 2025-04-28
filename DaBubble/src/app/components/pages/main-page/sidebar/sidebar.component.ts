@@ -7,6 +7,7 @@ import { trigger, style, transition, animate } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { UsersService } from '../../../../services/users.service';
 import { User } from 'firebase/auth';
+import { map } from 'rxjs';
 import {
   Firestore,
   collection,
@@ -44,13 +45,22 @@ export class SidebarComponent {
   isFolded: boolean = false;
   users: UsersService = inject(UsersService);
   channelArray = this.firestoreService.channelsArray;
-  usersList$: Observable<AppUser[]> = this.users.usersList$;
+  usersList$: Observable<AppUser[]> = this.getSortedUser();
 
   ngOnInit() {
     console.log(this.channelArray);
     console.log(this.usersList$);
   }
 
+  getSortedUser() {
+    return this.users.usersList$.pipe(
+      map((list) =>
+        [...list].sort((a, b) =>
+          a.firstName.localeCompare(b.firstName, 'de', { sensitivity: 'base' })
+        )
+      )
+    );
+  }
   navBarClicked() {
     this.clicked = !this.clicked;
   }
