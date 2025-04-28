@@ -1,23 +1,26 @@
 import { Component, inject } from '@angular/core';
 import { CreateChannelComponent } from './create-channel/create-channel.component';
-import { NgIf } from '@angular/common';
-import { ProfileUserComponent } from '../profile-user/profile-user.component';
 import { SearchbarComponent } from '../shared/searchbar/searchbar.component';
 import { FirestoreService } from '../../../../services/firestore.service';
-import { FirestoreTestComponent } from '../../../firestore-test/firestore-test.component';
-import { HeaderComponent } from '../../../shared/header/header.component';
+import { trigger, style, transition, animate } from '@angular/animations';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [
-    HeaderComponent,
-    SearchbarComponent,
-    CreateChannelComponent,
-    NgIf,
-    ProfileUserComponent,
-  ],
+  imports: [CommonModule, SearchbarComponent, CreateChannelComponent],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
+  animations: [
+    trigger('foldAnimation', [
+      transition(':enter', [
+        style({ transform: 'scaleY(0)', opacity: 0 }),
+        animate('300ms', style({ transform: 'scaleY(1)', opacity: 1 })),
+      ]),
+      transition(':leave', [
+        animate('300ms', style({ transform: 'scaleY(0)', opacity: 0 })),
+      ]),
+    ]),
+  ],
 })
 export class SidebarComponent {
   firestoreService: FirestoreService = inject(FirestoreService);
@@ -36,5 +39,23 @@ export class SidebarComponent {
 
   closeChannelWindow(close: boolean) {
     this.showModal = close;
+  }
+
+  rotation = 0;
+  isRotated: boolean = false;
+  isFolded: boolean = false;
+
+  foldIn() {
+    this.makeRotation();
+    this.isFolded = !this.isFolded;
+  }
+
+  makeRotation() {
+    if (!this.isRotated) {
+      this.rotation = this.rotation - 90;
+    } else {
+      this.rotation = this.rotation + 90;
+    }
+    this.isRotated = !this.isRotated;
   }
 }
