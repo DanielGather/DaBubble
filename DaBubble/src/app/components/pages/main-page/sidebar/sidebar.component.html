@@ -69,150 +69,34 @@
           <p class="font-bold text-2xl">Direktnachrichten</p>
         </div>
       </div>
-      <div class="flex gap-4 items-center hover:cursor-pointer">
-        <div class="relative">
-          <img
-            class="w-10 h-10 rounded-full"
-            src="img/user_1_small.png"
-            alt=""
-          />
-          @if(online == true){
-          <img
-            class="absolute right-0 bottom-[-3px] rounded-full"
-            src="img/online.svg"
-            alt=""
-          />
-
-          } @else {
-          <img
-            class="absolute right-0 bottom-[-3px] rounded-full"
-            src="img/offline.svg"
-            alt=""
-          />
-          }
-        </div>
-        <p>Frederik Beck (DU)</p>
-      </div>
-      <div class="flex gap-4 items-center hover:cursor-pointer">
-        <div class="relative">
-          <img
-            class="w-10 h-10 rounded-full"
-            src="img/user_1_small.png"
-            alt=""
-          />
-          @if(online == true){
-          <img
-            class="absolute right-0 bottom-[-3px] rounded-full"
-            src="img/online.svg"
-            alt=""
-          />
-
-          } @else {
-          <img
-            class="absolute right-0 bottom-[-3px] rounded-full"
-            src="img/offline.svg"
-            alt=""
-          />
-          }
-        </div>
-        <p>Frederik Beck (DU)</p>
-      </div>
-      <div class="flex gap-4 items-center hover:cursor-pointer">
-        <div class="relative">
-          <img
-            class="w-10 h-10 rounded-full"
-            src="img/user_1_small.png"
-            alt=""
-          />
-          @if(online == true){
-          <img
-            class="absolute right-0 bottom-[-3px] rounded-full"
-            src="img/online.svg"
-            alt=""
-          />
-
-          } @else {
-          <img
-            class="absolute right-0 bottom-[-3px] rounded-full"
-            src="img/offline.svg"
-            alt=""
-          />
-          }
-        </div>
-        <p>Frederik Beck (DU)</p>
-      </div>
-      <div class="flex gap-4 items-center hover:cursor-pointer">
-        <div class="relative">
-          <img
-            class="w-10 h-10 rounded-full"
-            src="img/user_1_small.png"
-            alt=""
-          />
-          @if(online == true){
-          <img
-            class="absolute right-0 bottom-[-3px] rounded-full"
-            src="img/online.svg"
-            alt=""
-          />
-
-          } @else {
-          <img
-            class="absolute right-0 bottom-[-3px] rounded-full"
-            src="img/offline.svg"
-            alt=""
-          />
-          }
-        </div>
-        <p>Frederik Beck (DU)</p>
-      </div>
-      <div class="flex gap-4 items-center hover:cursor-pointer">
-        <div class="relative">
-          <img
-            class="w-10 h-10 rounded-full"
-            src="img/user_1_small.png"
-            alt=""
-          />
-          @if(online == true){
-          <img
-            class="absolute right-0 bottom-[-3px] rounded-full"
-            src="img/online.svg"
-            alt=""
-          />
-
-          } @else {
-          <img
-            class="absolute right-0 bottom-[-3px] rounded-full"
-            src="img/offline.svg"
-            alt=""
-          />
-          }
-        </div>
-        <p>Frederik Beck (DU)</p>
-      </div>
-      <div class="flex gap-4 items-center hover:cursor-pointer">
-        <div class="relative">
-          <img
-            class="w-10 h-10 rounded-full"
-            src="img/user_1_small.png"
-            alt=""
-          />
-          @if(online == true){
-          <img
-            class="absolute right-0 bottom-[-3px] rounded-full"
-            src="img/online.svg"
-            alt=""
-          />
-
-          } @else {
-          <img
-            class="absolute right-0 bottom-[-3px] rounded-full"
-            src="img/offline.svg"
-            alt=""
-          />
-          }
-        </div>
-        <p>Frederik Beck (DU)</p>
-      </div>
+      <ul *ngIf="usersList$ | async as users">
+        <li
+          *ngFor="let user of users"
+          class="flex gap-4 items-center hover:cursor-pointer"
+        >
+          <div class="relative">
+            <img
+              class="w-10 h-10 rounded-full"
+              [src]="getAvatar(user.avatarId)"
+              alt=""
+            />
+            <img
+              *ngIf="user.online; else offlineTpl"
+              class="absolute right-0 bottom-[-3px] rounded-full"
+              src="img/online.svg"
+              alt=""
+            />
+            <ng-template #offlineTpl>
+              <img
+                class="absolute right-0 bottom-[-3px] rounded-full"
+                src="img/offline.svg"
+                alt=""
+              />
+            </ng-template>
+          </div>
+          <p>{{ user.firstName }} {{ user.lastName }}</p>
+        </li>
+      </ul>
     </div>
   </div>
 </div>
