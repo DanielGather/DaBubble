@@ -9,7 +9,6 @@ import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-button',
-  standalone: true,
   imports: [NgClass],
   templateUrl: './button.component.html',
   styleUrl: './button.component.scss',
@@ -19,7 +18,6 @@ export class ButtonComponent {
   @Input() type: 'blueButton' | 'greyButton' | 'transparentButton' =
     'blueButton';
   @Input() class: string = '';
-  @Input() disabled: boolean = false;
 
   @ViewChild('myButton') buttonElement!: ElementRef;
 
@@ -34,48 +32,9 @@ export class ButtonComponent {
     },
     transparentButton: {
       class:
-        'bg-bg-button-transparent text-white rounded-standard h-12 w-fit pl-4 pr-4',
+        'bg-bg-button-transparent text-[#444df2] border-2 border-[#444df2] rounded-standard h-12 w-fit pl-4 pr-4',
     },
   };
-
-  ngAfterViewInit() {
-    this.addClassToSpan();
-    this.addClassToImg();
-  }
-
-  /**
-   * Adds the CSS class 'font-bold' to the native button element,
-   * but only if the button element contains a child `<span>` element.
-   *
-   * This method uses Renderer2 to add the class safely and
-   * platform-independently.
-   */
-  addClassToSpan() {
-    const hasSpan =
-      this.buttonElement.nativeElement.querySelector('span') !== null;
-    const elementRef = this.buttonElement.nativeElement;
-    if (hasSpan) {
-      this.renderer.addClass(elementRef, 'font-bold');
-    }
-  }
-
-  /**
-   * Adds the CSS classes 'flex', 'gap-2', and 'items-center' to the native button element,
-   * but only if the button element contains a child `<svg>` element.
-   *
-   * This method uses Renderer2 to add the classes safely and
-   * platform-independently.
-   */
-  addClassToImg() {
-    const hasImage =
-      this.buttonElement.nativeElement.querySelector('svg') !== null;
-    const elementRef = this.buttonElement.nativeElement;
-    if (hasImage) {
-      this.renderer.addClass(elementRef, 'flex');
-      this.renderer.addClass(elementRef, 'gap-2');
-      this.renderer.addClass(elementRef, 'items-center');
-    }
-  }
 
   /**
    * Retrieves the CSS class for the button based on the current `type`.
