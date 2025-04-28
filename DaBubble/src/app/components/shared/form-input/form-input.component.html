@@ -8,12 +8,16 @@
       type="{{ type }}"
       placeholder="{{ placeholder }}"
       class="w-full bg-transparent focus:outline-none"
+      [value]="value"
+      [disabled]="disabled"
+      (input)="onInputChange($event)"
+      (blur)="onTouched()"
     />
   </div>
   <div
     id="error-message"
     class="absolute text-fc-error bottom-[-24px] left-[24px]"
   >
-    error
+    {{ errorMessage || "&nbsp;" }}
   </div>
 </div>

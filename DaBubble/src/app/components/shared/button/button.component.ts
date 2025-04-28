@@ -9,6 +9,7 @@ import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-button',
+  standalone: true,
   imports: [NgClass],
   templateUrl: './button.component.html',
   styleUrl: './button.component.scss',
@@ -18,6 +19,7 @@ export class ButtonComponent {
   @Input() type: 'blueButton' | 'greyButton' | 'transparentButton' =
     'blueButton';
   @Input() class: string = '';
+  @Input() disabled: boolean = false;
 
   @ViewChild('myButton') buttonElement!: ElementRef;
 

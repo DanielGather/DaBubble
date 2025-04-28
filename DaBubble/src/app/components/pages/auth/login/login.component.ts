@@ -1,22 +1,89 @@
-import { Component } from '@angular/core';
-import { ModalComponent } from '../../../shared/modal/modal.component';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { FormInputComponent } from '../../../shared/form-input/form-input.component';
 import { ButtonComponent } from '../../../shared/button/button.component';
-import { RouterLink } from '@angular/router';
-import { DaBubbleLogoComponent } from '../../../shared/da-bubble-logo/da-bubble-logo.component';
-import { LegalLinksComponent } from '../shared/legal-links/legal-links.component';
+import { ModalComponent } from '../../../shared/modal/modal.component';
 
 @Component({
   selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
+  standalone: true,
   imports: [
-    ModalComponent,
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule,
     FormInputComponent,
     ButtonComponent,
-    RouterLink,
-    DaBubbleLogoComponent,
-    LegalLinksComponent
+    ModalComponent,
   ],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
 })
-export class LoginComponent {}
+export class LoginComponent implements OnInit {
+  loginForm: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+    });
+  }
+
+  ngOnInit(): void {}
+
+  onSubmit(): void {
+    if (this.loginForm.valid) {
+      console.log(this.loginForm.value);
+      // Hier deine Login-Logik implementieren
+    } else {
+      this.markFormGroupTouched(this.loginForm);
+    }
+  }
+
+  signInWithGoogle(): void {
+    // Implementiere hier deine Google Sign-In Logik
+    console.log('Google Sign-In clicked');
+  }
+
+  getEmailErrorMessage(): string {
+    const emailControl = this.loginForm.get('email');
+    if (emailControl?.touched) {
+      if (emailControl.errors?.['required']) {
+        return 'Email ist erforderlich';
+      }
+      if (emailControl.errors?.['email']) {
+        return 'Ungültiges Email-Format';
+      }
+    }
+    return '';
+  }
+
+  getPasswordErrorMessage(): string {
+    const passwordControl = this.loginForm.get('password');
+    if (passwordControl?.touched) {
+      if (passwordControl.errors?.['required']) {
+        return 'Passwort ist erforderlich';
+      }
+      if (passwordControl.errors?.['minlength']) {
+        return `Passwort muss mindestens ${passwordControl.errors?.['minlength'].requiredLength} Zeichen haben`;
+      }
+    }
+    return '';
+  }
+
+  // Hilfsmethode, um alle Formularfelder als berührt zu markieren
+  markFormGroupTouched(formGroup: FormGroup) {
+    Object.values(formGroup.controls).forEach((control) => {
+      control.markAsTouched();
+      if ((control as any).controls) {
+        this.markFormGroupTouched(control as FormGroup);
+      }
+    });
+  }
+}
