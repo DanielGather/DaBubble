@@ -15,5 +15,11 @@ export interface ChatMessage {
     message:string,
     name: string,
     timestamp:string,
-    userId: string
+    userId: string,
+    emojis: Array<ChatMessaggeEmoji>
+}
+
+export interface ChatMessaggeEmoji {
+    emojiId: string,
+    userIdCount: Array<string>
 }

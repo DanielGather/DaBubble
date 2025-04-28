@@ -1,9 +1,14 @@
 import { Component, Input } from '@angular/core';
-import { MessageType, ChatMessage, ChatType } from '../../../../../types/types';
+import { MessageType, ChatMessage, ChatType} from '../../../../../types/types';
+import { SingleEmojiComponent } from './single-emoji/single-emoji.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-chat-message',
-  imports: [],
+  imports: [
+    SingleEmojiComponent,
+    CommonModule
+  ],
   templateUrl: './chat-message.component.html',
   styleUrl: './chat-message.component.scss'
 })
@@ -14,6 +19,12 @@ export class ChatMessageComponent {
     message: '',
     name: '',
     timestamp: '',
-    userId: ''
+    userId: '',
+    emojis: [
+      {
+        emojiId: '',
+        userIdCount: []
+      }
+    ]
   }
 }

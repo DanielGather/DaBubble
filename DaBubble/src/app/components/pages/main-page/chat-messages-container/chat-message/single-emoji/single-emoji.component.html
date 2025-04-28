@@ -1,0 +1,13 @@
+<!-- single emoji -->
+<div
+class="bg-white cursor-pointer gap-2 flex justify-center items-center border rounded-standard px-4 py-2">
+<div class="w-5 h-5">
+    <!-- src must be changed -->
+    <img class="w-full h-full" src="img/emoji_example.svg" alt="emoji alt text">
+</div>
+<span id="emoji-count">
+    @if(emoji) {
+        <span>{{getEmojiCount()}}</span>
+    }
+</span>
+</div>

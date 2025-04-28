@@ -6,9 +6,11 @@
     items-start
     justify-between
     h-full
+    relative
+    z-[2]
  "
 >
-    <div class="w-full h-full overflow-y-auto" #messageField id="message-field">
+    <div class="w-full h-full overflow-y-auto pt-[1.5rem]" #messageField id="message-field">
         @if(chatMessages) {
             @for(message of chatMessages; track message) {
                 @if(message.userId === userId) {

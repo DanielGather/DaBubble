@@ -28,109 +28,78 @@ export class PrivateChatComponent implements OnInit {
       timestamp: 'Dienstag, 14 Januar',
       name: 'Max Mustermann',
       userId: '123',
+      emojis: [
+        {
+          emojiId: 'test',
+          userIdCount: ['luashbd', 'uszhbdf', 'uzasdhbf'],
+        },
+        {
+          emojiId: 'test',
+          userIdCount: ['luashbd', 'uszhbdf'],
+        },
+        {
+          emojiId: 'test',
+          userIdCount: ['luashbd', 'uszhbdf'],
+        },
+        {
+          emojiId: 'test',
+          userIdCount: ['luashbd', 'uszhbdf', 'ukfbsdf'],
+        },
+        {
+          emojiId: 'test',
+          userIdCount: ['luashbd', 'uszhbdf'],
+        }
+      ]
     },
     {
       message: 'Hallo ich bin der otherUser',
       timestamp: 'Dienstag, 15 Januar',
       name: 'Testi Testo',
       userId: '1234',
+      emojis: [
+        {
+          emojiId: 'test',
+          userIdCount: ['luashbd', 'uszhbdf', 'uzasdhbf', 'khuasdbf'],
+        },
+        {
+          emojiId: 'test',
+          userIdCount: ['luashbd', 'uszhbdf'],
+        }
+      ]
     },
     {
       message: 'Hallo ich bin der otherUser',
       timestamp: 'Dienstag, 16 Januar',
       name: 'Testi Testo',
       userId: '1234',
+      emojis: [
+        {
+          emojiId: 'test',
+          userIdCount: ['luashbd', 'uszhbdf', 'uzasdhbf', 'hasdbf'],
+        }
+      ]
     },
     {
       message: 'Hallo ich bin der currentUser',
       timestamp: 'Dienstag, 14 Januar',
       name: 'Max Mustermann',
       userId: '123',
+      emojis: [
+        {
+          emojiId: 'test',
+          userIdCount: ['luashbd', 'uszhbdf'],
+        },
+        {
+          emojiId: 'test',
+          userIdCount: ['luashbd', 'uszhbdf'],
+        },
+        {
+          emojiId: 'test',
+          userIdCount: ['luashbd', 'uszhbdf'],
+        }
+      ]
     },
-    {
-      message: 'Hallo ich bin der otherUser',
-      timestamp: 'Dienstag, 15 Januar',
-      name: 'Testi Testo',
-      userId: '1234',
-    },
-    {
-      message: 'Hallo ich bin der otherUser',
-      timestamp: 'Dienstag, 16 Januar',
-      name: 'Testi Testo',
-      userId: '1234',
-    },
-    {
-      message: 'Hallo ich bin der currentUser',
-      timestamp: 'Dienstag, 14 Januar',
-      name: 'Max Mustermann',
-      userId: '123',
-    },
-    {
-      message: 'Hallo ich bin der otherUser',
-      timestamp: 'Dienstag, 15 Januar',
-      name: 'Testi Testo',
-      userId: '1234',
-    },
-    {
-      message: 'Hallo ich bin der otherUser',
-      timestamp: 'Dienstag, 16 Januar',
-      name: 'Testi Testo',
-      userId: '1234',
-    },
-    {
-      message: 'Hallo ich bin der currentUser',
-      timestamp: 'Dienstag, 14 Januar',
-      name: 'Max Mustermann',
-      userId: '123',
-    },
-    {
-      message: 'Hallo ich bin der otherUser',
-      timestamp: 'Dienstag, 15 Januar',
-      name: 'Testi Testo',
-      userId: '1234',
-    },
-    {
-      message: 'Hallo ich bin der otherUser',
-      timestamp: 'Dienstag, 16 Januar',
-      name: 'Testi Testo',
-      userId: '1234',
-    },
-    {
-      message: 'Hallo ich bin der currentUser',
-      timestamp: 'Dienstag, 14 Januar',
-      name: 'Max Mustermann',
-      userId: '123',
-    },
-    {
-      message: 'Hallo ich bin der otherUser',
-      timestamp: 'Dienstag, 15 Januar',
-      name: 'Testi Testo',
-      userId: '1234',
-    },
-    {
-      message: 'Hallo ich bin der otherUser',
-      timestamp: 'Dienstag, 16 Januar',
-      name: 'Testi Testo',
-      userId: '1234',
-    },
-    {
-      message: 'Hallo ich bin der currentUser',
-      timestamp: 'Dienstag, 14 Januar',
-      name: 'Max Mustermann',
-      userId: '123',
-    },
-    {
-      message: 'Hallo ich bin der otherUser',
-      timestamp: 'Dienstag, 15 Januar',
-      name: 'Testi Testo',
-      userId: '1234',
-    },
-    {
-      message: 'Hallo ich bin der otherUser',
-      timestamp: 'Dienstag, 16 Januar',
-      name: 'Testi Testo',
-      userId: '1234',
-    },
+    
   ];
   //testends
 
