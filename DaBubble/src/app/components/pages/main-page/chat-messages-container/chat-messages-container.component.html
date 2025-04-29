@@ -5,12 +5,14 @@
     flex-col
     items-start
     justify-between
-    h-full
     relative
     z-[2]
  "
 >
-    <div class="w-full h-full overflow-y-auto pt-[1.5rem]" #messageField id="message-field">
+<!-- h-full oben -->
+
+    <div class="w-full overflow-y-auto pt-[1.5rem]" #messageField id="message-field">
+        <!-- h-full oben -->
         @if(chatMessages) {
             @for(message of chatMessages; track message) {
                 @if(message.userId === userId) {
