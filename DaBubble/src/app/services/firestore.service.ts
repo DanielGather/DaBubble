@@ -6,6 +6,8 @@ import {
   getDocs,
   doc,
   updateDoc,
+  setDoc,
+  addDoc,
 } from '@angular/fire/firestore';
 import { RouterModule } from '@angular/router';
 import { DocumentReference, getDoc } from 'firebase/firestore';
@@ -65,6 +67,12 @@ export class FirestoreService {
    */
   async updateDoc(collectionId: string, docId: string, docObject: {}) {
     updateDoc(this.getSingleDocRef(collectionId, docId), docObject);
+  }
+
+  async addDoc(collectionName: string, objekt: {}) {
+    const collRef = collection(this.firestore, collectionName);
+    const docRef = await addDoc(collRef, objekt);
+    console.log('Neues Dokument angelegt mit ID', docRef.id);
   }
 
   /**
