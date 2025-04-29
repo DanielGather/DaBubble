@@ -29,20 +29,26 @@
           />
         </div>
       </div>
-      <div
-        id="channel"
-        class="flex flex-col gap-4 items-start hover:cursor-pointer"
-      >
-        @for(channel of channelArray; track channel){
-        @if(!foldState.channel.isRotated){
-        <div class="flex origin-top" @foldAnimation>
-          <p class="w-5 self-center justify-center flex font-bold text-[2xl]">
-            #
-          </p>
-          <p>{{ channel }}</p>
-        </div>
-        } }
-      </div>
+      <ul *ngIf="channelList$ | async as channels">
+        <li *ngFor="let channel of channels">
+          <div
+            id="channel"
+            class="flex flex-col gap-4 items-start hover:cursor-pointer"
+          >
+            @if(!foldState.channel.isRotated){
+            <div class="flex origin-top" @foldAnimation>
+              <p
+                class="w-5 self-center justify-center flex font-bold text-[2xl]"
+              >
+                #
+              </p>
+              <p>{{ channel.channelName }}</p>
+            </div>
+            }
+          </div>
+        </li>
+      </ul>
+
       <div
         (click)="showModal = !showModal"
         class="flex gap-4 hover:cursor-pointer"

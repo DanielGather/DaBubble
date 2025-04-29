@@ -33,6 +33,12 @@ export interface AppUser {
   userId: string;
 }
 
+export interface Channels {
+  channelName: string;
+  description: string;
+  userIds: Array<string>;
+}
+
 export interface FoldItemState {
   rotation: number;
   isRotated: boolean;

@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { UsersService } from '../../../../services/users.service';
 import { map } from 'rxjs';
 import { AppUser } from '../../../../types/types';
+import { Channels } from '../../../../types/types';
 import { FoldItemState, FoldKey, FoldState } from '../../../../types/types';
 
 @Component({
@@ -36,7 +37,7 @@ export class SidebarComponent {
 
   users: UsersService = inject(UsersService);
 
-  channelArray = this.firestoreService.channelsArray;
+  channelList$: Observable<Channels[]> = this.firestoreService.channelsList$;
 
   usersList$: Observable<AppUser[]> = this.getSortedUser();
 
@@ -52,7 +53,6 @@ export class SidebarComponent {
   };
 
   ngOnInit() {
-    console.log(this.channelArray);
     console.log(this.usersList$);
   }
 

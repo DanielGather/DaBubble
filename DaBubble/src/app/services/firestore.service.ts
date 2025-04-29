@@ -1,4 +1,5 @@
 import { Injectable, inject } from '@angular/core';
+import { Channels } from '../types/types';
 import {
   Firestore,
   collection,
@@ -21,7 +22,9 @@ export class FirestoreService {
    * firestore service
    */
   firestore: Firestore = inject(Firestore);
-  channelsArray: string[] = ['Entwicklerteam'];
+  readonly channelsList$: Observable<Channels[]> = this.getCollectionData(
+    'channels'
+  ) as Observable<Channels[]>;
 
   constructor() {}
 
