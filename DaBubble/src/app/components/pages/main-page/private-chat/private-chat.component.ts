@@ -52,7 +52,7 @@ export class PrivateChatComponent implements OnInit {
       ]
     },
     {
-      message: 'Hallo ich bin der otherUser',
+      message: 'Hallo ich bin der otherUser und habe jetzt auch einen langen text den ich für text zwecke geschrieben habe. irgendwas fäööt einem ja immer ein :D',
       timestamp: 'Dienstag, 15 Januar',
       name: 'Testi Testo',
       userId: '1234',
@@ -80,7 +80,7 @@ export class PrivateChatComponent implements OnInit {
       ]
     },
     {
-      message: 'Hallo ich bin der currentUser',
+      message: 'Hallo ich bin der currentUser und schriebe eine ganz lange nachricht die einfach nicht aufhören will weil ich ja sooo viel zu erzählen habe und dir unbedingt dieses beispiel zeigen muss wie das menu sich der grösse der nachricht anpasst :D',
       timestamp: 'Dienstag, 14 Januar',
       name: 'Max Mustermann',
       userId: '123',

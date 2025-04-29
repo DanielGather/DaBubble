@@ -1,8 +1,9 @@
 .hover-over-message-other {
-    #other-message {
+    #message-container {
         transition: background-color 300ms ease-in-out;
     }
-    :hover #other-message {
+
+    :hover #message-container {
         background-color: white;
     }
 }
@@ -18,5 +19,13 @@
     .profile-img-wrap-mobile {
         height: 2.5rem;
         width: 2.5rem;
+    }
+}
+
+@media (max-width:767px) {
+    .option {
+        width: 2rem;
+        height: 2rem;
+        padding: 0.25rem;
     }
 }

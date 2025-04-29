@@ -27,4 +27,6 @@ export class ChatMessageComponent {
       }
     ]
   }
+  showMenu:boolean = false;
+  showEmojiMenu:boolean = false;
 }

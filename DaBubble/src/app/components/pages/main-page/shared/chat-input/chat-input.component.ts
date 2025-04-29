@@ -7,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrl: './chat-input.component.scss'
 })
 export class ChatInputComponent {
+  showEmojiMenu:boolean = false;
 
 }
