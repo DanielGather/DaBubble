@@ -29,11 +29,15 @@ import { FoldItemState, FoldKey, FoldState } from '../../../../types/types';
 })
 export class SidebarComponent {
   firestoreService: FirestoreService = inject(FirestoreService);
+
   online: boolean = true;
   clicked: boolean = true;
   showModal: boolean = false;
+
   users: UsersService = inject(UsersService);
+
   channelArray = this.firestoreService.channelsArray;
+
   usersList$: Observable<AppUser[]> = this.getSortedUser();
 
   DEFAULT_FOLD_ITEM: FoldItemState = {
