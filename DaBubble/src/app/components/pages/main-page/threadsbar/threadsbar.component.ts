@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { ChatInputComponent } from '../shared/chat-input/chat-input.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-threadsbar',
-  imports: [ChatInputComponent],
+  imports: [ChatInputComponent, CommonModule],
   templateUrl: './threadsbar.component.html',
   styleUrl: './threadsbar.component.scss',
 })
