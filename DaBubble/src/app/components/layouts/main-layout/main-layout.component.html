@@ -1,14 +1,15 @@
-
 <main class="min-w-full h-full flex flex-col bg-[rgb(236,238,254)]">
   <app-header></app-header>
-  <div id="content" class="flex h-[calc(100%-96px)] justify-center items-start md:pb-8 gap-8">
-
+  <div
+    id="content"
+    class="flex h-[calc(100%-96px)] justify-center items-start md:pb-8 gap-8"
+  >
     <app-sidebar class=""></app-sidebar>
 
-    <div id="roouter-outlet-wrap" class="flex-grow min-h-0 h-full md:pt-4 md:pr-8">
+    <div id="roouter-outlet-wrap" class="flex-grow min-h-0 h-full md:pt-4">
       <router-outlet></router-outlet>
     </div>
 
+    <app-threadsbar class="min-h-0 h-full md:pt-4 md:pr-8"></app-threadsbar>
   </div>
-
 </main>

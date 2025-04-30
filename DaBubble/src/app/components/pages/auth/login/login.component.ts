@@ -40,6 +40,8 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     if (this.loginForm.valid) {
       console.log(this.loginForm.value);
+      console.log(this.loginForm.value.email);
+
       // Hier deine Login-Logik implementieren
     } else {
       this.markFormGroupTouched(this.loginForm);
@@ -47,7 +49,7 @@ export class LoginComponent implements OnInit {
   }
 
   signInWithGoogle(): void {
-    // Implementiere hier deine Google Sign-In Logik
+    // sign in mit google logik
     console.log('Google Sign-In clicked');
   }
 
@@ -77,7 +79,6 @@ export class LoginComponent implements OnInit {
     return '';
   }
 
-  // Hilfsmethode, um alle Formularfelder als berührt zu markieren
   markFormGroupTouched(formGroup: FormGroup) {
     Object.values(formGroup.controls).forEach((control) => {
       control.markAsTouched();
