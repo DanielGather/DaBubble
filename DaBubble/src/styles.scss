@@ -40,11 +40,7 @@ app-root > * {
   --form-input-height: 50px;
 }
 
-h1 {
-  font-size: 2rem; /* text-2xl ≈ 24px */
-  font-weight: 700;
-  cursor: default;
-}
+
 
 /* chat-emoji & menu container classes */
 .menu-container {
@@ -93,34 +89,58 @@ h1 {
   transform: scale(1.1);
 }
 
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  cursor: default;
+}
+
 /* media querys */
 @media (min-width: 768px) {
   h1 {
-    font-size: 2.5rem; /* text-3xl ≈ 30px */
+    font-size: 2.5rem;
   }
 }
 
 @media (min-width: 1024px) {
   h1 {
-    font-size: 3rem; /* text-4xl ≈ 36px */
+    font-size: 3rem;
   }
 }
 
 h2 {
-  font-size: 1.5rem; /* text-2xl ≈ 24px */
+  font-size: 1.5rem;
   font-weight: 700;
   cursor: default;
 }
 
 @media (min-width: 768px) {
   h2 {
-    font-size: 1.875rem; /* text-3xl ≈ 30px */
+    font-size: 1.875rem;
   }
 }
 
 @media (min-width: 1024px) {
   h2 {
-    font-size: 2.25rem; /* text-4xl ≈ 36px */
+    font-size: 2.25rem;
+  }
+}
+
+h3 {
+  font-size: 0.875rem; /* 14px — mobile first */
+  font-weight: 700;
+  cursor: default;
+}
+
+@media (min-width: 768px) {
+  h3 {
+    font-size: 1rem; /* 16px — Tablet */
+  }
+}
+
+@media (min-width: 1024px) {
+  h3 {
+    font-size: 1.125rem; /* 18px — Desktop */
   }
 }
 
