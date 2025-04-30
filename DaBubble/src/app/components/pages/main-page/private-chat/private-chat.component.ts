@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ChatInputComponent } from '../shared/chat-input/chat-input.component';
 import { ChatType, ChatMessage } from '../../../../types/types';
 import { CommonModule } from '@angular/common';
 import { ChatMessagesContainerComponent } from '../chat-messages-container/chat-messages-container.component';
 import { PrivateChatHeaderComponent } from './private-chat-header/private-chat-header.component';
+import { ChannelChatHeaderComponent } from './channel-chat-header/channel-chat-header.component';
 
 
 @Component({
@@ -12,13 +13,15 @@ import { PrivateChatHeaderComponent } from './private-chat-header/private-chat-h
     CommonModule,
     ChatInputComponent,
     ChatMessagesContainerComponent,
-    PrivateChatHeaderComponent
+    PrivateChatHeaderComponent,
+    ChannelChatHeaderComponent
   ],
   templateUrl: './private-chat.component.html',
   styleUrl: './private-chat.component.scss',
 })
 export class PrivateChatComponent implements OnInit {
   chatType = ChatType;
+  @Input() chatTypeInput:ChatType = ChatType.channel;
   chatMessages: Array<ChatMessage> = [];
 
   //test
