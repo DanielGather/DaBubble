@@ -7,4 +7,6 @@ import { ChatInputComponent } from '../shared/chat-input/chat-input.component';
   templateUrl: './threadsbar.component.html',
   styleUrl: './threadsbar.component.scss',
 })
-export class ThreadsbarComponent {}
+export class ThreadsbarComponent {
+  isOpen: boolean = true;
+}
