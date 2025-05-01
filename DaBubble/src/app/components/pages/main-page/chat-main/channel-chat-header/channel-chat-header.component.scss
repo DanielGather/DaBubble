@@ -5,3 +5,17 @@
     }
   }
 }
+
+button:hover {
+  svg {
+    fill: #535af1;
+    scale: 1.045;
+    rect {
+      stroke: #535af1;
+      scale: 1.0025;
+    }
+    path {
+      stroke: #535af1;
+    }
+  }
+}
