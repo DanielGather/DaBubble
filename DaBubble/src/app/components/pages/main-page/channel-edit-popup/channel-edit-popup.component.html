@@ -1,7 +1,8 @@
-<!-- <app-dropdown   [cornerOverride]="'rounded-tl-none bg-white'">
+<app-dropdown *ngIf="visible" [cornerOverride]="'rounded-tl-none bg-white'"  [cornerOverride]="'rounded-tl-none bg-white'">
     <div class="flex justify-between">
       <h2># Entwicklerteam</h2>
-      <img class="w-6 cursor-pointer" src="img/close.svg" alt="" />
+      <img (click)="onCloseClick()" class="w-6 cursor-pointer" src="img/close.svg" alt="Schließen" />
+
     </div>
 
     <div class="flex justify-between  p-4 flex-col border rounded-3xl">
@@ -33,4 +34,4 @@
     <div class="flex justify-end">
       <app-button>Channel verlassen</app-button>
     </div>
-  </app-dropdown> -->
+  </app-dropdown>
