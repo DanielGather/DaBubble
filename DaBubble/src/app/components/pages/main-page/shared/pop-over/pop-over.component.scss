@@ -1,0 +1,13 @@
+.menu-container {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+    border: 1px solid ;
+    border-color: var(--color-border);
+    background-color: white;
+    padding: 0.25rem;
+  }
