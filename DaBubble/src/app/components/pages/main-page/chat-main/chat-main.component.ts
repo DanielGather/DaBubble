@@ -6,6 +6,7 @@ import { ChatMessagesContainerComponent } from '../chat-messages-container/chat-
 import { PrivateChatHeaderComponent } from './private-chat-header/private-chat-header.component';
 import { ChannelChatHeaderComponent } from './channel-chat-header/channel-chat-header.component';
 import { ActivatedRoute } from '@angular/router';
+import { ThreadsbarComponent } from '../threadsbar/threadsbar.component';
 
 @Component({
   selector: 'app-chat-main',
@@ -14,7 +15,8 @@ import { ActivatedRoute } from '@angular/router';
     ChatInputComponent,
     ChatMessagesContainerComponent,
     PrivateChatHeaderComponent,
-    ChannelChatHeaderComponent
+    ChannelChatHeaderComponent,
+    ThreadsbarComponent
   ],
   templateUrl: './chat-main.component.html',
   styleUrl: './chat-main.component.html',
