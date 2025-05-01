@@ -1,0 +1,7 @@
+.margin-left-img {
+  img {
+    &:not(:first-child) {
+      margin-left: -0.5rem;
+    }
+  }
+}
