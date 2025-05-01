@@ -28,7 +28,7 @@ export const routes: Routes = [
     path: '',
     component: MainLayoutComponent,
     children: [
-      { path: 'a-private-chat-variable', component: ChatMainComponent },
+      { path: 'chat/:chatType', component: ChatMainComponent },
     ],
   },
   {
