@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { MessageType, ChatMessage, ChatType} from '../../../../../types/types';
+import { MessageType, ChatMessage, ChatType} from '../../../../../../types/types';
 import { SingleEmojiComponent } from './single-emoji/single-emoji.component';
 import { CommonModule } from '@angular/common';
 

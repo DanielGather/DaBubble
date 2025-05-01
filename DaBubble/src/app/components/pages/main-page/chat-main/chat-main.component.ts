@@ -1,12 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ChatInputComponent } from '../shared/chat-input/chat-input.component';
+import { ChatInputComponent } from './chat-input/chat-input.component';
 import { ChatType, ChatMessage } from '../../../../types/types';
 import { CommonModule } from '@angular/common';
-import { ChatMessagesContainerComponent } from '../chat-messages-container/chat-messages-container.component';
+import { ChatMessagesContainerComponent } from './chat-messages-container/chat-messages-container.component';
 import { PrivateChatHeaderComponent } from './private-chat-header/private-chat-header.component';
 import { ChannelChatHeaderComponent } from './channel-chat-header/channel-chat-header.component';
 import { ActivatedRoute } from '@angular/router';
-import { ThreadsbarComponent } from '../threadsbar/threadsbar.component';
+import { ThreadsbarComponent } from './threadsbar/threadsbar.component';
 
 @Component({
   selector: 'app-chat-main',

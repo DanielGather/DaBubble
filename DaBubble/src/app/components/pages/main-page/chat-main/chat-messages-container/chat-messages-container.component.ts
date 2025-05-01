@@ -1,5 +1,5 @@
 import { Component, Input, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { ChatMessage, ChatType, MessageType } from '../../../../types/types';
+import { ChatMessage, ChatType, MessageType } from '../../../../../types/types';
 import { ChatInfoComponent } from './chat-info/chat-info.component';
 import { ChatMessageComponent } from './chat-message/chat-message.component';
 

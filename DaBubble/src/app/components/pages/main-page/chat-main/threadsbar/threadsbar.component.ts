@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ChatInputComponent } from '../shared/chat-input/chat-input.component';
+import { ChatInputComponent } from '../chat-input/chat-input.component';
 import { CommonModule } from '@angular/common';
 
 @Component({

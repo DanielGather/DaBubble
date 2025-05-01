@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ChatMessaggeEmoji } from '../../../../../../types/types';
+import { ChatMessaggeEmoji } from '../../../../../../../types/types';
 
 @Component({
   selector: 'app-single-emoji',
