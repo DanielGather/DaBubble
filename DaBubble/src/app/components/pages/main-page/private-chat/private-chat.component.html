@@ -1,26 +1,28 @@
 <section
-  class="bg-white [@media(min-width:767px)]:rounded-standard overflow-hidden flex flex-col justify-between h-[100%]">
-  
+  class="bg-white [@media(min-width:767px)]:rounded-standard overflow-hidden flex flex-col justify-between h-[100%]"
+>
   <!--  headers-->
   <div class="flex flex-col items-start justify-between h-full">
     @if(chatTypeInput === chatType.private) {
     <app-private-chat-header></app-private-chat-header>
+    } @else if(chatTypeInput === chatType.channel) {
+    <app-channel-chat-header class="w-full"></app-channel-chat-header>
     }
-    @else if(chatTypeInput === chatType.channel) {
-    <app-channel-chat-header></app-channel-chat-header>
-    }
-
 
     <!-- Messager container -->
-     @if (chatTypeInput === chatType.private) {
-      <app-chat-messages-container class="w-full overflow-auto h-full" [chatMessages]="chatMessages"
-      [chatTypeInput]="chatType.private"></app-chat-messages-container>
-     }
-
-     @else if (chatTypeInput === chatType.channel) {
-      <app-chat-messages-container class="w-full overflow-auto h-full" [chatMessages]="chatMessages"
-      [chatTypeInput]="chatType.channel"></app-chat-messages-container>
-     }
+    @if (chatTypeInput === chatType.private) {
+    <app-chat-messages-container
+      class="w-full overflow-auto h-full"
+      [chatMessages]="chatMessages"
+      [chatTypeInput]="chatType.private"
+    ></app-chat-messages-container>
+    } @else if (chatTypeInput === chatType.channel) {
+    <app-chat-messages-container
+      class="w-full overflow-auto h-full"
+      [chatMessages]="chatMessages"
+      [chatTypeInput]="chatType.channel"
+    ></app-chat-messages-container>
+    }
 
     <app-chat-input class="w-full"></app-chat-input>
   </div>
