@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { PrivateChatComponent } from './private-chat.component';
+import { ChatMainComponent } from './chat-main.component';
 
 
 
-describe('PrivateChatComponent', () => {
-  let component: PrivateChatComponent;
-  let fixture: ComponentFixture<PrivateChatComponent>;
+describe('ChatMainCompnent', () => {
+  let component: ChatMainComponent;
+  let fixture: ComponentFixture<ChatMainComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PrivateChatComponent]
+      imports: [ChatMainComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PrivateChatComponent);
+    fixture = TestBed.createComponent(ChatMainComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

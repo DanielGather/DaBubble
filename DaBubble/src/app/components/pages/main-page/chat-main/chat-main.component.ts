@@ -8,7 +8,7 @@ import { ChannelChatHeaderComponent } from './channel-chat-header/channel-chat-h
 
 
 @Component({
-  selector: 'app-private-chat',
+  selector: 'app-chat-main',
   imports: [
     CommonModule,
     ChatInputComponent,
@@ -16,10 +16,10 @@ import { ChannelChatHeaderComponent } from './channel-chat-header/channel-chat-h
     PrivateChatHeaderComponent,
     ChannelChatHeaderComponent
   ],
-  templateUrl: './private-chat.component.html',
-  styleUrl: './private-chat.component.scss',
+  templateUrl: './chat-main.component.html',
+  styleUrl: './chat-main.component.html',
 })
-export class PrivateChatComponent implements OnInit {
+export class ChatMainComponent implements OnInit {
   chatType = ChatType;
   @Input() chatTypeInput:ChatType = ChatType.channel;
   chatMessages: Array<ChatMessage> = [];
