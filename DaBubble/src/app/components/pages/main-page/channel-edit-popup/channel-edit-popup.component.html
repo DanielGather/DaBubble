@@ -1,37 +1,132 @@
-<app-dropdown *ngIf="visible" [cornerOverride]="'rounded-tl-none bg-white'"  [cornerOverride]="'rounded-tl-none bg-white'">
+<app-dropdown
+  *ngIf="visible"
+  [cornerOverride]="'rounded-tl-none bg-white'"
+  [cornerOverride]="'rounded-tl-none bg-white'"
+>
+  <div class="flex justify-between">
+    <h2># Entwicklerteam</h2>
+    <img
+      (click)="onCloseClick()"
+      class="w-6 cursor-pointer"
+      src="img/close.svg"
+      alt="Schließen"
+    />
+  </div>
+
+  <!-- @if(edit){
+  <div class="flex justify-between flex-col gap-4">
     <div class="flex justify-between">
-      <h2># Entwicklerteam</h2>
-      <img (click)="onCloseClick()" class="w-6 cursor-pointer" src="img/close.svg" alt="Schließen" />
-
-    </div>
-
-    <div class="flex justify-between  p-4 flex-col border rounded-3xl">
-      <div class="flex justify-between">
-        <h3>Channel-Name</h3>
-        <div class="text-fc-purple cursor-pointer" >Bearbeiten</div>
-      </div>
-      <div># Enticklerteam</div>
-    </div>
-
-    <div class="flex justify-between p-4 flex-col border rounded-3xl gap-7">
-      <div class="flex justify-between">
-        <h3>Beschreibung</h3>
-        <div class="text-fc-purple cursor-pointer">Bearbeiten</div>
-      </div>
-      <div>
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellat nobis
-        voluptas non at consequuntur delectus accusamus veniam sit
-        necessitatibus nisi temporibus deserunt nulla aliquam tenetur
-        perspiciatis natus, ea doloremque. Obcaecati?
-      </div>
-      <div class="w-full h-px border"></div>
-      <div>
-        <h3>Erstellt von</h3>
-        <div class="text-fc-purple text-2xl cursor-pointer">Noah Arche</div>
+      <h3>Channel-Name</h3>
+      <div
+        (click)="saveChannelName()"
+        class="text-fc-purple cursor-pointer font-bold"
+      >
+        Speichern
       </div>
     </div>
-
-    <div class="flex justify-end">
-      <app-button>Channel verlassen</app-button>
+    <input
+      class="rounded-standard border p-3 border-color-border w-full focus:outline-none"
+      type="text"
+      placeholder="# Entwicklerteam"
+    />
+  </div>
+  } @else { -->
+  <div
+    [ngClass]="
+      !edit
+        ? 'flex justify-between p-4 flex-col border rounded-3xl gap-4'
+        : 'flex justify-between pb-4 flex-col gap-4 border-none'
+    "
+    class="transition-all duration-100 ease-in-out"
+  >
+    <div class="flex justify-between">
+      <h3>Channel-Name</h3>
+      <div
+        (click)="editChannelName()"
+        class="text-fc-purple cursor-pointer font-bold"
+      >
+        {{ edit ? "Speichern" : "Bearbeiten" }}
+      </div>
     </div>
-  </app-dropdown>
+    <input
+      *ngIf="edit"
+      class="rounded-standard border p-3 border-color-border w-full focus:outline-none"
+      type="text"
+      placeholder="# Entwicklerteam"
+    />
+    <div *ngIf="!edit"># Entwicklerteam</div>
+  </div>
+  <!-- } -->
+
+  <!-- <div class="relative overflow-hidden transition-all duration-300 ease-in-out">
+    <div
+      class="transition-opacity duration-300 ease-in-out"
+      [ngClass]="
+        edit
+          ? 'opacity-100 pointer-events-auto relative'
+          : 'opacity-0 pointer-events-none absolute inset-0'
+      "
+    >
+      <div class="flex justify-between flex-col gap-4">
+        <div class="flex justify-between">
+          <h3>Channel-Name</h3>
+          <div
+            (click)="saveChannelName()"
+            class="text-fc-purple cursor-pointer font-bold"
+          >
+            Speichern
+          </div>
+        </div>
+        <input
+          class="rounded-standard border p-3 border-color-border w-full focus:outline-none"
+          type="text"
+          placeholder="# Entwicklerteam"
+        />
+      </div>
+    </div>
+
+    <div
+      class="transition-opacity duration-300 ease-in-out"
+      [ngClass]="
+        !edit
+          ? 'opacity-100 pointer-events-auto relative'
+          : 'opacity-0 pointer-events-none absolute inset-0'
+      "
+    >
+      <div class="flex justify-between p-4 flex-col border rounded-3xl gap-4">
+        <div class="flex justify-between">
+          <h3>Channel-Name</h3>
+          <div
+            (click)="editChannelName()"
+            class="text-fc-purple cursor-pointer font-bold"
+          >
+            Bearbeiten
+          </div>
+        </div>
+        <div># Entwicklerteam</div>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="flex justify-between p-4 flex-col border rounded-3xl gap-7">
+    <div class="flex justify-between">
+      <h3>Beschreibung</h3>
+      <div class="text-fc-purple cursor-pointer">Bearbeiten</div>
+    </div>
+    <div>
+      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellat nobis
+      voluptas non at consequuntur delectus accusamus veniam sit necessitatibus
+      nisi temporibus deserunt nulla aliquam tenetur perspiciatis natus, ea
+      doloremque. Obcaecati?
+    </div>
+    <div class="w-full h-px border"></div>
+    <div>
+      <h3>Erstellt von</h3>
+      <div class="text-fc-purple text-2xl cursor-pointer">Noah Arche</div>
+    </div>
+  </div>
+
+  <div class="flex justify-end">
+    <app-button>Channel verlassen</app-button>
+  </div>
+</app-dropdown>
