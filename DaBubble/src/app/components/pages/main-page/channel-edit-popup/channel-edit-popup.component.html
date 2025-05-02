@@ -13,27 +13,9 @@
     />
   </div>
 
-  <!-- @if(edit){
-  <div class="flex justify-between flex-col gap-4">
-    <div class="flex justify-between">
-      <h3>Channel-Name</h3>
-      <div
-        (click)="saveChannelName()"
-        class="text-fc-purple cursor-pointer font-bold"
-      >
-        Speichern
-      </div>
-    </div>
-    <input
-      class="rounded-standard border p-3 border-color-border w-full focus:outline-none"
-      type="text"
-      placeholder="# Entwicklerteam"
-    />
-  </div>
-  } @else { -->
   <div
     [ngClass]="
-      !edit
+      !editChannel
         ? 'flex justify-between p-4 flex-col border rounded-3xl gap-4'
         : 'flex justify-between pb-4 flex-col gap-4 border-none'
     "
@@ -42,78 +24,59 @@
     <div class="flex justify-between">
       <h3>Channel-Name</h3>
       <div
-        (click)="editChannelName()"
+        (click)="edit('edit')"
         class="text-fc-purple cursor-pointer font-bold"
       >
-        {{ edit ? "Speichern" : "Bearbeiten" }}
+        {{ editChannel ? "Speichern" : "Bearbeiten" }}
       </div>
     </div>
     <input
-      *ngIf="edit"
-      class="rounded-standard border p-3 border-color-border w-full focus:outline-none"
+      [hidden]="!editChannel"
+      class="rounded-standard border p-3 border-color-border w-full focus:outline-none transition-opacity duration-300 ease-in-out placeholder:text-4 font-bold"
+      [ngClass]="editChannel ? 'opacity-100' : 'opacity-0'"
       type="text"
       placeholder="# Entwicklerteam"
     />
-    <div *ngIf="!edit"># Entwicklerteam</div>
+
+    <div
+      [hidden]="editChannel"
+      class="transition-opacity duration-300 ease-in-out text-4 font-bold"
+      [ngClass]="!editChannel ? 'opacity-100' : 'opacity-0'"
+    >
+      # Entwicklerteam
+    </div>
   </div>
-  <!-- } -->
 
-  <!-- <div class="relative overflow-hidden transition-all duration-300 ease-in-out">
-    <div
-      class="transition-opacity duration-300 ease-in-out"
-      [ngClass]="
-        edit
-          ? 'opacity-100 pointer-events-auto relative'
-          : 'opacity-0 pointer-events-none absolute inset-0'
-      "
-    >
-      <div class="flex justify-between flex-col gap-4">
-        <div class="flex justify-between">
-          <h3>Channel-Name</h3>
-          <div
-            (click)="saveChannelName()"
-            class="text-fc-purple cursor-pointer font-bold"
-          >
-            Speichern
-          </div>
-        </div>
-        <input
-          class="rounded-standard border p-3 border-color-border w-full focus:outline-none"
-          type="text"
-          placeholder="# Entwicklerteam"
-        />
-      </div>
-    </div>
-
-    <div
-      class="transition-opacity duration-300 ease-in-out"
-      [ngClass]="
-        !edit
-          ? 'opacity-100 pointer-events-auto relative'
-          : 'opacity-0 pointer-events-none absolute inset-0'
-      "
-    >
-      <div class="flex justify-between p-4 flex-col border rounded-3xl gap-4">
-        <div class="flex justify-between">
-          <h3>Channel-Name</h3>
-          <div
-            (click)="editChannelName()"
-            class="text-fc-purple cursor-pointer font-bold"
-          >
-            Bearbeiten
-          </div>
-        </div>
-        <div># Entwicklerteam</div>
-      </div>
-    </div>
-  </div> -->
-
-  <div class="flex justify-between p-4 flex-col border rounded-3xl gap-7">
+  <div
+    [ngClass]="
+      !editDescription
+        ? 'flex justify-between p-4 flex-col border rounded-3xl gap-4'
+        : 'flex justify-between pb-4 flex-col gap-4 border-none'
+    "
+    class="transition-all duration-100 ease-in-out"
+  >
     <div class="flex justify-between">
       <h3>Beschreibung</h3>
-      <div class="text-fc-purple cursor-pointer">Bearbeiten</div>
+      <div
+        (click)="edit('description')"
+        class="text-fc-purple cursor-pointer font-bold"
+      >
+        {{ editDescription ? "Speichern" : "Bearbeiten" }}
+      </div>
     </div>
-    <div>
+    <textarea
+      [(ngModel)]="inputValue"
+      [hidden]="!editDescription"
+      class="scrollbar-hide rounded-standard border p-3 border-color-border w-full focus:outline-none transition-opacity duration-300 ease-in-out placeholder:text-4 font-bold resize-none overflow-auto"
+      [ngClass]="editDescription ? 'opacity-100' : 'opacity-0'"
+      type="text"
+      placeholder="# Entwicklerteam"
+    ></textarea>
+    <div
+      [hidden]="editDescription"
+      class="transition-opacity duration-300 ease-in-out text-4 font-bold"
+      [ngClass]="!editDescription ? 'opacity-100' : 'opacity-0'"
+    >
       Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellat nobis
       voluptas non at consequuntur delectus accusamus veniam sit necessitatibus
       nisi temporibus deserunt nulla aliquam tenetur perspiciatis natus, ea

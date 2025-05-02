@@ -29,7 +29,12 @@ import {
   ],
 })
 export class ChannelEditPopupComponent {
-  edit: boolean = false;
+  editChannel: boolean = false;
+  editDescription: boolean = false;
+  inputValue: string = `Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellat nobis
+voluptas non at consequuntur delectus accusamus veniam sit necessitatibus
+nisi temporibus deserunt nulla aliquam tenetur perspiciatis natus, ea
+doloremque.`;
 
   @Input() visible: boolean = false; // 👈 DAS ist wichtig
   @Output() closed = new EventEmitter<void>();
@@ -38,11 +43,11 @@ export class ChannelEditPopupComponent {
     this.closed.emit();
   }
 
-  editChannelName() {
-    this.edit = !this.edit;
-  }
-
-  saveChannelName() {
-    this.edit = !this.edit;
+  edit(button: string) {
+    if (button == 'edit') {
+      this.editChannel = !this.editChannel;
+    } else {
+      this.editDescription = !this.editDescription;
+    }
   }
 }
