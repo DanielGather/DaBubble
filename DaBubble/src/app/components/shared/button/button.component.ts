@@ -20,8 +20,6 @@ export class ButtonComponent {
   @Input() class: string = '';
   @Input() disabled: boolean = false;
 
-  @ViewChild('myButton') buttonElement!: ElementRef;
-
   buttonConfig = {
     blueButton: {
       class:

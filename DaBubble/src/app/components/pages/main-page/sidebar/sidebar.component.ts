@@ -98,4 +98,8 @@ export class SidebarComponent {
     }
     return 'img/user_1.png';
   }
+
+  openChannel(channel: string) {
+    console.log(channel);
+  }
 }
