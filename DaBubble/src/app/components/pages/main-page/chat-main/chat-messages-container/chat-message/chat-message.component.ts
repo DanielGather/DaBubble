@@ -30,6 +30,7 @@ export class ChatMessageComponent {
     ],
     thread: [],
   };
+  @Input() isThread: boolean = false;
   showMenu: boolean = false;
   showEmojiMenu: boolean = false;
 }

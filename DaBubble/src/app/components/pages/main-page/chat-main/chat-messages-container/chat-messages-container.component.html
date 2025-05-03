@@ -9,18 +9,45 @@
     id="message-field"
   >
     <!-- h-full oben -->
-    @if(chatMessages) { @for(message of chatMessages; track message) {
-    @if(message.userId === userId) {
+    @if(chatMessages && !isThread) { @for(message of chatMessages; track
+    message) { @if(message.userId === userId) {
     <app-chat-message
       [chatType]="chatType.private"
       [message]="message"
       [messageTypeInput]="messageType.own"
+      [isThread]="isThread"
     ></app-chat-message>
     } @else{
     <app-chat-message
       [chatType]="chatType.private"
       [message]="message"
       [messageTypeInput]="messageType.other"
+      [isThread]="isThread"
+    ></app-chat-message>
+
+    <!-- Thread messages. Test with hardcoded [0] as test thread -->
+    } } } @if(chatMessages && isThread) {
+    <app-chat-message
+      [chatType]="chatType.channel"
+      [message]="chatMessages[0]"
+      [messageTypeInput]="messageType.own"
+      [isThread]="isThread"
+    ></app-chat-message>
+
+    @for(message of chatMessages[0].thread; track message) { @if(message.userId
+    === userId) {
+    <app-chat-message
+      [chatType]="chatType.channel"
+      [message]="message"
+      [messageTypeInput]="messageType.own"
+      [isThread]="isThread"
+    ></app-chat-message>
+    } @else{
+    <app-chat-message
+      [chatType]="chatType.private"
+      [message]="message"
+      [messageTypeInput]="messageType.other"
+      [isThread]="isThread"
     ></app-chat-message>
     } } }
   </div>

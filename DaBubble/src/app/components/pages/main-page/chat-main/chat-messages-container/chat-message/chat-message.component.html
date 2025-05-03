@@ -1,156 +1,213 @@
-<div (click)="showEmojiMenu = false" class="px-4 overflow-x-clip"
-    [ngClass]="{'hover-over-message-other': messageTypeInput === 'other'}" (mouseenter)="showMenu = true"
-    (mouseleave)="showMenu = false">
-    <div class="relative group border-[#ADB0D9] border-t pt-8 pb-12 md:pb-[3.5rem]">
+<div
+  (click)="showEmojiMenu = false"
+  class="px-4 overflow-x-clip"
+  [ngClass]="{ 'hover-over-message-other': messageTypeInput === 'other' }"
+  (mouseenter)="showMenu = true"
+  (mouseleave)="showMenu = false"
+>
+  <div
+    class="relative group border-[#ADB0D9] border-t pt-8 pb-12 md:pb-[3.5rem]"
+  >
+    <!-- Fake-Background -->
+    <div
+      class="absolute inset-0 bg-[#ECEEFE] opacity-0 scale-x-0 group-hover:opacity-50 group-hover:scale-x-150 transition-all duration-300 origin-center pointer-events-none"
+    ></div>
 
-        <!-- Fake-Background -->
+    <!-- content div -->
+    <div
+      class="md:flex-row flex-col flex w-full gap-4 transition-shadow"
+      [ngClass]="{ 'items-end md:items-start': messageTypeInput === 'own' }"
+    >
+      <!-- Date Div. Only visible when !isThread -->
+      @if (!isThread) {
+      <div
+        class="border absolute top-[-1.25rem] bg-white left-[50%] translate-x-[-50%] rounded-standard text-fontSizeChat border-[#ADB0D9] px-4 py-1"
+      >
+        <span class="[@media(max-width:440px)]:text-[14px] whitespace-nowrap">
+          Dienstag, 14 Januar
+        </span>
+      </div>
+      }
+
+      <!-- Profilepicture if "other", then it's first -->
+      <ng-container *ngIf="messageTypeInput === 'other'">
         <div
-            class="absolute inset-0 bg-[#ECEEFE] opacity-0 scale-x-0 group-hover:opacity-50 group-hover:scale-x-150 transition-all duration-300 origin-center pointer-events-none">
+          id="img-wrap"
+          class="z-[1] profile-img-wrap-mobile w-[4rem] h-[4rem] rounded-[50%] overflow-hidden shrink-0"
+        >
+          <img
+            class="w-full h-full"
+            src="img/user_1.png"
+            alt="User profile image"
+          />
+        </div>
+      </ng-container>
+
+      <!-- Message-Container -->
+      <div
+        class="z-[1] flex flex-col gap-2 flex-grow order-1 md:order-[0]"
+        [ngClass]="{
+          'items-end': messageTypeInput === 'own',
+          'items-start': messageTypeInput === 'other'
+        }"
+      >
+        <div
+          class="flex justify-center items-center gap-4 name-and-time-mobile-respo"
+        >
+          <span class="font-[700] text-fontSizeChat text-center">
+            {{ message.name }}
+          </span>
+          <span
+            class="flex items-center justify-center gap-[0.3rem] text-[#686868]"
+          >
+            <span>14:25</span>
+            <span>Uhr</span>
+          </span>
         </div>
 
-        <!-- content div -->
-        <div class="md:flex-row flex-col flex w-full gap-4 transition-shadow"
-            [ngClass]="{'items-end md:items-start': messageTypeInput === 'own'}">
+        <div class="md:max-w-[80%] relative md:w-auto w-full">
+          <!-- chat-message-hover menu -->
+          @if(showMenu) {
+          <app-pop-over
+            [addClass]="[
+              messageTypeInput === 'other'
+                ? 'md:right-[50%] right-[85%] translate-x-[150%] !rounded-br-standard'
+                : 'ternary-return',
+              messageTypeInput === 'own'
+                ? 'md:left-[50%] left-[85%] translate-x-[-150%] !rounded-bl-standard'
+                : 'ternary-return',
+              'translate-y-[-120%]'
+            ]"
+          >
+            <div class="option option-hover" #emojiCheckMark>
+              <img src="img/emoji_example.svg" alt="Checkmark emoji" />
+            </div>
+            <div class="option option-hover" #emjoThumbsUp>
+              <img src="img/emoji_example.svg" alt="Thumbs up emoji" />
+            </div>
+            <div class="option option-hover" #emojiMenuBtn>
+              <img src="img/add_reaction.svg" alt="Add reaction button" />
+            </div>
+            @if(chatType === 'channel') {
+            <div class="option" #answerBtn>
+              <img src="comment.svg" alt="" />
+            </div>
+            } @if(messageTypeInput === 'own') {
+            <div class="option" #editOptionBtn>
+              <div class="shrink-0 flex flex-col gap-[0.1rem]">
+                <div class="w-1 h-1 rounded bg-black"></div>
+                <div class="w-1 h-1 rounded bg-black"></div>
+                <div class="w-1 h-1 rounded bg-black"></div>
+              </div>
+            </div>
+            }
+          </app-pop-over>
 
-            <!-- Date Div -->
+          }
+
+          <div
+            id="message-container"
+            class="w-auto p-3 pl-5 rounded-bl-standard rounded-br-standard text-start"
+            [ngClass]="{
+              'bg-[#797EF3] text-white rounded-tl-standard':
+                messageTypeInput === 'own',
+              'bg-[#ECEEFE] text-black rounded-tr-standard':
+                messageTypeInput === 'other'
+            }"
+          >
+            <p class="text-fontSizeChat">
+              {{ message.message }}
+            </p>
+          </div>
+
+          <!-- Emoji-Container -->
+          <div
+            id="emoji-container"
+            class="flex items-start justify-end w-full gap-2 mt-2 relative"
+          >
             <div
-                class="border absolute top-[-1.25rem] bg-white left-[50%] translate-x-[-50%] rounded-standard text-fontSizeChat border-[#ADB0D9] px-4 py-1">
-                <span class="[@media(max-width:440px)]:text-[14px] whitespace-nowrap">
-                    Dienstag, 14 Januar
-                </span>
+              class="flex flex-wrap items-end justify-end gap-2"
+              id="emoji-render-container"
+            >
+              @for(emoji of message.emojis; track $index) {
+              <app-single-emoji [emoji]="emoji"></app-single-emoji>
+              }
             </div>
 
-            <!-- Profilepicture if "other", then it's first -->
-            <ng-container *ngIf="messageTypeInput === 'other'">
-                <div id="img-wrap"
-                    class="z-[1] profile-img-wrap-mobile w-[4rem] h-[4rem] rounded-[50%] overflow-hidden shrink-0">
-                    <img class="w-full h-full" src="img/user_1.png" alt="User profile image">
-                </div>
-            </ng-container>
-
-            <!-- Message-Container -->
-            <div class="z-[1] flex flex-col gap-2 flex-grow order-1 md:order-[0]"
-                [ngClass]="{'items-end': messageTypeInput === 'own', 'items-start': messageTypeInput === 'other'}">
-                <div class="flex justify-center items-center gap-4 name-and-time-mobile-respo">
-                    <span class="font-[700] text-fontSizeChat text-center">
-                        {{message.name}}
-                    </span>
-                    <span class="flex items-center justify-center gap-[0.3rem] text-[#686868]">
-                        <span>14:25</span>
-                        <span>Uhr</span>
-                    </span>
-                </div>
-
-                <div class="md:max-w-[80%] relative md:w-auto w-full">
-
-                    <!-- chat-message-hover menu -->
-                    @if(showMenu) {
-                        <app-pop-over [addClass]="
-                        [
-                            messageTypeInput === 'other'
-                            ? 'md:right-[50%] right-[85%] translate-x-[150%] !rounded-br-standard': 'ternary-return',
-                            messageTypeInput === 'own'
-                            ? 'md:left-[50%] left-[85%] translate-x-[-150%] !rounded-bl-standard': 'ternary-return',
-                            'translate-y-[-120%]'
-                        ]">
-
-                            <div class="option option-hover" #emojiCheckMark>
-                                <img src="img/emoji_example.svg" alt="Checkmark emoji">
-                            </div>
-                            <div class="option option-hover" #emjoThumbsUp>
-                                <img src="img/emoji_example.svg" alt="Thumbs up emoji">
-                            </div>
-                            <div class="option option-hover" #emojiMenuBtn>
-                                <img src="img/add_reaction.svg" alt="Add reaction button">
-                            </div>
-                            @if(chatType === 'channel') {
-                            <div class="option" #answerBtn>
-                                <img src="comment.svg" alt="">
-                            </div>
-                            }
-                            @if(messageTypeInput === 'own') {
-                            <div class="option" #editOptionBtn>
-                                <div class="shrink-0 flex flex-col gap-[0.1rem]">
-                                    <div class="w-1 h-1 rounded bg-black"></div>
-                                    <div class="w-1 h-1 rounded bg-black"></div>
-                                    <div class="w-1 h-1 rounded bg-black"></div>
-                                </div>
-
-                            </div>
-                            }
-
-                        </app-pop-over>
-
-                    }
-
-                    <div id="message-container"
-                        class="w-auto p-3 pl-5 rounded-bl-standard rounded-br-standard text-start" [ngClass]="{
-                   'bg-[#797EF3] text-white rounded-tl-standard': messageTypeInput === 'own',
-                   'bg-[#ECEEFE] text-black rounded-tr-standard': messageTypeInput === 'other'}">
-                        <p class="text-fontSizeChat">
-                            {{message.message}}
-                        </p>
-                    </div>
-
-                    <!-- Emoji-Container -->
-                    <div id="emoji-container" class="flex items-start justify-end w-full gap-2 mt-2 relative">
-                        <div class="flex flex-wrap items-end justify-end gap-2" id="emoji-render-container">
-                            @for(emoji of message.emojis; track $index) {
-                            <app-single-emoji [emoji]="emoji"></app-single-emoji>
-                            }
-                        </div>
-
-                        <!-- Emoji-Menu-Btn -->
-                        <div (click)="showEmojiMenu = !showEmojiMenu; $event.stopPropagation()" id="open-emoji-menu-btn"
-                            class="h-8 w-8 shrink-0">
-                            <img src="img/add_reaction.svg" alt="Open emoji menu" class="h-full w-full cursor-pointer">
-                        </div>
-
-                        <!-- Emoji-Menu -->
-                        @if(showEmojiMenu) {
-                            <app-pop-over [stopPropagation]="true" [addClass]="['right-[0]','max-w-[240px]', 'max-h-[200px]', 'overflow-y-auto', 'flex-wrap', 'rounded-bl-standard', 'translate-y-[-100%]', 'translate-x-[-12%]',]">
-                                <div (click)="$event.stopPropagation()" class="option">
-                                    <img src="img/emoji_example.svg" alt="">
-                                </div>
-                                <div (click)="$event.stopPropagation()" class="option">
-                                    <img src="img/emoji_example.svg" alt="">
-                                </div>
-                                <div (click)="$event.stopPropagation()" class="option">
-                                    <img src="img/emoji_example.svg" alt="">
-                                </div>
-                                <div (click)="$event.stopPropagation()" class="option">
-                                    <img src="img/emoji_example.svg" alt="">
-                                </div>
-                                <div (click)="$event.stopPropagation()" class="option">
-                                    <img src="img/emoji_example.svg" alt="">
-                                </div>
-                                <div (click)="$event.stopPropagation()" class="option">
-                                    <img src="img/emoji_example.svg" alt="">
-                                </div>
-                                <div (click)="$event.stopPropagation()" class="option">
-                                    <img src="img/emoji_example.svg" alt="">
-                                </div>
-                                <div (click)="$event.stopPropagation()" class="option">
-                                    <img src="img/emoji_example.svg" alt="">
-                                </div>
-                                <div (click)="$event.stopPropagation()" class="option">
-                                    <img src="img/emoji_example.svg" alt="">
-                                </div>
-                            </app-pop-over>
-                        }
-
-                    </div>
-                </div>
+            <!-- Emoji-Menu-Btn -->
+            <div
+              (click)="showEmojiMenu = !showEmojiMenu; $event.stopPropagation()"
+              id="open-emoji-menu-btn"
+              class="h-8 w-8 shrink-0"
+            >
+              <img
+                src="img/add_reaction.svg"
+                alt="Open emoji menu"
+                class="h-full w-full cursor-pointer"
+              />
             </div>
 
-            <!-- Profilepicture if "own", then it's last -->
-            <ng-container *ngIf="messageTypeInput === 'own'">
-                <div id="img-wrap"
-                    class="z-[1] profile-img-wrap-mobile w-[4rem] h-[4rem] rounded-[50%] overflow-hidden shrink-0">
-                    <img class="w-full h-full" src="img/user_1.png" alt="User profile image">
-                </div>
-            </ng-container>
-
+            <!-- Emoji-Menu -->
+            @if(showEmojiMenu) {
+            <app-pop-over
+              [stopPropagation]="true"
+              [addClass]="[
+                'right-[0]',
+                'max-w-[240px]',
+                'max-h-[200px]',
+                'overflow-y-auto',
+                'flex-wrap',
+                'rounded-bl-standard',
+                'translate-y-[-100%]',
+                'translate-x-[-12%]'
+              ]"
+            >
+              <div (click)="$event.stopPropagation()" class="option">
+                <img src="img/emoji_example.svg" alt="" />
+              </div>
+              <div (click)="$event.stopPropagation()" class="option">
+                <img src="img/emoji_example.svg" alt="" />
+              </div>
+              <div (click)="$event.stopPropagation()" class="option">
+                <img src="img/emoji_example.svg" alt="" />
+              </div>
+              <div (click)="$event.stopPropagation()" class="option">
+                <img src="img/emoji_example.svg" alt="" />
+              </div>
+              <div (click)="$event.stopPropagation()" class="option">
+                <img src="img/emoji_example.svg" alt="" />
+              </div>
+              <div (click)="$event.stopPropagation()" class="option">
+                <img src="img/emoji_example.svg" alt="" />
+              </div>
+              <div (click)="$event.stopPropagation()" class="option">
+                <img src="img/emoji_example.svg" alt="" />
+              </div>
+              <div (click)="$event.stopPropagation()" class="option">
+                <img src="img/emoji_example.svg" alt="" />
+              </div>
+              <div (click)="$event.stopPropagation()" class="option">
+                <img src="img/emoji_example.svg" alt="" />
+              </div>
+            </app-pop-over>
+            }
+          </div>
         </div>
+      </div>
+
+      <!-- Profilepicture if "own", then it's last -->
+      <ng-container *ngIf="messageTypeInput === 'own'">
+        <div
+          id="img-wrap"
+          class="z-[1] profile-img-wrap-mobile w-[4rem] h-[4rem] rounded-[50%] overflow-hidden shrink-0"
+        >
+          <img
+            class="w-full h-full"
+            src="img/user_1.png"
+            alt="User profile image"
+          />
+        </div>
+      </ng-container>
     </div>
+  </div>
 </div>

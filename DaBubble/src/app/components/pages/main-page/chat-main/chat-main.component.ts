@@ -43,7 +43,7 @@ export class ChatMainComponent implements OnInit {
   constructor(private router: ActivatedRoute) {}
 
   //test
-  testMessages: Array<ChatMessage> = [
+  public testMessages: Array<ChatMessage> = [
     {
       message: 'Hallo ich bin der currentUser',
       timestamp: 'Dienstag, 14 Januar',
@@ -83,6 +83,7 @@ export class ChatMainComponent implements OnInit {
               userIdCount: ['luashbd', 'uszhbdf'],
             },
           ],
+          thread: [],
         },
         {
           message: 'Schön, dass du hier bist!',
@@ -90,6 +91,7 @@ export class ChatMainComponent implements OnInit {
           name: 'Anna Schmidt',
           userId: '456',
           emojis: [],
+          thread: [],
         },
       ],
     },
@@ -121,6 +123,7 @@ export class ChatMainComponent implements OnInit {
               userIdCount: ['luashbd', 'uszhbdf', 'uzasdhbf'],
             },
           ],
+          thread: [],
         },
         {
           message: '😄 Das ist ja eine kreative Nachricht!',
@@ -128,6 +131,7 @@ export class ChatMainComponent implements OnInit {
           name: 'Peter Meyer',
           userId: '789',
           emojis: [],
+          thread: [],
         },
         {
           message: 'Manchmal muss man einfach drauf los schreiben!',
@@ -140,6 +144,7 @@ export class ChatMainComponent implements OnInit {
               userIdCount: ['luashbd'],
             },
           ],
+          thread: [],
         },
       ],
     },
@@ -161,6 +166,7 @@ export class ChatMainComponent implements OnInit {
           name: 'Peter Meyer',
           userId: '789',
           emojis: [],
+          thread: [],
         },
         {
           message: 'Wir kennen uns schon eine Weile, oder? :)',
@@ -173,6 +179,7 @@ export class ChatMainComponent implements OnInit {
               userIdCount: ['luashbd', 'uszhbdf'],
             },
           ],
+          thread: [],
         },
       ],
     },
@@ -208,6 +215,7 @@ export class ChatMainComponent implements OnInit {
               userIdCount: ['luashbd', 'uszhbdf', 'uzasdhbf', 'khuasdbf'],
             },
           ],
+          thread: [],
         },
         {
           message: 'Super Beispiel für responsive Design!',
@@ -215,6 +223,7 @@ export class ChatMainComponent implements OnInit {
           name: 'Anna Schmidt',
           userId: '456',
           emojis: [],
+          thread: [],
         },
         {
           message: 'Könnte das Menü noch länger machen? 🤔',
@@ -227,6 +236,7 @@ export class ChatMainComponent implements OnInit {
               userIdCount: ['luashbd'],
             },
           ],
+          thread: [],
         },
       ],
     },

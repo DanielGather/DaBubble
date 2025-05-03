@@ -1,17 +1,19 @@
-import { Component, Input, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  AfterViewInit,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { ChatMessage, ChatType, MessageType } from '../../../../../types/types';
 import { ChatInfoComponent } from './chat-info/chat-info.component';
 import { ChatMessageComponent } from './chat-message/chat-message.component';
 
-
 @Component({
   selector: 'app-chat-messages-container',
-  imports: [
-  ChatInfoComponent,
-   ChatMessageComponent,
-  ],
+  imports: [ChatInfoComponent, ChatMessageComponent],
   templateUrl: './chat-messages-container.component.html',
-  styleUrl: './chat-messages-container.component.scss'
+  styleUrl: './chat-messages-container.component.scss',
 })
 export class ChatMessagesContainerComponent implements AfterViewInit {
   chatType = ChatType;
@@ -20,12 +22,14 @@ export class ChatMessagesContainerComponent implements AfterViewInit {
   /**
    * is used to identify if the current chat is a private or a channel chat.
    */
-  @Input() chatTypeInput:ChatType = ChatType.default; 
+  @Input() chatTypeInput: ChatType = ChatType.default;
 
   /**
    * this is the array that contains the chat messages
    */
-  @Input() chatMessages:Array<ChatMessage> = [];
+  @Input() chatMessages: Array<ChatMessage> = [];
+
+  @Input() isThread: boolean = false;
 
   /**
    * an elementreference to the message field. (messages are rendered in here)
@@ -40,10 +44,11 @@ export class ChatMessagesContainerComponent implements AfterViewInit {
     this.scrollToBottom();
   }
 
-/**
- * is used to scroll to the bottom of the message container to see the newest messages
- */
-  scrollToBottom():void {
-    this.messageField.nativeElement.scrollTop = this.messageField.nativeElement.scrollHeight;    
+  /**
+   * is used to scroll to the bottom of the message container to see the newest messages
+   */
+  scrollToBottom(): void {
+    this.messageField.nativeElement.scrollTop =
+      this.messageField.nativeElement.scrollHeight;
   }
 }

@@ -47,6 +47,7 @@ export class MessagesDataService {
               userIdCount: ['luashbd', 'uszhbdf'],
             },
           ],
+          thread: [],
         },
         {
           message: 'Schön, dass du hier bist!',
@@ -54,6 +55,7 @@ export class MessagesDataService {
           name: 'Anna Schmidt',
           userId: '456',
           emojis: [],
+          thread: [],
         },
       ],
     },
@@ -85,6 +87,7 @@ export class MessagesDataService {
               userIdCount: ['luashbd', 'uszhbdf', 'uzasdhbf'],
             },
           ],
+          thread: [],
         },
         {
           message: '😄 Das ist ja eine kreative Nachricht!',
@@ -92,6 +95,7 @@ export class MessagesDataService {
           name: 'Peter Meyer',
           userId: '789',
           emojis: [],
+          thread: [],
         },
         {
           message: 'Manchmal muss man einfach drauf los schreiben!',
@@ -104,6 +108,7 @@ export class MessagesDataService {
               userIdCount: ['luashbd'],
             },
           ],
+          thread: [],
         },
       ],
     },
@@ -125,6 +130,7 @@ export class MessagesDataService {
           name: 'Peter Meyer',
           userId: '789',
           emojis: [],
+          thread: [],
         },
         {
           message: 'Wir kennen uns schon eine Weile, oder? :)',
@@ -137,6 +143,7 @@ export class MessagesDataService {
               userIdCount: ['luashbd', 'uszhbdf'],
             },
           ],
+          thread: [],
         },
       ],
     },
@@ -172,6 +179,7 @@ export class MessagesDataService {
               userIdCount: ['luashbd', 'uszhbdf', 'uzasdhbf', 'khuasdbf'],
             },
           ],
+          thread: [],
         },
         {
           message: 'Super Beispiel für responsive Design!',
@@ -179,6 +187,7 @@ export class MessagesDataService {
           name: 'Anna Schmidt',
           userId: '456',
           emojis: [],
+          thread: [],
         },
         {
           message: 'Könnte das Menü noch länger machen? 🤔',
@@ -191,6 +200,7 @@ export class MessagesDataService {
               userIdCount: ['luashbd'],
             },
           ],
+          thread: [],
         },
       ],
     },
