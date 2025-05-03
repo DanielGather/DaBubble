@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { ChatMessage } from '../types/types';
 
 @Injectable({
@@ -6,6 +6,8 @@ import { ChatMessage } from '../types/types';
 })
 export class MessagesDataService {
   constructor() {}
+
+  private _currentThreadId = signal<number>(0);
 
   public testMessages: Array<ChatMessage> = [
     {
@@ -205,4 +207,13 @@ export class MessagesDataService {
       ],
     },
   ];
+
+  setCurrentThreadId(threadId: number) {
+    this._currentThreadId.set(threadId);
+    console.log('current thread:', this._currentThreadId());
+  }
+
+  getCurrentThreadId() {
+    return this._currentThreadId();
+  }
 }

@@ -4,10 +4,13 @@ import {
   AfterViewInit,
   ViewChild,
   ElementRef,
+  inject,
+  Inject,
 } from '@angular/core';
 import { ChatMessage, ChatType, MessageType } from '../../../../../types/types';
 import { ChatInfoComponent } from './chat-info/chat-info.component';
 import { ChatMessageComponent } from './chat-message/chat-message.component';
+import { MessagesDataService } from '../../../../../services/messages-data.service';
 
 @Component({
   selector: 'app-chat-messages-container',
@@ -16,6 +19,7 @@ import { ChatMessageComponent } from './chat-message/chat-message.component';
   styleUrl: './chat-messages-container.component.scss',
 })
 export class ChatMessagesContainerComponent implements AfterViewInit {
+  messageDataService = inject(MessagesDataService);
   chatType = ChatType;
   messageType = MessageType;
 
