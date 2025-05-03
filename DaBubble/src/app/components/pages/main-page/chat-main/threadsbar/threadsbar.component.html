@@ -6,12 +6,12 @@
 >
   <div
     id="threadsbar-content"
-    class="flex flex-col w-full h-full opacity-1 transition-opacity duration-75"
+    class="flex flex-col h-full opacity-1 transition-opacity duration-75"
     [class.opacity-0]="!isOpen"
   >
     <div
       id="threadsbar-header"
-      class="flex px-7 w-full h-20 gap-4 shadow-md items-center"
+      class="flex px-7 w-full min-h-20 gap-4 shadow-md items-center flex-shrink-0"
     >
       <div id="threadsbar-header-label" class="flex gap-4 w-full items-center">
         <span class="font-bold text-lg">Thread</span>
@@ -24,6 +24,14 @@
         class="cursor-pointer"
       />
     </div>
-    <app-chat-input></app-chat-input>
+
+    <div id="chat-wrapper" class="min-h-0 flex flex-col">
+      <app-chat-messages-container
+        class="overflow-auto"
+        [chatMessages]="chatMessages"
+      ></app-chat-messages-container>
+
+      <app-chat-input class="flex-shrink-0"></app-chat-input>
+    </div>
   </div>
 </div>

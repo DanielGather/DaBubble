@@ -17,6 +17,7 @@ export interface ChatMessage {
   timestamp: string;
   userId: string;
   emojis: Array<ChatMessaggeEmoji>;
+  thread: any;
 }
 
 export interface ChatMessaggeEmoji {
