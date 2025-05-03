@@ -86,7 +86,6 @@ export class FirestoreService {
       console.log('Document data:', docSnap.data());
       console.log('Document data:', docSnap.id);
     } else {
-      // docSnap.data() will be undefined in this case
       console.log('No such document!');
     }
   }
