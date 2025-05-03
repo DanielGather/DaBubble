@@ -27,13 +27,17 @@
       (click)="messageDataService.setCurrentThreadId(index)"
     ></app-chat-message>
 
-    <!-- Thread messages. Test with hardcoded [0] as test thread -->
+    <!-- Thread messages. -->
     } } } @if(chatMessages && isThread) {
     <app-chat-message
       [chatType]="chatType.channel"
       [message]="chatMessages[messageDataService.getCurrentThreadId()]"
       [messageTypeInput]="messageType.own"
       [isThread]="isThread"
+      [isTopMessage]="true"
+      [answersCount]="
+        chatMessages[messageDataService.getCurrentThreadId()].thread.length
+      "
     ></app-chat-message>
 
     @for(message of

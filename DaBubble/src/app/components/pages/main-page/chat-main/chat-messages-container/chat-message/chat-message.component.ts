@@ -31,6 +31,8 @@ export class ChatMessageComponent {
     thread: [],
   };
   @Input() isThread: boolean = false;
+  @Input() isTopMessage: boolean = false;
+  @Input() answersCount: number | null = null;
   showMenu: boolean = false;
   showEmojiMenu: boolean = false;
 }
