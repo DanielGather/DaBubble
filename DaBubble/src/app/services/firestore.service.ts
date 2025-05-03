@@ -78,47 +78,32 @@ export class FirestoreService {
     console.log('Neues Dokument angelegt mit ID', docRef.id);
   }
 
-  /**
-   * Fetches all messages from the `messages` subcollection of the room
-   * that contains the specified user (`userId`).
-   *
-   * The function first queries the `rooms` collection to find a room
-   * whose `userIds` array includes the given `userId`. If a matching
-   * document is found, it retrieves all messages from the
-   * `rooms/{roomId}/messages` subcollection and returns them as an array.
-   *
-   * @async
-   * @function fetchRoomsAndMessages
-   * @param {number} userId - The ID of the user to search for in rooms.
-   * @returns {Promise<any[]|undefined>} A promise that resolves to an array
-   *   of message data objects (`any[]`), or `undefined` if no room containing
-   *   the userId is found.
-   */
+  async getSingleCollection() {
+    const docRef = doc(this.firestore, 'channels', 'shbkYb7CQImUdRq9nCaJ');
+    const docSnap = await getDoc(docRef);
 
-  async fetchUserMessages(userId: number) {
-    const roomsSnapshot = await getDocs(collection(this.firestore, 'channels'));
-    const matchingDoc = roomsSnapshot.docs.filter((doc, index) =>
-      doc.data()['userIds'][index].includes(userId)
-    );
-    if (matchingDoc) {
-      let subCollectionArray = await this.getSubCollection(matchingDoc);
-      return subCollectionArray;
+    if (docSnap.exists()) {
+      console.log('Document data:', docSnap.data());
+      console.log('Document data:', docSnap.id);
     } else {
-      console.log('No channels found for userId', userId);
-      return;
+      // docSnap.data() will be undefined in this case
+      console.log('No such document!');
     }
   }
 
-  async getSubCollection(matchingDoc: any) {
-    console.log('Found Document', matchingDoc.id, matchingDoc.data());
-    let Array: any[] = [];
+  async getSubCollection() {
     const querySnapshot = await getDocs(
-      collection(this.firestore, 'channels', matchingDoc.id, 'messages')
+      collection(
+        this.firestore,
+        'channels',
+        'shbkYb7CQImUdRq9nCaJ',
+        'messages',
+        'XmcsHSJL9yfCm3S8UZzP',
+        'threads'
+      )
     );
     querySnapshot.forEach((doc) => {
-      Array.push(doc.data());
-      console.log(doc.id);
+      console.log(doc.id, ' => ', doc.data());
     });
-    return Array;
   }
 }

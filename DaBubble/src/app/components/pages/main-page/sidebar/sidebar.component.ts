@@ -35,6 +35,9 @@ export class SidebarComponent {
   clicked: boolean = true;
   showModal: boolean = false;
 
+  userMessages: any;
+  userId: number = 123123;
+
   users: UsersService = inject(UsersService);
 
   channelList$: Observable<Channels[]> = this.firestoreService.channelsList$;
@@ -52,8 +55,10 @@ export class SidebarComponent {
     contacts: { ...this.DEFAULT_FOLD_ITEM },
   };
 
-  ngOnInit() {
+  async ngOnInit() {
     console.log(this.usersList$);
+    this.firestoreService.getSubCollection();
+    this.firestoreService.getSingleCollection();
   }
 
   toggleFold(key: FoldKey) {
