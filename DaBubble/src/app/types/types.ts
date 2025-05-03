@@ -35,6 +35,7 @@ export interface AppUser {
 }
 
 export interface Channels {
+  id: string;
   channelName: string;
   description: string;
   userIds: Array<string>;

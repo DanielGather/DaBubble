@@ -32,7 +32,7 @@
       <ul *ngIf="channelList$ | async as channels">
         <li *ngFor="let channel of channels">
           <div
-            (click)="openChannel(channel.channelName)"
+            (click)="openChannel(channel.id)"
             id="channel"
             class="flex flex-col gap-4 items-start hover:cursor-pointer"
           >

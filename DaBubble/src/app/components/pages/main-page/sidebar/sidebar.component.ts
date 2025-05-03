@@ -56,7 +56,7 @@ export class SidebarComponent {
   };
 
   async ngOnInit() {
-    console.log(this.usersList$);
+    console.log(this.channelList$);
     this.firestoreService.getSubCollection();
     this.firestoreService.getSingleCollection();
   }
