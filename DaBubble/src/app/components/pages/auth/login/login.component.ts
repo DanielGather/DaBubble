@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import {
@@ -10,6 +10,7 @@ import {
 import { FormInputComponent } from '../../../shared/form-input/form-input.component';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { ModalComponent } from '../../../shared/modal/modal.component';
+import { AuthenticationService } from '../../../../services/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -27,6 +28,7 @@ import { ModalComponent } from '../../../shared/modal/modal.component';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  auth = inject(AuthenticationService);
 
   constructor(private fb: FormBuilder) {
     this.loginForm = this.fb.group({
@@ -39,13 +41,17 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
-      console.log(this.loginForm.value.email);
-
-      // Hier deine Login-Logik implementieren
+      this.login(this.loginForm.value.email, this.loginForm.value.password);
     } else {
       this.markFormGroupTouched(this.loginForm);
     }
+  }
+
+  login(email: string, password: string) {
+    this.auth.signIn(email, password).then((userCredential) => {
+      const user = userCredential.user.email;
+      console.log('User logged in:', user);
+    });
   }
 
   signInWithGoogle(): void {

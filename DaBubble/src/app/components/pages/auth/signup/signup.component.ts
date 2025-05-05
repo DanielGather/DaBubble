@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import {
@@ -11,6 +11,7 @@ import {
 import { ModalComponent } from '../../../shared/modal/modal.component';
 import { FormInputComponent } from '../../../shared/form-input/form-input.component';
 import { ButtonComponent } from '../../../shared/button/button.component';
+import { AuthenticationService } from '../../../../services/authentication.service';
 
 @Component({
   selector: 'app-signup',
@@ -28,6 +29,7 @@ import { ButtonComponent } from '../../../shared/button/button.component';
 })
 export class SignupComponent implements OnInit {
   signupForm: FormGroup;
+  auth = inject(AuthenticationService);
 
   constructor(private fb: FormBuilder) {
     this.signupForm = this.fb.group({
@@ -43,10 +45,20 @@ export class SignupComponent implements OnInit {
   onSubmit(): void {
     if (this.signupForm.valid) {
       console.log(this.signupForm.value);
-      // Hier  Signup-Logik
+      this.register(
+        this.signupForm.value.email,
+        this.signupForm.value.password
+      );
     } else {
       this.markFormGroupTouched(this.signupForm);
     }
+  }
+
+  register(email: string, password: string) {
+    this.auth.signUp(email, password).then((userCredential) => {
+      const user = userCredential.user;
+      console.log('User registered:', user);
+    });
   }
 
   getFullNameErrorMessage(): string {
