@@ -12,6 +12,9 @@ import { ModalComponent } from '../../../shared/modal/modal.component';
 import { FormInputComponent } from '../../../shared/form-input/form-input.component';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { AuthenticationService } from '../../../../services/authentication.service';
+import { AppUser } from '../../../../types/types';
+import { UserCredential } from 'firebase/auth';
+import { FirestoreService } from '../../../../services/firestore.service';
 
 @Component({
   selector: 'app-signup',
@@ -29,9 +32,17 @@ import { AuthenticationService } from '../../../../services/authentication.servi
 })
 export class SignupComponent implements OnInit {
   signupForm: FormGroup;
-  auth = inject(AuthenticationService);
+  firestore = inject(FirestoreService);
+  userObject: AppUser = {
+    avatarId: 0,
+    email: '',
+    firstName: '',
+    lastName: '',
+    online: false,
+    userId: '',
+  };
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private auth: AuthenticationService) {
     this.signupForm = this.fb.group({
       fullName: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
@@ -44,7 +55,6 @@ export class SignupComponent implements OnInit {
 
   onSubmit(): void {
     if (this.signupForm.valid) {
-      console.log(this.signupForm.value);
       this.register(
         this.signupForm.value.email,
         this.signupForm.value.password
@@ -58,7 +68,24 @@ export class SignupComponent implements OnInit {
     this.auth.signUp(email, password).then((userCredential) => {
       const user = userCredential.user;
       console.log('User registered:', user);
+      this.addUserToFirebase(user);
     });
+  }
+
+  addUserToFirebase(user: any) {
+    const fullName = this.signupForm.value.fullName;
+    const nameParts = fullName.split(' ');
+
+    this.userObject = {
+      avatarId: 0,
+      email: user.email,
+      firstName: nameParts[0] || '',
+      lastName: nameParts.length > 1 ? nameParts.slice(1).join(' ') : '',
+      online: false,
+      userId: user.uid,
+    };
+
+    this.firestore.addDoc('users', this.userObject);
   }
 
   getFullNameErrorMessage(): string {
