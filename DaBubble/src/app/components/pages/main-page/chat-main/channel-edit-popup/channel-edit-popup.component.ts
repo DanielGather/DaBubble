@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { DropdownComponent } from '../shared/dropdown/dropdown.component';
-import { ButtonComponent } from '../../../shared/button/button.component';
+import { DropdownComponent } from '../../shared/dropdown/dropdown.component';
+import { ButtonComponent } from '../../../../shared/button/button.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import {

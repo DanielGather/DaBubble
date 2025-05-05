@@ -12,6 +12,8 @@ import { FormInputComponent } from '../../../shared/form-input/form-input.compon
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { ModalComponent } from '../../../shared/modal/modal.component';
 import { AuthenticationService } from '../../../../services/authentication.service';
+import { UsersService } from '../../../../services/users.service';
+import { AppUser } from '../../../../types/types';
 
 @Component({
   selector: 'app-login',
@@ -37,6 +39,7 @@ export class LoginComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
+  usersService = inject(UsersService);
 
   ngOnInit(): void {}
 
@@ -48,18 +51,25 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  login(email: string, password: string) {
-    this.auth
-      .signIn(email, password)
-      .then((userCredential) => {
-        const user = userCredential.user.email;
-        console.log('User logged in:', user, userCredential);
-        this.router.navigateByUrl('/chat/private');
-      })
-      .catch((error) => {
-        console.log('login error:', error);
-      });
+  async login(email: string, password: string) {
+    try {
+      this.usersService.currentUserCredential = await this.auth.signIn(email, password);
+      this.usersService.currentUserId = this.usersService.currentUserCredential.user.uid;
+  
+      this.usersService.currentUser = await this.setCurrentUser();
+  
+      await this.router.navigateByUrl('/chat/private');
+    } catch (error) {
+      console.log('login error:', error);
+    }
   }
+
+  //test
+  async setCurrentUser() {
+    return this.usersService.firestoreService.getSingleCollection('users', this.usersService.currentUserId!) as any;
+  }
+
+  //testend
 
   signInWithGoogle(): void {
     // sign in mit google logik

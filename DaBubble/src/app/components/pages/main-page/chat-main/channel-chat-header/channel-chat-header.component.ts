@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ButtonComponent } from '../../../../shared/button/button.component';
-import { ChannelEditPopupComponent } from '../../channel-edit-popup/channel-edit-popup.component';
+import { ChannelEditPopupComponent } from '../channel-edit-popup/channel-edit-popup.component';
 import { DropdownComponent } from '../../shared/dropdown/dropdown.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';

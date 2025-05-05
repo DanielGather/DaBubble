@@ -82,15 +82,17 @@ export class FirestoreService {
     await setDoc(doc(this.firestore, collectionName, docId), objekt);
   }
 
-  async getSingleCollection() {
-    const docRef = doc(this.firestore, 'channels', 'shbkYb7CQImUdRq9nCaJ');
+  async getSingleCollection(collectionId:string, docId:string) {
+    const docRef = this.getSingleDocRef(collectionId, docId);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
       console.log('Document data:', docSnap.data());
       console.log('Document data:', docSnap.id);
+      return docSnap.data();
     } else {
       console.log('No such document!');
+      return;
     }
   }
 

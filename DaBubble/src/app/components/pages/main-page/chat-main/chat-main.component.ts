@@ -8,6 +8,7 @@ import { ChannelChatHeaderComponent } from './channel-chat-header/channel-chat-h
 import { ActivatedRoute } from '@angular/router';
 import { ThreadsbarComponent } from './threadsbar/threadsbar.component';
 import { MessagesDataService } from '../../../../services/messages-data.service';
+import { UsersService } from '../../../../services/users.service';
 
 @Component({
   selector: 'app-chat-main',
@@ -24,6 +25,12 @@ import { MessagesDataService } from '../../../../services/messages-data.service'
 })
 export class ChatMainComponent implements OnInit {
   messageDataService = inject(MessagesDataService);
+  
+  /**
+   * users test
+   */
+  usersService = inject(UsersService);
+  
   /**
    * variable to use the enum ChatType in the html-template.
    */
