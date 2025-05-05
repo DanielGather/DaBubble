@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { LegalLinksComponent } from '../../pages/auth/shared/legal-links/legal-links.component';
 import { RouterOutlet } from '@angular/router';
 import { DaBubbleLogoComponent } from '../../shared/da-bubble-logo/da-bubble-logo.component';

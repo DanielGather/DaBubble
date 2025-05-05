@@ -41,7 +41,7 @@
     ></app-chat-message>
 
     @for(message of
-    chatMessages[messageDataService.getCurrentThreadId()].thread; track message)
+    chatMessages[messageDataService.getCurrentThreadId()].thread; track $index)
     { @if(message.userId === userId) {
     <app-chat-message
       [chatType]="chatType.channel"
