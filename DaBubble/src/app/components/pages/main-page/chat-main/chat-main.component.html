@@ -10,14 +10,17 @@
       <app-private-chat-header></app-private-chat-header>
       }
 
-      <!-- Messager container -->
+      <!-- Messager container private -->
       @if (chatTypeInput === chatType.private) {
       <app-chat-messages-container
         class="w-full overflow-auto h-full"
         [chatMessages]="chatMessages"
         [chatTypeInput]="chatType.private"
       ></app-chat-messages-container>
-      } @else if (chatTypeInput === chatType.channel) {
+      } 
+      
+      <!-- Messager container channel -->
+      @else if (chatTypeInput === chatType.channel) {
       <app-chat-messages-container
         class="w-full overflow-auto h-full"
         [chatMessages]="chatMessages"
@@ -25,9 +28,12 @@
       ></app-chat-messages-container>
       }
 
+      <!-- Chatinput-->
       <app-chat-input class="w-full"></app-chat-input>
     </div>
   </div>
+
+  <!-- thread bar -->
   @if(chatTypeInput === 'channel') {
   <app-threadsbar></app-threadsbar>
   }
