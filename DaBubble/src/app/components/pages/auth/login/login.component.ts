@@ -48,10 +48,15 @@ export class LoginComponent implements OnInit {
   }
 
   login(email: string, password: string) {
-    this.auth.signIn(email, password).then((userCredential) => {
-      const user = userCredential.user.email;
-      console.log('User logged in:', user);
-    });
+    this.auth
+      .signIn(email, password)
+      .then((userCredential) => {
+        const user = userCredential.user.email;
+        console.log('User logged in:', user);
+      })
+      .catch((error) => {
+        console.log('login error:', error);
+      });
   }
 
   signInWithGoogle(): void {

@@ -65,11 +65,16 @@ export class SignupComponent implements OnInit {
   }
 
   register(email: string, password: string) {
-    this.auth.signUp(email, password).then((userCredential) => {
-      const user = userCredential.user;
-      console.log('User registered:', user);
-      this.addUserToFirebase(user);
-    });
+    this.auth
+      .signUp(email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log('User registered:', user);
+        this.addUserToFirebase(user);
+      })
+      .catch((error) => {
+        console.log('signup error:', error);
+      });
   }
 
   addUserToFirebase(user: any) {
