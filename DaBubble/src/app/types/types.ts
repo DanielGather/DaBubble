@@ -31,7 +31,7 @@ export interface AppUser {
   firstName: string;
   lastName: string;
   online: boolean;
-  userId: string;
+  userId?: string;
 }
 
 export interface Channels {

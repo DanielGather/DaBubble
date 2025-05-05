@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import {
   FormBuilder,
   FormGroup,
@@ -30,7 +31,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   auth = inject(AuthenticationService);
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -52,7 +53,8 @@ export class LoginComponent implements OnInit {
       .signIn(email, password)
       .then((userCredential) => {
         const user = userCredential.user.email;
-        console.log('User logged in:', user);
+        console.log('User logged in:', user, userCredential);
+        this.router.navigateByUrl('/chat/private');
       })
       .catch((error) => {
         console.log('login error:', error);

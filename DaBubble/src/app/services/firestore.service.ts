@@ -78,6 +78,10 @@ export class FirestoreService {
     console.log('Neues Dokument angelegt mit ID', docRef.id);
   }
 
+  async setDoc(collectionName: string, docId: string, objekt: {}) {
+    await setDoc(doc(this.firestore, collectionName, docId), objekt);
+  }
+
   async getSingleCollection() {
     const docRef = doc(this.firestore, 'channels', 'shbkYb7CQImUdRq9nCaJ');
     const docSnap = await getDoc(docRef);

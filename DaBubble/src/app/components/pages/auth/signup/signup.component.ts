@@ -87,10 +87,9 @@ export class SignupComponent implements OnInit {
       firstName: nameParts[0] || '',
       lastName: nameParts.length > 1 ? nameParts.slice(1).join(' ') : '',
       online: false,
-      userId: user.uid,
     };
 
-    this.firestore.addDoc('users', this.userObject);
+    this.firestore.setDoc('users', user.uid, this.userObject);
   }
 
   getFullNameErrorMessage(): string {
