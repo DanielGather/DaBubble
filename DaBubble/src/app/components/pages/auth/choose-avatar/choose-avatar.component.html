@@ -48,8 +48,8 @@
             <img
               src="/img/user_{{ avatar }}_small.png"
               alt=""
-              class="absolute cursor-pointer w-full h-full hover:scale-110 duration-150"
-              (click)="changeAvatar(`/img/user_${avatar}_small.png`)"
+              class="absolute cursor-pointer w-full h-full hover:scale-110 duration-300"
+              (click)="setNewAvatar(avatar)"
             />
           </div>
           }
@@ -57,11 +57,14 @@
       </div>
 
       <div id="buttons-wrapper" class="flex gap-4 mt-6 justify-end w-full">
-        <a routerLink="/">
-          <app-button type="blueButton">
-            <span>Weiter</span>
-          </app-button>
-        </a>
+        <app-button
+          [type]="
+            currentAvatarSrc == '/img/avatar.svg' ? 'greyButton' : 'blueButton'
+          "
+          (click)="updateFirestoreUserData()"
+        >
+          <span>Weiter</span>
+        </app-button>
       </div>
     </div>
   </app-modal>

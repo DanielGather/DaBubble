@@ -9,19 +9,21 @@ import { AppUser } from '../../../types/types';
 import { Observable } from 'rxjs';
 import { CommonModule, NgIf } from '@angular/common';
 
-
-
 @Component({
   selector: 'app-header',
+
   imports: [SearchbarComponent, ProfileUserComponent, RouterLink, DaBubbleLogoComponent, DropdownComponent,NgIf,CommonModule],
+
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent implements OnInit{
+export class HeaderComponent implements OnInit {
   headerPopup: boolean = false;
   userProfilePopup: boolean = false;
   usersService = inject(UsersService);
+
   currentUser$: Observable<AppUser | null> = this.usersService.currentUser$;
+
 
   ngOnInit(): void {
     console.log('global User: ', this.usersService.currentUser);
