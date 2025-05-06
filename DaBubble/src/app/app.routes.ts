@@ -27,7 +27,9 @@ export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
-    children: [{ path: 'chat/:chatType', component: ChatMainComponent }],
+    children: [
+      { path: 'chat/:chatType', component: ChatMainComponent },
+    ],
   },
   {
     path: '',
