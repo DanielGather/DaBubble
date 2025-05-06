@@ -24,10 +24,12 @@ import { UsersService } from '../../../../services/users.service';
   styleUrl: './chat-main.component.html',
 })
 export class ChatMainComponent implements OnInit {
+  //test
   messageDataService = inject(MessagesDataService);
+  //testend
   
   /**
-   * users test
+   * users service variable
    */
   usersService = inject(UsersService);
   
@@ -54,6 +56,7 @@ export class ChatMainComponent implements OnInit {
   ngOnInit(): void {
     //test
     this.chatMessages = this.messageDataService.testMessages;
+
     //testend
 
     this.getChatTypeFromURL();

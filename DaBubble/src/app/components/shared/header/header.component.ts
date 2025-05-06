@@ -6,12 +6,14 @@ import { DaBubbleLogoComponent } from '../da-bubble-logo/da-bubble-logo.componen
 import { DropdownComponent } from '../../pages/main-page/shared/dropdown/dropdown.component';
 import { UsersService } from '../../../services/users.service';
 import { AppUser } from '../../../types/types';
+import { Observable } from 'rxjs';
+import { CommonModule, NgIf } from '@angular/common';
 
 
 
 @Component({
   selector: 'app-header',
-  imports: [SearchbarComponent, ProfileUserComponent, RouterLink, DaBubbleLogoComponent, DropdownComponent],
+  imports: [SearchbarComponent, ProfileUserComponent, RouterLink, DaBubbleLogoComponent, DropdownComponent,NgIf,CommonModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -19,7 +21,7 @@ export class HeaderComponent implements OnInit{
   headerPopup: boolean = false;
   userProfilePopup: boolean = false;
   usersService = inject(UsersService);
-  currentUser:AppUser = this.usersService.currentUser!;
+  currentUser$: Observable<AppUser | null> = this.usersService.currentUser$;
 
   ngOnInit(): void {
     console.log('global User: ', this.usersService.currentUser);
