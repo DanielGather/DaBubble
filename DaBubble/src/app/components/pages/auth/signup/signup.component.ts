@@ -15,6 +15,8 @@ import { AuthenticationService } from '../../../../services/authentication.servi
 import { AppUser } from '../../../../types/types';
 import { UserCredential } from 'firebase/auth';
 import { FirestoreService } from '../../../../services/firestore.service';
+import { Router } from '@angular/router';
+import { UsersService } from '../../../../services/users.service';
 
 @Component({
   selector: 'app-signup',
@@ -42,7 +44,13 @@ export class SignupComponent implements OnInit {
     userId: '',
   };
 
-  constructor(private fb: FormBuilder, private auth: AuthenticationService) {
+  usersService = inject(UsersService);
+
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthenticationService,
+    private router: Router
+  ) {
     this.signupForm = this.fb.group({
       fullName: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
@@ -64,20 +72,23 @@ export class SignupComponent implements OnInit {
     }
   }
 
-  register(email: string, password: string) {
-    this.auth
-      .signUp(email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log('User registered:', user);
-        this.addUserToFirebase(user);
-      })
-      .catch((error) => {
-        console.log('signup error:', error);
-      });
+  async register(email: string, password: string) {
+    try {
+      const userCredential = await this.auth.signUp(email, password);
+      const user = userCredential.user;
+      console.log('User registered:', user);
+
+      await this.addUserToFirebase(user);
+
+      this.usersService.currentUser = this.userObject;
+      this.usersService.currentUserId = user.uid;
+      this.router.navigateByUrl('/choose-avatar');
+    } catch (error) {
+      console.log('signup error:', error);
+    }
   }
 
-  addUserToFirebase(user: any) {
+  async addUserToFirebase(user: any) {
     const fullName = this.signupForm.value.fullName;
     const nameParts = fullName.split(' ');
 
@@ -89,7 +100,7 @@ export class SignupComponent implements OnInit {
       online: false,
     };
 
-    this.firestore.setDoc('users', user.uid, this.userObject);
+    await this.firestore.setDoc('users', user.uid, this.userObject);
   }
 
   getFullNameErrorMessage(): string {
