@@ -29,7 +29,7 @@ export class FirestoreService {
  * The data is cached using `shareReplay(1)`, so multiple subscribers receive the same data
  * without triggering additional Firestore reads.
  *
- * Note: Since this property is marked as `readonly`, it cannot be reassigned later.
+ * NOTE: Since this property is marked as `readonly`, it cannot be reassigned later.
  * This is suitable only if the list of channels is static or should only be loaded once.
  */
   readonly channelsList$: Observable<Channels[]> = this.getCollectionData(
@@ -50,6 +50,7 @@ export class FirestoreService {
   /**
    * this function returns the key specific collection.
    * it is used to get the collection data.
+   * it also returns every id from the collectionData
    *
    * @param collectionKey the name/key of the collection
    * @returns the collection itself. it contains a list of documents.
@@ -82,12 +83,24 @@ export class FirestoreService {
     updateDoc(this.getSingleDocRef(collectionId, docId), docObject);
   }
 
+
+  /**
+   * create a new collectionm from what?
+   * @param collectionName 
+   * @param objekt 
+   */
   async addDoc(collectionName: string, objekt: {}) {
     const collRef = collection(this.firestore, collectionName);
     const docRef = await addDoc(collRef, objekt);
     console.log('Neues Dokument angelegt mit ID', docRef.id);
   }
 
+  /**
+   * updates or create a new document
+   * @param collectionName 
+   * @param docId 
+   * @param objekt 
+   */
   async setDoc(collectionName: string, docId: string, objekt: {}) {
     await setDoc(doc(this.firestore, collectionName, docId), objekt);
   }
