@@ -1,4 +1,5 @@
 import { Injectable, inject } from '@angular/core';
+import { Channels } from '../types/types';
 import {
   Firestore,
   collection,
@@ -6,6 +7,8 @@ import {
   getDocs,
   doc,
   updateDoc,
+  setDoc,
+  addDoc,
 } from '@angular/fire/firestore';
 import { RouterModule } from '@angular/router';
 import { DocumentReference, getDoc } from 'firebase/firestore';
@@ -19,7 +22,9 @@ export class FirestoreService {
    * firestore service
    */
   firestore: Firestore = inject(Firestore);
-  channelsArray: string[] = ['Entwicklerteam'];
+  readonly channelsList$: Observable<Channels[]> = this.getCollectionData(
+    'channels'
+  ) as Observable<Channels[]>;
 
   constructor() {}
 
@@ -67,47 +72,43 @@ export class FirestoreService {
     updateDoc(this.getSingleDocRef(collectionId, docId), docObject);
   }
 
-  /**
-   * Fetches all messages from the `messages` subcollection of the room
-   * that contains the specified user (`userId`).
-   *
-   * The function first queries the `rooms` collection to find a room
-   * whose `userIds` array includes the given `userId`. If a matching
-   * document is found, it retrieves all messages from the
-   * `rooms/{roomId}/messages` subcollection and returns them as an array.
-   *
-   * @async
-   * @function fetchRoomsAndMessages
-   * @param {number} userId - The ID of the user to search for in rooms.
-   * @returns {Promise<any[]|undefined>} A promise that resolves to an array
-   *   of message data objects (`any[]`), or `undefined` if no room containing
-   *   the userId is found.
-   */
+  async addDoc(collectionName: string, objekt: {}) {
+    const collRef = collection(this.firestore, collectionName);
+    const docRef = await addDoc(collRef, objekt);
+    console.log('Neues Dokument angelegt mit ID', docRef.id);
+  }
 
-  async fetchUserMessages(userId: number) {
-    const roomsSnapshot = await getDocs(collection(this.firestore, 'channels'));
-    const matchingDoc = roomsSnapshot.docs.filter((doc, index) =>
-      doc.data()['userIds'][index].includes(userId)
-    );
-    if (matchingDoc) {
-      let subCollectionArray = await this.getSubCollection(matchingDoc);
-      return subCollectionArray;
+  async setDoc(collectionName: string, docId: string, objekt: {}) {
+    await setDoc(doc(this.firestore, collectionName, docId), objekt);
+  }
+
+  async getSingleCollection(collectionId:string, docId:string) {
+    const docRef = this.getSingleDocRef(collectionId, docId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log('Document data:', docSnap.data());
+      console.log('Document data:', docSnap.id);
+      return docSnap.data();
     } else {
-      console.log('No channels found for userId', userId);
+      console.log('No such document!');
       return;
     }
   }
 
-  async getSubCollection(matchingDoc: any) {
-    console.log('Found Document', matchingDoc.id, matchingDoc.data());
-    let Array: any[] = [];
+  async getSubCollection() {
     const querySnapshot = await getDocs(
-      collection(this.firestore, 'channels', matchingDoc.id, 'messages')
+      collection(
+        this.firestore,
+        'channels',
+        'shbkYb7CQImUdRq9nCaJ',
+        'messages',
+        'XmcsHSJL9yfCm3S8UZzP',
+        'threads'
+      )
     );
     querySnapshot.forEach((doc) => {
-      Array.push(doc.data());
-      console.log(doc.id);
+      console.log(doc.id, ' => ', doc.data());
     });
-    return Array;
   }
 }

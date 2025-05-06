@@ -27,10 +27,11 @@ export class FirestoreTestComponent {
    */
   userMessages: any;
   userId: number = 123123;
+
   async ngOnInit() {
-    this.userMessages = await this.firestoreService.fetchUserMessages(
-      this.userId
-    );
+    // this.userMessages = await this.firestoreService.fetchUserMessages(
+    //   this.userId
+    // );
   }
 
   /**

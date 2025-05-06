@@ -2,15 +2,7 @@
   id="auth-layout-wrapper"
   class="h-screen flex flex-col justify-center items-center p-4 gap-6"
 >
-  <div id="mobile-logo-wrapper" class="flex lg:hidden items-center gap-4 w-fit">
-    <img class="h-14 w-14" src="img/logo.svg" alt="" />
-    <span class="font-bold text-fontSizeAuthTitle">DABubble</span>
-  </div>
-
-  <div
-    id="desktop-logo-wrapper"
-    class="absolute hidden lg:flex items-center gap-4 w-fit m-10 top-0 left-0"
-  >
+  <div class="flex lg:hidden items-center gap-4 w-fit">
     <img class="h-14 w-14" src="img/logo.svg" alt="" />
     <span class="font-bold text-fontSizeAuthTitle">DABubble</span>
   </div>
@@ -29,15 +21,23 @@
         Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit
         verwendest.
       </p>
-      <form action="" class="flex flex-col gap-0 lg:gap-2">
+      <form
+        [formGroup]="loginForm"
+        (ngSubmit)="onSubmit()"
+        class="flex flex-col gap-0 lg:gap-2"
+      >
         <app-form-input
           type="email"
           placeholder="beispielname@email.com"
+          [errorMessage]="getEmailErrorMessage()"
+          formControlName="email"
           class="mt-2"
         ></app-form-input>
         <app-form-input
           type="password"
           placeholder="Passwort"
+          [errorMessage]="getPasswordErrorMessage()"
+          formControlName="password"
           class="mt-6"
         ></app-form-input>
         <a routerLink="/reset-password" class="text-fc-purple mt-2"
@@ -54,15 +54,23 @@
         <div
           id="sign-in-google-wrapper"
           class="flex w-full bg-bg-main px-7 py-2 my-2 rounded-standard gap-4 justify-center items-center mt-4"
+          (click)="signInWithGoogle()"
         >
           <img class="h-10 w-10" src="/img/google.svg" alt="" />
           <span class="text-fc-purple">Anmelden mit Google</span>
         </div>
 
         <div id="buttons-wrapper" class="flex gap-4 justify-center mt-2">
-          <app-button type="blueButton"><span>Anmelden</span></app-button>
+          <button type="submit">
+            <app-button
+              [type]="loginForm.valid ? 'blueButton' : 'greyButton'"
+              [disabled]="loginForm.invalid"
+            >
+              <span>Anmelden</span>
+            </app-button>
+          </button>
 
-          <a routerLink="/a-private-chat-variable">
+          <a routerLink="/chat/private">
             <app-button type="transparentButton"
               ><span>Gäste-Login</span></app-button
             >
@@ -71,6 +79,7 @@
       </form>
     </div>
   </app-modal>
+
   <div id="mobile-signup-wrapper" class="flex lg:hidden flex-col gap-4">
     <span>Neu bei DABubble?</span>
     <a routerLink="/signup">
@@ -83,8 +92,11 @@
     class="absolute hidden lg:flex flex-col gap-4 m-10 top-0 right-0 text-end"
   >
     <span>Neu bei DABubble?</span>
-    <a routerLink="/signup" class="hover:cursor-pointer text-fc-purple"
-      >Konto erstellen</a
+    <a
+      routerLink="/signup"
+      class="flex justify-center px-4 py-2 min-w-[120px] hover:cursor-pointer text-fc-purple border border-transparent hover:border-fc-purple rounded-full hover:text-fc-dark-purple hover:strong-inner-shadow hover:font-semibold transition-all duration-125 ease-in-out"
     >
+      Konto erstellen
+    </a>
   </div>
 </div>

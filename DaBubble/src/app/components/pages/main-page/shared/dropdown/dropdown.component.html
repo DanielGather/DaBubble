@@ -1,0 +1,14 @@
+<div
+[ngClass]="
+'absolute h-auto w-auto p-10 inline-block border shadow-md z-20 bg-white' +
+bgColor +
+' ' +
+rounded +
+' ' +
+cornerOverride
+"
+>
+  <div [ngClass]="'flex flex-col  ' + w + ' ' + gap">
+    <ng-content></ng-content>
+  </div>
+</div>

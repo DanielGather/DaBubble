@@ -1,14 +1,7 @@
 <header class="flex items-center justify-between md:justify-normal p-4">
   <!-- icon -->
 
-  <div class="flex items-center gap-4 h-16">
-    <img
-      class="w-12 md:w-14 [@media(min-width:1024px)]:w-16"
-      src="img/logo.svg"
-      alt=""
-    />
-    <h2>DABubble</h2>
-  </div>
+<app-da-bubble-logo></app-da-bubble-logo>
 
   <!-- icon devspace -->
 
@@ -35,7 +28,7 @@
     <div
       class="text-xl md:text-2xl [@media(min-width:1024px)]:text-3xl font-bold hidden md:block currentUserName group-hover:text-[rgb(121,126,243)] transition-colors duration-125"
     >
-      Kevin Alleine
+      {{currentUser.firstName}} {{currentUser.lastName}}
     </div>
 
     <img

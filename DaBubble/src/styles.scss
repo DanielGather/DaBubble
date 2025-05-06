@@ -20,7 +20,6 @@ app-root {
 app-root > * {
   position: relative;
   min-width: 100%;
-  overflow: hidden;
 }
 
 :root {
@@ -33,7 +32,7 @@ app-root > * {
   --bg-component: #ffffff;
   --bg-button-blue: #444df2;
   --bg-button-grey: #686868;
-  --bg-button-transparent: white;
+  --bg-button-transparent: transparent;
   --font-size-bold: 24px;
   --font-size-chat: 18px;
   --font-size-auth-title: 32px;
@@ -41,39 +40,98 @@ app-root > * {
   --form-input-height: 50px;
 }
 
+
+
+/* chat-emoji & menu container classes */
+app-pop-over {
+  display: contents;
+}
+
+.option {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  height: 2.5rem;
+  width: 2.5rem;
+  background-color: rgba(236, 238, 254, 0);
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color ease-in-out 200ms;
+
+  img {
+      width: 100%;
+      height: 100%;
+  }
+
+  img,
+  div {
+      flex-shrink: 0;
+      transition: all ease-in-out 200ms;
+  }
+}
+
+.option:hover {
+  background-color: rgba(236, 238, 254, 1);
+}
+
+.option-hover:hover * {
+  transform: scale(1.1);
+}
+
+/* headlines */
 h1 {
-  font-size: 2rem; /* text-2xl ≈ 24px */
+  font-size: 2rem;
   font-weight: 700;
   cursor: default;
 }
 
+/* media querys */
 @media (min-width: 768px) {
   h1 {
-    font-size: 2.5rem; /* text-3xl ≈ 30px */
+    font-size: 2.5rem;
   }
 }
 
 @media (min-width: 1024px) {
   h1 {
-    font-size: 3rem; /* text-4xl ≈ 36px */
+    font-size: 3rem;
   }
 }
 
 h2 {
-  font-size: 1.5rem; /* text-2xl ≈ 24px */
+  font-size: 1.5rem;
   font-weight: 700;
   cursor: default;
 }
 
 @media (min-width: 768px) {
   h2 {
-    font-size: 1.875rem; /* text-3xl ≈ 30px */
+    font-size: 1.875rem;
   }
 }
 
 @media (min-width: 1024px) {
   h2 {
-    font-size: 2.25rem; /* text-4xl ≈ 36px */
+    font-size: 2.25rem;
+  }
+}
+
+h3 {
+  font-size: 0.875rem; /* 14px — mobile first */
+  font-weight: 700;
+  cursor: default;
+}
+
+@media (min-width: 768px) {
+  h3 {
+    font-size: 1rem; /* 16px — Tablet */
+  }
+}
+
+@media (min-width: 1024px) {
+  h3 {
+    font-size: 1.125rem; /* 18px — Desktop */
   }
 }
 

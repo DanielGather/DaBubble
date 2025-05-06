@@ -1,18 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ProfileUserComponent } from '../../pages/main-page/profile-user/profile-user.component';
 import { SearchbarComponent } from '../../pages/main-page/shared/searchbar/searchbar.component';
+import { DaBubbleLogoComponent } from '../da-bubble-logo/da-bubble-logo.component';
+import { DropdownComponent } from '../../pages/main-page/shared/dropdown/dropdown.component';
+import { UsersService } from '../../../services/users.service';
+import { AppUser } from '../../../types/types';
+
 
 
 @Component({
   selector: 'app-header',
-  imports: [SearchbarComponent, ProfileUserComponent, RouterLink],
+  imports: [SearchbarComponent, ProfileUserComponent, RouterLink, DaBubbleLogoComponent, DropdownComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit{
   headerPopup: boolean = false;
   userProfilePopup: boolean = false;
+  usersService = inject(UsersService);
+  currentUser:AppUser = this.usersService.currentUser!;
+
+  ngOnInit(): void {
+    console.log('global User: ', this.usersService.currentUser);
+  }
 
   togglePopup() {
     this.headerPopup = !this.headerPopup;

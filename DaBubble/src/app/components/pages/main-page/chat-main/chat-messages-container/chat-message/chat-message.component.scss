@@ -1,0 +1,31 @@
+.hover-over-message-other {
+    #message-container {
+        transition: background-color 300ms ease-in-out;
+    }
+
+    :hover #message-container {
+        background-color: white;
+    }
+}
+
+@media (max-width: 360px) {
+    .name-and-time-mobile-respo {
+        gap: 0.5rem;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 400px) {
+    .profile-img-wrap-mobile {
+        height: 2.5rem;
+        width: 2.5rem;
+    }
+}
+
+@media (max-width:767px) {
+    .option {
+        width: 2rem;
+        height: 2rem;
+        padding: 0.25rem;
+    }
+}

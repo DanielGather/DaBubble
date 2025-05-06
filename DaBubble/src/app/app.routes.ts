@@ -4,12 +4,12 @@ import { LegalsLayoutComponent } from './components/layouts/legals-layout/legals
 import { AuthLayoutComponent } from './components/layouts/auth-layout/auth-layout.component';
 import { PrivacyPolicyComponent } from './components/pages/legals/privacy-policy/privacy-policy.component';
 import { LegalNoticeComponent } from './components/pages/legals/legal-notice/legal-notice.component';
-import { PrivateChatComponent } from './components/pages/main-page/private-chat/private-chat.component';
 import { ChooseAvatarComponent } from './components/pages/auth/choose-avatar/choose-avatar.component';
 import { LoginComponent } from './components/pages/auth/login/login.component';
 import { ResetPasswordComponent } from './components/pages/auth/reset-password/reset-password.component';
 import { SetPasswordComponent } from './components/pages/auth/set-password/set-password.component';
 import { SignupComponent } from './components/pages/auth/signup/signup.component';
+import { ChatMainComponent } from './components/pages/main-page/chat-main/chat-main.component';
 
 export const routes: Routes = [
   {
@@ -28,7 +28,7 @@ export const routes: Routes = [
     path: '',
     component: MainLayoutComponent,
     children: [
-      { path: 'a-private-chat-variable', component: PrivateChatComponent },
+      { path: 'chat/:chatType', component: ChatMainComponent },
     ],
   },
   {
