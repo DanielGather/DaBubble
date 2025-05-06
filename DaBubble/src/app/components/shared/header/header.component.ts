@@ -7,19 +7,32 @@ import { DropdownComponent } from '../../pages/main-page/shared/dropdown/dropdow
 import { UsersService } from '../../../services/users.service';
 import { AppUser } from '../../../types/types';
 
-
-
 @Component({
   selector: 'app-header',
-  imports: [SearchbarComponent, ProfileUserComponent, RouterLink, DaBubbleLogoComponent, DropdownComponent],
+  imports: [
+    SearchbarComponent,
+    ProfileUserComponent,
+    RouterLink,
+    DaBubbleLogoComponent,
+    DropdownComponent,
+  ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent implements OnInit{
+export class HeaderComponent implements OnInit {
   headerPopup: boolean = false;
   userProfilePopup: boolean = false;
   usersService = inject(UsersService);
-  currentUser:AppUser = this.usersService.currentUser!;
+
+  /**
+   * Added noDataUser to get displayed if "currenTUser" to prevent app crash.
+   */
+  noDataUser = {
+    firstName: 'No',
+    lastName: 'Data',
+  };
+
+  currentUser: AppUser = this.usersService.currentUser! || this.noDataUser;
 
   ngOnInit(): void {
     console.log('global User: ', this.usersService.currentUser);

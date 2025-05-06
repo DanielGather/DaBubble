@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ModalComponent } from '../../../shared/modal/modal.component';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { CommonModule } from '@angular/common';
