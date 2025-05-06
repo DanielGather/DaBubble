@@ -10,18 +10,28 @@ import {
   setDoc,
   addDoc,
 } from '@angular/fire/firestore';
-import { RouterModule } from '@angular/router';
-import { DocumentReference, getDoc } from 'firebase/firestore';
+import { getDoc } from 'firebase/firestore';
 import { Observable, shareReplay } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FirestoreService {
+
   /**
    * firestore service
    */
   firestore: Firestore = inject(Firestore);
+
+
+/**
+ * Observable that loads all documents from the Firestore 'channels' collection at application start.
+ * The data is cached using `shareReplay(1)`, so multiple subscribers receive the same data
+ * without triggering additional Firestore reads.
+ *
+ * Note: Since this property is marked as `readonly`, it cannot be reassigned later.
+ * This is suitable only if the list of channels is static or should only be loaded once.
+ */
   readonly channelsList$: Observable<Channels[]> = this.getCollectionData(
     'channels'
   ) as Observable<Channels[]>;
@@ -82,7 +92,7 @@ export class FirestoreService {
     await setDoc(doc(this.firestore, collectionName, docId), objekt);
   }
 
-  async getSingleCollection(collectionId:string, docId:string) {
+  async getSingleCollection(collectionId: string, docId: string) {
     const docRef = this.getSingleDocRef(collectionId, docId);
     const docSnap = await getDoc(docRef);
 

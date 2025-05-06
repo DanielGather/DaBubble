@@ -8,14 +8,11 @@ import { UserCredential } from 'firebase/auth';
   providedIn: 'root',
 })
 export class UsersService {
-  
-  currentUserCredential:UserCredential|null = null;
-  currentUserId:string|null = null;
-  currentUser:AppUser|null = null;
-  
-  
-  constructor() {}
+  currentUserCredential: UserCredential | null = null;
+  currentUserId: string | null = null;
+  currentUser: AppUser | null = null;
 
+  constructor() {}
 
   firestoreService: FirestoreService = inject(FirestoreService);
 
