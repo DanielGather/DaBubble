@@ -17,3 +17,15 @@ img {
     }
   }
 }
+
+:host {
+height: 100%;
+}
+
+.direcktnachrichten::-webkit-scrollbar {
+  display: none;
+}
+.direcktnachrichten {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
