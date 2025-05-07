@@ -9,15 +9,13 @@ import {
 import { UsersService } from './users.service';
 import { Router } from '@angular/router';
 
-
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService {
-
   usersService = inject(UsersService);
 
-  constructor(private auth: Auth, private router: Router) { }
+  constructor(private auth: Auth, private router: Router) {}
 
   signIn(email: string, password: string): Promise<UserCredential> {
     return signInWithEmailAndPassword(this.auth, email, password);
@@ -29,8 +27,12 @@ export class AuthenticationService {
 
   async login(email: string, password: string) {
     try {
-      this.usersService.currentUserCredential = await this.signIn(email, password);
-      this.usersService.currentUserId = this.usersService.currentUserCredential!.user.uid;
+      this.usersService.currentUserCredential = await this.signIn(
+        email,
+        password
+      );
+      this.usersService.currentUserId =
+        this.usersService.currentUserCredential!.user.uid;
 
       const user = await this.setCurrentUser();
       this.usersService.setCurrentUser(user); // hier Subject updaten
@@ -65,5 +67,14 @@ export class AuthenticationService {
     });
   }
 
-
+  async logout(): Promise<void> {
+    try {
+      await this.auth.signOut();
+      this.usersService.currentUserId = null;
+      this.usersService.setCurrentUser(null);
+      await this.router.navigateByUrl('/login');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  }
 }
