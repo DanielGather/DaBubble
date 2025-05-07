@@ -30,6 +30,7 @@ import { FoldItemState, FoldKey, FoldState } from '../../../../types/types';
 })
 export class SidebarComponent {
   firestoreService: FirestoreService = inject(FirestoreService);
+  userService: UsersService = inject(UsersService);
 
   online: boolean = true;
   clicked: boolean = true;
@@ -56,6 +57,8 @@ export class SidebarComponent {
   };
 
   async ngOnInit() {
+    console.log('Das ist unser User', this.userService.currentUser$);
+    console.log('Query', this.firestoreService.getUserData());
     console.log(this.channelList$);
     this.firestoreService.getSubCollection();
     //this.firestoreService.getSingleCollection();

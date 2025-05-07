@@ -31,7 +31,8 @@ import { AppUser } from '../../../../types/types';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  auth = inject(AuthenticationService);
+  usersService = inject(UsersService);
+  authService = inject(AuthenticationService);
 
   constructor(private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
@@ -39,37 +40,20 @@ export class LoginComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
-  usersService = inject(UsersService);
 
-  ngOnInit(): void {}
+  async ngOnInit():Promise<void> {
+    if(!this.usersService.currentUser || this.usersService.currentUser == null){
+      await this.authService.observeAuthState();
+    }
+  }
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      this.login(this.loginForm.value.email, this.loginForm.value.password);
+      this.authService.login(this.loginForm.value.email, this.loginForm.value.password);
     } else {
       this.markFormGroupTouched(this.loginForm);
     }
   }
-
-  async login(email: string, password: string) {
-    try {
-      this.usersService.currentUserCredential = await this.auth.signIn(email, password);
-      this.usersService.currentUserId = this.usersService.currentUserCredential.user.uid;
-  
-      this.usersService.currentUser = await this.setCurrentUser();
-  
-      await this.router.navigateByUrl('/chat/private');
-    } catch (error) {
-      console.log('login error:', error);
-    }
-  }
-
-  //test
-  async setCurrentUser() {
-    return this.usersService.firestoreService.getSingleCollection('users', this.usersService.currentUserId!) as any;
-  }
-
-  //testend
 
   signInWithGoogle(): void {
     // sign in mit google logik

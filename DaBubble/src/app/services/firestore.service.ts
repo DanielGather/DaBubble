@@ -9,6 +9,8 @@ import {
   updateDoc,
   setDoc,
   addDoc,
+  where,
+  query,
 } from '@angular/fire/firestore';
 import { getDoc } from 'firebase/firestore';
 import { Observable, shareReplay } from 'rxjs';
@@ -17,21 +19,19 @@ import { Observable, shareReplay } from 'rxjs';
   providedIn: 'root',
 })
 export class FirestoreService {
-
   /**
    * firestore service
    */
   firestore: Firestore = inject(Firestore);
 
-
-/**
- * Observable that loads all documents from the Firestore 'channels' collection at application start.
- * The data is cached using `shareReplay(1)`, so multiple subscribers receive the same data
- * without triggering additional Firestore reads.
- *
- * NOTE: Since this property is marked as `readonly`, it cannot be reassigned later.
- * This is suitable only if the list of channels is static or should only be loaded once.
- */
+  /**
+   * Observable that loads all documents from the Firestore 'channels' collection at application start.
+   * The data is cached using `shareReplay(1)`, so multiple subscribers receive the same data
+   * without triggering additional Firestore reads.
+   *
+   * NOTE: Since this property is marked as `readonly`, it cannot be reassigned later.
+   * This is suitable only if the list of channels is static or should only be loaded once.
+   */
   readonly channelsList$: Observable<Channels[]> = this.getCollectionData(
     'channels'
   ) as Observable<Channels[]>;
@@ -83,8 +83,10 @@ export class FirestoreService {
     updateDoc(this.getSingleDocRef(collectionId, docId), docObject);
   }
 
-
   /**
+   * create a new collectionm from what?
+   * @param collectionName
+   * @param objekt
    * create a new collection from what?
    * @param collectionName 
    * @param objekt 
@@ -97,9 +99,9 @@ export class FirestoreService {
 
   /**
    * updates or create a new document
-   * @param collectionName 
-   * @param docId 
-   * @param objekt 
+   * @param collectionName
+   * @param docId
+   * @param objekt
    */
   async setDoc(collectionName: string, docId: string, objekt: {}) {
     await setDoc(doc(this.firestore, collectionName, docId), objekt);
@@ -117,6 +119,18 @@ export class FirestoreService {
       console.log('No such document!');
       return;
     }
+  }
+
+  async getUserData() {
+    const q = query(
+      collection(this.firestore, 'channels'),
+      where('userIds', 'array-contains', '5D3YcV7Q8dUaxrWyy4VNSFnqkhD3')
+      // where('channelName', '==', 'vdf')
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      console.log('query', doc.id, ' => ', doc.data());
+    });
   }
 
   async getSubCollection() {
