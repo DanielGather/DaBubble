@@ -1,4 +1,4 @@
-<section class="flex h-full gap-8 pr-4">
+<section class="flex h-full">
   <div
     class="bg-white [@media(min-width:767px)]:rounded-standard overflow-hidden flex flex-col justify-between h-[100%]"
   >
@@ -34,7 +34,8 @@
   </div>
 
   <!-- thread bar -->
-  @if(chatTypeInput === 'channel') {
+     <app-threadsbar [chatMessages]="chatMessages"></app-threadsbar>
+  <!-- @if(chatTypeInput === 'channel') {
   <app-threadsbar [chatMessages]="chatMessages"></app-threadsbar>
-  }
+  } -->
 </section>

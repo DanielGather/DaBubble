@@ -1,7 +1,8 @@
-<header class="flex items-center justify-between md:justify-normal p-4">
+<header class="flex items-center justify-between md:justify-normal">
   <!-- icon -->
 
-  <app-da-bubble-logo></app-da-bubble-logo>
+  <app-da-bubble-logo style="width: calc(20rem - 1rem);"></app-da-bubble-logo>
+
 
   <!-- icon devspace -->
 
@@ -16,16 +17,17 @@
   </div> -->
 
   <!-- search bar -->
-  <app-searchbar class="flex-1 min-w-0 md:px-8 [@media(min-width:1024px)]:px-12 w-full hidden md:block"></app-searchbar>
+  <app-searchbar class="flex-1 min-w-0 md:px-4 w-full hidden md:block"></app-searchbar>
 
   <!-- current user -->
   <div (click)="togglePopup()"
-    class="flex items-center justify-between gap-4 [@media(min-width:1024px)]:w-80 w-20 md:w-72 h-16 relative group cursor-pointer">
+    class="flex items-center justify-end gap-4 [@media(min-width:1024px)]:w-96 w-20 md:w-72 h-16 relative group cursor-pointer">
     <div
       class="text-xl md:text-2xl [@media(min-width:1024px)]:text-3xl font-bold hidden md:block currentUserName group-hover:text-[rgb(121,126,243)] transition-colors duration-125">
-      <div *ngIf="currentUser$ | async as user">
+      <p>Soah Koffa</p>
+      <!-- <div *ngIf="currentUser$ | async as user">
         <p>{{ user.firstName }} {{ user.lastName }}</p>
-      </div>
+      </div> -->
     </div>
 
     <img class="w-14 md:w-16 rounded-full ml-auto md:ml-0" src="img/user_1_small.png" alt="" />

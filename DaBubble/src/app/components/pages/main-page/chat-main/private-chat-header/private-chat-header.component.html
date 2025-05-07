@@ -1,52 +1,16 @@
 <div
-    class="
-        flex items-center justify-start
-        flex-row
-        md:px-[2.8rem]
-        px-[1rem]
-        py-5
-        gap-3
-    ">
+  class="flex items-center justify-start flex-row md:px-[2.8rem] px-[1rem] py-5 gap-3"
+>
+  <div class="flex flex-row relative">
+    <div class="h-[3.125rem] w-[3.125rem]">
+      <img class="w-full h-full rounded-[50%]" src="img/user_1.png" alt="" />
 
-    <div 
-        class="
-            flex
-            flex-row
-            relative
-        ">
-
-        <div
-            class="
-                h-[3.125rem]
-                w-[3.125rem]
-            ">     
-            
-            <img 
-                class="
-                    w-full
-                    h-full
-                    rounded-[50%]
-                " 
-                src="img/user_1.png" 
-                alt=""
-            >
-            
-                <img 
-                [src]="online ? 'img/online.svg' : 'img/offline.svg'"
-                alt=""
-                class="
-                    absolute bottom-0 right-0
-                "
-            >
-            
-        </div>
-
+      <img
+        [src]="online ? 'img/online.svg' : 'img/offline.svg'"
+        alt=""
+        class="absolute bottom-0 right-0"
+      />
     </div>
-    <span 
-            class="
-                text-24
-                font-[700]
-            ">
-                A name
-    </span>
+  </div>
+  <span class="text-24 font-[700]"> A name </span>
 </div>

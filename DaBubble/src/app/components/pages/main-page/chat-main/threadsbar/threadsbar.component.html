@@ -1,13 +1,14 @@
 <div
   id="threadsbar-wrapper"
-  class="flex flex-col w-96 h-full bg-white rounded-standard overflow-hidden transition-all duration-300"
+  class="flex flex-col w-96 h-full bg-white rounded-standard overflow-hidden ml-4 transition-all duration-300"
   [class.w-96]="isOpen"
   [class.w-0]="!isOpen"
+  [class.ml-4]="isOpen"
+  [class.ml-0]="!isOpen"
 >
   <div
     id="threadsbar-content"
     class="flex flex-col h-full opacity-1 transition-opacity duration-75"
-    [class.opacity-0]="!isOpen"
   >
     <div
       id="threadsbar-header"
