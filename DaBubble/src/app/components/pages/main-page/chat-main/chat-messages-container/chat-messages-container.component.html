@@ -1,14 +1,12 @@
 <div
   class="w-full flex flex-col items-start justify-between relative z-[2] h-full"
 >
-  <!-- h-full oben -->
 
   <div
     class="w-full h-full overflow-y-auto pt-[1.5rem]"
     #messageField
     id="message-field"
   >
-    <!-- h-full oben -->
     @if(chatMessages && !isThread) { @for(message of chatMessages; track
     message; let index = $index) { @if(message.userId === userId) {
     <app-chat-message
