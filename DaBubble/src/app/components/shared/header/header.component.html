@@ -50,7 +50,7 @@
         </div>
       </div>
 
-      <a routerLink="/">
+      <a (click)="userLogout()">
         <div class="flex items-center gap-4 max-w-fit md:max-w-full active:bg-bg-main rounded-standard px-4">
           <img class="md:hidden w-7 h-7" src="img/logout.svg" alt="" />
           <div (click)="togglePopup()"

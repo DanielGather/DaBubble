@@ -67,7 +67,7 @@ export class AuthenticationService {
     });
   }
 
-  async logout(): Promise<void> {
+  async logoutService(): Promise<void> {
     try {
       await this.auth.signOut();
       this.usersService.currentUserId = null;
