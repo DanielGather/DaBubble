@@ -51,14 +51,15 @@ export class AuthenticationService {
   }
 
   async observeAuthState() {
+    console.log('auth state listener active!!!');
+
     onAuthStateChanged(this.auth, async (user) => {
       if (user) {
+        await this.router.navigateByUrl('/chat/private');
         this.usersService.currentUserId = user.uid;
 
         const appUser = await this.setCurrentUser();
         this.usersService.setCurrentUser(appUser); // hier Subject updaten
-
-        await this.router.navigateByUrl('/chat/private');
       } else {
         this.usersService.currentUserId = null;
         this.usersService.setCurrentUser(null); // Subject auf null setzen
@@ -70,8 +71,6 @@ export class AuthenticationService {
   async logoutService(): Promise<void> {
     try {
       await this.auth.signOut();
-      this.usersService.currentUserId = null;
-      this.usersService.setCurrentUser(null);
       await this.router.navigateByUrl('/login');
     } catch (error) {
       console.error('Logout error:', error);

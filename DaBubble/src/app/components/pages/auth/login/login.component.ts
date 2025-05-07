@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
@@ -29,7 +29,7 @@ import { AppUser } from '../../../../types/types';
     ModalComponent,
   ],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   loginForm: FormGroup;
   usersService = inject(UsersService);
   authService = inject(AuthenticationService);
@@ -41,15 +41,12 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  async ngOnInit():Promise<void> {
-    if(!this.usersService.currentUser || this.usersService.currentUser == null){
-      await this.authService.observeAuthState();
-    }
-  }
-
   onSubmit(): void {
     if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value.email, this.loginForm.value.password);
+      this.authService.login(
+        this.loginForm.value.email,
+        this.loginForm.value.password
+      );
     } else {
       this.markFormGroupTouched(this.loginForm);
     }
