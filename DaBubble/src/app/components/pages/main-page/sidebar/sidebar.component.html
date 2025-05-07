@@ -1,152 +1,155 @@
-@if(clicked){
-<app-searchbar class="block md:hidden"></app-searchbar>
-<div class="pt-4 pr-4 w-80 relative">
-  <div
-    class="flex pl-4 gap-4 pt-8 relative bg-bg-component rounded-tl-standard rounded-tr-standard"
-  >
-    <div class="items-start flex justify-center pt-2">
-      <img
-        style="transition: transform 0.3s"
-        (click)="toggleFold('channel')"
-        class="w-4 h-4 hover:cursor-pointer"
-        [style.transform]="'rotate(' + foldState.channel.rotation + 'deg)'"
-        src="img/arrow_drop_down.svg"
-        alt=""
-      />
-    </div>
-    <div class="pr-4 gap-4 flex flex-col w-full hover:cursor-pointer">
-      <div class="flex">
-        <div class="flex gap-4 items-center">
-          <img class="w-5 h-5" src="img/workspaces.svg" alt="" />
-          <p class="font-bold text-24">Channels</p>
-        </div>
-        <div class="w-full flex justify-end items-center">
+<nav class="h-full overflow-auto" [ngClass]="{'ml-4': clicked}">
+  @if(clicked){
+    <app-searchbar class="block md:hidden"></app-searchbar>
+    <div class="pt-4 w-80 relative">
+      <div
+        class="flex pl-4 gap-4 pt-8 relative bg-bg-component rounded-tl-standard rounded-tr-standard"
+      >
+        <div class="items-start flex justify-center pt-2">
           <img
-            (click)="showModal = !showModal"
-            class="w-5 h-5 hover:cursor-pointer"
-            src="img/add.svg"
+            style="transition: transform 0.3s"
+            (click)="toggleFold('channel')"
+            class="w-4 h-4 hover:cursor-pointer"
+            [style.transform]="'rotate(' + foldState.channel.rotation + 'deg)'"
+            src="img/arrow_drop_down.svg"
             alt=""
           />
         </div>
-      </div>
-      <ul *ngIf="channelList$ | async as channels">
-        <li *ngFor="let channel of channels">
-          <div
-            (click)="openChannel(channel.id)"
-            id="channel"
-            class="flex flex-col gap-4 items-start hover:cursor-pointer"
-          >
-            @if(!foldState.channel.isRotated){
-            <div class="flex origin-top" @foldAnimation>
-              <p
-                class="w-5 self-center justify-center flex font-bold text-[2xl]"
-              >
-                #
-              </p>
-              <p>{{ channel.channelName }}</p>
+        <div class="pr-4 gap-4 flex flex-col w-full hover:cursor-pointer">
+          <div class="flex">
+            <div class="flex gap-4 items-center">
+              <img class="w-5 h-5" src="img/workspaces.svg" alt="" />
+              <p class="font-bold text-24">Channels</p>
             </div>
-            }
-          </div>
-        </li>
-      </ul>
-
-      <div
-        (click)="showModal = !showModal"
-        class="flex gap-4 hover:cursor-pointer"
-      >
-        <img class="w-5 h-5" src="img/add_circle.svg" alt="" />
-        <p class="text-[#535AF1]">Channel hinzufügen</p>
-      </div>
-    </div>
-  </div>
-
-  <div
-    class="flex pl-4 gap-4 pt-8 bg-bg-component rounded-bl-standard rounded-br-standard"
-  >
-    <div class="items-start flex justify-center pt-2">
-      <img
-        (click)="toggleFold('contacts')"
-        [style.transform]="'rotate(' + foldState.contacts.rotation + 'deg)'"
-        class="w-4 h-4 hover:cursor-pointer"
-        src="img/arrow_drop_down.svg"
-        alt=""
-      />
-    </div>
-    <div class="pr-4 pb-4 gap-4 flex flex-col w-full">
-      <div class="flex hover:cursor-pointer">
-        <div class="flex gap-4 items-center">
-          <img class="w-5 h-5" src="img/account_circle.svg" alt="" />
-          <p class="font-bold text-2xl">Direktnachrichten</p>
-        </div>
-      </div>
-      <ul *ngIf="usersList$ | async as users">
-        <li
-          *ngFor="let user of users"
-          class="flex gap-4 items-center pb-2 hover:cursor-pointer"
-        >
-          @if(!foldState.contacts.isRotated){
-          <div class="relative" @foldAnimation>
-            <img
-              class="w-10 h-10 rounded-full"
-              [src]="getAvatar(user.avatarId)"
-              alt=""
-            />
-            <img
-              *ngIf="user.online; else offlineTpl"
-              class="absolute right-0 bottom-[-3px] rounded-full"
-              src="img/online.svg"
-              alt=""
-            />
-            <ng-template #offlineTpl>
+            <div class="w-full flex justify-end items-center">
               <img
-                class="absolute right-0 bottom-[-3px] rounded-full"
-                src="img/offline.svg"
+                (click)="showModal = !showModal"
+                class="w-5 h-5 hover:cursor-pointer"
+                src="img/add.svg"
                 alt=""
               />
-            </ng-template>
+            </div>
           </div>
-          <p>{{ user.firstName }} {{ user.lastName }}</p>
-          }
-        </li>
-      </ul>
+          <ul *ngIf="channelList$ | async as channels">
+            <li *ngFor="let channel of channels">
+              <div
+                (click)="openChannel(channel.id)"
+                id="channel"
+                class="flex flex-col gap-4 items-start hover:cursor-pointer"
+              >
+                @if(!foldState.channel.isRotated){
+                <div class="flex origin-top" @foldAnimation>
+                  <p
+                    class="w-5 self-center justify-center flex font-bold text-[2xl]"
+                  >
+                    #
+                  </p>
+                  <p>{{ channel.channelName }}</p>
+                </div>
+                }
+              </div>
+            </li>
+          </ul>
+    
+          <div
+            (click)="showModal = !showModal"
+            class="flex gap-4 hover:cursor-pointer"
+          >
+            <img class="w-5 h-5" src="img/add_circle.svg" alt="" />
+            <p class="text-[#535AF1]">Channel hinzufügen</p>
+          </div>
+        </div>
+      </div>
+    
+      <div
+        class="flex pl-4 gap-4 pt-8 bg-bg-component rounded-bl-standard rounded-br-standard"
+      >
+        <div class="items-start flex justify-center pt-2">
+          <img
+            (click)="toggleFold('contacts')"
+            [style.transform]="'rotate(' + foldState.contacts.rotation + 'deg)'"
+            class="w-4 h-4 hover:cursor-pointer"
+            src="img/arrow_drop_down.svg"
+            alt=""
+          />
+        </div>
+        <div class="pr-4 pb-4 gap-4 flex flex-col w-full">
+          <div class="flex hover:cursor-pointer">
+            <div class="flex gap-4 items-center">
+              <img class="w-5 h-5" src="img/account_circle.svg" alt="" />
+              <p class="font-bold text-2xl">Direktnachrichten</p>
+            </div>
+          </div>
+          <ul *ngIf="usersList$ | async as users">
+            <li
+              *ngFor="let user of users"
+              class="flex gap-4 items-center pb-2 hover:cursor-pointer"
+            >
+              @if(!foldState.contacts.isRotated){
+              <div class="relative" @foldAnimation>
+                <img
+                  class="w-10 h-10 rounded-full"
+                  [src]="getAvatar(user.avatarId)"
+                  alt=""
+                />
+                <img
+                  *ngIf="user.online; else offlineTpl"
+                  class="absolute right-0 bottom-[-3px] rounded-full"
+                  src="img/online.svg"
+                  alt=""
+                />
+                <ng-template #offlineTpl>
+                  <img
+                    class="absolute right-0 bottom-[-3px] rounded-full"
+                    src="img/offline.svg"
+                    alt=""
+                  />
+                </ng-template>
+              </div>
+              <p>{{ user.firstName }} {{ user.lastName }}</p>
+              }
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-}
-<div
-  (click)="navBarClicked()"
-  class="hoverWorkspace p-3 gap-2 absolute flex items-center justify-center left-0 bottom-16 -rotate-90 origin-top-left rounded-br-standard rounded-bl-standard bg-white shadow [@media(max-width:480px)]:hidden"
->
-  <p class="bg-white font-bold">Workspace-Menü schließen</p>
-  <svg
-    class="rotate-90 bg-white"
-    width="32"
-    height="32"
-    viewBox="0 0 32 32"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <rect
-      class=""
-      x="8"
-      y="8"
-      width="16"
-      height="16"
-      rx="1"
-      stroke="black"
-      stroke-width="2"
-    />
-    <path d="M13.7142 8V24" stroke="black" stroke-width="2" />
-    <path
-      d="M19.4285 18.2857L17.4964 16.3535C17.3011 16.1583 17.3011 15.8417 17.4964 15.6464L19.4285 13.7143"
-      stroke="black"
-      stroke-width="2"
-      stroke-linecap="round"
-    />
-  </svg>
-</div>
-@if(showModal){
-<app-create-channel
-  (showModal)="closeChannelWindow($event)"
-></app-create-channel>
-}
+    }
+    <div
+      (click)="navBarClicked()"
+      class="hoverWorkspace p-3 gap-2 absolute flex items-center justify-center left-0 bottom-16 -rotate-90 origin-top-left rounded-br-standard rounded-bl-standard bg-white shadow [@media(max-width:480px)]:hidden"
+    >
+      <p class="bg-white font-bold">Workspace-Menü schließen</p>
+      <svg
+        class="rotate-90 bg-white"
+        width="32"
+        height="32"
+        viewBox="0 0 32 32"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect
+          class=""
+          x="8"
+          y="8"
+          width="16"
+          height="16"
+          rx="1"
+          stroke="black"
+          stroke-width="2"
+        />
+        <path d="M13.7142 8V24" stroke="black" stroke-width="2" />
+        <path
+          d="M19.4285 18.2857L17.4964 16.3535C17.3011 16.1583 17.3011 15.8417 17.4964 15.6464L19.4285 13.7143"
+          stroke="black"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+      </svg>
+    </div>
+    @if(showModal){
+    <app-create-channel
+      (showModal)="closeChannelWindow($event)"
+    ></app-create-channel>
+    }
+</nav>
+
