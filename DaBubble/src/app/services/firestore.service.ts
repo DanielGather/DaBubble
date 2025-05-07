@@ -85,7 +85,7 @@ export class FirestoreService {
 
 
   /**
-   * create a new collectionm from what?
+   * create a new collection from what?
    * @param collectionName 
    * @param objekt 
    */
