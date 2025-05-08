@@ -30,9 +30,9 @@ export class MainLayoutComponent implements OnInit{
     usersService = inject(UsersService);
 
     async ngOnInit():Promise<void> {
-      if(!this.usersService.currentUser || this.usersService.currentUser == null) {
+      if(!this.usersService.currentUser$ || this.usersService.currentUser$ == null) {
         await this.authService.observeAuthState();
-        console.log('currentUser is: ',this.usersService.currentUser);
+        console.log('currentUser is: ',this.usersService.currentUser$);
         ;        
       }
     }

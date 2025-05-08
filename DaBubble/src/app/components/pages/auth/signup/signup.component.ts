@@ -80,7 +80,6 @@ export class SignupComponent implements OnInit {
 
       await this.addUserToFirebase(user);
 
-      this.usersService.currentUser = this.userObject;
       this.usersService.currentUserId = user.uid;
       this.router.navigateByUrl('/choose-avatar');
     } catch (error) {
@@ -99,6 +98,8 @@ export class SignupComponent implements OnInit {
       lastName: nameParts.length > 1 ? nameParts.slice(1).join(' ') : '',
       online: false,
     };
+
+    this.usersService.userObject = this.userObject;
 
     await this.firestore.setDoc('users', user.uid, this.userObject);
   }

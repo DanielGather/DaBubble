@@ -27,12 +27,11 @@ export class HeaderComponent implements OnInit {
   userProfilePopup: boolean = false;
   usersService = inject(UsersService);
   authService = inject(AuthenticationService);
-  test = this.usersService.test;
 
   currentUser$: Observable<AppUser | null> = this.usersService.currentUser$;
 
   ngOnInit(): void {
-    console.log('global User: ', this.usersService.currentUser);
+    console.log('DAS IST DER GLOBAL USER: ' , this.usersService.currentUser$);
   }
 
   togglePopup() {

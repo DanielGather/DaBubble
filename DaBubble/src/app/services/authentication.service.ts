@@ -17,7 +17,7 @@ export class AuthenticationService {
   usersService = inject(UsersService);
   firestoreService = inject(FirestoreService);
 
-  constructor(private auth: Auth, private router: Router) {}
+  constructor(private auth: Auth, private router: Router) { }
 
   signIn(email: string, password: string): Promise<UserCredential> {
     return signInWithEmailAndPassword(this.auth, email, password);
@@ -36,8 +36,7 @@ export class AuthenticationService {
       this.usersService.currentUserId =
         this.usersService.currentUserCredential!.user.uid;
 
-      const user = await this.setCurrentUser();
-      this.usersService.setCurrentUser(user); // hier Subject updaten
+      this.usersService.observeCurrentUser(this.usersService.currentUserId!);
 
       await this.router.navigateByUrl('/chat/private');
     } catch (error) {
@@ -54,23 +53,20 @@ export class AuthenticationService {
   }
 
   async observeAuthState() {
-    console.log('auth state listener active!!!');
-
     onAuthStateChanged(this.auth, async (user) => {
       const currentUrl = this.router.url;
       if (user) {
         if (!currentUrl.includes('/signup')) {
           await this.router.navigateByUrl('/chat/private');
         }
-
+  
         this.usersService.currentUserId = user.uid;
-
-        const appUser = await this.setCurrentUser();
-
-        this.usersService.setCurrentUser(appUser); // hier Subject updaten
+  
+        this.usersService.observeCurrentUser(user.uid);
+  
       } else {
         this.usersService.currentUserId = null;
-        this.usersService.setCurrentUser(null); // Subject auf null setzen
+        this.usersService.clearCurrentUser(); 
         await this.router.navigateByUrl('/login');
       }
     });
@@ -79,6 +75,7 @@ export class AuthenticationService {
   async logoutService(): Promise<void> {
     try {
       await this.auth.signOut();
+      this.usersService.clearCurrentUser();
       await this.router.navigateByUrl('/login');
     } catch (error) {
       console.error('Logout error:', error);
