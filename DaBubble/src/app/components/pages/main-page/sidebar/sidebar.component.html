@@ -1,7 +1,7 @@
 <nav class="h-full" [ngClass]="{ 'ml-4': clicked }">
   @if(clicked){
     <app-searchbar class="block md:hidden"></app-searchbar>
-    <div class="pt-4 w-80 relative">
+    <div class="pt-4 w-80 relative h-full flex flex-col">
       <div
         class="flex pl-4 gap-4 pt-8 relative bg-bg-component rounded-tl-standard rounded-tr-standard"
       >
@@ -30,7 +30,7 @@
               />
             </div>
           </div>
-          <ul *ngIf="channelList$ | async as channels">
+          <ul *ngIf="channelList$ | async as channels" class="overflow-y-auto max-h-12rem">
             <li *ngFor="let channel of channels">
               <div
                 (click)="openChannel(channel.id)"
@@ -62,8 +62,9 @@
       </div>
     
       <div
-        class="flex pl-4 gap-4 pt-8 bg-bg-component rounded-bl-standard rounded-br-standard"
+        class="flex pl-4 gap-4 pt-8 bg-bg-component rounded-bl-standard rounded-br-standard flex-grow min-h-0 flex-col"
       >
+      <div class="flex gap-4"> 
         <div class="items-start flex justify-center pt-2">
           <img
             (click)="toggleFold('contacts')"
@@ -73,14 +74,16 @@
             alt=""
           />
         </div>
-        <div class="pr-4 pb-4 gap-4 flex flex-col w-full">
-          <div class="flex hover:cursor-pointer">
-            <div class="flex gap-4 items-center">
-              <img class="w-5 h-5" src="img/account_circle.svg" alt="" />
-              <p class="font-bold text-2xl">Direktnachrichten</p>
-            </div>
+        <div class="flex hover:cursor-pointer">
+          <div class="flex gap-4 items-center">
+            <img class="w-5 h-5" src="img/account_circle.svg" alt="" />
+            <p class="font-bold text-2xl">Direktnachrichten</p>
           </div>
-          <ul *ngIf="usersList$ | async as users">
+        </div>
+      </div>
+
+        <div class="pr-4 gap-4 flex flex-col w-full flex-grow min-h-0 pb-4">
+          <ul *ngIf="usersList$ | async as users" class="overflow-y-auto">
             <li
               *ngFor="let user of users"
               class="flex gap-4 items-center pb-2 hover:cursor-pointer"
