@@ -61,6 +61,7 @@ export class AuthenticationService {
         }
   
         this.usersService.currentUserId = user.uid;
+        
   
         this.usersService.observeCurrentUser(user.uid);
   
