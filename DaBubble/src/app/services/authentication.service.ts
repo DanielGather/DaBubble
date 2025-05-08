@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import {
   createUserWithEmailAndPassword,
@@ -17,7 +17,11 @@ export class AuthenticationService {
   usersService = inject(UsersService);
   firestoreService = inject(FirestoreService);
 
-  constructor(private auth: Auth, private router: Router) { }
+  private userIdSignal = signal<string>('');
+
+  public userId = this.userIdSignal.asReadonly();
+
+  constructor(private auth: Auth, private router: Router) {}
 
   signIn(email: string, password: string): Promise<UserCredential> {
     return signInWithEmailAndPassword(this.auth, email, password);
@@ -56,17 +60,17 @@ export class AuthenticationService {
     onAuthStateChanged(this.auth, async (user) => {
       const currentUrl = this.router.url;
       if (user) {
+        this.userIdSignal.set(user.uid);
         if (!currentUrl.includes('/signup')) {
           await this.router.navigateByUrl('/chat/private');
         }
-  
+
         this.usersService.currentUserId = user.uid;
-  
+
         this.usersService.observeCurrentUser(user.uid);
-  
       } else {
         this.usersService.currentUserId = null;
-        this.usersService.clearCurrentUser(); 
+        this.usersService.clearCurrentUser();
         await this.router.navigateByUrl('/login');
       }
     });
