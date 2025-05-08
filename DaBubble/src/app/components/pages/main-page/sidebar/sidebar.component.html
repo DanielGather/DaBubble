@@ -1,7 +1,7 @@
-<nav class="h-full overflow-auto" [ngClass]="{'ml-4': clicked}">
+<nav class="h-full flex flex-col" [ngClass]="{'ml-4': clicked}">
   @if(clicked){
     <app-searchbar class="block md:hidden"></app-searchbar>
-    <div class="pt-4 w-80 relative">
+    <div class="pt-4 w-80 relative flex-grow min-h-0">
       <div
         class="flex pl-4 gap-4 pt-8 relative bg-bg-component rounded-tl-standard rounded-tr-standard"
       >
@@ -30,7 +30,7 @@
               />
             </div>
           </div>
-          <ul *ngIf="channelList$ | async as channels">
+          <ul class="max-h-[13.25rem] overflow-y-auto" *ngIf="channelList$ | async as channels">
             <li *ngFor="let channel of channels">
               <div
                 (click)="openChannel(channel.id)"
