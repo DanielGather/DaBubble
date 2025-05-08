@@ -53,7 +53,14 @@ export class ChatMainComponent implements OnInit {
   /**
    * this variable is used to have a reference of the current active route
    */
-  constructor(private router: ActivatedRoute) {}
+  constructor(private router: ActivatedRoute) {
+    effect(() => {
+      const id = this.authService.userId;
+      if (id() != '') {
+        console.log('User ist da!', id());
+      }
+    });
+  }
 
   ngOnInit(): void {
     //test
@@ -62,13 +69,6 @@ export class ChatMainComponent implements OnInit {
     //testend
 
     this.getChatTypeFromURL();
-
-    effect(() => {
-      const id = this.authService.userId();
-      if (id != '') {
-        console.log('User ist da!', id);
-      }
-    });
   }
 
   /**
