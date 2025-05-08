@@ -27,6 +27,7 @@ export class HeaderComponent implements OnInit {
   userProfilePopup: boolean = false;
   usersService = inject(UsersService);
   authService = inject(AuthenticationService);
+  test = this.usersService.test;
 
   currentUser$: Observable<AppUser | null> = this.usersService.currentUser$;
 

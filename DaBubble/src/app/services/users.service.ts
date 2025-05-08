@@ -11,6 +11,7 @@ export class UsersService {
   currentUserCredential: UserCredential | null = null;
   currentUserId: string | null = null;
   currentUser: AppUser | null = null;
+  test: AppUser | null = null;
 
   private currentUserSubject = new BehaviorSubject<AppUser | null>(null);
 
@@ -24,5 +25,6 @@ export class UsersService {
 
   setCurrentUser(user: AppUser | null) {
     this.currentUserSubject.next(user);
+    this.test = user;
   }
 }

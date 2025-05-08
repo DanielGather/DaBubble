@@ -8,12 +8,14 @@ import {
 } from 'firebase/auth';
 import { UsersService } from './users.service';
 import { Router } from '@angular/router';
+import { FirestoreService } from './firestore.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService {
   usersService = inject(UsersService);
+  firestoreService = inject(FirestoreService);
 
   constructor(private auth: Auth, private router: Router) {}
 
@@ -44,7 +46,8 @@ export class AuthenticationService {
   }
 
   async setCurrentUser() {
-    return this.usersService.firestoreService.getSingleCollection(
+    console.log('guade ID', this.usersService.currentUserId);
+    return this.firestoreService.getSingleCollection(
       'users',
       this.usersService.currentUserId!
     ) as any;
@@ -54,11 +57,16 @@ export class AuthenticationService {
     console.log('auth state listener active!!!');
 
     onAuthStateChanged(this.auth, async (user) => {
+      const currentUrl = this.router.url;
       if (user) {
-        await this.router.navigateByUrl('/chat/private');
+        if (!currentUrl.includes('/signup')) {
+          await this.router.navigateByUrl('/chat/private');
+        }
+
         this.usersService.currentUserId = user.uid;
 
         const appUser = await this.setCurrentUser();
+
         this.usersService.setCurrentUser(appUser); // hier Subject updaten
       } else {
         this.usersService.currentUserId = null;
