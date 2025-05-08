@@ -1,8 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { SidebarComponent } from '../../pages/main-page/sidebar/sidebar.component';
-import { RouterLink, RouterOutlet } from '@angular/router';
-import { ChatMainComponent } from '../../pages/main-page/chat-main/chat-main.component';
+import { RouterOutlet } from '@angular/router';
 import { AuthenticationService } from '../../../services/authentication.service';
 import { UsersService } from '../../../services/users.service';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -10,13 +9,7 @@ import { FirestoreService } from '../../../services/firestore.service';
 import { AppUser } from '../../../types/types';
 @Component({
   selector: 'app-main-layout',
-  imports: [
-    HeaderComponent,
-    SidebarComponent,
-    ChatMainComponent,
-    RouterLink,
-    RouterOutlet,
-  ],
+  imports: [HeaderComponent, SidebarComponent, RouterOutlet],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss',
 })

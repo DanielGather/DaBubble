@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, inject } from '@angular/core';
+import { Component, OnInit, Input, inject, effect } from '@angular/core';
 import { ChatInputComponent } from './chat-input/chat-input.component';
 import { ChatType, ChatMessage } from '../../../../types/types';
 import { CommonModule } from '@angular/common';
@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ThreadsbarComponent } from './threadsbar/threadsbar.component';
 import { MessagesDataService } from '../../../../services/messages-data.service';
 import { UsersService } from '../../../../services/users.service';
+import { AuthenticationService } from '../../../../services/authentication.service';
 
 @Component({
   selector: 'app-chat-main',
@@ -27,12 +28,13 @@ export class ChatMainComponent implements OnInit {
   //test
   messageDataService = inject(MessagesDataService);
   //testend
-  
+
   /**
    * users service variable
    */
   usersService = inject(UsersService);
-  
+  authService = inject(AuthenticationService);
+
   /**
    * variable to use the enum ChatType in the html-template.
    */
@@ -60,6 +62,13 @@ export class ChatMainComponent implements OnInit {
     //testend
 
     this.getChatTypeFromURL();
+
+    effect(() => {
+      const id = this.authService.userId();
+      if (id != '') {
+        console.log('User ist da!', id);
+      }
+    });
   }
 
   /**
