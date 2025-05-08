@@ -1,8 +1,7 @@
 <header class="flex items-center justify-between md:justify-normal">
   <!-- icon -->
 
-  <app-da-bubble-logo style="width: calc(20rem - 1rem);"></app-da-bubble-logo>
-
+  <app-da-bubble-logo class="pl-4" style="width: 22rem"></app-da-bubble-logo>
 
   <!-- icon devspace -->
 
@@ -17,46 +16,71 @@
   </div> -->
 
   <!-- search bar -->
-  <app-searchbar class="flex-1 min-w-0 md:px-4 w-full hidden md:block"></app-searchbar>
+  <app-searchbar class="flex-1 min-w-0 w-full hidden md:block"></app-searchbar>
 
   <!-- current user -->
-  <div (click)="togglePopup()"
-    class="flex items-center justify-end gap-4 [@media(min-width:1024px)]:w-96 w-20 md:w-72 h-16 relative group cursor-pointer">
+  <div
+    (click)="togglePopup()"
+    class="flex items-center justify-end gap-4 [@media(min-width:1024px)]:w-[416px] w-20 md:w-72 h-16 pr-4 relative group cursor-pointer"
+  >
     <div
-      class="text-xl md:text-2xl [@media(min-width:1024px)]:text-3xl font-bold hidden md:block currentUserName group-hover:text-[rgb(121,126,243)] transition-colors duration-125">
-      <p>Soah Koffa</p>
-      <!-- <div *ngIf="currentUser$ | async as user">
+      class="text-xl md:text-2xl [@media(min-width:1024px)]:text-3xl font-bold hidden md:block currentUserName group-hover:text-[rgb(121,126,243)] transition-colors duration-125"
+    >
+      <div *ngIf="currentUser$ | async as user">
         <p>{{ user.firstName }} {{ user.lastName }}</p>
-      </div> -->
+      </div>
     </div>
 
-    <img class="w-14 md:w-16 rounded-full ml-auto md:ml-0" src="img/user_1_small.png" alt="" />
+    <img
+      class="w-14 md:w-16 rounded-full ml-auto md:ml-0"
+      src="img/user_1_small.png"
+      alt=""
+    />
 
-    <img class="w-8 hidden md:block transition-opacity duration-125 opacity-100 group-hover:opacity-0"
-      src="img/keyboard_arrow_black.svg" alt="" />
-    <img class="w-8 hidden md:block absolute right-0 transition-opacity duration-125 opacity-0 group-hover:opacity-100"
-      src="img/keyboard_arrow_colored.svg" alt="" />
+    <img
+      class="w-8 hidden md:block transition-opacity duration-125 opacity-100 group-hover:opacity-0"
+      src="img/keyboard_arrow_black.svg"
+      alt=""
+    />
+    <img
+      class="w-8 hidden md:block absolute right-4 transition-opacity duration-125 opacity-0 group-hover:opacity-100"
+      src="img/keyboard_arrow_colored.svg"
+      alt=""
+    />
   </div>
 
   <!-- header popup display -->
-  <div [class.show]="headerPopup"
-    class="popup absolute z-20 bg-white flex justify-center items-center flex-col w-full md:w-72 h-44 px-8 gap-4 rounded-tl-standard rounded-tr-standard md:rounded-tr-none rounded-bl-none md:rounded-bl-standard rounded-br-none md:rounded-br-standard">
-    <div class="w-16 h-1.5 bg-[rgba(217,217,217,1)] rounded-full md:hidden"></div>
+  <div
+    [class.show]="headerPopup"
+    class="popup absolute z-20 bg-white flex justify-center items-center flex-col w-full md:w-72 h-44 px-8 gap-4 rounded-tl-standard rounded-tr-standard md:rounded-tr-none rounded-bl-none md:rounded-bl-standard rounded-br-none md:rounded-br-standard"
+  >
+    <div
+      class="w-16 h-1.5 bg-[rgba(217,217,217,1)] rounded-full md:hidden"
+    ></div>
 
     <div class="w-full">
-      <div class="flex items-center gap-4 max-w-fit md:max-w-full active:bg-bg-main rounded-standard px-4">
+      <div
+        class="flex items-center gap-4 max-w-fit md:max-w-full active:bg-bg-main rounded-standard px-4"
+      >
         <img class="md:hidden w-7 h-7" src="img/account_circle.svg" alt="" />
-        <div (click)="toggleUserProfile()" (click)="togglePopup()"
-          class="md:hover:bg-bg-main md:hover:text-fc-dark-purple md:hover:font-bold text-24 font-semibold w-full flex justify-start md:justify-center rounded-standard py-2 cursor-pointer">
+        <div
+          (click)="toggleUserProfile()"
+          (click)="togglePopup()"
+          class="md:hover:bg-bg-main md:hover:text-fc-dark-purple md:hover:font-bold text-24 font-semibold w-full flex justify-start md:justify-center rounded-standard py-2 cursor-pointer"
+        >
           Profil
         </div>
       </div>
 
       <a (click)="userLogout()">
-        <div class="flex items-center gap-4 max-w-fit md:max-w-full active:bg-bg-main rounded-standard px-4">
+        <div
+          class="flex items-center gap-4 max-w-fit md:max-w-full active:bg-bg-main rounded-standard px-4"
+        >
           <img class="md:hidden w-7 h-7" src="img/logout.svg" alt="" />
-          <div (click)="togglePopup()"
-            class="md:hover:bg-bg-main md:hover:text-fc-dark-purple md:hover:font-bold text-24 font-semibold w-full flex justify-start md:justify-center rounded-standard py-2 cursor-pointer">
+          <div
+            (click)="togglePopup()"
+            class="md:hover:bg-bg-main md:hover:text-fc-dark-purple md:hover:font-bold text-24 font-semibold w-full flex justify-start md:justify-center rounded-standard py-2 cursor-pointer"
+          >
             Log out
           </div>
         </div>
@@ -66,10 +90,16 @@
 </header>
 
 <!-- popup background -->
-<div [class.show]="headerPopup" (click)="togglePopup()"
-  class="popupBg absolute z-10 top-0 left-0 bg-black/50 w-screen h-screen"></div>
+<div
+  [class.show]="headerPopup"
+  (click)="togglePopup()"
+  class="popupBg absolute z-10 top-0 left-0 bg-black/50 w-screen h-screen"
+></div>
 
 <!-- user profile -->
-<app-profile-user [class.show]="userProfilePopup" (close)="toggleUserProfile()"
-  class="userProfile popupBg absolute z-10 top-0 left-0 bg-black/50 w-screen h-screen">
+<app-profile-user
+  [class.show]="userProfilePopup"
+  (close)="toggleUserProfile()"
+  class="userProfile popupBg absolute z-10 top-0 left-0 bg-black/50 w-screen h-screen"
+>
 </app-profile-user>
