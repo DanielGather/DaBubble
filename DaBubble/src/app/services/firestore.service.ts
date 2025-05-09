@@ -72,6 +72,16 @@ export class FirestoreService {
     return doc(this.firestore, collectionId, docId);
   }
 
+  async getSingleDoc(collectionId: string, userId: string) {
+    const docRef = this.getSingleDocRef(collectionId, userId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      return null;
+    }
+  }
+
   /**
    * this function allows to update an exsisting document in a specific collection.
    *
@@ -88,8 +98,8 @@ export class FirestoreService {
    * @param collectionName
    * @param objekt
    * create a new collection from what?
-   * @param collectionName 
-   * @param objekt 
+   * @param collectionName
+   * @param objekt
    */
   async addDoc(collectionName: string, objekt: {}) {
     const collRef = collection(this.firestore, collectionName);
