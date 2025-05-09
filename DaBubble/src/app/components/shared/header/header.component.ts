@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { ProfileUserComponent } from '../../pages/main-page/profile-user/profile-user.component';
 import { SearchbarComponent } from '../../pages/main-page/shared/searchbar/searchbar.component';
 import { DaBubbleLogoComponent } from '../da-bubble-logo/da-bubble-logo.component';
@@ -14,7 +13,6 @@ import { AuthenticationService } from '../../../services/authentication.service'
   imports: [
     SearchbarComponent,
     ProfileUserComponent,
-    RouterLink,
     DaBubbleLogoComponent,
     NgIf,
     CommonModule,
@@ -31,7 +29,7 @@ export class HeaderComponent implements OnInit {
   currentUser$: Observable<AppUser | null> = this.usersService.currentUser$;
 
   ngOnInit(): void {
-    console.log('DAS IST DER GLOBAL USER: ' , this.usersService.currentUser$);
+    console.log('DAS IST DER GLOBAL USER: ', this.usersService.currentUser$);
   }
 
   togglePopup() {

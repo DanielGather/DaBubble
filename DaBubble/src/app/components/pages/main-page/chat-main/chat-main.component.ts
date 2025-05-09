@@ -57,18 +57,14 @@ export class ChatMainComponent implements OnInit {
 
   ngOnInit(): void {
     //test
+
     this.chatMessages = this.messageDataService.testMessages;
-
-    //testend
-
     this.getChatTypeFromURL();
+    console.log('log', this.usersService.currentUserId);
+  }
 
-    effect(() => {
-      const id = this.authService.userId();
-      if (id != '') {
-        console.log('User ist da!', id);
-      }
-    });
+  ngAfterViewInit() {
+    console.log('USER ID IST DA', this.authService.currentUserId);
   }
 
   /**

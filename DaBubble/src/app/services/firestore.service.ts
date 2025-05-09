@@ -93,6 +93,8 @@ export class FirestoreService {
     updateDoc(this.getSingleDocRef(collectionId, docId), docObject);
   }
 
+
+
   /**
    * create a new collectionm from what?
    * @param collectionName
@@ -140,22 +142,6 @@ export class FirestoreService {
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       console.log('query', doc.id, ' => ', doc.data());
-    });
-  }
-
-  async getSubCollection() {
-    const querySnapshot = await getDocs(
-      collection(
-        this.firestore,
-        'channels',
-        'shbkYb7CQImUdRq9nCaJ',
-        'messages',
-        'XmcsHSJL9yfCm3S8UZzP',
-        'threads'
-      )
-    );
-    querySnapshot.forEach((doc) => {
-      console.log(doc.id, ' => ', doc.data());
     });
   }
 }

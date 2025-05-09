@@ -1,6 +1,5 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { effect } from '@angular/core';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -22,10 +21,9 @@ export class AuthenticationService {
 
   public userId = this.userIdSignal.asReadonly();
 
-  constructor(private auth: Auth, private router: Router) {
-   
-  }
+  currentUserId: string = '';
 
+  constructor(private auth: Auth, private router: Router) {}
 
   signIn(email: string, password: string): Promise<UserCredential> {
     return signInWithEmailAndPassword(this.auth, email, password);
@@ -37,15 +35,7 @@ export class AuthenticationService {
 
   async login(email: string, password: string) {
     try {
-      this.usersService.currentUserCredential = await this.signIn(
-        email,
-        password
-      );
-      this.usersService.currentUserId =
-        this.usersService.currentUserCredential!.user.uid;
-
-      this.usersService.observeCurrentUser(this.usersService.currentUserId!);
-
+      await this.signIn(email, password);
       await this.router.navigateByUrl('/chat/private');
     } catch (error) {
       console.log('login error:', error);
@@ -53,7 +43,6 @@ export class AuthenticationService {
   }
 
   async setCurrentUser() {
-    console.log('guade ID', this.usersService.currentUserId);
     return this.firestoreService.getSingleCollection(
       'users',
       this.usersService.currentUserId!
@@ -64,11 +53,10 @@ export class AuthenticationService {
     onAuthStateChanged(this.auth, async (user) => {
       const currentUrl = this.router.url;
       if (user) {
-        this.userIdSignal.set(user.uid);
+        localStorage.setItem('id', user.uid);
         if (!currentUrl.includes('/signup')) {
           await this.router.navigateByUrl('/chat/private');
         }
-
         this.usersService.currentUserId = user.uid;
 
         this.usersService.observeCurrentUser(user.uid);

@@ -56,13 +56,7 @@ export class SidebarComponent {
     contacts: { ...this.DEFAULT_FOLD_ITEM },
   };
 
-  async ngOnInit() {
-    console.log('Das ist unser User', this.userService.currentUser$);
-    console.log('Query', this.firestoreService.getUserData());
-    console.log(this.channelList$);
-    this.firestoreService.getSubCollection();
-    //this.firestoreService.getSingleCollection();
-  }
+  async ngOnInit() {}
 
   toggleFold(key: FoldKey) {
     const state = this.foldState[key];

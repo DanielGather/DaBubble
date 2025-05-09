@@ -19,23 +19,21 @@
   <app-searchbar class="flex-1 min-w-0 w-full hidden md:block"></app-searchbar>
 
   <!-- current user -->
-  @if(currentUser$ | async; as user) {
-    <div
+  <div
     (click)="togglePopup()"
     class="flex items-center justify-end gap-4 [@media(min-width:1024px)]:w-[416px] w-20 md:w-72 h-16 pr-4 relative group cursor-pointer"
   >
-
     <div
       class="text-xl md:text-2xl [@media(min-width:1024px)]:text-3xl font-bold hidden md:block currentUserName group-hover:text-[rgb(121,126,243)] transition-colors duration-125"
     >
-      <div>
+      <div *ngIf="currentUser$ | async as user">
         <p>{{ user.firstName }} {{ user.lastName }}</p>
       </div>
     </div>
 
     <img
       class="w-14 md:w-16 rounded-full ml-auto md:ml-0"
-      [src]="'img/user_' + user.avatarId + '_small.png'"
+      src="img/user_1_small.png"
       alt=""
     />
 
@@ -50,8 +48,6 @@
       alt=""
     />
   </div>
-  }
-
 
   <!-- header popup display -->
   <div
