@@ -21,6 +21,8 @@ export class AuthenticationService {
 
   public userId = this.userIdSignal.asReadonly();
 
+  currentUserId: string = '';
+
   constructor(private auth: Auth, private router: Router) {}
 
   signIn(email: string, password: string): Promise<UserCredential> {
@@ -51,7 +53,7 @@ export class AuthenticationService {
     onAuthStateChanged(this.auth, async (user) => {
       const currentUrl = this.router.url;
       if (user) {
-        this.userIdSignal.set(user.uid);
+        localStorage.setItem('id', user.uid);
         if (!currentUrl.includes('/signup')) {
           await this.router.navigateByUrl('/chat/private');
         }
