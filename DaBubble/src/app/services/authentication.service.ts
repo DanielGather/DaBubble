@@ -66,17 +66,6 @@ export class AuthenticationService {
     });
   }
 
-  userObjectData(userData: any) {
-    return {
-      avatarId: userData['avatarId'],
-      email: userData['email'],
-      firstName: userData['firstName'],
-      lastName: userData['lastName'],
-      online: true,
-      userId: '',
-    };
-  }
-
   async logoutService(): Promise<void> {
     try {
       await this.auth.signOut();
