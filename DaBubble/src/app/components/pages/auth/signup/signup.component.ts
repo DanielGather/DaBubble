@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import {
@@ -32,17 +32,9 @@ import { UsersService } from '../../../../services/users.service';
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss',
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent {
   signupForm: FormGroup;
   firestore = inject(FirestoreService);
-  userObject: AppUser = {
-    avatarId: 0,
-    email: '',
-    firstName: '',
-    lastName: '',
-    online: false,
-    userId: '',
-  };
 
   usersService = inject(UsersService);
 
@@ -59,7 +51,9 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  /**
+   * Button Click - Führt die register() funktion aus wenn die Form valid ist.
+   */
 
   onSubmit(): void {
     if (this.signupForm.valid) {
@@ -72,26 +66,41 @@ export class SignupComponent implements OnInit {
     }
   }
 
+  /**
+   * Führt signUp aus Auth aus und und danach die addUserToFirebase()
+   */
+
   async register(email: string, password: string) {
     try {
       const userCredential = await this.auth.signUp(email, password);
       const user = userCredential.user;
-      console.log('User registered:', user);
-
       await this.addUserToFirebase(user);
-
-      this.usersService.currentUserId = user.uid;
       this.router.navigateByUrl('/choose-avatar');
     } catch (error) {
       console.log('signup error:', error);
     }
   }
 
+  /**
+   * Schickt den User in die firestore DB. Benutzt als Object argument (das letzte) direkt die funktion prepareUserObject() welche den User baut und returned.
+   */
+
   async addUserToFirebase(user: any) {
+    await this.firestore.setDoc(
+      'users',
+      user.uid,
+      await this.prepareUserObject(user)
+    );
+  }
+
+  /**
+   * Fügt einem leeren User Object die daten: mail, first- und lastname hinzu und returned es. Ausserdem wird dieser user an usersService geschickt.
+   */
+
+  async prepareUserObject(user: AppUser) {
     const fullName = this.signupForm.value.fullName;
     const nameParts = fullName.split(' ');
-
-    this.userObject = {
+    const userObject: AppUser = {
       avatarId: 0,
       email: user.email,
       firstName: nameParts[0] || '',
@@ -99,9 +108,8 @@ export class SignupComponent implements OnInit {
       online: false,
     };
 
-    this.usersService.userObject = this.userObject;
-
-    await this.firestore.setDoc('users', user.uid, this.userObject);
+    this.usersService.userObject = userObject;
+    return userObject;
   }
 
   getFullNameErrorMessage(): string {

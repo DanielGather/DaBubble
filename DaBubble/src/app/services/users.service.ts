@@ -11,7 +11,6 @@ import { onSnapshot } from 'firebase/firestore';
 export class UsersService {
   firestoreService: FirestoreService = inject(FirestoreService);
 
-  currentUserCredential: UserCredential | null = null;
   currentUserId: string | null = null;
   userObject: AppUser | null = null;
 
@@ -22,7 +21,7 @@ export class UsersService {
 
   /**
    * this variable is the unscribe mechanism of the snapShot wich will have the realtime connection of the currentUser information
-   * 
+   *
    * if a user would log out or change the login status, make sure you use userUnsubscribe() before logging in a new user.
    */
   private userUnsubscribe: (() => void) | null = null;
@@ -38,24 +37,23 @@ export class UsersService {
   constructor() {}
 
   /**
-   * A help 
-   * @param user 
+   * A help
+   * @param user
    */
   setCurrentUser(user: AppUser | null) {
     this.currentUserSubject.next(user);
-    console.log('sect curentuser to: ',user);
-    
+    console.log('set current user to: ', user);
   }
 
   /**
    * Subscribes the specific user-doc in realtime
-   * @param userId 
+   * @param userId
    */
   observeCurrentUser(userId: string) {
     if (this.userUnsubscribe) {
       this.userUnsubscribe();
     }
-  
+
     const userDocRef = this.firestoreService.getSingleDocRef('users', userId);
     this.userUnsubscribe = onSnapshot(userDocRef, (docSnap) => {
       if (docSnap.exists()) {
@@ -78,6 +76,5 @@ export class UsersService {
     }
     this.setCurrentUser(null);
     this.currentUserId = null;
-    this.currentUserCredential = null;
   }
 }
