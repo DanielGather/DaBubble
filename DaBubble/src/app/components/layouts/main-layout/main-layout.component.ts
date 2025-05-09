@@ -38,72 +38,56 @@ export class MainLayoutComponent implements OnInit {
   }
 
   async ngAfterViewInit() {
-    await this.setStatus();
-    await this.firestoreService.setDoc(
-      'users',
-      this.authService.userId(),
-      this.userObject!
-    );
+    // await this.setStatus();
   }
 
-  async setStatus() {
-    try {
-      const user = await this.getCurrentUser();
-      if (!user) {
-        console.log('Kein angemeldeter Benutzer');
-        return;
-      }
-      this.usersService.currentUserId = user.uid;
-      const userData = await this.loadUserData(
-        this.usersService.currentUserId!
-      );
-      if (!userData) return;
-      this.userObject = this.userObjectData(userData);
-    } catch (error) {
-      console.error('Fehler beim Setzen des Status:', error);
-    }
-  }
+  // async setStatus() {
+  //   try {
+  //     const user = await this.getCurrentUser();
+  //     if (!user) {
+  //       console.log('Kein angemeldeter Benutzer');
+  //       return;
+  //     }
+  //     this.usersService.currentUserId = user.uid;
+  //     const userData = await this.loadUserData(
+  //       this.usersService.currentUserId!
+  //     );
+  //     if (!userData) return;
+  //     this.userObject = this.userObjectData(userData);
+  //   } catch (error) {
+  //     console.error('Fehler beim Setzen des Status:', error);
+  //   }
+  // }
 
-  getCurrentUser(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      const auth = getAuth();
-      if (auth.currentUser) {
-        resolve(auth.currentUser);
-        return;
-      }
-      const unsubscribe = onAuthStateChanged(
-        auth,
-        (user) => {
-          unsubscribe();
-          resolve(user);
-        },
-        reject
-      );
-    });
-  }
+  // getCurrentUser(): Promise<any> {
+  //   return new Promise((resolve, reject) => {
+  //     const auth = getAuth();
+  //     if (auth.currentUser) {
+  //       resolve(auth.currentUser);
+  //       return;
+  //     }
+  //     const unsubscribe = onAuthStateChanged(
+  //       auth,
+  //       (user) => {
+  //         unsubscribe();
+  //         resolve(user);
+  //       },
+  //       reject
+  //     );
+  //   });
+  // }
 
-  /**
-   * Lädt die Benutzerdaten aus Firestore
-   */
-  private async loadUserData(userId: string) {
-    const userData = await this.firestoreService.getSingleDoc('users', userId);
+  // /**
+  //  * Lädt die Benutzerdaten aus Firestore
+  //  */
+  // private async loadUserData(userId: string) {
+  //   const userData = await this.firestoreService.getSingleDoc('users', userId);
 
-    if (!userData) {
-      console.log('Kein Benutzer gefunden');
-      return null;
-    }
+  //   if (!userData) {
+  //     console.log('Kein Benutzer gefunden');
+  //     return null;
+  //   }
 
-    return userData;
-  }
-
-  userObjectData(userData: any) {
-    return {
-      avatarId: userData['avatarId'],
-      email: userData['email'],
-      firstName: userData['firstName'],
-      lastName: userData['lastName'],
-      online: true,
-      userId: '',
-    };
-  }
+  //   return userData;
+  // }
 }

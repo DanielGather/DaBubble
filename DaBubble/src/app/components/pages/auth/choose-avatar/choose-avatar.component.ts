@@ -54,7 +54,7 @@ export class ChooseAvatarComponent {
       await this.firestoreService.updateDoc(
         `users`,
         this.usersService.currentUserId!,
-        this.usersService.userObject
+        { avatarId: this.currentAvatarId }
       );
       await this.router.navigateByUrl('/chat/private');
     }

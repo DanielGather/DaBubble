@@ -1,6 +1,5 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { effect } from '@angular/core';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -56,7 +55,6 @@ export class AuthenticationService {
         if (!currentUrl.includes('/signup')) {
           await this.router.navigateByUrl('/chat/private');
         }
-
         this.usersService.currentUserId = user.uid;
 
         this.usersService.observeCurrentUser(user.uid);
@@ -66,6 +64,17 @@ export class AuthenticationService {
         await this.router.navigateByUrl('/login');
       }
     });
+  }
+
+  userObjectData(userData: any) {
+    return {
+      avatarId: userData['avatarId'],
+      email: userData['email'],
+      firstName: userData['firstName'],
+      lastName: userData['lastName'],
+      online: true,
+      userId: '',
+    };
   }
 
   async logoutService(): Promise<void> {

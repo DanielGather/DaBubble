@@ -13,7 +13,6 @@ import { FormInputComponent } from '../../../shared/form-input/form-input.compon
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { AuthenticationService } from '../../../../services/authentication.service';
 import { AppUser } from '../../../../types/types';
-import { UserCredential } from 'firebase/auth';
 import { FirestoreService } from '../../../../services/firestore.service';
 import { Router } from '@angular/router';
 import { UsersService } from '../../../../services/users.service';
@@ -35,7 +34,7 @@ import { UsersService } from '../../../../services/users.service';
 export class SignupComponent {
   signupForm: FormGroup;
   firestore = inject(FirestoreService);
-
+  authService = inject(AuthenticationService);
   usersService = inject(UsersService);
 
   constructor(
@@ -105,7 +104,7 @@ export class SignupComponent {
       email: user.email,
       firstName: nameParts[0] || '',
       lastName: nameParts.length > 1 ? nameParts.slice(1).join(' ') : '',
-      online: false,
+      online: true,
     };
 
     this.usersService.userObject = userObject;
