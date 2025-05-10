@@ -7,11 +7,11 @@
 
   <!-- Empty user profile-panel -->
   <div
-    class="bg-bg-component flex flex-col p-10 rounded-standard z-20 "
+    class="bg-bg-component flex flex-col p-10 rounded-standard z-20"
     (click)="$event.stopPropagation()"
   >
     <!-- User insight -->
-     @if (!editVisible) {
+    @if (!editVisible) {
     <div id="userInsightWrapper" class="flex flex-col gap-11">
       <div class="flex justify-between md:w-[420px] min-w-72">
         <p class="font-bold text-24">Profil</p>
@@ -39,7 +39,7 @@
           class="w-8 h-8 bg-gray-200 rounded-full p-2 flex items-center justify-center"
         >
           <img
-          (click)="switchEditVisibility()"
+            (click)="switchEditVisibility()"
             class="object-contain w-4 h-4 hover:cursor-pointer"
             src="img/edit_pencil.svg"
             alt=""
@@ -65,9 +65,9 @@
         </div>
       </div>
     </div>
-}
+    }
     <!-- user edit profile -->
-     @if (editVisible) {
+    @if (editVisible) {
     <div id="userEditWrapper" class="flex flex-col gap-11">
       <div class="flex justify-between md:w-[420px] min-w-72 w">
         <p class="font-bold text-24">Dein Profil bearbeiten</p>
@@ -92,15 +92,19 @@
           <img class="w-6 h-6" src="/img/account_circle.svg" alt="" />
           <h3>Vollständiger Name</h3>
         </div>
-        <input
-          class="border w-full border-color-border px-5 py-4 rounded-full"
-          type="text"
-        />
+        <div *ngIf="currentUser$ | async as user">
+          <input
+            [(ngModel)]="fullName"
+            [placeholder]="user.firstName + ' ' + user.lastName"
+            class="border w-full border-color-border px-5 py-4 rounded-full"
+            type="text"
+          />
+        </div>
       </div>
 
       <div id="buttonWrapper" class="flex justify-center gap-8">
-        <app-button  (click)="switchEditVisibility()">Abbrechen</app-button>
-        <app-button>Speichern</app-button>
+        <app-button (click)="switchEditVisibility()">Abbrechen</app-button>
+        <app-button (click)="saveUserName()">Speichern</app-button>
       </div>
     </div>
     }
