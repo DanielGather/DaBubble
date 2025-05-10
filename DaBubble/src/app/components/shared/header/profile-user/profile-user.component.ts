@@ -4,10 +4,11 @@ import { Observable } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { AppUser } from '../../../../types/types';
 import { UsersService } from '../../../../services/users.service';
+import { ButtonComponent } from '../../button/button.component';
 
 @Component({
   selector: 'app-profile-user',
-  imports: [NgStyle, FormsModule, CommonModule],
+  imports: [NgStyle, FormsModule, CommonModule, ButtonComponent],
   templateUrl: './profile-user.component.html',
   styleUrl: './profile-user.component.scss',
 })

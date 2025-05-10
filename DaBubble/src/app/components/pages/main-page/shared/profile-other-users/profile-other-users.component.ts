@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { CommonModule, NgStyle } from '@angular/common';
-import { UsersService } from '../../../../../services/users.service';
 import { Observable } from 'rxjs';
-import { AppUser } from '../../../../../types/types';
 import { FormsModule } from '@angular/forms';
+import { AppUser } from '../../../../../types/types';
+import { UsersService } from '../../../../../services/users.service';
 
 @Component({
-  selector: 'app-profile-user',
+  selector: 'app-profile-other-users',
   imports: [NgStyle, FormsModule, CommonModule],
   templateUrl: './profile-other-users.component.html',
   styleUrl: './profile-other-users.component.scss',
