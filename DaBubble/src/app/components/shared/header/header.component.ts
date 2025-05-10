@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ProfileUserComponent } from '../../pages/main-page/profile-user/profile-user.component';
+import { ProfileUserComponent } from '../../pages/main-page/shared/profile-user/profile-user.component';
 import { SearchbarComponent } from '../../pages/main-page/shared/searchbar/searchbar.component';
 import { DaBubbleLogoComponent } from '../da-bubble-logo/da-bubble-logo.component';
 import { UsersService } from '../../../services/users.service';
