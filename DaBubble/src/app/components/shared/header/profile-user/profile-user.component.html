@@ -11,7 +11,7 @@
     (click)="$event.stopPropagation()"
   >
     <div class="flex justify-between max-w-72 min-w-72">
-      <p class="font-bold text-24">Profill</p>
+      <p class="font-bold text-24">Profil</p>
       <img
         (click)="closeProfile()"
         class="hover:cursor-pointer"
@@ -27,7 +27,9 @@
       />
     </div>
     <div class="flex justify-between items-center">
-      <p class="text-24 font-bold">Frederick Beck</p>
+            <div *ngIf="currentUser$ | async as user">
+        <p class="text-24 font-bold">{{ user.firstName }} {{ user.lastName }}</p>
+      </div>
       <div
         class="w-6 h-6 bg-gray-200 rounded-full p-2 flex items-center justify-center"
       >
@@ -50,7 +52,10 @@
     >
       <img src="img/mail.svg" alt="" class="w-5 h-5" />
       <p class="row-start-1 col-start-2 text-lg font-bold">E‑Mail‑Adresse</p>
-      <p class="row-start-2 col-start-2">email&#64;beispiel.com</p>
+                  <div *ngIf="currentUser$ | async as user">
+           <p class="row-start-2 col-start-2">{{user.email}}</p>
+      </div>
+  
     </div>
   </div>
 </div>
