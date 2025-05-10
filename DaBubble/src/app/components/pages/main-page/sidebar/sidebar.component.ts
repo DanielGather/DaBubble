@@ -10,7 +10,7 @@ import { map } from 'rxjs';
 import { AppUser } from '../../../../types/types';
 import { Channels } from '../../../../types/types';
 import { FoldItemState, FoldKey, FoldState } from '../../../../types/types';
-
+import { CollectionResult } from '../../../../types/types';
 @Component({
   selector: 'app-sidebar',
   imports: [CommonModule, SearchbarComponent, CreateChannelComponent],
@@ -56,7 +56,13 @@ export class SidebarComponent {
     contacts: { ...this.DEFAULT_FOLD_ITEM },
   };
 
-  async ngOnInit() {}
+  async ngOnInit() {
+    let userData = await this.firestoreService.getUserData();
+    console.log('Das ganze Objekt:', userData);
+    console.log('So ruft man eine collection aus dem Objekt auf:', userData['channels']);
+    console.log('So greift man auf das Array zu:', userData['channels'][0]);
+    console.log('So erhält man die einzelnen Daten aus der Collection:',userData['channels'][0].data.channelName);
+  }
 
   toggleFold(key: FoldKey) {
     const state = this.foldState[key];
@@ -67,7 +73,6 @@ export class SidebarComponent {
 
   getSortedUser() {
     console.log('sorted', this.users.usersList$);
-
     return this.users.usersList$.pipe(
       map((list) =>
         [...list].sort((a, b) =>
