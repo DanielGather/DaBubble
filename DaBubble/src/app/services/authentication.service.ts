@@ -23,7 +23,8 @@ export class AuthenticationService {
 
   currentUserId: string = '';
 
-  constructor(private auth: Auth, private router: Router) {}
+  constructor(private auth: Auth, private router: Router) {
+  }
 
   signIn(email: string, password: string): Promise<UserCredential> {
     return signInWithEmailAndPassword(this.auth, email, password);
