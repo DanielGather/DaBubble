@@ -32,8 +32,9 @@
     </div>
 
     <img
+      *ngIf="currentUser$ | async as user"
       class="w-14 md:w-16 rounded-full ml-auto md:ml-0"
-      src="img/user_1_small.png"
+      src="/img/user_{{ user.avatarId }}_small.png"
       alt=""
     />
 

@@ -66,6 +66,8 @@ export class SidebarComponent {
   }
 
   getSortedUser() {
+    console.log('sorted', this.users.usersList$);
+
     return this.users.usersList$.pipe(
       map((list) =>
         [...list].sort((a, b) =>
