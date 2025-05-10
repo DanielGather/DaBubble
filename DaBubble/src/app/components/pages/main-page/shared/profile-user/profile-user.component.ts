@@ -2,17 +2,20 @@ import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { CommonModule, NgStyle } from '@angular/common';
 import { Observable } from 'rxjs';
 import { FormsModule } from '@angular/forms';
-import { AppUser } from '../../../../../types/types';
+import { ButtonComponent } from '../../../../shared/button/button.component';
 import { UsersService } from '../../../../../services/users.service';
+import { AppUser } from '../../../../../types/types';
+
 
 @Component({
-  selector: 'app-profile-other-users',
-  imports: [NgStyle, FormsModule, CommonModule],
-  templateUrl: './profile-other-users.component.html',
-  styleUrl: './profile-other-users.component.scss',
+  selector: 'app-profile-user',
+  imports: [NgStyle, FormsModule, CommonModule, ButtonComponent],
+  templateUrl: './profile-user.component.html',
+  styleUrl: './profile-user.component.scss',
 })
 export class ProfileUserComponent {
   active: boolean = true;
+  editVisible = false;
   green = '#92c83e';
   userService = inject(UsersService);
 
@@ -35,5 +38,12 @@ export class ProfileUserComponent {
    */
   closeProfile() {
     this.close.emit();
+    setTimeout(() => {
+      this.editVisible = false;
+    }, 500);
+  }
+
+  switchEditVisibility() {
+    this.editVisible = !this.editVisible;
   }
 }
