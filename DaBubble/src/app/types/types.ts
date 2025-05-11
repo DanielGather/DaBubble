@@ -32,6 +32,7 @@ export interface AppUser {
   lastName: string;
   online: boolean;
   userId?: string;
+  id?: string;
 }
 
 export interface Channels {
