@@ -164,10 +164,13 @@ export class FirestoreService {
 
   async getAllUserCollections() {
     let userId = localStorage.getItem('id');
+    console.log('AllUserCollections: ' + userId)
     const promises = this.collections.map(async (colName) => {
       const q = query(
         collection(this.firestore, colName),
-        where('userIds', 'array-contains', userId)
+        where('userIds', 'array-contains', userId),
+        
+        
       );
       const snapshot = await getDocs(q);
       return {

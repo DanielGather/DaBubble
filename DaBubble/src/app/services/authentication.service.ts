@@ -24,6 +24,10 @@ export class AuthenticationService {
   currentUserId: string = '';
 
   constructor(private auth: Auth, private router: Router) {
+   console.log('in Auth userId: ' + this.userId);
+    console.log('in Auth currentUserId: ' + this.currentUserId);
+   
+    
   }
 
   signIn(email: string, password: string): Promise<UserCredential> {

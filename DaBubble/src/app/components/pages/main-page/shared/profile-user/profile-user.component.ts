@@ -27,7 +27,7 @@ export class ProfileUserComponent {
     this.currentUser$.subscribe((user) => {
       if (user) {
         console.log('User:', user);
-        console.log('User-ID:', user.userId); // ← hier ist der "Trick"
+        console.log('User-ID:', user.userId);
       }
     });
   }
