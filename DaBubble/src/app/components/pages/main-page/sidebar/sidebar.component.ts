@@ -58,6 +58,7 @@ export class SidebarComponent {
 
   async ngOnInit() {
     let userData = await this.firestoreService.getUserData();
+    this.userService.userDataObject = userData;
     console.log('Das ganze Objekt:', userData);
     console.log('So ruft man eine collection aus dem Objekt auf:', userData['channels']);
     console.log('So greift man auf das Array zu:', userData['channels'][0]);

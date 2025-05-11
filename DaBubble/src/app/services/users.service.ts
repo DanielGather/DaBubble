@@ -12,6 +12,7 @@ export class UsersService {
   firestoreService: FirestoreService = inject(FirestoreService);
   currentUserId: string | null = null;
   userObject: AppUser | null = null;
+  userDataObject: {} = {};
 
   /**
    * A behaviorsubject to manage the realtime data of the currentUser
