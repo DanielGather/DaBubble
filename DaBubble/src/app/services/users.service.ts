@@ -34,6 +34,11 @@ export class UsersService {
   readonly usersList$: Observable<AppUser[]> =
     this.firestoreService.getCollectionData('users') as Observable<AppUser[]>;
 
+constructor() {
+  console.log ('show me if there is an id' + this.usersList$);
+  
+}
+
   /**
    * A help
    * @param user

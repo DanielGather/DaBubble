@@ -1,54 +1,84 @@
-import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  inject,
+  ElementRef,
+  HostListener,
+} from '@angular/core';
 import { ButtonComponent } from '../../../../shared/button/button.component';
 import { ChannelEditPopupComponent } from '../channel-edit-popup/channel-edit-popup.component';
 import { DropdownComponent } from '../../shared/dropdown/dropdown.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { FormInputComponent } from "../../../../shared/form-input/form-input.component";
-import { ModalComponent } from "../../../../shared/modal/modal.component";
-import { PopOverComponent } from "../../shared/pop-over/pop-over.component";
+import { FormInputComponent } from '../../../../shared/form-input/form-input.component';
+import { ModalComponent } from '../../../../shared/modal/modal.component';
+import { PopOverComponent } from '../../shared/pop-over/pop-over.component';
 import { UsersService } from '../../../../../services/users.service';
 import { map, Observable } from 'rxjs';
 import { AppUser } from '../../../../../types/types';
+
 @Component({
   selector: 'app-channel-chat-header',
-  imports: [ButtonComponent, ChannelEditPopupComponent, DropdownComponent, FormsModule, CommonModule, FormInputComponent, ModalComponent, PopOverComponent],
+  imports: [
+    ButtonComponent,
+    ChannelEditPopupComponent,
+    DropdownComponent,
+    FormsModule,
+    CommonModule,
+    FormInputComponent,
+    ModalComponent,
+    PopOverComponent,
+  ],
   templateUrl: './channel-chat-header.component.html',
   styleUrl: './channel-chat-header.component.scss',
 })
 export class ChannelChatHeaderComponent {
-
   // userService: UsersService = inject(UsersService);
   showPopup = false;
-
+  showUserPopup = false;
   users: UsersService = inject(UsersService);
   usersList$: Observable<AppUser[]> = this.getSortedUser();
-  
 
-  ngOnInit(){
-    console.log("Wir testen hier",this.usersList$);
-    
+  constructor(private elementRef: ElementRef) {}
+
+  ngOnInit() {
+    console.log('Wir testen hier', this.usersList$);
   }
 
-openPopup() {
-  this.showPopup = true;
-}
+  openPopup() {
+    this.showPopup = true;
+  }
 
-closePopup() {
-  this.showPopup = false;
-}
+  closePopup() {
+    this.showPopup = false;
+  }
 
-addUserToChannelPopUp(){
-  console.log("Test");
-  
-}
+  toggleAddUserToChannelPopUp() {
+    this.showUserPopup = !this.showUserPopup;
+  }
 
-addUserToChannel(email:string){
-  console.log("EMAIL", email);
-  
-}
+  /**
+   * Closes open popups when a click occurs outside the component's DOM element.
+   * @param event - The MouseEvent triggered by a click anywhere in the document.
+   */
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const clickedInside = this.elementRef.nativeElement.contains(event.target);
+    if (!clickedInside && this.showUserPopup) {
+      this.showUserPopup = false;
+    }
+    if (!clickedInside && this.showPopup) {
+      this.showPopup = false;
+    }
+  }
 
-getSortedUser() {
+  addUserToChannel(email: string) {
+    console.log('ID', email);
+  }
+
+  getSortedUser() {
     console.log('sorted', this.users.usersList$);
     return this.users.usersList$.pipe(
       map((list) =>
