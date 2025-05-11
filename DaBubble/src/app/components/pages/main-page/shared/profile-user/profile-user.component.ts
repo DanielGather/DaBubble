@@ -59,15 +59,13 @@ export class ProfileUserComponent {
     this.editVisible = !this.editVisible;
   }
 
+
+
 async saveUserName() {
   console.log('funktion start');
 
-  const user = await firstValueFrom(this.currentUser$);
+  const userId:string = localStorage.getItem('id')!;
 
-  if (!user?.userId) {
-    console.warn('Keine gültige User-ID vorhanden!');
-    return;
-  }
 
   if (!this.fullName || this.fullName.trim() === '') {
     console.warn('Vollständiger Name fehlt.');
@@ -78,7 +76,7 @@ async saveUserName() {
   const [firstName, ...lastNameParts] = this.fullName.trim().split(' ');
   const lastName = lastNameParts.join(' ') || '';
 
-  await this.firestoreService.updateDoc('users', user.userId, {
+  await this.firestoreService.updateDoc('users', userId, {
     firstName: firstName,
     lastName: lastName
   });
@@ -86,4 +84,8 @@ async saveUserName() {
   console.log('Name erfolgreich aktualisiert!');
   this.switchEditVisibility(); // zurück zur Ansicht
 }
+
+
+
+
 }
