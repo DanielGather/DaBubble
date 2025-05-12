@@ -16,7 +16,7 @@ import { FormInputComponent } from '../../../../shared/form-input/form-input.com
 import { ModalComponent } from '../../../../shared/modal/modal.component';
 import { PopOverComponent } from '../../shared/pop-over/pop-over.component';
 import { UsersService } from '../../../../../services/users.service';
-import { map, Observable } from 'rxjs';
+import { map, Observable, take } from 'rxjs';
 import { AppUser } from '../../../../../types/types';
 
 @Component({
@@ -24,40 +24,38 @@ import { AppUser } from '../../../../../types/types';
   imports: [
     ButtonComponent,
     ChannelEditPopupComponent,
-    DropdownComponent,
     FormsModule,
     CommonModule,
-    FormInputComponent,
-    ModalComponent,
-    PopOverComponent,
   ],
   templateUrl: './channel-chat-header.component.html',
   styleUrl: './channel-chat-header.component.scss',
 })
 export class ChannelChatHeaderComponent {
   // userService: UsersService = inject(UsersService);
-  showPopup = false;
+  showChannelPopup = false;
   showUserPopup = false;
   users: UsersService = inject(UsersService);
   usersList$: Observable<AppUser[]> = this.getSortedUser();
   usersAddedToChannel: string[] = [];
+  permanentUserList: AppUser[] = [];
+
+
 
   constructor(private elementRef: ElementRef) {
     console.log('channelChat user list' + this.usersList$);
   }
-  ngOnInit() {
-    this.usersList$.subscribe((users) => {
-      console.log('Benutzerliste:', users); // So siehst du alle User mit ihren Details
+
+  /**
+   * activate an observable to get user date
+   */
+ngOnInit() {
+  this.usersList$
+    .pipe(take(1)) // Nur einmal holen, dann automatisch beenden
+    .subscribe((users) => {
+      this.permanentUserList = users;
+      console.log('Statisches Array:', this.permanentUserList);
     });
-  }
-
-  openPopup() {
-    this.showPopup = true;
-  }
-
-  closePopup() {
-    this.showPopup = false;
-  }
+}
 
   toggleAddUserToChannelPopUp() {
     this.showUserPopup = !this.showUserPopup;
@@ -98,6 +96,14 @@ export class ChannelChatHeaderComponent {
     return 'img/user_1.png';
   }
 
+  openChannelPopup() {
+    this.showChannelPopup = true;
+  }
+
+  closeChannelPopup() {
+    this.showChannelPopup = false;
+  }
+
   /**
    * Closes open popups when a click occurs outside the component's DOM element.
    * @param event - The MouseEvent triggered by a click anywhere in the document.
@@ -108,8 +114,8 @@ export class ChannelChatHeaderComponent {
     if (!clickedInside && this.showUserPopup) {
       this.showUserPopup = false;
     }
-    if (!clickedInside && this.showPopup) {
-      this.showPopup = false;
+    if (!clickedInside && this.showChannelPopup) {
+      this.showChannelPopup = false;
     }
   }
 }
