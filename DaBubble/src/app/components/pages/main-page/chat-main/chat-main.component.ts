@@ -6,10 +6,10 @@ import { ChatMessagesContainerComponent } from './chat-messages-container/chat-m
 import { PrivateChatHeaderComponent } from './private-chat-header/private-chat-header.component';
 import { ChannelChatHeaderComponent } from './channel-chat-header/channel-chat-header.component';
 import { ActivatedRoute } from '@angular/router';
-import { ThreadsbarComponent } from './threadsbar/threadsbar.component';
 import { MessagesDataService } from '../../../../services/messages-data.service';
 import { UsersService } from '../../../../services/users.service';
 import { AuthenticationService } from '../../../../services/authentication.service';
+import { ThreadsbarComponent } from '../chat-thread/threadsbar/threadsbar.component';
 
 @Component({
   selector: 'app-chat-main',

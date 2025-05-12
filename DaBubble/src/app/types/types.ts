@@ -32,6 +32,7 @@ export interface AppUser {
   lastName: string;
   online: boolean;
   userId?: string;
+  id?: string;
 }
 
 export interface Channels {
@@ -49,3 +50,13 @@ export interface FoldItemState {
 
 export type FoldKey = 'channel' | 'contacts';
 export type FoldState = Record<FoldKey, FoldItemState>;
+
+export interface UserDoc {
+  id: string;
+  data: any;
+}
+
+export interface CollectionResult {
+  collection: string;
+  docs: UserDoc[];
+}

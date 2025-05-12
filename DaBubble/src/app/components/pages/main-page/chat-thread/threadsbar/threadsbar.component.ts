@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { ChatInputComponent } from '../chat-input/chat-input.component';
+import { ChatInputComponent } from '../../chat-main/chat-input/chat-input.component';
 import { CommonModule } from '@angular/common';
-import { ChatMessagesContainerComponent } from '../chat-messages-container/chat-messages-container.component';
+import { ChatMessagesContainerComponent } from '../../chat-main/chat-messages-container/chat-messages-container.component';
 import { MessagesDataService } from '../../../../../services/messages-data.service';
 import { ChatMessage } from '../../../../../types/types';
 

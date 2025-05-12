@@ -1,12 +1,13 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ProfileUserComponent } from '../../pages/main-page/profile-user/profile-user.component';
 import { SearchbarComponent } from '../../pages/main-page/shared/searchbar/searchbar.component';
 import { DaBubbleLogoComponent } from '../da-bubble-logo/da-bubble-logo.component';
-import { UsersService } from '../../../services/users.service';
-import { AppUser } from '../../../types/types';
 import { Observable } from 'rxjs';
 import { CommonModule, NgIf } from '@angular/common';
 import { AuthenticationService } from '../../../services/authentication.service';
+import { AppUser } from '../../../types/types';
+import { UsersService } from '../../../services/users.service';
+import { ProfileUserComponent } from '../../pages/main-page/shared/profile-user/profile-user.component';
+
 
 @Component({
   selector: 'app-header',

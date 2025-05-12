@@ -10,9 +10,9 @@ import { onSnapshot } from 'firebase/firestore';
 })
 export class UsersService {
   firestoreService: FirestoreService = inject(FirestoreService);
-
   currentUserId: string | null = null;
   userObject: AppUser | null = null;
+  userDataObject: {} = {};
 
   /**
    * A behaviorsubject to manage the realtime data of the currentUser
@@ -34,7 +34,10 @@ export class UsersService {
   readonly usersList$: Observable<AppUser[]> =
     this.firestoreService.getCollectionData('users') as Observable<AppUser[]>;
 
-  constructor() {}
+constructor() {
+  console.log ('show me if there is an id' + this.usersList$);
+  
+}
 
   /**
    * A help
@@ -55,9 +58,15 @@ export class UsersService {
     }
 
     const userDocRef = this.firestoreService.getSingleDocRef('users', userId);
+
     this.userUnsubscribe = onSnapshot(userDocRef, (docSnap) => {
       if (docSnap.exists()) {
-        const user = docSnap.data() as AppUser;
+        const user = {
+          ...(docSnap.data() as AppUser),
+          userId: docSnap.id,
+        };
+
+        console.log('user.userId:', user.userId);
         this.setCurrentUser(user);
       } else {
         this.setCurrentUser(null);
