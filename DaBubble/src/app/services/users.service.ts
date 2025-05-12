@@ -4,7 +4,7 @@ import { AppUser } from '../types/types';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { UserCredential } from 'firebase/auth';
 import { onSnapshot } from 'firebase/firestore';
-
+import { UserData } from '../types/types';
 @Injectable({
   providedIn: 'root',
 })
@@ -12,7 +12,7 @@ export class UsersService {
   firestoreService: FirestoreService = inject(FirestoreService);
   currentUserId: string | null = null;
   userObject: AppUser | null = null;
-  userDataObject: {} = {};
+  userDataObject!: UserData;
 
   /**
    * A behaviorsubject to manage the realtime data of the currentUser
@@ -34,10 +34,9 @@ export class UsersService {
   readonly usersList$: Observable<AppUser[]> =
     this.firestoreService.getCollectionData('users') as Observable<AppUser[]>;
 
-constructor() {
-  console.log ('show me if there is an id' + this.usersList$);
-  
-}
+  constructor() {
+    console.log('show me if there is an id' + this.usersList$);
+  }
 
   /**
    * A help

@@ -57,12 +57,12 @@ export class ChatMainComponent implements OnInit {
 
   ngOnInit(): void {
     //test
-    this.chatTypeInput = this.router.snapshot.paramMap.get('chatType')!;
+    this.chatTypeInput = this.router.snapshot.paramMap.get('id')!;
     console.log('Router', this.chatTypeInput);
     this.router.paramMap.subscribe((params) => {
-      this.chatTypeInput = params.get('chatType')!;
+      this.chatTypeInput = params.get('id')!;
       console.log('ROUTER2', this.chatTypeInput);
-      // this.loadMessages(this.chatTypeInput);
+      this.loadMessages(this.chatTypeInput);
     });
 
     this.chatMessages = this.messageDataService.testMessages; //this one must be the data of the observable later on
@@ -83,7 +83,15 @@ export class ChatMainComponent implements OnInit {
     console.log('chattype is: ', this.chatTypeInput);
   }
 
-  // loadMessages(channelId: string) {
-  //   console.log('TEST IN MAIN', this.usersService.userDataObject);
-  // }
+  loadMessages(channelId: string) {
+    const channelMessages = this.usersService.userDataObject.messages.filter(
+      (msg) => msg.channelId === channelId
+    );
+
+    // 2. Neues Objekt zusammenbauen (z.B. nur mit den gefilterten Messages)
+    const filteredData = {
+      messages: channelMessages,
+    };
+    console.log('filteredData', filteredData);
+  }
 }

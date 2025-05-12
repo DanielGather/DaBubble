@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Channels } from '../types/types';
+import { Channels, UserData } from '../types/types';
 import {
   Firestore,
   collection,
@@ -16,6 +16,12 @@ import { getDoc } from 'firebase/firestore';
 import { Observable, shareReplay } from 'rxjs';
 import { CollectionResult } from '../types/types';
 import { UserDoc } from '../types/types';
+
+import { ChannelsTest } from '../types/types';
+import { Threads } from '../types/types';
+import { Message } from '../types/types';
+import { PrivateChat } from '../types/types';
+import { ElementOf } from '../types/types';
 @Injectable({
   providedIn: 'root',
 })
@@ -37,7 +43,12 @@ export class FirestoreService {
     'channels'
   ) as Observable<Channels[]>;
 
-  collections: string[] = ['channels', 'privateChats', 'threads', 'messages'];
+  collections: Array<keyof UserData> = [
+    'channels',
+    'privateChats',
+    'threads',
+    'messages',
+  ];
 
   constructor() {}
 
@@ -78,10 +89,10 @@ export class FirestoreService {
   /**
    * This function get a docsnap from a single document.
    * it is no datastream, it fetches the data only once.
-   * 
+   *
    * @param collectionId the id of the collection to search in
    * @param docId the id of the document
-   * @returns 
+   * @returns
    */
   async getSingleDoc(collectionId: string, docId: string) {
     const docRef = this.getSingleDocRef(collectionId, docId);
@@ -143,14 +154,14 @@ export class FirestoreService {
   }
 
   /**
- * Fetches all relevant user collections and combines them into a single user data object.
- *
- * @async
- * @function getUserData
- * @returns {Promise<Record<string, Array<{ id: string, data: any }>>>} 
- * Resolves to an object where each key is a collection name and the value is an array of documents
- * (each with `id` and `data`) belonging to the current user.
- */
+   * Fetches all relevant user collections and combines them into a single user data object.
+   *
+   * @async
+   * @function getUserData
+   * @returns {Promise<Record<string, Array<{ id: string, data: any }>>>}
+   * Resolves to an object where each key is a collection name and the value is an array of documents
+   * (each with `id` and `data`) belonging to the current user.
+   */
 
   async getUserData() {
     let results = await this.getAllUserCollections();
@@ -158,60 +169,93 @@ export class FirestoreService {
     return userData;
   }
 
-/**
- * Queries Firestore for each collection that contains the current user’s ID,
- * and returns an array of results.
- *
- * @async
- * @function getAllCollections
- * @returns {Promise<Array<{collection: string,docs: Array<{ id: string, data: any }>}>>}  
- * Resolves to an array where each element represents one collection:
- *  - `collection`: the name of the collection
- *  - `docs`: an array of document objects with `id` and `data` properties
- */
+  /**
+   * Retrieves all user-specific Firestore collections and returns them as typed results.
+   *
+   * For each collection name in `this.collections`, queries Firestore for documents
+   * where the `userIds` array contains the current user’s ID. Maps each fetched
+   * document snapshot to an object containing its `id` and typed `data`.
+   *
+   * @async
+   * @function
+   * @returns {Promise<Array<CollectionResult<keyof UserData>>>}
+   *   A promise resolving to an array of CollectionResult entries. Each entry
+   *   has:
+   *   - `collection`: the key of the UserData property (`'channels' | 'privateChats' | 'threads' | 'messages'`)
+   *   - `docs`: an array of UserDoc items, each with:
+   *       - `id`: the Firestore document ID
+   *       - `data`: the document’s contents cast to the element type of that collection
+   */
 
-  async getAllUserCollections() {
-    let userId = localStorage.getItem('id');
-    console.log('AllUserCollections: ' + userId)
+  async getAllUserCollections(): Promise<CollectionResult<keyof UserData>[]> {
+    const userId = localStorage.getItem('id')!;
     const promises = this.collections.map(async (colName) => {
-      const q = query(
-        collection(this.firestore, colName),
-        where('userIds', 'array-contains', userId),
-        
-        
+      const snap = await getDocs(
+        query(
+          collection(this.firestore, colName),
+          where('userIds', 'array-contains', userId)
+        )
       );
-      const snapshot = await getDocs(q);
+      const docs = snap.docs.map((docSnap) => ({
+        id: docSnap.id,
+        // ElementOf<'channels'> = ChannelsTest usw.
+        data: docSnap.data() as ElementOf<typeof colName>,
+      }));
       return {
         collection: colName,
-        docs: snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() })),
-      };
+        docs,
+      } as CollectionResult<typeof colName>;
     });
-    const results = await Promise.all(promises);
-    console.log('Das sind meine Results', results);
-    return results;
+    return Promise.all(promises);
   }
 
   /**
- * Transforms an array of collection results into a single user data object.
- *
- * @async
- * @function createUserObject
- * @param {Array<{collection: string, docs: Array<{ id: string, data: any }>}>} results
- *  - The array of collection query results.
- * @returns {Promise<Record<string, Array<{ id: string, data: any }>>>}
- * Resolves to an object mapping each collection name to its array of documents.
- */
-
-  async createUserObject(results: CollectionResult[]) {
-    results.forEach(({ collection, docs }) => {
-      console.log(`Ergebnisse aus Collection "${collection}":`);
-      docs.forEach(({ id, data }) => {
-        console.log(` • ${collection}/${id} →`, data);
-      });
-    });
-    return results.reduce((acc, { collection, docs }) => {
-      acc[collection] = docs;
-      return acc;
-    }, {} as Record<string, Array<{ id: string; data: any }>>);
+   * Transforms an array of collection query results into a consolidated UserData object.
+   *
+   * Iterates over each CollectionResult entry, discriminates by its `collection`
+   * key, and maps the contained documents into the corresponding array in the
+   * returned UserData.
+   *
+   * @param {Array<CollectionResult<keyof UserData>>} results
+   *   An array of query results, each indicating which UserData collection
+   *   it represents (`"channels"`, `"privateChats"`, `"threads"`, or `"messages"`)
+   *   along with the fetched documents.
+   *
+   * @returns {Promise<UserData>}
+   *   A promise that resolves to a UserData object where each property
+   *   (`channels`, `privateChats`, `threads`, `messages`) contains the
+   *   mapped document data for that collection.
+   */
+  async createUserObject(
+    results: CollectionResult<keyof UserData>[]
+  ): Promise<UserData> {
+    const userData: UserData = {
+      channels: [],
+      privateChats: [],
+      threads: [],
+      messages: [],
+    };
+    for (const { collection, docs } of results) {
+      switch (collection) {
+        case 'channels':
+          // Überzeuge TS per Assertion, dass docs hier ChannelsDocs sind
+          userData.channels = (docs as UserDoc<ChannelsTest>[]).map(
+            (d) => d.data
+          );
+          break;
+        case 'privateChats':
+          userData.privateChats = (docs as UserDoc<PrivateChat>[]).map(
+            (d) => d.data
+          );
+          break;
+        case 'threads':
+          userData.threads = (docs as UserDoc<Threads>[]).map((d) => d.data);
+          break;
+        case 'messages':
+          userData.messages = (docs as UserDoc<Message>[]).map((d) => d.data);
+          break;
+      }
+    }
+    return userData;
   }
 }

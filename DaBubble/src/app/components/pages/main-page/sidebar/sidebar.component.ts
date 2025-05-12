@@ -61,6 +61,8 @@ export class SidebarComponent {
 
   async ngOnInit() {
     let userData = await this.firestoreService.getUserData();
+    console.log('USER DATA LOGGIN', userData);
+
     this.userService.userDataObject = userData;
     console.log('Das ganze Objekt:', userData);
     console.log(
@@ -68,10 +70,10 @@ export class SidebarComponent {
       userData['channels']
     );
     console.log('So greift man auf das Array zu:', userData['channels'][0]);
-    console.log(
-      'So erhält man die einzelnen Daten aus der Collection:',
-      userData['channels'][0].data.channelName
-    );
+    // console.log(
+    //   'So erhält man die einzelnen Daten aus der Collection:',
+    //   userData['channels'][0].data.channelName
+    // );
   }
 
   toggleFold(key: FoldKey) {
