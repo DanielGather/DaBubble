@@ -75,8 +75,16 @@ export class FirestoreService {
     return doc(this.firestore, collectionId, docId);
   }
 
-  async getSingleDoc(collectionId: string, userId: string) {
-    const docRef = this.getSingleDocRef(collectionId, userId);
+  /**
+   * This function get a docsnap from a single document.
+   * it is no datastream, it fetches the data only once.
+   * 
+   * @param collectionId the id of the collection to search in
+   * @param docId the id of the document
+   * @returns 
+   */
+  async getSingleDoc(collectionId: string, docId: string) {
+    const docRef = this.getSingleDocRef(collectionId, docId);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       return docSnap.data();
