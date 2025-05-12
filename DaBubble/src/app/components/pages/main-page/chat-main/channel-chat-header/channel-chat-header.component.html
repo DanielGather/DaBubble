@@ -7,11 +7,17 @@
     <p>Entwicklerteam</p>
     <img class="w-5 h-5" src="img/arrow_drop_down.svg" alt="" />
   </div>
+
+
+<!-- user selection -->
   <div class="flex items-center gap-4">
+
     <div class="margin-left-img flex">
       <img class="w-7 h-7 rounded-full" src="img/user_1.png" alt="" />
     </div>
-    <p>3</p>
+
+   <p>{{ usersAddedToChannel.length }}</p>
+
     <button
       (click)="toggleAddUserToChannelPopUp()"
       class="bg-[#eceefe] w-10 h-10 items-center justify-center flex rounded-full relative"

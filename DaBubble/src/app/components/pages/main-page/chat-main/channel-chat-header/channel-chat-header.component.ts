@@ -40,11 +40,15 @@ export class ChannelChatHeaderComponent {
   showUserPopup = false;
   users: UsersService = inject(UsersService);
   usersList$: Observable<AppUser[]> = this.getSortedUser();
+  usersAddedToChannel: string[] = [];
 
-  constructor(private elementRef: ElementRef) {}
-
+  constructor(private elementRef: ElementRef) {
+    console.log('channelChat user list' + this.usersList$);
+  }
   ngOnInit() {
-    console.log('Wir testen hier', this.usersList$);
+    this.usersList$.subscribe((users) => {
+      console.log('Benutzerliste:', users); // So siehst du alle User mit ihren Details
+    });
   }
 
   openPopup() {
@@ -59,23 +63,11 @@ export class ChannelChatHeaderComponent {
     this.showUserPopup = !this.showUserPopup;
   }
 
-  /**
-   * Closes open popups when a click occurs outside the component's DOM element.
-   * @param event - The MouseEvent triggered by a click anywhere in the document.
-   */
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    const clickedInside = this.elementRef.nativeElement.contains(event.target);
-    if (!clickedInside && this.showUserPopup) {
-      this.showUserPopup = false;
-    }
-    if (!clickedInside && this.showPopup) {
-      this.showPopup = false;
-    }
-  }
-
-  addUserToChannel(email: string) {
-    console.log('ID', email);
+  addUserToChannel(id: string) {
+    console.log('ID', id);
+    this.usersAddedToChannel.push(id);
+    console.log(this.usersAddedToChannel);
+    
   }
 
   getSortedUser() {
@@ -105,5 +97,20 @@ export class ChannelChatHeaderComponent {
         return 'img/user_6.png';
     }
     return 'img/user_1.png';
+  }
+
+  /**
+   * Closes open popups when a click occurs outside the component's DOM element.
+   * @param event - The MouseEvent triggered by a click anywhere in the document.
+   */
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const clickedInside = this.elementRef.nativeElement.contains(event.target);
+    if (!clickedInside && this.showUserPopup) {
+      this.showUserPopup = false;
+    }
+    if (!clickedInside && this.showPopup) {
+      this.showPopup = false;
+    }
   }
 }
