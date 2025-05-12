@@ -50,13 +50,18 @@ export class ChatMainComponent implements OnInit {
    */
   chatMessages: Array<ChatMessage> = [];
 
-  /**
-   * this variable is used to have a reference of the current active route
-   */
+  chatTypeInputRoute!: string;
   constructor(private router: ActivatedRoute) {}
 
   ngOnInit(): void {
     //test
+    this.chatTypeInput = this.router.snapshot.paramMap.get('chatType')!;
+    console.log('Router', this.chatTypeInput);
+    this.router.paramMap.subscribe((params) => {
+      this.chatTypeInput = params.get('chatType')!;
+      console.log('ROUTER2', this.chatTypeInput);
+      // this.loadMessagesFor(this.chatTypeInput);
+    });
 
     this.chatMessages = this.messageDataService.testMessages;
     this.getChatTypeFromURL();

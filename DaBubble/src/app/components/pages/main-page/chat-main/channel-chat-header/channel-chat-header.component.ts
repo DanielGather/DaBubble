@@ -67,7 +67,6 @@ export class ChannelChatHeaderComponent {
     console.log('ID', id);
     this.usersAddedToChannel.push(id);
     console.log(this.usersAddedToChannel);
-    
   }
 
   getSortedUser() {
