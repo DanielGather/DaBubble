@@ -16,6 +16,7 @@ import { FirestoreService } from './firestore.service';
 export class AuthenticationService {
   usersService = inject(UsersService);
   firestoreService = inject(FirestoreService);
+  loginError: string = '';
 
   private userIdSignal = signal<string>('');
 
@@ -49,8 +50,11 @@ export class AuthenticationService {
     try {
       await this.signIn(email, password);
       await this.router.navigateByUrl('/chat/private');
-    } catch (error) {
-      console.log('login error:', error);
+    } catch (error: any) {
+      if (error.code == 'auth/invalid-credential') {
+        this.loginError =
+          'User existiert nicht oder Passwort ist nicht korrekt.';
+      }
     }
   }
 
