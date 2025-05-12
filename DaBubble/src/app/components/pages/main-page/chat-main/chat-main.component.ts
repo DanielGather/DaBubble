@@ -21,7 +21,7 @@ import { DefaultComponent } from './default/default.component';
     PrivateChatHeaderComponent,
     ChannelChatHeaderComponent,
     ThreadsbarComponent,
-    DefaultComponent
+    DefaultComponent,
   ],
   templateUrl: './chat-main.component.html',
   styleUrl: './chat-main.component.html',
@@ -62,7 +62,7 @@ export class ChatMainComponent implements OnInit {
     this.router.paramMap.subscribe((params) => {
       this.chatTypeInput = params.get('chatType')!;
       console.log('ROUTER2', this.chatTypeInput);
-      // this.loadMessagesFor(this.chatTypeInput);
+      // this.loadMessages(this.chatTypeInput);
     });
 
     this.chatMessages = this.messageDataService.testMessages; //this one must be the data of the observable later on
@@ -82,4 +82,8 @@ export class ChatMainComponent implements OnInit {
       this.router.snapshot.paramMap.get('chatType') || ChatType.default;
     console.log('chattype is: ', this.chatTypeInput);
   }
+
+  // loadMessages(channelId: string) {
+  //   console.log('TEST IN MAIN', this.usersService.userDataObject);
+  // }
 }
