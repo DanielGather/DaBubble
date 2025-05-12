@@ -119,7 +119,7 @@ export class SidebarComponent {
   }
 
   openChannel(channelId: string) {
-    this.router.navigate(['/chat', channelId]);
+    this.router.navigate(['/chat/channel', channelId]);
     console.log(channelId);
   }
 }
