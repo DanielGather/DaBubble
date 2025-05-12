@@ -1,6 +1,6 @@
 <div class="flex h-24 justify-between items-center pl-8 pr-8 relative">
   <div
-    (click)="openPopup()"
+    (click)="openChannelPopup()"
     class="flex gap-4 p-4 h-11 text-24 font-bold items-center cursor-pointer hover:bg-[rgb(240,241,254)] rounded-full"
   >
     <p>#</p>
@@ -8,15 +8,13 @@
     <img class="w-5 h-5" src="img/arrow_drop_down.svg" alt="" />
   </div>
 
-
-<!-- user selection -->
+  <!-- user selection -->
   <div class="flex items-center gap-4">
-
     <div class="margin-left-img flex">
       <img class="w-7 h-7 rounded-full" src="img/user_1.png" alt="" />
     </div>
 
-   <p>{{ usersAddedToChannel.length }}</p>
+    <p>{{ usersAddedToChannel.length }}</p>
 
     <button
       (click)="toggleAddUserToChannelPopUp()"
@@ -37,41 +35,67 @@
 
       @if (showUserPopup) {
       <div
-        class="absolute top-full right-0 z-30 bg-white shadow-2xl p-4 rounded-standard"
+        class="absolute top-full right-0 z-30 bg-white shadow-2xl p-10 w-96 rounded-standard rounded-tr-none"
+        (click)="$event.stopPropagation()"
       >
-        <ul *ngIf="usersList$ | async as users" class="overflow-y-auto">
-          <li
-            *ngFor="let user of users"
-            (click)="addUserToChannel(user.id!)"
-            class="flex gap-4 items-center pl-4 pr-4 pt-2 pb-2 rounded-2xl hover:cursor-pointer hover:bg-color-border"
-          >
-            <div class="relative w-10 h-10">
-              <img
-                class="rounded-full"
-                [src]="getAvatar(user.avatarId)"
-                alt=""
-              />
-              <img
-                *ngIf="user.online; else offlineTpl"
-                class="absolute right-0 bottom-[-3px] rounded-full"
-                src="img/online.svg"
-                alt=""
-              />
-              <ng-template #offlineTpl>
-                <img
-                  class="absolute right-0 bottom-[-3px] rounded-full"
-                  src="img/offline.svg"
-                  alt=""
-                />
-              </ng-template>
-            </div>
-            <div>
-              <p class="whitespace-nowrap">
-                {{ user.firstName }} {{ user.lastName }}
-              </p>
-            </div>
-          </li>
-        </ul>
+        <div id="addUserWrapper" class="flex flex-col gap-2">
+          <div class="flex justify-between">
+            <h3>Leute hinzufügen</h3>
+            <img
+              (click)="toggleAddUserToChannelPopUp()"
+              src="img/close.svg"
+              alt=""
+            />
+          </div>
+          <div class="text-fc-purple flex justify-start"># Entwicklerteam</div>
+
+          <!-- user search input -->
+          <div>
+            <input
+              class="border w-full border-color-border px-5 py-4 rounded-full ng-untouched ng-pristine ng-valid"
+              type="text"
+              placeholder="Name eingeben"
+            />
+            <ul *ngIf="usersList$ | async as users" class="overflow-y-auto">
+              <li
+                *ngFor="let user of users"
+                (click)="addUserToChannel(user.id!)"
+                class="flex gap-4 items-center pl-4 pr-4 pt-2 pb-2 rounded-2xl hover:cursor-pointer hover:bg-color-border"
+              >
+                <div class="relative w-10 h-10">
+                  <img
+                    class="rounded-full"
+                    [src]="getAvatar(user.avatarId)"
+                    alt=""
+                  />
+                  <img
+                    *ngIf="user.online; else offlineTpl"
+                    class="absolute right-0 bottom-[-3px] rounded-full"
+                    src="img/online.svg"
+                    alt=""
+                  />
+                  <ng-template #offlineTpl>
+                    <img
+                      class="absolute right-0 bottom-[-3px] rounded-full"
+                      src="img/offline.svg"
+                      alt=""
+                    />
+                  </ng-template>
+                </div>
+                <div>
+                  <p class="whitespace-nowrap">
+                    {{ user.firstName }} {{ user.lastName }}
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- user search input end -->
+           
+          <div class="flex justify-end">
+            <app-button class="">Hinzufügen</app-button>
+          </div>
+        </div>
       </div>
       }
     </button>
@@ -79,6 +103,6 @@
 </div>
 
 <app-channel-edit-popup
-  [visible]="showPopup"
-  (closed)="closePopup()"
+  [visible]="showChannelPopup"
+  (closed)="closeChannelPopup()"
 ></app-channel-edit-popup>
