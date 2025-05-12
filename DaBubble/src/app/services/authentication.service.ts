@@ -1,5 +1,5 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
+import { Auth, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -24,10 +24,8 @@ export class AuthenticationService {
   currentUserId: string = '';
 
   constructor(private auth: Auth, private router: Router) {
-   console.log('in Auth userId: ' + this.userId);
+    console.log('in Auth userId: ' + this.userId);
     console.log('in Auth currentUserId: ' + this.currentUserId);
-   
-    
   }
 
   signIn(email: string, password: string): Promise<UserCredential> {
@@ -36,6 +34,15 @@ export class AuthenticationService {
 
   signUp(email: string, password: string): Promise<UserCredential> {
     return createUserWithEmailAndPassword(this.auth, email, password);
+  }
+
+  googleAuthenticate() {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(this.auth, provider).then((result) => {
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential?.accessToken;
+      const user = result.user;
+    });
   }
 
   async login(email: string, password: string) {

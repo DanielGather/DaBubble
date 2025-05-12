@@ -53,8 +53,8 @@
         </div>
         <div
           id="sign-in-google-wrapper"
-          class="flex w-full bg-bg-main px-7 py-2 my-2 rounded-standard gap-4 justify-center items-center mt-4"
-          (click)="signInWithGoogle()"
+          class="flex w-full bg-bg-main px-7 py-2 my-2 rounded-standard gap-4 justify-center items-center mt-4 cursor-pointer"
+          (click)="this.authService.googleAuthenticate()"
         >
           <img class="h-10 w-10" src="/img/google.svg" alt="" />
           <span class="text-fc-purple">Anmelden mit Google</span>
