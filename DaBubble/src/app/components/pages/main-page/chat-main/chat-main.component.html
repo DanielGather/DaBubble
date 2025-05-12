@@ -1,11 +1,16 @@
 <section class="flex h-full">
   <div
-  class="bg-white [@media(min-width:767px)]:rounded-standard overflow-hidden flex flex-col justify-between h-full mx-4"
-  style="width: -webkit-fill-available;"
->
+    class="bg-white [@media(min-width:767px)]:rounded-standard overflow-hidden flex flex-col justify-between h-full mx-4"
+    style="width: -webkit-fill-available;">
 
-    <!--  headers-->
     <div class="flex flex-col items-start justify-between h-full">
+
+      <!-- default chat state -->
+      @if(chatTypeInput === chatType.default) {
+      <app-default class="w-full flex flex-col"></app-default>
+      }
+
+      <!--  headers-->
       @if(chatTypeInput === chatType.private) {
       <app-channel-chat-header class="w-full"></app-channel-chat-header>
       } @else if(chatTypeInput === chatType.channel) {
@@ -26,12 +31,12 @@
 
       <!-- Chatinput-->
       <app-chat-input class="w-full"></app-chat-input>
+
     </div>
   </div>
 
   <!-- thread bar -->
+  @if(chatTypeInput === 'channel') {
   <app-threadsbar [chatMessages]="chatMessages"></app-threadsbar>
-  <!-- @if(chatTypeInput === 'channel') {
-  <app-threadsbar [chatMessages]="chatMessages"></app-threadsbar>
-  } -->
+  }
 </section>

@@ -71,7 +71,7 @@ export class AuthenticationService {
       if (user) {
         localStorage.setItem('id', user.uid);
         if (!currentUrl.includes('/signup')) {
-          await this.router.navigateByUrl('/chat/private');
+          await this.router.navigateByUrl('/chat/');
         }
         this.usersService.currentUserId = user.uid;
 

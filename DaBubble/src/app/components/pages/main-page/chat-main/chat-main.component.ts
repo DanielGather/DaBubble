@@ -10,6 +10,7 @@ import { MessagesDataService } from '../../../../services/messages-data.service'
 import { UsersService } from '../../../../services/users.service';
 import { AuthenticationService } from '../../../../services/authentication.service';
 import { ThreadsbarComponent } from '../chat-thread/threadsbar/threadsbar.component';
+import { DefaultComponent } from './default/default.component';
 
 @Component({
   selector: 'app-chat-main',
@@ -20,6 +21,7 @@ import { ThreadsbarComponent } from '../chat-thread/threadsbar/threadsbar.compon
     PrivateChatHeaderComponent,
     ChannelChatHeaderComponent,
     ThreadsbarComponent,
+    DefaultComponent
   ],
   templateUrl: './chat-main.component.html',
   styleUrl: './chat-main.component.html',
@@ -30,7 +32,7 @@ export class ChatMainComponent implements OnInit {
   //testend
 
   /**
-   * users service variable
+   * service variables
    */
   usersService = inject(UsersService);
   authService = inject(AuthenticationService);
@@ -58,9 +60,9 @@ export class ChatMainComponent implements OnInit {
   ngOnInit(): void {
     //test
 
-    this.chatMessages = this.messageDataService.testMessages;
+    this.chatMessages = this.messageDataService.testMessages; //this one must be the data of the observable later on
+    //testend
     this.getChatTypeFromURL();
-    console.log('log', this.usersService.currentUserId);
   }
 
   ngAfterViewInit() {
