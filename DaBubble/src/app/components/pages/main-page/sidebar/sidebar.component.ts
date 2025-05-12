@@ -11,6 +11,8 @@ import { AppUser } from '../../../../types/types';
 import { Channels } from '../../../../types/types';
 import { FoldItemState, FoldKey, FoldState } from '../../../../types/types';
 import { CollectionResult } from '../../../../types/types';
+import { ActivatedRoute, Router } from '@angular/router';
+
 @Component({
   selector: 'app-sidebar',
   imports: [CommonModule, SearchbarComponent, CreateChannelComponent],
@@ -29,6 +31,7 @@ import { CollectionResult } from '../../../../types/types';
   ],
 })
 export class SidebarComponent {
+  constructor(private router: Router, private route: ActivatedRoute) {}
   firestoreService: FirestoreService = inject(FirestoreService);
   userService: UsersService = inject(UsersService);
 
@@ -60,9 +63,15 @@ export class SidebarComponent {
     let userData = await this.firestoreService.getUserData();
     this.userService.userDataObject = userData;
     console.log('Das ganze Objekt:', userData);
-    console.log('So ruft man eine collection aus dem Objekt auf:', userData['channels']);
+    console.log(
+      'So ruft man eine collection aus dem Objekt auf:',
+      userData['channels']
+    );
     console.log('So greift man auf das Array zu:', userData['channels'][0]);
-    console.log('So erhält man die einzelnen Daten aus der Collection:',userData['channels'][0].data.channelName);
+    console.log(
+      'So erhält man die einzelnen Daten aus der Collection:',
+      userData['channels'][0].data.channelName
+    );
   }
 
   toggleFold(key: FoldKey) {
@@ -109,7 +118,8 @@ export class SidebarComponent {
     return 'img/user_1.png';
   }
 
-  openChannel(channel: string) {
-    console.log(channel);
+  openChannel(channelId: string) {
+    this.router.navigate(['/chat/channel', channelId]);
+    console.log(channelId);
   }
 }
