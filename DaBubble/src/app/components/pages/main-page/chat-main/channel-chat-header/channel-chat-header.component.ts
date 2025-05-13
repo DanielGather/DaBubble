@@ -8,8 +8,8 @@ import { map, Observable, combineLatest, of } from 'rxjs';
 import { AppUser } from '../../../../../types/types';
 import { arrayUnion } from '@angular/fire/firestore';
 import { FirestoreService } from '../../../../../services/firestore.service';
-import { switchMap } from 'rxjs/operators';
 import { MessagesDataService } from '../../../../../services/messages-data.service';
+import { ChannelsService } from '../../../../../services/channels.service';
 
 @Component({
   selector: 'app-channel-chat-header',
@@ -24,6 +24,7 @@ import { MessagesDataService } from '../../../../../services/messages-data.servi
 })
 export class ChannelChatHeaderComponent {
   firestore = inject(FirestoreService);
+  channelsService = inject(ChannelsService);
   showChannelPopup = false;
   showUserPopup = false;
   users: UsersService = inject(UsersService);
@@ -48,7 +49,7 @@ export class ChannelChatHeaderComponent {
     }
     this.usersNotInChannel$ = combineLatest([
       this.usersList$,
-      this.firestore.getChannelById$(channelId),
+      this.channelsService.getChannelById$(channelId),
     ]).pipe(
       map(([users, channel]) =>
         users.filter((user) => !channel.userIds.includes(user.id!))
@@ -62,7 +63,7 @@ export class ChannelChatHeaderComponent {
    */
   getUserIds$(): Observable<string[]> {
     const channelId = this.getCurrentChannelIdFromUrl();
-    return this.firestore
+    return this.channelsService
       .getChannelById$(channelId!)
       .pipe(map((channel) => channel.userIds));
   }

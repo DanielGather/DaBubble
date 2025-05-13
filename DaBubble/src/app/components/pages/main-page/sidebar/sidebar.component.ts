@@ -61,7 +61,7 @@ export class SidebarComponent {
   };
 
   async ngOnInit() {
-    let userData = await this.firestoreService.getUserData();
+    let userData = await this.userService.getUserData();
     console.log('USER DATA LOGGIN', userData);
 
     this.userService.userDataObject = userData;
