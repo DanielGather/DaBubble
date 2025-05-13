@@ -4,10 +4,11 @@ import { ChannelEditPopupComponent } from '../channel-edit-popup/channel-edit-po
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UsersService } from '../../../../../services/users.service';
-import { map, Observable, combineLatest } from 'rxjs';
+import { map, Observable, combineLatest, of } from 'rxjs';
 import { AppUser } from '../../../../../types/types';
 import { arrayUnion } from '@angular/fire/firestore';
 import { FirestoreService } from '../../../../../services/firestore.service';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-channel-chat-header',
@@ -27,11 +28,16 @@ export class ChannelChatHeaderComponent {
   users: UsersService = inject(UsersService);
   usersList$: Observable<AppUser[]> = this.getSortedUser();
   usersNotInChannel$!: Observable<AppUser[]>;
+  userIds$ = this.getUserIds$();
 
   constructor(private elementRef: ElementRef) {
     console.log('channelChat user list' + this.usersList$);
   }
 
+  /**
+   * filters user who should available in add user list
+   * @returns
+   */
   ngOnInit() {
     const channelId = this.getCurrentChannelId();
     if (!channelId) {
@@ -46,6 +52,17 @@ export class ChannelChatHeaderComponent {
         users.filter((user) => !channel.userIds.includes(user.id!))
       )
     );
+  }
+
+  /**
+   *
+   * @returns get current channel userIds
+   */
+  getUserIds$(): Observable<string[]> {
+    const channelId = this.getCurrentChannelId();
+    return this.firestore
+      .getChannelById$(channelId!)
+      .pipe(map((channel) => channel.userIds));
   }
 
   getCurrentChannelId(): string | null {
@@ -66,7 +83,6 @@ export class ChannelChatHeaderComponent {
    */
   async addUserToChannel(id: string) {
     const channelId = this.getCurrentChannelId();
-    console.log('ener der vielen ids' + channelId);
     if (!channelId) {
       console.error('Channel ID konnte nicht aus der URL gelesen werden.');
       return;

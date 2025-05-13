@@ -14,7 +14,7 @@
       <img class="w-7 h-7 rounded-full" src="img/user_1.png" alt="" />
     </div>
 
-    <p>5</p>
+    <p>Anzahl User: {{ (userIds$ | async)?.length }}</p>
 
     <button
       (click)="toggleAddUserToChannelPopUp()"

@@ -259,6 +259,11 @@ export class FirestoreService {
     return userData;
   }
 
+  /**
+   * get current channel id
+   * @param channelId 
+   * @returns 
+   */
   getChannelById$(channelId: string): Observable<Channels> {
     const docRef = doc(this.firestore, 'channels', channelId);
     return docData(docRef, { idField: 'id' }) as Observable<Channels>;
