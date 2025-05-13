@@ -4,12 +4,11 @@ import { ChannelEditPopupComponent } from '../channel-edit-popup/channel-edit-po
 import { DropdownComponent } from '../../shared/dropdown/dropdown.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { FormInputComponent } from '../../../../shared/form-input/form-input.component';
-import { ModalComponent } from '../../../../shared/modal/modal.component';
-import { PopOverComponent } from '../../shared/pop-over/pop-over.component';
 import { UsersService } from '../../../../../services/users.service';
-import { map, Observable, take } from 'rxjs';
+import { map, Observable, combineLatest } from 'rxjs';
 import { AppUser } from '../../../../../types/types';
+import { arrayUnion } from '@angular/fire/firestore';
+import { FirestoreService } from '../../../../../services/firestore.service';
 
 @Component({
   selector: 'app-channel-chat-header',
@@ -23,27 +22,58 @@ import { AppUser } from '../../../../../types/types';
   styleUrl: './channel-chat-header.component.scss',
 })
 export class ChannelChatHeaderComponent {
-  // userService: UsersService = inject(UsersService);
+  firestore = inject(FirestoreService);
   showChannelPopup = false;
   showUserPopup = false;
   users: UsersService = inject(UsersService);
   usersList$: Observable<AppUser[]> = this.getSortedUser();
-  usersAddedToChannel: string[] = [];
-  permanentUserList: AppUser[] = [];
+  usersNotInChannel$!: Observable<AppUser[]>;
 
   constructor(private elementRef: ElementRef) {
     console.log('channelChat user list' + this.usersList$);
   }
 
-  /**
-   * activate an observable to get user data
-   */
   ngOnInit() {
-    this.usersList$
-      .pipe(take(1)) // get it once, then close it
-      .subscribe((users) => {
-        this.permanentUserList = users;
-        console.log('Statisches Array:', this.permanentUserList);
+    const channelId = this.getCurrentChannelId();
+    if (!channelId) {
+      console.error('Keine gültige Channel-ID in der URL');
+      return;
+    }
+    this.usersNotInChannel$ = combineLatest([
+      this.usersList$,
+      this.firestore.getChannelById$(channelId),
+    ]).pipe(
+      map(([users, channel]) =>
+        users.filter((user) => !channel.userIds.includes(user.id!))
+      )
+    );
+  }
+
+  getCurrentChannelId(): string | null {
+    const currentUrl = window.location.href;
+    if (!currentUrl.includes('channel/')) {
+      return null;
+    }
+    const parts = currentUrl.split('channel/');
+    if (parts.length > 1) {
+      return parts[1].split('/')[0];
+    }
+    return null;
+  }
+
+  /**
+   * add user to channel
+   * @param id
+   */
+  async addUserToChannel(id: string) {
+    const channelId = this.getCurrentChannelId();
+    console.log('ener der vielen ids' + channelId);
+    if (!channelId) {
+      console.error('Channel ID konnte nicht aus der URL gelesen werden.');
+      return;
+    }
+    await this.firestore.updateDoc('channels', channelId, {
+      userIds: arrayUnion(id),
       });
   }
 
@@ -52,16 +82,6 @@ export class ChannelChatHeaderComponent {
    */
   toggleAddUserToChannelPopUp() {
     this.showUserPopup = !this.showUserPopup;
-  }
-
-  /**
-   * add user to channel
-   * @param id
-   */
-  addUserToChannel(id: string) {
-    console.log('ID', id);
-    this.usersAddedToChannel.push(id);
-    console.log(this.usersAddedToChannel);
   }
 
   /**

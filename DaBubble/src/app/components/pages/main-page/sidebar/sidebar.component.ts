@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Output } from '@angular/core';
 import { CreateChannelComponent } from './create-channel/create-channel.component';
 import { SearchbarComponent } from '../shared/searchbar/searchbar.component';
 import { FirestoreService } from '../../../../services/firestore.service';
