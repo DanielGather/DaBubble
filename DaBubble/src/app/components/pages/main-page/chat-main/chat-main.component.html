@@ -14,7 +14,9 @@
       <app-private-chat-header></app-private-chat-header>
       } @else if(chatTypeInput === chatType.channel) {
       <app-channel-chat-header class="w-full"></app-channel-chat-header>
-      } @for(message of newMessage; track message) {
+
+      <!-- Hier wird die Message gerendert. Muss noch an aktuelle struktur angepasst werden. -->
+      } @for(message of newMessage(); track message) {
       <div>{{ message.message }}</div>
       }
       <!-- Messager container private -->

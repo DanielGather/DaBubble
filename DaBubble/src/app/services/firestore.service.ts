@@ -22,6 +22,8 @@ import { Threads } from '../types/types';
 import { Message } from '../types/types';
 import { PrivateChat } from '../types/types';
 import { ElementOf } from '../types/types';
+import { onSnapshot } from 'firebase/firestore';
+import { UsersService } from './users.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -30,6 +32,7 @@ export class FirestoreService {
    * firestore service
    */
   firestore: Firestore = inject(Firestore);
+  // usersService: UsersService = inject(UsersService);
 
   /**
    * Observable that loads all documents from the Firestore 'channels' collection at application start.
