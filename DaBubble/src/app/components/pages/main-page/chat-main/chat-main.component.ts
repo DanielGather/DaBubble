@@ -66,7 +66,7 @@ export class ChatMainComponent implements OnInit {
 
   // newMessage: Message[] = [];
 
-  newMessage = signal<Message[]>([]);
+  newMessages = signal<Message[]>([]);
   currentChannelId = signal<string>('');
 
   chatTypeInputRoute!: string;
@@ -75,7 +75,9 @@ export class ChatMainComponent implements OnInit {
       const allMessages = this.usersService.messages();
       const channelId = this.currentChannelId();
       const filtered = allMessages.filter((msg) => msg.channelId === channelId);
-      this.newMessage.set(filtered);
+      this.newMessages.set(filtered);
+      console.log('effect signal newMessage' + this.newMessages);
+      
     });
   }
 

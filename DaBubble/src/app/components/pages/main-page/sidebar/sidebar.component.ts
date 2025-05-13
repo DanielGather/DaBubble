@@ -64,7 +64,7 @@ export class SidebarComponent {
     let userData = await this.userService.getUserData();
     console.log('USER DATA LOGGIN', userData);
 
-    this.userService.userDataObject = userData;
+    this.userService.userChatDataObject = userData;
     console.log('Das ganze Objekt:', userData);
     console.log(
       'So ruft man eine collection aus dem Objekt auf:',

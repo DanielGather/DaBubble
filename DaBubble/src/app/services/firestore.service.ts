@@ -4,11 +4,12 @@ import {
   Firestore,
   collection,
   collectionData,
+
   doc,
   updateDoc,
   setDoc,
   addDoc,
-  docData,
+
 } from '@angular/fire/firestore';
 import { getDoc } from 'firebase/firestore';
 import { Observable, shareReplay } from 'rxjs';
@@ -17,24 +18,23 @@ import { Observable, shareReplay } from 'rxjs';
   providedIn: 'root',
 })
 export class FirestoreService {
-  constructor() {}
-
   /**
    * firestore service
    */
   firestore: Firestore = inject(Firestore);
+  // usersService: UsersService = inject(UsersService);
 
   /**
    * Observable that loads all documents from the Firestore 'channels' collection at application start.
    * The data is cached using `shareReplay(1)`, so multiple subscribers receive the same data
    * without triggering additional Firestore reads.
    *
-   * NOTE: Since this property is marked as `readonly`, it cannot be reassigned later.
-   * This is suitable only if the list of channels is static or should only be loaded once.
    */
   readonly channelsList$: Observable<Channels[]> = this.getCollectionData(
     'channels'
   ) as Observable<Channels[]>;
+
+  constructor() {}
 
   /**
    * this function returns the specific collection-reference of the firestore database.
@@ -70,6 +70,51 @@ export class FirestoreService {
     return doc(this.firestore, collectionId, docId);
   }
 
+
+
+
+  /**
+   * bitte löschen falls nicht mehr benötigt
+   */
+
+  // async getSingleDoc(collectionId: string, docId: string) {
+  //   const docRef = this.getSingleDocRef(collectionId, docId);
+  //   const docSnap = await getDoc(docRef);
+  //   if (docSnap.exists()) {
+  //     return docSnap.data();
+  //   } else {
+  //     return null;
+  //   }
+  // }
+
+
+
+    /**
+   * This function get a docsnap from a single document.
+   * it is no datastream, it fetches the data only once.
+   *
+   * @param collectionId the id of the collection to search in
+   * @param docId the id of the document
+   * @returns
+   */
+    async getSingleCollection(collectionId: string, docId: string) {
+    const docRef = this.getSingleDocRef(collectionId, docId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log('Document data:', docSnap.data());
+      console.log('Document data:', docSnap.id);
+      return docSnap.data();
+    } else {
+      console.log('No such document!');
+      return;
+    }
+  }
+
+
+
+
+
   /**
    * this function allows to update an exsisting document in a specific collection.
    *
@@ -102,35 +147,7 @@ export class FirestoreService {
     await setDoc(doc(this.firestore, collectionName, docId), objekt);
   }
 
-  async getSingleCollection(collectionId: string, docId: string) {
-    const docRef = this.getSingleDocRef(collectionId, docId);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      console.log('Document data:', docSnap.data());
-      console.log('Document data:', docSnap.id);
-      return docSnap.data();
-    } else {
-      console.log('No such document!');
-      return;
-    }
-  }
-
-  /**
-   * This function get a docsnap from a single document.
-   * it is no datastream, it fetches the data only once.
-   *
-   * @param collectionId the id of the collection to search in
-   * @param docId the id of the document
-   * @returns
-   */
-  async getSingleDoc(collectionId: string, docId: string) {
-    const docRef = this.getSingleDocRef(collectionId, docId);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      return docSnap.data();
-    } else {
-      return null;
-    }
-  }
+/**
+ * hier noch eine delete function erstellen
+ */
 }

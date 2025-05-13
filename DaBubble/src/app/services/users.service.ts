@@ -2,7 +2,6 @@ import { Injectable, inject, signal } from '@angular/core';
 import { FirestoreService } from './firestore.service';
 import {
   AppUser,
-  MessageType,
   CollectionResult,
   ElementOf,
   UserDoc,
@@ -18,12 +17,7 @@ import { Message } from '../types/types';
 import {
   Firestore,
   collection,
-  collectionData,
   getDocs,
-  doc,
-  updateDoc,
-  setDoc,
-  addDoc,
   where,
   query,
 } from '@angular/fire/firestore';
@@ -32,15 +26,13 @@ import {
   providedIn: 'root',
 })
 export class UsersService {
-  constructor() {
-    console.log('show me if there is an id' + this.usersList$);
-  }
+  constructor() {}
 
-  firestoreService: FirestoreService = inject(FirestoreService);
   firestore: Firestore = inject(Firestore);
+  firestoreService: FirestoreService = inject(FirestoreService);
   currentUserId: string | null = null;
-  userObject: AppUser | null = null;
-  userDataObject!: UserData;
+  userInformation: AppUser | null = null;
+  userChatDataObject!: UserData;
   collections: Array<keyof UserData> = [
     'channels',
     'privateChats',
@@ -123,23 +115,11 @@ export class UsersService {
     this.currentUserId = null;
   }
 
-  // subscribeToMessages(userId: string): () => void {
-  //   const q = query(
-  //     collection(this.firestoreService.firestore, 'messages'),
-  //     where('userIds', 'array-contains', userId)
-  //   );
-
-  //   return onSnapshot(q, (snapshot) => {
-  //     const docs = snapshot.docs.map((docSnap) => ({
-  //       id: docSnap.id,
-  //       data: docSnap.data() as Message,
-  //     }));
-  //     this.userDataObject.messages = docs.map((d) => d.data);
-  //     console.log('Live messages updated:', this.userDataObject.messages);
-  //     this._messagesSubject.next(this.userDataObject.messages);
-  //   });
-  // }
-
+  /**
+   * auslagern in message service
+   * subscribed messages assing it to userId 
+   * @param userId
+   */
   subscribeToMessages(userId: string): void {
     const q = query(
       collection(this.firestoreService.firestore, 'messages'),
@@ -153,6 +133,9 @@ export class UsersService {
     });
   }
 
+  /**
+   * close the message observer
+   */
   unsubscribeFromMessages(): void {
     this.unsubscribeFn?.();
   }
@@ -169,6 +152,7 @@ export class UsersService {
 
   async getUserData() {
     let results = await this.getAllUserCollections();
+    console.log('hier werden die sortierten results aufgelistet mit where' , results);
     let userData = await this.createUserObject(results);
     return userData;
   }

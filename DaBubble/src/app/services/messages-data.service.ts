@@ -217,6 +217,11 @@ export class MessagesDataService {
     return this._currentThreadId();
   }
 
+
+  /**
+   * in den channel service verschieben
+   * @returns 
+   */
   getCurrentChannelIdFromUrl(): string | null {
     const currentUrl = window.location.href;
     if (!currentUrl.includes('channel/')) {

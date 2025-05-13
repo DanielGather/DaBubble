@@ -18,12 +18,27 @@ export class AuthenticationService {
   firestoreService = inject(FirestoreService);
   loginError: string = '';
 
+
+  /**
+   * fraglich ob das noch verwendet wird, eventuell löschen
+   */
   private userIdSignal = signal<string>('');
 
+
+    /**
+   * fraglich ob das noch verwendet wird, eventuell löschen
+   */
   public userId = this.userIdSignal.asReadonly();
 
+  
   currentUserId: string = '';
 
+
+  /**
+   * werden die console logs noch gebraucht?
+   * @param auth
+   * @param router 
+   */
   constructor(private auth: Auth, private router: Router) {
     console.log('in Auth userId: ' + this.userId);
     console.log('in Auth currentUserId: ' + this.currentUserId);
@@ -46,6 +61,12 @@ export class AuthenticationService {
     });
   }
 
+
+  /**
+   * router? sollte zu chat leiten ohne private
+   * @param email
+   * @param password 
+   */
   async login(email: string, password: string) {
     try {
       await this.signIn(email, password);
@@ -58,6 +79,11 @@ export class AuthenticationService {
     }
   }
 
+
+  /**
+   * ist das noch in gebrauch, wenn ja, eventuell verschieben in user.service
+   * @returns 
+   */
   async setCurrentUser() {
     return this.firestoreService.getSingleCollection(
       'users',
@@ -65,6 +91,9 @@ export class AuthenticationService {
     ) as any;
   }
 
+  /**
+   * prüft ob token vorhanden, und logged automatisch ein
+   */
   async observeAuthState() {
     onAuthStateChanged(this.auth, async (user) => {
       const currentUrl = this.router.url;
@@ -73,6 +102,7 @@ export class AuthenticationService {
         if (!currentUrl.includes('/signup')) {
           await this.router.navigateByUrl('/chat/');
         }
+        // wird diese zeile noch benötigt?
         this.usersService.currentUserId = user.uid;
 
         this.usersService.observeCurrentUser(user.uid);
