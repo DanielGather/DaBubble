@@ -27,7 +27,7 @@ export class CreateChannelComponent {
   channelForm!: FormGroup;
 
   ngOnInit() {
-    console.log("Ich bin im Create Channel",this.usersService.userDataObject);
+    console.log("Ich bin im Create Channel",this.usersService.userChatDataObject);
     
     this.channelForm = this.fb.group({
       createChannel: ['', [Validators.required, Validators.minLength(3)]],
@@ -39,6 +39,10 @@ export class CreateChannelComponent {
     this.showModal.emit(false);
   }
 
+
+  /**
+   * wenn auf add doc auf setdoc umgestellt sparen wir uns add doc im service da nur hier verwendedt
+   */
   onSubmit() {
     let userId = localStorage.getItem('id')
     if (this.channelForm.valid) {
