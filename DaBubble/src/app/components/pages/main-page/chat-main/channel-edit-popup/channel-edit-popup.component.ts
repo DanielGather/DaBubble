@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { DropdownComponent } from '../../shared/dropdown/dropdown.component';
 import { ButtonComponent } from '../../../../shared/button/button.component';
 import { FormsModule } from '@angular/forms';
@@ -10,6 +10,9 @@ import {
   transition,
   animate,
 } from '@angular/animations';
+import { arrayRemove } from '@angular/fire/firestore';
+import { Firestore } from 'firebase/firestore';
+import { FirestoreService } from '../../../../../services/firestore.service';
 
 @Component({
   selector: 'app-channel-edit-popup',
@@ -35,8 +38,9 @@ export class ChannelEditPopupComponent {
 voluptas non at consequuntur delectus accusamus veniam sit necessitatibus
 nisi temporibus deserunt nulla aliquam tenetur perspiciatis natus, ea
 doloremque.`;
+  firestore = inject(FirestoreService);
 
-  @Input() visible: boolean = false; // 👈 DAS ist wichtig
+  @Input() visible: boolean = false;
   @Output() closed = new EventEmitter<void>();
 
   onCloseClick() {
@@ -49,5 +53,31 @@ doloremque.`;
     } else {
       this.editDescription = !this.editDescription;
     }
+  }
+
+  async leaveChannel() {
+    const channelId = this.getCurrentChannelIdFromDomainPath();
+    const userId = localStorage.getItem('id');
+
+    if (!channelId || !userId) return;
+
+    await this.firestore.updateDoc('channels', channelId, {
+      userIds: arrayRemove(userId),
+    });
+
+    // Optional: Popup schließen
+    this.onCloseClick();
+  }
+
+  getCurrentChannelIdFromDomainPath(): string | null {
+    const currentUrl = window.location.href;
+    if (!currentUrl.includes('channel/')) {
+      return null;
+    }
+    const parts = currentUrl.split('channel/');
+    if (parts.length > 1) {
+      return parts[1].split('/')[0];
+    }
+    return null;
   }
 }
