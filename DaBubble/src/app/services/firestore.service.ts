@@ -57,7 +57,7 @@ export class FirestoreService {
 
   /**
    * this function returns the specific collection-reference of the firestore database.
-   *
+   * it is needed to get collection data
    * @returns collection-reference
    */
   getCollectionRef(collectionKey: string) {
@@ -119,10 +119,7 @@ export class FirestoreService {
   }
 
   /**
-   * create a new collectionm from what?
-   * @param collectionName
-   * @param objekt
-   * create a new collection from what?
+   * create a new document
    * @param collectionName
    * @param objekt
    */
