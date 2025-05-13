@@ -13,6 +13,7 @@ import {
 import { arrayRemove } from '@angular/fire/firestore';
 import { Firestore } from 'firebase/firestore';
 import { FirestoreService } from '../../../../../services/firestore.service';
+import { MessagesDataService } from '../../../../../services/messages-data.service';
 
 @Component({
   selector: 'app-channel-edit-popup',
@@ -39,6 +40,7 @@ voluptas non at consequuntur delectus accusamus veniam sit necessitatibus
 nisi temporibus deserunt nulla aliquam tenetur perspiciatis natus, ea
 doloremque.`;
   firestore = inject(FirestoreService);
+  messageData = inject(MessagesDataService);
 
   @Input() visible: boolean = false;
   @Output() closed = new EventEmitter<void>();
@@ -56,7 +58,7 @@ doloremque.`;
   }
 
   async leaveChannel() {
-    const channelId = this.getCurrentChannelIdFromDomainPath();
+    const channelId = this.messageData.getCurrentChannelIdFromUrl();
     const userId = localStorage.getItem('id');
 
     if (!channelId || !userId) return;
@@ -67,17 +69,5 @@ doloremque.`;
 
     // Optional: Popup schließen
     this.onCloseClick();
-  }
-
-  getCurrentChannelIdFromDomainPath(): string | null {
-    const currentUrl = window.location.href;
-    if (!currentUrl.includes('channel/')) {
-      return null;
-    }
-    const parts = currentUrl.split('channel/');
-    if (parts.length > 1) {
-      return parts[1].split('/')[0];
-    }
-    return null;
   }
 }
