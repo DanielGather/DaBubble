@@ -73,7 +73,7 @@ export class ChannelChatHeaderComponent {
     }
     await this.firestore.updateDoc('channels', channelId, {
       userIds: arrayUnion(id),
-      });
+    });
   }
 
   /**
