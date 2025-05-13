@@ -39,34 +39,43 @@ export class ChannelChatHeaderComponent {
   usersAddedToChannel: string[] = [];
   permanentUserList: AppUser[] = [];
 
-
-
   constructor(private elementRef: ElementRef) {
     console.log('channelChat user list' + this.usersList$);
   }
 
   /**
-   * activate an observable to get user date
+   * activate an observable to get user data
    */
-ngOnInit() {
-  this.usersList$
-    .pipe(take(1)) // Nur einmal holen, dann automatisch beenden
-    .subscribe((users) => {
-      this.permanentUserList = users;
-      console.log('Statisches Array:', this.permanentUserList);
-    });
-}
+  ngOnInit() {
+    this.usersList$
+      .pipe(take(1)) // get it once, then close it
+      .subscribe((users) => {
+        this.permanentUserList = users;
+        console.log('Statisches Array:', this.permanentUserList);
+      });
+  }
 
+  /**
+   * toggle popup
+   */
   toggleAddUserToChannelPopUp() {
     this.showUserPopup = !this.showUserPopup;
   }
 
+  /**
+   * add user to channel
+   * @param id
+   */
   addUserToChannel(id: string) {
     console.log('ID', id);
     this.usersAddedToChannel.push(id);
     console.log(this.usersAddedToChannel);
   }
 
+  /**
+   * get user from firebase and sort it
+   * @returns
+   */
   getSortedUser() {
     console.log('sorted', this.users.usersList$);
     return this.users.usersList$.pipe(
@@ -96,10 +105,16 @@ ngOnInit() {
     return 'img/user_1.png';
   }
 
+  /**
+   * open channel edit
+   */
   openChannelPopup() {
     this.showChannelPopup = true;
   }
 
+  /**
+   * close channel edit
+   */
   closeChannelPopup() {
     this.showChannelPopup = false;
   }
