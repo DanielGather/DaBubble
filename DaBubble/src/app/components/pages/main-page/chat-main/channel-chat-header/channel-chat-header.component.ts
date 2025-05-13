@@ -30,7 +30,7 @@ export class ChannelChatHeaderComponent {
   usersList$: Observable<AppUser[]> = this.getSortedUser();
   usersNotInChannel$!: Observable<AppUser[]>;
   userIds$ = this.getUserIds$();
-  messageData = inject(MessagesDataService);
+  channelHelper = inject(MessagesDataService);
 
   constructor(private elementRef: ElementRef) {
     console.log('channelChat user list' + this.usersList$);
@@ -41,7 +41,7 @@ export class ChannelChatHeaderComponent {
    * @returns
    */
   ngOnInit() {
-    const channelId = this.messageData.getCurrentChannelIdFromUrl();
+    const channelId = this.getCurrentChannelIdFromUrl();
     if (!channelId) {
       console.error('Keine gültige Channel-ID in der URL');
       return;
@@ -61,10 +61,22 @@ export class ChannelChatHeaderComponent {
    * @returns get current channel userIds
    */
   getUserIds$(): Observable<string[]> {
-    const channelId = this.messageData.getCurrentChannelIdFromUrl();
+    const channelId = this.getCurrentChannelIdFromUrl();
     return this.firestore
       .getChannelById$(channelId!)
       .pipe(map((channel) => channel.userIds));
+  }
+
+  getCurrentChannelIdFromUrl(): string | null {
+    const currentUrl = window.location.href;
+    if (!currentUrl.includes('channel/')) {
+      return null;
+    }
+    const parts = currentUrl.split('channel/');
+    if (parts.length > 1) {
+      return parts[1].split('/')[0];
+    }
+    return null;
   }
 
   /**
@@ -72,7 +84,7 @@ export class ChannelChatHeaderComponent {
    * @param id
    */
   async addUserToChannel(id: string) {
-    const channelId = this.messageData.getCurrentChannelIdFromUrl();
+    const channelId = this.getCurrentChannelIdFromUrl();
     if (!channelId) {
       console.error('Channel ID konnte nicht aus der URL gelesen werden.');
       return;
