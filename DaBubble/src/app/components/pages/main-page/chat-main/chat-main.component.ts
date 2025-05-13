@@ -101,6 +101,12 @@ export class ChatMainComponent implements OnInit {
     const userId = localStorage.getItem('id')!;
     this.usersService.subscribeToMessages(userId);
 
+    setTimeout(() => {
+      console.log('ANDRE LOG MSGS: ', this.usersService.subscribeToMessages(userId));
+      
+    }, 2000);
+    
+
     // Sofortige Initialisierung beim ersten Laden
     const initialChannelId = this.router.snapshot.paramMap.get('id')!;
     this.loadMessages(initialChannelId);
