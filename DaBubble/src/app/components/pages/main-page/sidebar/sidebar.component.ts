@@ -12,10 +12,11 @@ import { Channels } from '../../../../types/types';
 import { FoldItemState, FoldKey, FoldState } from '../../../../types/types';
 import { CollectionResult } from '../../../../types/types';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ChannelChatHeaderComponent } from '../chat-main/channel-chat-header/channel-chat-header.component';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [CommonModule, SearchbarComponent, CreateChannelComponent],
+  imports: [CommonModule, SearchbarComponent, CreateChannelComponent, ChannelChatHeaderComponent],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
   animations: [

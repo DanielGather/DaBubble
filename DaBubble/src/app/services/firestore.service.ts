@@ -11,12 +11,12 @@ import {
   addDoc,
   where,
   query,
+  docData,
 } from '@angular/fire/firestore';
 import { getDoc } from 'firebase/firestore';
 import { Observable, shareReplay } from 'rxjs';
 import { CollectionResult } from '../types/types';
 import { UserDoc } from '../types/types';
-
 import { ChannelsTest } from '../types/types';
 import { Threads } from '../types/types';
 import { Message } from '../types/types';
@@ -254,5 +254,10 @@ export class FirestoreService {
       }
     }
     return userData;
+  }
+
+  getChannelById$(channelId: string): Observable<Channels> {
+    const docRef = doc(this.firestore, 'channels', channelId);
+    return docData(docRef, { idField: 'id' }) as Observable<Channels>;
   }
 }

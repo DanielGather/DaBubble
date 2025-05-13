@@ -14,7 +14,7 @@
       <img class="w-7 h-7 rounded-full" src="img/user_1.png" alt="" />
     </div>
 
-    <p>{{ usersAddedToChannel.length }}</p>
+    <p>5</p>
 
     <button
       (click)="toggleAddUserToChannelPopUp()"
@@ -56,7 +56,10 @@
               type="text"
               placeholder="Name eingeben"
             />
-            <ul *ngIf="usersList$ | async as users" class="overflow-y-auto">
+            <ul
+              *ngIf="usersNotInChannel$ | async as users"
+              class="overflow-y-auto"
+            >
               <li
                 *ngFor="let user of users"
                 (click)="addUserToChannel(user.id!)"
@@ -91,7 +94,7 @@
             </ul>
           </div>
           <!-- user search input end -->
-           
+
           <div class="flex justify-end">
             <app-button class="">Hinzufügen</app-button>
           </div>
