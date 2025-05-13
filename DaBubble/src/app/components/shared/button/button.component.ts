@@ -23,7 +23,7 @@ export class ButtonComponent {
   buttonConfig = {
     blueButton: {
       class:
-        'bg-bg-button-blue text-white rounded-standard h-12 w-fit pl-4 pr-4',
+        'bg-bg-button-blue hover:bg-bg-button-purple text-white rounded-standard h-12 w-fit pl-4 pr-4',
     },
     greyButton: {
       class:
@@ -31,7 +31,7 @@ export class ButtonComponent {
     },
     transparentButton: {
       class:
-        'bg-bg-button-transparent text-[#444df2] border-2 border-[#444df2] rounded-standard h-12 w-fit pl-4 pr-4',
+        'bg-bg-button-transparent hover:bg-bg-button-blue text-[#444df2] hover:text-white border-2 border-[#444df2] rounded-standard h-12 w-fit pl-4 pr-4',
     },
   };
 

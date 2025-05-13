@@ -1,0 +1,113 @@
+<!-- Background-Overlay -->
+<div
+  class="absolute flex items-center justify-center top-0 left-0 w-full h-full bg-black/50 z-10"
+  (click)="closeProfile()"
+>
+  <!-- Click on closes profile -->
+
+  <!-- Empty user profile-panel -->
+  <div
+    class="bg-bg-component flex flex-col p-10 rounded-standard z-20"
+    (click)="$event.stopPropagation()"
+  >
+    <!-- User insight -->
+    @if (!editVisible) {
+    <div id="userInsightWrapper" class="flex flex-col gap-11">
+      <div class="flex justify-between md:w-[420px] min-w-72">
+        <p class="font-bold text-24">Profil</p>
+        <img
+          (click)="closeProfile()"
+          class="hover:cursor-pointer"
+          src="img/close.svg"
+          alt=""
+        />
+      </div>
+      <div class="flex items-center justify-center">
+        <img
+          class="w-[128px] h-[128px] md:w-48 md:h-48 rounded-full"
+          src="img/user_1.png"
+          alt=""
+        />
+      </div>
+      <div class="flex justify-between items-center">
+        <div *ngIf="currentUser$ | async as user">
+          <p class="text-24 font-bold">
+            {{ user.firstName }} {{ user.lastName }}
+          </p>
+        </div>
+        <div
+          class="w-8 h-8 bg-gray-200 rounded-full p-2 flex items-center justify-center"
+        >
+          <img
+            (click)="switchEditVisibility()"
+            class="object-contain w-4 h-4 hover:cursor-pointer"
+            src="img/edit_pencil.svg"
+            alt=""
+          />
+        </div>
+      </div>
+
+      <div class="flex gap-4">
+        <img
+          [src]="active ? 'img/online_profile.svg' : 'img/offline_profile.svg'"
+          alt=""
+        />
+        <p [ngStyle]="{ color: active ? green : 'black' }" class="">Aktive</p>
+      </div>
+
+      <div
+        class="inline-grid gap-4 [grid-template-columns:repeat(2,min-content)] [grid-template-rows:repeat(2,auto)] items-center"
+      >
+        <img src="img/mail.svg" alt="" class="w-5 h-5" />
+        <p class="row-start-1 col-start-2 text-lg font-bold">E‑Mail‑Adresse</p>
+        <div *ngIf="currentUser$ | async as user">
+          <p class="row-start-2 col-start-2">{{ user.email }}</p>
+        </div>
+      </div>
+    </div>
+    }
+    <!-- user edit profile -->
+    @if (editVisible) {
+    <div id="userEditWrapper" class="flex flex-col gap-11">
+      <div class="flex justify-between md:w-[420px] min-w-72 w">
+        <p class="font-bold text-24">Dein Profil bearbeiten</p>
+        <img
+          (click)="closeProfile()"
+          class="hover:cursor-pointer"
+          src="img/close.svg"
+          alt=""
+        />
+      </div>
+
+      <div class="flex items-center justify-center">
+        <img
+          class="w-[128px] h-[128px] md:w-48 md:h-48 rounded-full"
+          src="img/user_1.png"
+          alt=""
+        />
+      </div>
+
+      <div id="inputFieldWrapper" class="flex flex-col gap-1">
+        <div class="flex gap-4">
+          <img class="w-6 h-6" src="/img/account_circle.svg" alt="" />
+          <h3>Vollständiger Name</h3>
+        </div>
+        <div *ngIf="currentUser$ | async as user">
+          <input
+            [(ngModel)]="fullName"
+            [placeholder]="user.firstName + ' ' + user.lastName"
+            class="border w-full border-color-border px-5 py-4 rounded-full"
+            type="text"
+          />
+        </div>
+      </div>
+
+      <div id="buttonWrapper" class="flex justify-center gap-8">
+        <app-button type="blueButton" (click)="switchEditVisibility()">Abbrechen</app-button>
+        <app-button type="transparentButton" (click)="saveUserName()">Speichern</app-button>
+      </div>
+    </div>
+    }
+    <!-- user edit profile end -->
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Output } from '@angular/core';
 import { CreateChannelComponent } from './create-channel/create-channel.component';
 import { SearchbarComponent } from '../shared/searchbar/searchbar.component';
 import { FirestoreService } from '../../../../services/firestore.service';
@@ -10,10 +10,13 @@ import { map } from 'rxjs';
 import { AppUser } from '../../../../types/types';
 import { Channels } from '../../../../types/types';
 import { FoldItemState, FoldKey, FoldState } from '../../../../types/types';
+import { CollectionResult } from '../../../../types/types';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ChannelChatHeaderComponent } from '../chat-main/channel-chat-header/channel-chat-header.component';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [CommonModule, SearchbarComponent, CreateChannelComponent],
+  imports: [CommonModule, SearchbarComponent, CreateChannelComponent, ChannelChatHeaderComponent],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
   animations: [
@@ -29,7 +32,9 @@ import { FoldItemState, FoldKey, FoldState } from '../../../../types/types';
   ],
 })
 export class SidebarComponent {
+  constructor(private router: Router, private route: ActivatedRoute) {}
   firestoreService: FirestoreService = inject(FirestoreService);
+  userService: UsersService = inject(UsersService);
 
   online: boolean = true;
   clicked: boolean = true;
@@ -56,9 +61,20 @@ export class SidebarComponent {
   };
 
   async ngOnInit() {
-    console.log(this.channelList$);
-    this.firestoreService.getSubCollection();
-    //this.firestoreService.getSingleCollection();
+    let userData = await this.firestoreService.getUserData();
+    console.log('USER DATA LOGGIN', userData);
+
+    this.userService.userDataObject = userData;
+    console.log('Das ganze Objekt:', userData);
+    console.log(
+      'So ruft man eine collection aus dem Objekt auf:',
+      userData['channels']
+    );
+    console.log('So greift man auf das Array zu:', userData['channels'][0]);
+    // console.log(
+    //   'So erhält man die einzelnen Daten aus der Collection:',
+    //   userData['channels'][0].data.channelName
+    // );
   }
 
   toggleFold(key: FoldKey) {
@@ -69,6 +85,7 @@ export class SidebarComponent {
   }
 
   getSortedUser() {
+    console.log('sorted', this.users.usersList$);
     return this.users.usersList$.pipe(
       map((list) =>
         [...list].sort((a, b) =>
@@ -104,7 +121,8 @@ export class SidebarComponent {
     return 'img/user_1.png';
   }
 
-  openChannel(channel: string) {
-    console.log(channel);
+  openChannel(channelId: string) {
+    this.router.navigate(['/chat/channel', channelId]);
+    console.log(channelId);
   }
 }

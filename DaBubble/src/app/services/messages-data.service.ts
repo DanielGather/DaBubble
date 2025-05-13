@@ -216,4 +216,18 @@ export class MessagesDataService {
   getCurrentThreadId() {
     return this._currentThreadId();
   }
+
+  getCurrentChannelIdFromUrl(): string | null {
+    const currentUrl = window.location.href;
+    if (!currentUrl.includes('channel/')) {
+      return null;
+    }
+    const parts = currentUrl.split('channel/');
+    if (parts.length > 1) {
+      return parts[1].split('/')[0];
+    }
+    return null;
+  }
+
+  
 }

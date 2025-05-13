@@ -1,10 +1,8 @@
-<main class="min-w-full h-full flex flex-col bg-[rgb(236,238,254)]">
+<main class="min-w-full h-full md:py-4 flex flex-col bg-[rgb(236,238,254)]">
   <app-header></app-header>
-  <div
-    id="content"
-    class="flex h-[calc(100%-96px)] justify-center items-start md:pb-8 gap-8"
-  >
-    <app-sidebar class=""></app-sidebar>
+  <div id="content" class="flex flex-grow justify-center items-start min-h-0">
+    <!-- h-[calc(100%-96px)] -->
+    <app-sidebar></app-sidebar>
 
     <div id="roouter-outlet-wrap" class="flex-grow min-h-0 h-full md:pt-4">
       <router-outlet></router-outlet>

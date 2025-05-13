@@ -7,6 +7,8 @@ import { DaBubbleLogoComponent } from '../../../shared/da-bubble-logo/da-bubble-
 import { LegalLinksComponent } from '../shared/legal-links/legal-links.component';
 import { UsersService } from '../../../../services/users.service';
 import { FirestoreService } from '../../../../services/firestore.service';
+import { firstValueFrom } from 'rxjs';
+import { AppUser } from '../../../../types/types';
 
 @Component({
   selector: 'app-choose-avatar',
@@ -45,15 +47,16 @@ export class ChooseAvatarComponent {
   }
 
   async updateFirestoreUserData() {
-    if (this.usersService.currentUser) {
-      this.usersService.currentUser.avatarId = this.currentAvatarId;
+    if (this.usersService.userObject) {
+      const user = this.usersService.userObject;
+      user!.avatarId = this.currentAvatarId;
 
       await this.firestoreService.updateDoc(
         `users`,
         this.usersService.currentUserId!,
-        this.usersService.currentUser
+        { avatarId: this.currentAvatarId }
       );
-      await this.router.navigateByUrl('/chat/private');
+      await this.router.navigateByUrl('/chat/');
     }
   }
 }

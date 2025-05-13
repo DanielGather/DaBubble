@@ -1,5 +1,5 @@
-import { Injectable, inject } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
+import { Injectable, inject, signal } from '@angular/core';
+import { Auth, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -8,16 +8,26 @@ import {
 } from 'firebase/auth';
 import { UsersService } from './users.service';
 import { Router } from '@angular/router';
-
+import { FirestoreService } from './firestore.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService {
-
   usersService = inject(UsersService);
+  firestoreService = inject(FirestoreService);
+  loginError: string = '';
 
-  constructor(private auth: Auth, private router: Router) { }
+  private userIdSignal = signal<string>('');
+
+  public userId = this.userIdSignal.asReadonly();
+
+  currentUserId: string = '';
+
+  constructor(private auth: Auth, private router: Router) {
+    console.log('in Auth userId: ' + this.userId);
+    console.log('in Auth currentUserId: ' + this.currentUserId);
+  }
 
   signIn(email: string, password: string): Promise<UserCredential> {
     return signInWithEmailAndPassword(this.auth, email, password);
@@ -27,22 +37,29 @@ export class AuthenticationService {
     return createUserWithEmailAndPassword(this.auth, email, password);
   }
 
+  googleAuthenticate() {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(this.auth, provider).then((result) => {
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential?.accessToken;
+      const user = result.user;
+    });
+  }
+
   async login(email: string, password: string) {
     try {
-      this.usersService.currentUserCredential = await this.signIn(email, password);
-      this.usersService.currentUserId = this.usersService.currentUserCredential!.user.uid;
-
-      const user = await this.setCurrentUser();
-      this.usersService.setCurrentUser(user); // hier Subject updaten
-
+      await this.signIn(email, password);
       await this.router.navigateByUrl('/chat/private');
-    } catch (error) {
-      console.log('login error:', error);
+    } catch (error: any) {
+      if (error.code == 'auth/invalid-credential') {
+        this.loginError =
+          'User existiert nicht oder Passwort ist nicht korrekt.';
+      }
     }
   }
 
   async setCurrentUser() {
-    return this.usersService.firestoreService.getSingleCollection(
+    return this.firestoreService.getSingleCollection(
       'users',
       this.usersService.currentUserId!
     ) as any;
@@ -50,20 +67,30 @@ export class AuthenticationService {
 
   async observeAuthState() {
     onAuthStateChanged(this.auth, async (user) => {
+      const currentUrl = this.router.url;
       if (user) {
+        localStorage.setItem('id', user.uid);
+        if (!currentUrl.includes('/signup')) {
+          await this.router.navigateByUrl('/chat/');
+        }
         this.usersService.currentUserId = user.uid;
 
-        const appUser = await this.setCurrentUser();
-        this.usersService.setCurrentUser(appUser); // hier Subject updaten
-
-        await this.router.navigateByUrl('/chat/private');
+        this.usersService.observeCurrentUser(user.uid);
       } else {
         this.usersService.currentUserId = null;
-        this.usersService.setCurrentUser(null); // Subject auf null setzen
+        this.usersService.clearCurrentUser();
         await this.router.navigateByUrl('/login');
       }
     });
   }
 
-
+  async logoutService(): Promise<void> {
+    try {
+      await this.auth.signOut();
+      this.usersService.clearCurrentUser();
+      await this.router.navigateByUrl('/login');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  }
 }

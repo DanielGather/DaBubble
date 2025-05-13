@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import {
@@ -13,7 +13,6 @@ import { FormInputComponent } from '../../../shared/form-input/form-input.compon
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { AuthenticationService } from '../../../../services/authentication.service';
 import { AppUser } from '../../../../types/types';
-import { UserCredential } from 'firebase/auth';
 import { FirestoreService } from '../../../../services/firestore.service';
 import { Router } from '@angular/router';
 import { UsersService } from '../../../../services/users.service';
@@ -32,18 +31,10 @@ import { UsersService } from '../../../../services/users.service';
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss',
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent {
   signupForm: FormGroup;
   firestore = inject(FirestoreService);
-  userObject: AppUser = {
-    avatarId: 0,
-    email: '',
-    firstName: '',
-    lastName: '',
-    online: false,
-    userId: '',
-  };
-
+  authService = inject(AuthenticationService);
   usersService = inject(UsersService);
 
   constructor(
@@ -59,7 +50,9 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  /**
+   * Button Click - Führt die register() funktion aus wenn die Form valid ist.
+   */
 
   onSubmit(): void {
     if (this.signupForm.valid) {
@@ -72,35 +65,50 @@ export class SignupComponent implements OnInit {
     }
   }
 
+  /**
+   * Führt signUp aus Auth aus und und danach die addUserToFirebase()
+   */
+
   async register(email: string, password: string) {
     try {
       const userCredential = await this.auth.signUp(email, password);
       const user = userCredential.user;
-      console.log('User registered:', user);
-
       await this.addUserToFirebase(user);
-
-      this.usersService.currentUser = this.userObject;
-      this.usersService.currentUserId = user.uid;
       this.router.navigateByUrl('/choose-avatar');
     } catch (error) {
       console.log('signup error:', error);
     }
   }
 
+  /**
+   * Schickt den User in die firestore DB. Benutzt als Object argument (das letzte) direkt die funktion prepareUserObject() welche den User baut und returned.
+   */
+
   async addUserToFirebase(user: any) {
+    await this.firestore.setDoc(
+      'users',
+      user.uid,
+      await this.prepareUserObject(user)
+    );
+  }
+
+  /**
+   * Fügt einem leeren User Object die daten: mail, first- und lastname hinzu und returned es. Ausserdem wird dieser user an usersService geschickt.
+   */
+
+  async prepareUserObject(user: AppUser) {
     const fullName = this.signupForm.value.fullName;
     const nameParts = fullName.split(' ');
-
-    this.userObject = {
+    const userObject: AppUser = {
       avatarId: 0,
       email: user.email,
       firstName: nameParts[0] || '',
       lastName: nameParts.length > 1 ? nameParts.slice(1).join(' ') : '',
-      online: false,
+      online: true,
     };
 
-    await this.firestore.setDoc('users', user.uid, this.userObject);
+    this.usersService.userObject = userObject;
+    return userObject;
   }
 
   getFullNameErrorMessage(): string {
