@@ -1,5 +1,5 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
+import { Auth, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -16,6 +16,7 @@ import { FirestoreService } from './firestore.service';
 export class AuthenticationService {
   usersService = inject(UsersService);
   firestoreService = inject(FirestoreService);
+  loginError: string = '';
 
   private userIdSignal = signal<string>('');
 
@@ -24,10 +25,8 @@ export class AuthenticationService {
   currentUserId: string = '';
 
   constructor(private auth: Auth, private router: Router) {
-   console.log('in Auth userId: ' + this.userId);
+    console.log('in Auth userId: ' + this.userId);
     console.log('in Auth currentUserId: ' + this.currentUserId);
-   
-    
   }
 
   signIn(email: string, password: string): Promise<UserCredential> {
@@ -38,12 +37,24 @@ export class AuthenticationService {
     return createUserWithEmailAndPassword(this.auth, email, password);
   }
 
+  googleAuthenticate() {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(this.auth, provider).then((result) => {
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential?.accessToken;
+      const user = result.user;
+    });
+  }
+
   async login(email: string, password: string) {
     try {
       await this.signIn(email, password);
       await this.router.navigateByUrl('/chat/private');
-    } catch (error) {
-      console.log('login error:', error);
+    } catch (error: any) {
+      if (error.code == 'auth/invalid-credential') {
+        this.loginError =
+          'User existiert nicht oder Passwort ist nicht korrekt.';
+      }
     }
   }
 
@@ -60,7 +71,7 @@ export class AuthenticationService {
       if (user) {
         localStorage.setItem('id', user.uid);
         if (!currentUrl.includes('/signup')) {
-          await this.router.navigateByUrl('/chat/private');
+          await this.router.navigateByUrl('/chat/');
         }
         this.usersService.currentUserId = user.uid;
 

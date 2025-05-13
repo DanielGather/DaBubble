@@ -56,7 +56,7 @@ export class ChooseAvatarComponent {
         this.usersService.currentUserId!,
         { avatarId: this.currentAvatarId }
       );
-      await this.router.navigateByUrl('/chat/private');
+      await this.router.navigateByUrl('/chat/');
     }
   }
 }

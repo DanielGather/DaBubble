@@ -1,10 +1,23 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { FirestoreService } from './firestore.service';
-import { AppUser } from '../types/types';
+import { AppUser, MessageType } from '../types/types';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { UserCredential } from 'firebase/auth';
 import { onSnapshot } from 'firebase/firestore';
-
+import { UserData } from '../types/types';
+import { Message } from '../types/types';
+import {
+  Firestore,
+  collection,
+  collectionData,
+  getDocs,
+  doc,
+  updateDoc,
+  setDoc,
+  addDoc,
+  where,
+  query,
+} from '@angular/fire/firestore';
 @Injectable({
   providedIn: 'root',
 })
@@ -12,6 +25,7 @@ export class UsersService {
   firestoreService: FirestoreService = inject(FirestoreService);
   currentUserId: string | null = null;
   userObject: AppUser | null = null;
+  userDataObject!: UserData;
 
   /**
    * A behaviorsubject to manage the realtime data of the currentUser
@@ -25,6 +39,13 @@ export class UsersService {
    */
   private userUnsubscribe: (() => void) | null = null;
 
+  private _messages = signal<Message[]>([]);
+  public readonly messages = this._messages.asReadonly();
+  private unsubscribeFn: (() => void) | null = null;
+
+  // private _messagesSubject = new BehaviorSubject<Message[]>([]);
+  // messages$ = this._messagesSubject.asObservable();
+
   /**
    * this variable observes the snapShot of the user info doc
    */
@@ -32,6 +53,10 @@ export class UsersService {
 
   readonly usersList$: Observable<AppUser[]> =
     this.firestoreService.getCollectionData('users') as Observable<AppUser[]>;
+
+  constructor() {
+    console.log('show me if there is an id' + this.usersList$);
+  }
 
   /**
    * A help
@@ -79,5 +104,39 @@ export class UsersService {
     }
     this.setCurrentUser(null);
     this.currentUserId = null;
+  }
+
+  // subscribeToMessages(userId: string): () => void {
+  //   const q = query(
+  //     collection(this.firestoreService.firestore, 'messages'),
+  //     where('userIds', 'array-contains', userId)
+  //   );
+
+  //   return onSnapshot(q, (snapshot) => {
+  //     const docs = snapshot.docs.map((docSnap) => ({
+  //       id: docSnap.id,
+  //       data: docSnap.data() as Message,
+  //     }));
+  //     this.userDataObject.messages = docs.map((d) => d.data);
+  //     console.log('Live messages updated:', this.userDataObject.messages);
+  //     this._messagesSubject.next(this.userDataObject.messages);
+  //   });
+  // }
+
+  subscribeToMessages(userId: string): void {
+    const q = query(
+      collection(this.firestoreService.firestore, 'messages'),
+      where('userIds', 'array-contains', userId)
+    );
+
+    this.unsubscribeFn = onSnapshot(q, (snapshot) => {
+      const messages = snapshot.docs.map((doc) => doc.data() as Message);
+      this._messages.set(messages);
+      console.log('Live messages:', messages);
+    });
+  }
+
+  unsubscribeFromMessages(): void {
+    this.unsubscribeFn?.();
   }
 }
