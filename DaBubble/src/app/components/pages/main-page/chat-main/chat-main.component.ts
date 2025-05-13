@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, inject, effect } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  inject,
+  effect,
+  signal,
+} from '@angular/core';
 import { ChatInputComponent } from './chat-input/chat-input.component';
 import { ChatType, ChatMessage, Message } from '../../../../types/types';
 import { CommonModule } from '@angular/common';
@@ -11,6 +18,8 @@ import { UsersService } from '../../../../services/users.service';
 import { AuthenticationService } from '../../../../services/authentication.service';
 import { ThreadsbarComponent } from '../chat-thread/threadsbar/threadsbar.component';
 import { DefaultComponent } from './default/default.component';
+import { FirestoreService } from '../../../../services/firestore.service';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-chat-main',
@@ -36,6 +45,9 @@ export class ChatMainComponent implements OnInit {
    */
   usersService = inject(UsersService);
   authService = inject(AuthenticationService);
+  firestoreService = inject(FirestoreService);
+
+  unsubscribeMessages: any;
 
   /**
    * variable to use the enum ChatType in the html-template.
@@ -52,24 +64,57 @@ export class ChatMainComponent implements OnInit {
    */
   chatMessages: Array<ChatMessage> = [];
 
-  newMessage: Message[] = [];
+  // newMessage: Message[] = [];
+
+  newMessage = signal<Message[]>([]);
+  currentChannelId = signal<string>('');
 
   chatTypeInputRoute!: string;
-  constructor(private router: ActivatedRoute) {}
+  constructor(private router: ActivatedRoute) {
+    effect(() => {
+      const allMessages = this.usersService.messages();
+      const channelId = this.currentChannelId();
+      const filtered = allMessages.filter((msg) => msg.channelId === channelId);
+      this.newMessage.set(filtered);
+    });
+  }
+
+  // ngOnInit(): void {
+  //   let userId = localStorage.getItem('id')!;
+  //   //test
+  //   // this.unsubscribeMessages = this.usersService.subscribeToMessages(userId);
+  //   this.usersService.subscribeToMessages(userId);
+  //   this.chatTypeInput = this.router.snapshot.paramMap.get('id')!;
+  //   console.log('Router', this.chatTypeInput);
+  //   this.router.paramMap.subscribe((params) => {
+  //     this.chatTypeInput = params.get('id')!;
+  //     console.log('ROUTER2', this.chatTypeInput);
+  //   });
+  //   this.loadMessages(this.chatTypeInput);
+
+  //   this.chatMessages = this.messageDataService.testMessages; //this one must be the data of the observable later on
+  //   //testend
+  //   this.getChatTypeFromURL();
+  // }
 
   ngOnInit(): void {
-    //test
-    this.chatTypeInput = this.router.snapshot.paramMap.get('id')!;
-    console.log('Router', this.chatTypeInput);
+    const userId = localStorage.getItem('id')!;
+    this.usersService.subscribeToMessages(userId);
+
+    // Sofortige Initialisierung beim ersten Laden
+    const initialChannelId = this.router.snapshot.paramMap.get('id')!;
+    this.loadMessages(initialChannelId);
+
+    // Reagieren auf spätere Router-Änderungen (z. B. Tab-Wechsel)
     this.router.paramMap.subscribe((params) => {
-      this.chatTypeInput = params.get('id')!;
-      console.log('ROUTER2', this.chatTypeInput);
-      this.loadMessages(this.chatTypeInput);
+      const newChannelId = params.get('id');
+      if (newChannelId && newChannelId !== this.currentChannelId()) {
+        this.loadMessages(newChannelId);
+      }
     });
 
-    this.chatMessages = this.messageDataService.testMessages; //this one must be the data of the observable later on
-    //testend
     this.getChatTypeFromURL();
+    this.chatMessages = this.messageDataService.testMessages;
   }
 
   ngAfterViewInit() {
@@ -86,14 +131,18 @@ export class ChatMainComponent implements OnInit {
   }
 
   loadMessages(channelId: string) {
-    const channelMessages = this.usersService.userDataObject.messages.filter(
-      (msg) => msg.channelId === channelId
-    );
-    // 2. Neues Objekt zusammenbauen (z.B. nur mit den gefilterten Messages)
-    const filteredData = {
-      messages: channelMessages,
-    };
-    this.newMessage = filteredData.messages;
-    console.log('filteredData', filteredData.messages[0].message);
+    this.currentChannelId.set(channelId);
   }
+
+  // loadMessages(channelId: string) {
+  //   this.usersService.messages$
+  //     .pipe(
+  //       map((allMessages) =>
+  //         allMessages.filter((msg) => msg.channelId === channelId)
+  //       )
+  //     )
+  //     .subscribe((filtered) => {
+  //       this.newMessage = filtered;
+  //     });
+  // }
 }
