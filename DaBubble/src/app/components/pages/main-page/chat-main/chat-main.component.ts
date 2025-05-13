@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, inject, effect } from '@angular/core';
 import { ChatInputComponent } from './chat-input/chat-input.component';
-import { ChatType, ChatMessage } from '../../../../types/types';
+import { ChatType, ChatMessage, Message } from '../../../../types/types';
 import { CommonModule } from '@angular/common';
 import { ChatMessagesContainerComponent } from './chat-messages-container/chat-messages-container.component';
 import { PrivateChatHeaderComponent } from './private-chat-header/private-chat-header.component';
@@ -52,6 +52,8 @@ export class ChatMainComponent implements OnInit {
    */
   chatMessages: Array<ChatMessage> = [];
 
+  newMessage: Message[] = [];
+
   chatTypeInputRoute!: string;
   constructor(private router: ActivatedRoute) {}
 
@@ -87,11 +89,11 @@ export class ChatMainComponent implements OnInit {
     const channelMessages = this.usersService.userDataObject.messages.filter(
       (msg) => msg.channelId === channelId
     );
-
     // 2. Neues Objekt zusammenbauen (z.B. nur mit den gefilterten Messages)
     const filteredData = {
       messages: channelMessages,
     };
-    console.log('filteredData', filteredData);
+    this.newMessage = filteredData.messages;
+    console.log('filteredData', filteredData.messages[0].message);
   }
 }

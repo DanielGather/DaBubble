@@ -1,10 +1,9 @@
 <section class="flex h-full">
   <div
     class="bg-white [@media(min-width:767px)]:rounded-standard overflow-hidden flex flex-col justify-between h-full md:mx-4"
-    style="width: -webkit-fill-available;">
-
+    style="width: -webkit-fill-available"
+  >
     <div class="flex flex-col items-start justify-between h-full">
-
       <!-- default chat state -->
       @if(chatTypeInput === chatType.default) {
       <app-default class="w-full flex flex-col"></app-default>
@@ -15,23 +14,29 @@
       <app-private-chat-header></app-private-chat-header>
       } @else if(chatTypeInput === chatType.channel) {
       <app-channel-chat-header class="w-full"></app-channel-chat-header>
+      } @for(message of newMessage; track message) {
+      <div>{{ message.message }}</div>
       }
-
       <!-- Messager container private -->
       @if (chatTypeInput === chatType.private) {
-      <app-chat-messages-container class="w-full overflow-auto h-full" [chatMessages]="chatMessages"
-        [chatTypeInput]="chatType.private"></app-chat-messages-container>
+      <app-chat-messages-container
+        class="w-full overflow-auto h-full"
+        [chatMessages]="chatMessages"
+        [chatTypeInput]="chatType.private"
+      ></app-chat-messages-container>
       }
 
       <!-- Messager container channel -->
       @else if (chatTypeInput === chatType.channel) {
-      <app-chat-messages-container class="w-full overflow-auto h-full" [chatMessages]="chatMessages"
-        [chatTypeInput]="chatType.channel"></app-chat-messages-container>
+      <app-chat-messages-container
+        class="w-full overflow-auto h-full"
+        [chatMessages]="chatMessages"
+        [chatTypeInput]="chatType.channel"
+      ></app-chat-messages-container>
       }
 
       <!-- Chatinput-->
       <app-chat-input class="w-full"></app-chat-input>
-
     </div>
   </div>
 
