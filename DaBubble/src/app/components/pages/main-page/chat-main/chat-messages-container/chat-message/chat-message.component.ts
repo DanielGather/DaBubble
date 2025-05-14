@@ -21,6 +21,7 @@ export class ChatMessageComponent {
     message: '',
     name: '',
     timestamp: '',
+    creatorId: '',
     userId: '',
     emojis: [
       {

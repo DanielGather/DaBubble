@@ -46,6 +46,7 @@ export class ChatMainComponent implements OnInit {
   authService = inject(AuthenticationService);
   firestoreService = inject(FirestoreService);
 
+
   unsubscribeMessages: any;
 
   /**
@@ -61,7 +62,7 @@ export class ChatMainComponent implements OnInit {
   /**
    * the array of chatmessages wich should be rendered
    */
-  chatMessages: Array<ChatMessage> = [];
+  chatMessages: Array<any> = [];
 
   // newMessage: Message[] = [];
 
@@ -74,15 +75,15 @@ export class ChatMainComponent implements OnInit {
       const allMessages = this.usersService.messages();
       const channelId = this.currentChannelId();
       const filtered = allMessages.filter((msg) => msg.channelId === channelId);
-      this.newMessages.set(filtered);
-      console.log('effect signal newMessage' + this.newMessages);
-      
+      this.newMessages.set(filtered);  
+      this.chatMessages = this.newMessages();    
+      console.log('effect signal newMessage' , this.newMessages());      
     });
   }
 
   ngOnInit(): void {
     const userId = localStorage.getItem('id')!;
-    this.usersService.subscribeToMessages(userId);
+    this.usersService.subscribeToMessages(userId);    
 
     // Sofortige Initialisierung beim ersten Laden
     const initialChannelId = this.router.snapshot.paramMap.get('id')!;
@@ -110,7 +111,6 @@ export class ChatMainComponent implements OnInit {
   getChatTypeFromURL() {
     this.chatTypeInput =
       this.router.snapshot.paramMap.get('chatType') || ChatType.default;
-    console.log('chattype is: ', this.chatTypeInput);
   }
 
   loadMessages(channelId: string) {

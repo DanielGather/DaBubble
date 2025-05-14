@@ -8,7 +8,7 @@
     id="message-field"
   >
     @if(chatMessages && !isThread) { @for(message of chatMessages; track
-    message; let index = $index) { @if(message.userId === userId) {
+    message; let index = $index) { @if(message.creatorId === userId) {
     <app-chat-message
       [chatType]="chatType.private"
       [message]="message"
@@ -34,13 +34,12 @@
       [isThread]="isThread"
       [isTopMessage]="true"
       [answersCount]="
-        chatMessages[messageDataService.getCurrentThreadId()].thread.length
-      "
+        chatMessages[messageDataService.getCurrentThreadId()].thread.length"
     ></app-chat-message>
 
     @for(message of
     chatMessages[messageDataService.getCurrentThreadId()].thread; track $index)
-    { @if(message.userId === userId) {
+    { @if(message.creatorId === userId) {
     <app-chat-message
       [chatType]="chatType.channel"
       [message]="message"
