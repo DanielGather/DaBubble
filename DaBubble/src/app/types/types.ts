@@ -15,6 +15,7 @@ export interface ChatMessage {
   message: string;
   name: string;
   timestamp: string;
+  creatorId: string;
   userId: string;
   emojis: Array<ChatMessaggeEmoji>;
   thread: Array<ChatMessage>;

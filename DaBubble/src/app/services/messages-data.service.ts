@@ -15,6 +15,7 @@ export class MessagesDataService {
       timestamp: 'Dienstag, 14 Januar',
       name: 'Max Mustermann',
       userId: '123',
+      creatorId:'',
       emojis: [
         {
           emojiId: 'test',
@@ -43,6 +44,7 @@ export class MessagesDataService {
           timestamp: 'Dienstag, 14 Januar',
           name: 'Testi Testo',
           userId: '1234',
+          creatorId: '',
           emojis: [
             {
               emojiId: 'test',
@@ -56,6 +58,7 @@ export class MessagesDataService {
           timestamp: 'Dienstag, 14 Januar',
           name: 'Anna Schmidt',
           userId: '456',
+          creatorId: '',
           emojis: [],
           thread: [],
         },
@@ -67,6 +70,7 @@ export class MessagesDataService {
       timestamp: 'Dienstag, 15 Januar',
       name: 'Testi Testo',
       userId: '1234',
+      creatorId:'',
       emojis: [
         {
           emojiId: 'test',
@@ -83,6 +87,7 @@ export class MessagesDataService {
           timestamp: 'Dienstag, 15 Januar',
           name: 'Max Mustermann',
           userId: '123',
+          creatorId: '',
           emojis: [
             {
               emojiId: 'test',
@@ -96,6 +101,7 @@ export class MessagesDataService {
           timestamp: 'Dienstag, 15 Januar',
           name: 'Peter Meyer',
           userId: '789',
+          creatorId:'',
           emojis: [],
           thread: [],
         },
@@ -104,6 +110,7 @@ export class MessagesDataService {
           timestamp: 'Dienstag, 15 Januar',
           name: 'Anna Schmidt',
           userId: '456',
+          creatorId:'',
           emojis: [
             {
               emojiId: 'test',
@@ -119,6 +126,7 @@ export class MessagesDataService {
       timestamp: 'Dienstag, 16 Januar',
       name: 'Testi Testo',
       userId: '1234',
+      creatorId:'',
       emojis: [
         {
           emojiId: 'test',
@@ -131,6 +139,7 @@ export class MessagesDataService {
           timestamp: 'Dienstag, 16 Januar',
           name: 'Peter Meyer',
           userId: '789',
+          creatorId:'',
           emojis: [],
           thread: [],
         },
@@ -139,6 +148,7 @@ export class MessagesDataService {
           timestamp: 'Dienstag, 16 Januar',
           name: 'Max Mustermann',
           userId: '123',
+          creatorId:'',
           emojis: [
             {
               emojiId: 'test',
@@ -155,6 +165,7 @@ export class MessagesDataService {
       timestamp: 'Dienstag, 14 Januar',
       name: 'Max Mustermann',
       userId: '123',
+      creatorId:'',
       emojis: [
         {
           emojiId: 'test',
@@ -175,6 +186,7 @@ export class MessagesDataService {
           timestamp: 'Dienstag, 14 Januar',
           name: 'Testi Testo',
           userId: '1234',
+          creatorId:'',
           emojis: [
             {
               emojiId: 'test',
@@ -188,6 +200,7 @@ export class MessagesDataService {
           timestamp: 'Dienstag, 14 Januar',
           name: 'Anna Schmidt',
           userId: '456',
+          creatorId:'',
           emojis: [],
           thread: [],
         },
@@ -196,6 +209,7 @@ export class MessagesDataService {
           timestamp: 'Dienstag, 14 Januar',
           name: 'Peter Meyer',
           userId: '789',
+          creatorId:'',
           emojis: [
             {
               emojiId: 'test',

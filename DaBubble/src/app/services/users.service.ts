@@ -44,6 +44,11 @@ export class UsersService {
    */
   private currentUserSubject = new BehaviorSubject<AppUser | null>(null);
 
+    /**
+   * this variable observes the snapShot of the user info doc
+   */
+  readonly currentUser$ = this.currentUserSubject.asObservable();
+
   /**
    * this variable is the unscribe mechanism of the snapShot wich will have the realtime connection of the currentUser information
    *
@@ -58,21 +63,17 @@ export class UsersService {
   // private _messagesSubject = new BehaviorSubject<Message[]>([]);
   // messages$ = this._messagesSubject.asObservable();
 
-  /**
-   * this variable observes the snapShot of the user info doc
-   */
-  readonly currentUser$ = this.currentUserSubject.asObservable();
-
   readonly usersList$: Observable<AppUser[]> =
     this.firestoreService.getCollectionData('users') as Observable<AppUser[]>;
 
   /**
-   * A help
+   * A help function to set the data of the currentUser into the currentUserSubject.
+   * The observable to subscribe is called: currentUser$
+   * 
    * @param user
    */
   setCurrentUser(user: AppUser | null) {
     this.currentUserSubject.next(user);
-    console.log('set current user to: ', user);
   }
 
   /**

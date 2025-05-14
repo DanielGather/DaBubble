@@ -29,7 +29,7 @@ export const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       {
-        path: 'chat/',
+        path: 'chat',
         component: ChatMainComponent,
         runGuardsAndResolvers: 'always',
       },

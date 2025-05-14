@@ -100,7 +100,7 @@ export class AuthenticationService {
       if (user) {
         localStorage.setItem('id', user.uid);
         if (!currentUrl.includes('/signup')) {
-          await this.router.navigateByUrl('/chat/');
+          await this.router.navigateByUrl('/chat');
         }
         // wird diese zeile noch benötigt?
         this.usersService.currentUserId = user.uid;
