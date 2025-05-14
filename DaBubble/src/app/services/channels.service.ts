@@ -1,14 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Channels } from '../types/types';
-import { doc, Firestore } from 'firebase/firestore';
-import { docData } from '@angular/fire/firestore';
+import { Firestore, doc, docData } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChannelsService {
   firestore = inject(Firestore);
+
   constructor() {}
 
   /**
