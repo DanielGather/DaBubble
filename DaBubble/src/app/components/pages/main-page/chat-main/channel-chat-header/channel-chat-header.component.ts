@@ -4,12 +4,13 @@ import { ChannelEditPopupComponent } from '../channel-edit-popup/channel-edit-po
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UsersService } from '../../../../../services/users.service';
-import { map, Observable, combineLatest, of } from 'rxjs';
+import { map, Observable, combineLatest, switchMap } from 'rxjs';
 import { AppUser } from '../../../../../types/types';
 import { arrayUnion } from '@angular/fire/firestore';
 import { FirestoreService } from '../../../../../services/firestore.service';
 import { MessagesDataService } from '../../../../../services/messages-data.service';
 import { ChannelsService } from '../../../../../services/channels.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-channel-chat-header',
@@ -23,6 +24,10 @@ import { ChannelsService } from '../../../../../services/channels.service';
   styleUrl: './channel-chat-header.component.scss',
 })
 export class ChannelChatHeaderComponent {
+  constructor(private elementRef: ElementRef, private route: ActivatedRoute) {
+    console.log('channelChat user list' + this.usersList$);
+  }
+
   firestore = inject(FirestoreService);
   channelsService = inject(ChannelsService);
   showChannelPopup = false;
@@ -30,32 +35,73 @@ export class ChannelChatHeaderComponent {
   users: UsersService = inject(UsersService);
   usersList$: Observable<AppUser[]> = this.getSortedUser();
   usersNotInChannel$!: Observable<AppUser[]>;
-  userIds$ = this.getUserIds$();
+  userIds$!: Observable<string[]>;
   channelHelper = inject(MessagesDataService);
 
-  constructor(private elementRef: ElementRef) {
-    console.log('channelChat user list' + this.usersList$);
+  ngOnInit() {
+    this.initUsersNotInChannel();
+    this.initUserIds();
   }
 
-  /**
-   * filters user who should available in add user list
-   * @returns
-   */
-  ngOnInit() {
-    const channelId = this.getCurrentChannelIdFromUrl();
-    if (!channelId) {
-      console.error('Keine gültige Channel-ID in der URL');
-      return;
-    }
-    this.usersNotInChannel$ = combineLatest([
-      this.usersList$,
-      this.channelsService.getChannelById$(channelId),
-    ]).pipe(
-      map(([users, channel]) =>
-        users.filter((user) => !channel.userIds.includes(user.id!))
+/**
+ * Initializes the `usersNotInChannel$` observable.
+ *
+ * This function reacts to changes in the route parameter `id` (the channel ID)
+ * and combines the list of all users with the currently selected channel's data.
+ * It filters out users who are already part of the channel and emits only the users
+ * who are not yet in the channel.
+ *
+ * The result is an observable list of users who can still be added to the channel.
+ */
+private initUsersNotInChannel() {
+  this.usersNotInChannel$ = this.route.paramMap.pipe(
+    map((params) => params.get('id')),
+    map((channelId) => {
+      if (!channelId) {
+        throw new Error('❌ No channel ID found in the URL.');
+      }
+      return channelId;
+    }),
+    switchMap((channelId) =>
+      combineLatest([
+        this.usersList$,
+        this.channelsService.getChannelById$(channelId),
+      ]).pipe(
+        map(([users, channel]) =>
+          users.filter((user) => !channel.userIds.includes(user.id!))
+        )
       )
-    );
-  }
+    )
+  );
+}
+
+
+/**
+ * Initializes the `userIds$` observable.
+ *
+ * This function listens for changes in the route parameter `id` (representing the channel ID)
+ * and retrieves the list of user IDs (`userIds`) associated with the current channel.
+ *
+ * The result is an observable that emits the array of user IDs currently assigned to the channel.
+ * Useful for displaying the number of users in the channel or managing user-channel membership.
+ */
+private initUserIds() {
+  this.userIds$ = this.route.paramMap.pipe(
+    map((params) => params.get('id')),
+    map((channelId) => {
+      if (!channelId) {
+        throw new Error('❌ No channel ID found in the URL.');
+      }
+      return channelId;
+    }),
+    switchMap((channelId) =>
+      this.channelsService
+        .getChannelById$(channelId)
+        .pipe(map((channel) => channel.userIds))
+    )
+  );
+}
+
 
   /**
    *

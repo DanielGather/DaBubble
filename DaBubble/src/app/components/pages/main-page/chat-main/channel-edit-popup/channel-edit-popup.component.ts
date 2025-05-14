@@ -3,17 +3,11 @@ import { DropdownComponent } from '../../shared/dropdown/dropdown.component';
 import { ButtonComponent } from '../../../../shared/button/button.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {
-  trigger,
-  state,
-  style,
-  transition,
-  animate,
-} from '@angular/animations';
+import { trigger, style, transition, animate } from '@angular/animations';
 import { arrayRemove } from '@angular/fire/firestore';
-import { Firestore } from 'firebase/firestore';
 import { FirestoreService } from '../../../../../services/firestore.service';
 import { MessagesDataService } from '../../../../../services/messages-data.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-channel-edit-popup',
@@ -33,6 +27,8 @@ import { MessagesDataService } from '../../../../../services/messages-data.servi
   ],
 })
 export class ChannelEditPopupComponent {
+  constructor(private route: ActivatedRoute) {}
+
   editChannel: boolean = false;
   editDescription: boolean = false;
   inputValue: string = `Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellat nobis
@@ -58,7 +54,7 @@ doloremque.`;
   }
 
   async leaveChannel() {
-    const channelId = this.messageData.getCurrentChannelIdFromUrl();
+    const channelId = this.route.snapshot.paramMap.get('id');
     const userId = localStorage.getItem('id');
 
     if (!channelId || !userId) return;
@@ -66,8 +62,6 @@ doloremque.`;
     await this.firestore.updateDoc('channels', channelId, {
       userIds: arrayRemove(userId),
     });
-
-    // Optional: Popup schließen
     this.onCloseClick();
   }
 }

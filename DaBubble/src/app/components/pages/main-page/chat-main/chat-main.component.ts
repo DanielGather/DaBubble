@@ -19,7 +19,6 @@ import { AuthenticationService } from '../../../../services/authentication.servi
 import { ThreadsbarComponent } from '../chat-thread/threadsbar/threadsbar.component';
 import { DefaultComponent } from './default/default.component';
 import { FirestoreService } from '../../../../services/firestore.service';
-import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-chat-main',
