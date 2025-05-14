@@ -47,8 +47,8 @@ export class ChooseAvatarComponent {
   }
 
   async updateFirestoreUserData() {
-    if (this.usersService.userObject) {
-      const user = this.usersService.userObject;
+    if (this.usersService.userInformation) {
+      const user = this.usersService.userInformation;
       user!.avatarId = this.currentAvatarId;
 
       await this.firestoreService.updateDoc(

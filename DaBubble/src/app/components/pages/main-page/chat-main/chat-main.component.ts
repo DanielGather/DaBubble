@@ -66,7 +66,7 @@ export class ChatMainComponent implements OnInit {
 
   // newMessage: Message[] = [];
 
-  newMessage = signal<Message[]>([]);
+  newMessages = signal<Message[]>([]);
   currentChannelId = signal<string>('');
 
   chatTypeInputRoute!: string;
@@ -75,27 +75,11 @@ export class ChatMainComponent implements OnInit {
       const allMessages = this.usersService.messages();
       const channelId = this.currentChannelId();
       const filtered = allMessages.filter((msg) => msg.channelId === channelId);
-      this.newMessage.set(filtered);
+      this.newMessages.set(filtered);
+      console.log('effect signal newMessage' + this.newMessages);
+      
     });
   }
-
-  // ngOnInit(): void {
-  //   let userId = localStorage.getItem('id')!;
-  //   //test
-  //   // this.unsubscribeMessages = this.usersService.subscribeToMessages(userId);
-  //   this.usersService.subscribeToMessages(userId);
-  //   this.chatTypeInput = this.router.snapshot.paramMap.get('id')!;
-  //   console.log('Router', this.chatTypeInput);
-  //   this.router.paramMap.subscribe((params) => {
-  //     this.chatTypeInput = params.get('id')!;
-  //     console.log('ROUTER2', this.chatTypeInput);
-  //   });
-  //   this.loadMessages(this.chatTypeInput);
-
-  //   this.chatMessages = this.messageDataService.testMessages; //this one must be the data of the observable later on
-  //   //testend
-  //   this.getChatTypeFromURL();
-  // }
 
   ngOnInit(): void {
     const userId = localStorage.getItem('id')!;
@@ -139,16 +123,4 @@ export class ChatMainComponent implements OnInit {
   loadMessages(channelId: string) {
     this.currentChannelId.set(channelId);
   }
-
-  // loadMessages(channelId: string) {
-  //   this.usersService.messages$
-  //     .pipe(
-  //       map((allMessages) =>
-  //         allMessages.filter((msg) => msg.channelId === channelId)
-  //       )
-  //     )
-  //     .subscribe((filtered) => {
-  //       this.newMessage = filtered;
-  //     });
-  // }
 }

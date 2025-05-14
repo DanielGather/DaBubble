@@ -16,7 +16,7 @@
       <app-channel-chat-header class="w-full"></app-channel-chat-header>
 
       <!-- Hier wird die Message gerendert. Muss noch an aktuelle struktur angepasst werden. -->
-      } @for(message of newMessage(); track message) {
+      } @for(message of newMessages(); track message) {
       <div>{{ message.message }}</div>
       }
       <!-- Messager container private -->
