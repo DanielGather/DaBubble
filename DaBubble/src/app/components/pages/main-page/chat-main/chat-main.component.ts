@@ -45,7 +45,7 @@ export class ChatMainComponent implements OnInit {
   usersService = inject(UsersService);
   authService = inject(AuthenticationService);
   firestoreService = inject(FirestoreService);
-
+  messageService = inject(MessagesDataService);
 
   unsubscribeMessages: any;
 
@@ -72,18 +72,18 @@ export class ChatMainComponent implements OnInit {
   chatTypeInputRoute!: string;
   constructor(private router: ActivatedRoute) {
     effect(() => {
-      const allMessages = this.usersService.messages();
+      const allMessages = this.messageService.messages();
       const channelId = this.currentChannelId();
       const filtered = allMessages.filter((msg) => msg.channelId === channelId);
-      this.newMessages.set(filtered);  
-      this.chatMessages = this.newMessages();    
-      console.log('effect signal newMessage' , this.newMessages());      
+      this.newMessages.set(filtered);
+      this.chatMessages = this.newMessages();
+      console.log('effect signal newMessage', this.newMessages());
     });
   }
 
   ngOnInit(): void {
     const userId = localStorage.getItem('id')!;
-    this.usersService.subscribeToMessages(userId);    
+    this.messageService.subscribeToMessages(userId);
 
     // Sofortige Initialisierung beim ersten Laden
     const initialChannelId = this.router.snapshot.paramMap.get('id')!;

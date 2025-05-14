@@ -13,10 +13,16 @@ import { FoldItemState, FoldKey, FoldState } from '../../../../types/types';
 import { CollectionResult } from '../../../../types/types';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChannelChatHeaderComponent } from '../chat-main/channel-chat-header/channel-chat-header.component';
+import { MessagesDataService } from '../../../../services/messages-data.service';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [CommonModule, SearchbarComponent, CreateChannelComponent, ChannelChatHeaderComponent],
+  imports: [
+    CommonModule,
+    SearchbarComponent,
+    CreateChannelComponent,
+    ChannelChatHeaderComponent,
+  ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
   animations: [
@@ -35,6 +41,7 @@ export class SidebarComponent {
   constructor(private router: Router, private route: ActivatedRoute) {}
   firestoreService: FirestoreService = inject(FirestoreService);
   userService: UsersService = inject(UsersService);
+  private messageService: MessagesDataService = inject(MessagesDataService);
 
   online: boolean = true;
   clicked: boolean = true;
@@ -61,7 +68,7 @@ export class SidebarComponent {
   };
 
   async ngOnInit() {
-    let userData = await this.userService.getUserData();
+    let userData = await this.messageService.getUserData();
     console.log('USER DATA LOGGIN', userData);
 
     this.userService.userChatDataObject = userData;
