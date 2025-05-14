@@ -10,14 +10,13 @@ import {
   Threads,
 } from '../types/types';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { UserCredential } from 'firebase/auth';
-import { onSnapshot } from 'firebase/firestore';
+import { onSnapshot, getDocs } from 'firebase/firestore';
 import { UserData } from '../types/types';
 import { Message } from '../types/types';
 import {
   Firestore,
   collection,
-  getDocs,
+  
   where,
   query,
 } from '@angular/fire/firestore';

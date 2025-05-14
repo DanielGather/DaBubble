@@ -35,7 +35,6 @@ export class ChannelChatHeaderComponent {
 
   constructor(private elementRef: ElementRef) {
     console.log('channelChat user list' + this.usersList$);
-     console.log('ChannelsService init – Firestore?', this.firestore);
   }
 
   /**
