@@ -79,6 +79,7 @@ export interface Message {
   message: string;
   timestamp: string;
   userIds: Array<string>;
+  creatorId: string
 }
 
 export interface ChannelsTest {
