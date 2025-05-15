@@ -75,6 +75,7 @@ export class ChatMainComponent implements OnInit {
       const allMessages = this.messageService.messages();
       const channelId = this.currentChannelId();
       const filtered = allMessages.filter((msg) => msg.channelId === channelId);
+
       this.newMessages.set(filtered);
       this.chatMessages = this.newMessages();
       console.log('effect signal newMessage', this.newMessages());
@@ -82,9 +83,6 @@ export class ChatMainComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const userId = localStorage.getItem('id')!;
-    this.messageService.subscribeToMessages(userId);
-
     // Sofortige Initialisierung beim ersten Laden
     const initialChannelId = this.router.snapshot.paramMap.get('id')!;
     this.loadMessages(initialChannelId);

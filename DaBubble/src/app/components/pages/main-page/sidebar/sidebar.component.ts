@@ -14,6 +14,7 @@ import { CollectionResult } from '../../../../types/types';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChannelChatHeaderComponent } from '../chat-main/channel-chat-header/channel-chat-header.component';
 import { MessagesDataService } from '../../../../services/messages-data.service';
+import { PrivateMessageService } from '../../../../services/private-message.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -42,6 +43,9 @@ export class SidebarComponent {
   firestoreService: FirestoreService = inject(FirestoreService);
   userService: UsersService = inject(UsersService);
   private messageService: MessagesDataService = inject(MessagesDataService);
+  private privateMessageService: PrivateMessageService = inject(
+    PrivateMessageService
+  );
 
   online: boolean = true;
   clicked: boolean = true;

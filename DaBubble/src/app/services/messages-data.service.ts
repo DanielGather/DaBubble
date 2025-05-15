@@ -268,7 +268,7 @@ export class MessagesDataService {
     this.unsubscribeFn = onSnapshot(q, (snapshot) => {
       const messages = snapshot.docs.map((doc) => doc.data() as Message);
       this._messages.set(messages);
-      console.log('Live messages:', messages);
+      console.log('messages subscribed:', messages);
     });
   }
 
