@@ -51,60 +51,64 @@ export class ChannelChatHeaderComponent {
   }
 
   /**
-   * Initializes the `usersNotInChannel$` observable.
-   *
-   * This function reacts to changes in the route parameter `id` (the channel ID)
-   * and combines the list of all users with the currently selected channel's data.
-   * It filters out users who are already part of the channel and emits only the users
-   * who are not yet in the channel.
-   *
-   * The result is an observable list of users who can still be added to the channel.
+   * all users get substracted with users not in channel
+   * it will return the users that are in the channel
+   * @param channelId
+   * @returns
    */
-  private initUsersNotInChannel() {
-    this.usersNotInChannel$ = this.route.paramMap.pipe(
-      map((params) => params.get('id')),
-      map((channelId) => {
-        if (!channelId) {
-          throw new Error('No channel ID found in the URL.');
-        }
-        return channelId;
-      }),
-      switchMap((channelId) =>
-        combineLatest([
-          this.usersList$,
-          this.channelsService.getChannelById$(channelId),
-        ]).pipe(
-          map(([users, channel]) =>
-            users.filter((user) => !channel.userIds.includes(user.id!))
-          )
-        )
+  private getUsersNotInChannel$(channelId: string): Observable<AppUser[]> {
+    return combineLatest([
+      this.usersList$,
+      this.channelsService.getChannelById$(channelId),
+    ]).pipe(
+      map(([users, channel]) =>
+        users.filter((user) => user.id && !channel.userIds.includes(user.id))
       )
     );
   }
 
   /**
-   * Initializes the `userIds$` observable.
-   *
-   * This function listens for changes in the route parameter `id` (representing the channel ID)
-   * and retrieves the list of user IDs (`userIds`) associated with the current channel.
-   *
-   * The result is an observable that emits the array of user IDs currently assigned to the channel.
-   * Useful for displaying the number of users in the channel or managing user-channel membership.
+   * get channel id from router
+   * @returns
    */
-  private initUserIds() {
-    this.userIds$ = this.route.paramMap.pipe(
-      map((params) => params.get('id')),
-      map((channelId) => {
+  private getChannelIdFromRouteUrl(): Observable<string> {
+    return this.route.paramMap.pipe(
+      map((params) => {
+        const channelId = params.get('id');
         if (!channelId) {
           throw new Error('No channel ID found in the URL.');
         }
         return channelId;
-      }),
-      switchMap((channelId) =>
-        this.channelsService
-          .getChannelById$(channelId)
-          .pipe(map((channel) => channel.userIds))
-      )
+      })
+    );
+  }
+
+  /**
+   * get userId from channel
+   * @param channelId
+   * @returns
+   */
+  private getUserIdsForChannel$(channelId: string): Observable<string[]> {
+    return this.channelsService
+      .getChannelById$(channelId)
+      .pipe(map((channel) => channel.userIds));
+  }
+
+  /**
+   * init users not in channel
+   */
+  private initUsersNotInChannel() {
+    this.usersNotInChannel$ = this.getChannelIdFromRouteUrl().pipe(
+      switchMap((channelId) => this.getUsersNotInChannel$(channelId))
+    );
+  }
+
+  /**
+   * init user id
+   */
+  private initUserIds() {
+    this.userIds$ = this.getChannelIdFromRouteUrl().pipe(
+      switchMap((channelId) => this.getUserIdsForChannel$(channelId))
     );
   }
 
@@ -129,25 +133,24 @@ export class ChannelChatHeaderComponent {
   }
 
   /**
-   * 
-   * @param channelId 
-   * @returns 
+   *
+   * @param channelId
+   * @returns
    */
-private async loadChannelName(channelId: string) {
-  try {
-    const name = await this.channelsService.getChannelName(channelId);
-    if (!name) {
-      console.warn('Kein Channel-Name gefunden.');
-      return;
+  private async loadChannelName(channelId: string) {
+    try {
+      const name = await this.channelsService.getChannelName(channelId);
+      if (!name) {
+        console.warn('Kein Channel-Name gefunden.');
+        return;
+      }
+
+      this.channelName = name;
+      console.log('Channel-Name:', this.channelName);
+    } catch (error) {
+      console.error('Fehler beim Laden des Channel-Namens:', error);
     }
-
-    this.channelName = name;
-    console.log('Channel-Name:', this.channelName);
-  } catch (error) {
-    console.error('Fehler beim Laden des Channel-Namens:', error);
   }
-}
-
 
   /**
    * toggle popup
