@@ -11,6 +11,7 @@ import { FirestoreService } from '../../../../../services/firestore.service';
 import { MessagesDataService } from '../../../../../services/messages-data.service';
 import { ChannelsService } from '../../../../../services/channels.service';
 import { ActivatedRoute } from '@angular/router';
+import { getDoc } from 'firebase/firestore';
 
 @Component({
   selector: 'app-channel-chat-header',
@@ -37,10 +38,17 @@ export class ChannelChatHeaderComponent {
   usersNotInChannel$!: Observable<AppUser[]>;
   userIds$!: Observable<string[]>;
   channelHelper = inject(MessagesDataService);
+  channelName: string = '';
 
   ngOnInit() {
     this.initUsersNotInChannel();
     this.initUserIds();
+    this.route.paramMap.subscribe((params) => {
+      const channelId = params.get('id');
+      if (channelId) {
+        this.loadChannelName(channelId);
+      }
+    });
   }
 
   /**
@@ -58,7 +66,7 @@ export class ChannelChatHeaderComponent {
       map((params) => params.get('id')),
       map((channelId) => {
         if (!channelId) {
-          throw new Error('❌ No channel ID found in the URL.');
+          throw new Error('No channel ID found in the URL.');
         }
         return channelId;
       }),
@@ -89,7 +97,7 @@ export class ChannelChatHeaderComponent {
       map((params) => params.get('id')),
       map((channelId) => {
         if (!channelId) {
-          throw new Error('❌ No channel ID found in the URL.');
+          throw new Error('No channel ID found in the URL.');
         }
         return channelId;
       }),
@@ -115,16 +123,32 @@ export class ChannelChatHeaderComponent {
       await this.firestore.updateDoc('channels', channelId, {
         userIds: arrayUnion(id),
       });
-      console.log(
-        `✅ Benutzer ${id} wurde dem Channel ${channelId} hinzugefügt.`
-      );
+      console.log(`Benutzer ${id} wurde dem Channel ${channelId} hinzugefügt.`);
     } catch (error) {
-      console.error(
-        '❌ Fehler beim Hinzufügen des Benutzers zum Channel:',
-        error
-      );
+      console.error('Fehler beim Hinzufügen des Benutzers zum Channel:', error);
     }
   }
+
+  /**
+   * 
+   * @param channelId 
+   * @returns 
+   */
+private async loadChannelName(channelId: string) {
+  try {
+    const name = await this.channelsService.getChannelName(channelId);
+    if (!name) {
+      console.warn('Kein Channel-Name gefunden.');
+      return;
+    }
+
+    this.channelName = name;
+    console.log('Channel-Name:', this.channelName);
+  } catch (error) {
+    console.error('Fehler beim Laden des Channel-Namens:', error);
+  }
+}
+
 
   /**
    * toggle popup

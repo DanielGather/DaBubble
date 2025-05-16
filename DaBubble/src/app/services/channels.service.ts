@@ -1,13 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Channels } from '../types/types';
-import { doc, docData, Firestore } from '@angular/fire/firestore';
+import { getDoc, doc, docData, Firestore } from '@angular/fire/firestore';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChannelsService {
   constructor(private firestore: Firestore) {}
+
+async getChannelName(channelId: string): Promise<string | null> {
+  const ref = doc(this.firestore, 'channels', channelId);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) return null;
+
+  const data = snap.data();
+  return (data as any)['channelName'] || null;
+}
+
 
 /**
  * Retrieves the data of a specific channel from Firestore.
