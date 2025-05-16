@@ -1,7 +1,7 @@
 import { Injectable, signal, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Channels, ChannelsTest, ChannelWithId } from '../types/types';
-import { doc, docData, Firestore } from '@angular/fire/firestore';
+import { doc, docData, Firestore, getDoc } from '@angular/fire/firestore';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { FirestoreService } from './firestore.service';
 
@@ -19,6 +19,14 @@ export class ChannelsService {
   public readonly channels = this._channels.asReadonly();
 
   //###################VARIABLEN######################
+  async getChannelName(channelId: string): Promise<string | null> {
+    const ref = doc(this.firestore, 'channels', channelId);
+    const snap = await getDoc(ref);
+    if (!snap.exists()) return null;
+
+    const data = snap.data();
+    return (data as any)['channelName'] || null;
+  }
 
   /**
    * Retrieves the data of a specific channel from Firestore.

@@ -4,7 +4,7 @@
     class="flex gap-4 p-4 h-11 text-24 font-bold items-center cursor-pointer hover:bg-[rgb(240,241,254)] rounded-full"
   >
     <p>#</p>
-    <p>Entwicklerteam</p>
+    <p>{{ channelName }}</p>
     <img class="w-5 h-5" src="img/arrow_drop_down.svg" alt="" />
   </div>
 
@@ -47,7 +47,9 @@
               alt=""
             />
           </div>
-          <div class="text-fc-purple flex justify-start"># Entwicklerteam</div>
+          <div class="text-fc-purple flex justify-start">
+            # {{ channelName }}
+          </div>
 
           <!-- user search input -->
           <div>
