@@ -30,13 +30,15 @@ export class ChannelChatHeaderComponent {
 
   firestore = inject(FirestoreService);
   channelsService = inject(ChannelsService);
-  showChannelPopup = false;
-  showUserPopup = false;
+  channelHelper = inject(MessagesDataService);
   users: UsersService = inject(UsersService);
+
   usersList$: Observable<AppUser[]> = this.getSortedUser();
   usersNotInChannel$!: Observable<AppUser[]>;
   userIds$!: Observable<string[]>;
-  channelHelper = inject(MessagesDataService);
+
+  showChannelPopup = false;
+  showUserPopup = false;
   channelName: string = '';
 
   ngOnInit() {
@@ -133,7 +135,7 @@ export class ChannelChatHeaderComponent {
   }
 
   /**
-   *
+   * fills the channelName array with current channel name
    * @param channelId
    * @returns
    */

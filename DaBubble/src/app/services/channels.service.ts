@@ -45,14 +45,6 @@ export class ChannelsService {
     return docData(docRef, { idField: 'id' }) as Observable<Channels>;
   }
 
-  /**
-   * noch nicht in verwendung
-   * @returns
-   */
-  getChannelId$(): Observable<string | null> {
-    return this.route.paramMap.pipe(map((params) => params.get('id')));
-  }
-  
   subscribeToChannels(userId: string): void {
     const q = query(
       collection(this.firestoreService.firestore, 'channels'),
