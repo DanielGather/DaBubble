@@ -1,47 +1,30 @@
-<<<<<<< HEAD
-import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
-import { Channels } from '../types/types';
-import { getDoc, doc, docData, Firestore } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
-=======
 import { Injectable, signal, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Channels, ChannelsTest, ChannelWithId } from '../types/types';
 import { doc, docData, Firestore, getDoc } from '@angular/fire/firestore';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { FirestoreService } from './firestore.service';
->>>>>>> cbac1bcb529208002b1b37ca68135071525eebed
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChannelsService {
-<<<<<<< HEAD
+
+
   constructor(private firestore: Firestore, private route: ActivatedRoute) {}
-
-  async getChannelName(channelId: string): Promise<string | null> {
-    const ref = doc(this.firestore, 'channels', channelId);
-    const snap = await getDoc(ref);
-    if (!snap.exists()) return null;
-
-=======
-  //###################VARIABLEN######################
-
-  constructor(private firestore: Firestore) {}
 
   private firestoreService: FirestoreService = inject(FirestoreService);
   private unsubscribeFn: (() => void) | null = null;
   private _channels = signal<ChannelWithId[]>([]);
   public readonly channels = this._channels.asReadonly();
 
-  //###################VARIABLEN######################
+
   async getChannelName(channelId: string): Promise<string | null> {
     const ref = doc(this.firestore, 'channels', channelId);
     const snap = await getDoc(ref);
     if (!snap.exists()) return null;
 
->>>>>>> cbac1bcb529208002b1b37ca68135071525eebed
     const data = snap.data();
     return (data as any)['channelName'] || null;
   }
@@ -62,14 +45,14 @@ export class ChannelsService {
     return docData(docRef, { idField: 'id' }) as Observable<Channels>;
   }
 
-<<<<<<< HEAD
   /**
    * noch nicht in verwendung
    * @returns
    */
   getChannelId$(): Observable<string | null> {
     return this.route.paramMap.pipe(map((params) => params.get('id')));
-=======
+  }
+  
   subscribeToChannels(userId: string): void {
     const q = query(
       collection(this.firestoreService.firestore, 'channels'),
@@ -92,6 +75,5 @@ export class ChannelsService {
 
   unsubscribeFromPrivateChats(): void {
     this.unsubscribeFn?.();
->>>>>>> cbac1bcb529208002b1b37ca68135071525eebed
   }
 }
