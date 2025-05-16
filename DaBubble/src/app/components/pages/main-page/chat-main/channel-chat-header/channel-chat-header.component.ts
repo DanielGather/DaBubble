@@ -43,87 +43,62 @@ export class ChannelChatHeaderComponent {
     this.initUserIds();
   }
 
-/**
- * Initializes the `usersNotInChannel$` observable.
- *
- * This function reacts to changes in the route parameter `id` (the channel ID)
- * and combines the list of all users with the currently selected channel's data.
- * It filters out users who are already part of the channel and emits only the users
- * who are not yet in the channel.
- *
- * The result is an observable list of users who can still be added to the channel.
- */
-private initUsersNotInChannel() {
-  this.usersNotInChannel$ = this.route.paramMap.pipe(
-    map((params) => params.get('id')),
-    map((channelId) => {
-      if (!channelId) {
-        throw new Error('❌ No channel ID found in the URL.');
-      }
-      return channelId;
-    }),
-    switchMap((channelId) =>
-      combineLatest([
-        this.usersList$,
-        this.channelsService.getChannelById$(channelId),
-      ]).pipe(
-        map(([users, channel]) =>
-          users.filter((user) => !channel.userIds.includes(user.id!))
+  /**
+   * Initializes the `usersNotInChannel$` observable.
+   *
+   * This function reacts to changes in the route parameter `id` (the channel ID)
+   * and combines the list of all users with the currently selected channel's data.
+   * It filters out users who are already part of the channel and emits only the users
+   * who are not yet in the channel.
+   *
+   * The result is an observable list of users who can still be added to the channel.
+   */
+  private initUsersNotInChannel() {
+    this.usersNotInChannel$ = this.route.paramMap.pipe(
+      map((params) => params.get('id')),
+      map((channelId) => {
+        if (!channelId) {
+          throw new Error('❌ No channel ID found in the URL.');
+        }
+        return channelId;
+      }),
+      switchMap((channelId) =>
+        combineLatest([
+          this.usersList$,
+          this.channelsService.getChannelById$(channelId),
+        ]).pipe(
+          map(([users, channel]) =>
+            users.filter((user) => !channel.userIds.includes(user.id!))
+          )
         )
       )
-    )
-  );
-}
-
-
-/**
- * Initializes the `userIds$` observable.
- *
- * This function listens for changes in the route parameter `id` (representing the channel ID)
- * and retrieves the list of user IDs (`userIds`) associated with the current channel.
- *
- * The result is an observable that emits the array of user IDs currently assigned to the channel.
- * Useful for displaying the number of users in the channel or managing user-channel membership.
- */
-private initUserIds() {
-  this.userIds$ = this.route.paramMap.pipe(
-    map((params) => params.get('id')),
-    map((channelId) => {
-      if (!channelId) {
-        throw new Error('❌ No channel ID found in the URL.');
-      }
-      return channelId;
-    }),
-    switchMap((channelId) =>
-      this.channelsService
-        .getChannelById$(channelId)
-        .pipe(map((channel) => channel.userIds))
-    )
-  );
-}
-
-
-  /**
-   *
-   * @returns get current channel userIds
-   */
-  getUserIds$(): Observable<string[]> {
-    const channelId = this.getCurrentChannelIdFromUrl();
-    return this.channelsService
-      .getChannelById$(channelId!)
-      .pipe(map((channel) => channel.userIds));
+    );
   }
 
-  getCurrentChannelIdFromUrl(): string | null {
-    const currentUrl = window.location.href;
-    if (!currentUrl.includes('channel/')) {
-      return null;
-    }
-    const parts = currentUrl.split('channel/');
-    if (parts.length > 1) {
-      return parts[1].split('/')[0];
-    }
-    return null;
+  /**
+   * Initializes the `userIds$` observable.
+   *
+   * This function listens for changes in the route parameter `id` (representing the channel ID)
+   * and retrieves the list of user IDs (`userIds`) associated with the current channel.
+   *
+   * The result is an observable that emits the array of user IDs currently assigned to the channel.
+   * Useful for displaying the number of users in the channel or managing user-channel membership.
+   */
+  private initUserIds() {
+    this.userIds$ = this.route.paramMap.pipe(
+      map((params) => params.get('id')),
+      map((channelId) => {
+        if (!channelId) {
+          throw new Error('❌ No channel ID found in the URL.');
+        }
+        return channelId;
+      }),
+      switchMap((channelId) =>
+        this.channelsService
+          .getChannelById$(channelId)
+          .pipe(map((channel) => channel.userIds))
+      )
+    );
   }
 
   /**
@@ -131,14 +106,24 @@ private initUserIds() {
    * @param id
    */
   async addUserToChannel(id: string) {
-    const channelId = this.getCurrentChannelIdFromUrl();
+    const channelId = this.route.snapshot.paramMap.get('id');
     if (!channelId) {
-      console.error('Channel ID konnte nicht aus der URL gelesen werden.');
       return;
     }
-    await this.firestore.updateDoc('channels', channelId, {
-      userIds: arrayUnion(id),
-    });
+
+    try {
+      await this.firestore.updateDoc('channels', channelId, {
+        userIds: arrayUnion(id),
+      });
+      console.log(
+        `✅ Benutzer ${id} wurde dem Channel ${channelId} hinzugefügt.`
+      );
+    } catch (error) {
+      console.error(
+        '❌ Fehler beim Hinzufügen des Benutzers zum Channel:',
+        error
+      );
+    }
   }
 
   /**
