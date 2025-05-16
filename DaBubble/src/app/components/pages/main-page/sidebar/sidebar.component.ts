@@ -1,4 +1,4 @@
-import { Component, inject, Output } from '@angular/core';
+import { Component, effect, inject, Output, signal } from '@angular/core';
 import { CreateChannelComponent } from './create-channel/create-channel.component';
 import { SearchbarComponent } from '../shared/searchbar/searchbar.component';
 import { FirestoreService } from '../../../../services/firestore.service';
@@ -7,14 +7,13 @@ import { trigger, style, transition, animate } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { UsersService } from '../../../../services/users.service';
 import { map } from 'rxjs';
-import { AppUser } from '../../../../types/types';
+import { AppUser, ChannelsTest, ChannelWithId } from '../../../../types/types';
 import { Channels } from '../../../../types/types';
 import { FoldItemState, FoldKey, FoldState } from '../../../../types/types';
-import { CollectionResult } from '../../../../types/types';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChannelChatHeaderComponent } from '../chat-main/channel-chat-header/channel-chat-header.component';
 import { MessagesDataService } from '../../../../services/messages-data.service';
-import { PrivateMessageService } from '../../../../services/private-message.service';
+import { ChannelsService } from '../../../../services/channels.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -39,24 +38,27 @@ import { PrivateMessageService } from '../../../../services/private-message.serv
   ],
 })
 export class SidebarComponent {
-  constructor(private router: Router, private route: ActivatedRoute) {}
-  firestoreService: FirestoreService = inject(FirestoreService);
-  userService: UsersService = inject(UsersService);
+  constructor(private router: Router, private route: ActivatedRoute) {
+    effect(() => {
+      console.log('CHANNELS IN DER SIDEBAR', this.channelsService.channels());
+      this.channels.set(this.channelsService.channels());
+    });
+  }
+
+  //###################VARIABLEN######################
+
+  private firestoreService: FirestoreService = inject(FirestoreService);
+  private userService: UsersService = inject(UsersService);
   private messageService: MessagesDataService = inject(MessagesDataService);
-  private privateMessageService: PrivateMessageService = inject(
-    PrivateMessageService
-  );
+  private channelsService: ChannelsService = inject(ChannelsService);
 
   online: boolean = true;
   clicked: boolean = true;
   showModal: boolean = false;
 
-  userMessages: any;
-  userId: number = 123123;
-
   users: UsersService = inject(UsersService);
 
-  channelList$: Observable<Channels[]> = this.firestoreService.channelsList$;
+  channels = signal<ChannelWithId[]>([]);
 
   usersList$: Observable<AppUser[]> = this.getSortedUser();
 
@@ -71,21 +73,11 @@ export class SidebarComponent {
     contacts: { ...this.DEFAULT_FOLD_ITEM },
   };
 
+  //###################VARIABLEN######################
+
   async ngOnInit() {
     let userData = await this.messageService.getUserData();
-    console.log('USER DATA LOGGIN', userData);
-
     this.userService.userChatDataObject = userData;
-    console.log('Das ganze Objekt:', userData);
-    console.log(
-      'So ruft man eine collection aus dem Objekt auf:',
-      userData['channels']
-    );
-    console.log('So greift man auf das Array zu:', userData['channels'][0]);
-    // console.log(
-    //   'So erhält man die einzelnen Daten aus der Collection:',
-    //   userData['channels'][0].data.channelName
-    // );
   }
 
   toggleFold(key: FoldKey) {
@@ -134,6 +126,5 @@ export class SidebarComponent {
 
   openChannel(channelId: string) {
     this.router.navigate(['/chat/channel', channelId]);
-    console.log(channelId);
   }
 }
