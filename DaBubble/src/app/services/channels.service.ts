@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Channels } from '../types/types';
 import { getDoc, doc, docData, Firestore } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
