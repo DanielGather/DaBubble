@@ -11,7 +11,6 @@ import { FirestoreService } from '../../../../../services/firestore.service';
 import { MessagesDataService } from '../../../../../services/messages-data.service';
 import { ChannelsService } from '../../../../../services/channels.service';
 import { ActivatedRoute } from '@angular/router';
-import { getDoc } from 'firebase/firestore';
 
 @Component({
   selector: 'app-channel-chat-header',
