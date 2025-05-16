@@ -79,13 +79,18 @@ export interface Message {
   message: string;
   timestamp: string;
   userIds: Array<string>;
-  creatorId: string
+  creatorId: string;
 }
 
 export interface ChannelsTest {
   channelName: string;
   description: string;
   userIds: Array<string>;
+}
+
+export interface ChannelWithId {
+  id: string;
+  data: ChannelsTest; // Oder ein spezifischerer Typ für Ihre Channel-Daten
 }
 
 export interface PrivateChat {

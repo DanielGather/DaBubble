@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { AuthenticationService } from './services/authentication.service';
 import { PrivateMessageService } from './services/private-message.service';
 import { MessagesDataService } from './services/messages-data.service';
+import { ChannelsService } from './services/channels.service';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,7 @@ export class AppComponent implements OnInit {
     PrivateMessageService
   );
   private messageService: MessagesDataService = inject(MessagesDataService);
+  private channelsService: ChannelsService = inject(ChannelsService);
 
   constructor(private authService: AuthenticationService) {}
 
@@ -25,5 +27,6 @@ export class AppComponent implements OnInit {
     this.authService.observeAuthState();
     this.privateMessageService.subscribeToPrivateMessage(userId);
     this.messageService.subscribeToMessages(userId);
+    this.channelsService.subscribeToChannels(userId);
   }
 }
