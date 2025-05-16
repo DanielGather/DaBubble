@@ -40,6 +40,16 @@ export class ChannelChatHeaderComponent {
   showChannelPopup = false;
   showUserPopup = false;
   channelName: string = '';
+  isFocused: boolean = false;
+
+
+onFocus() {
+  this.isFocused = true;
+}
+
+onBlur() {
+  this.isFocused = false;
+}
 
   ngOnInit() {
     this.initUsersNotInChannel();
