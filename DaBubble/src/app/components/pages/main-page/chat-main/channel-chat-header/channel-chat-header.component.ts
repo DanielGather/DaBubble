@@ -1,6 +1,5 @@
 import { Component, inject, ElementRef, HostListener } from '@angular/core';
 import { ButtonComponent } from '../../../../shared/button/button.component';
-import { ChannelEditPopupComponent } from '../channel-edit-popup/channel-edit-popup.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UsersService } from '../../../../../services/users.service';
@@ -11,6 +10,7 @@ import { FirestoreService } from '../../../../../services/firestore.service';
 import { MessagesDataService } from '../../../../../services/messages-data.service';
 import { ChannelsService } from '../../../../../services/channels.service';
 import { ActivatedRoute } from '@angular/router';
+import { ChannelEditPopupComponent } from './channel-edit-popup/channel-edit-popup.component';
 
 @Component({
   selector: 'app-channel-chat-header',

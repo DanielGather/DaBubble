@@ -1,13 +1,13 @@
 import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
-import { DropdownComponent } from '../../shared/dropdown/dropdown.component';
-import { ButtonComponent } from '../../../../shared/button/button.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { trigger, style, transition, animate } from '@angular/animations';
 import { arrayRemove } from '@angular/fire/firestore';
-import { FirestoreService } from '../../../../../services/firestore.service';
-import { MessagesDataService } from '../../../../../services/messages-data.service';
+import { FirestoreService } from '../../../../../../services/firestore.service';
+import { MessagesDataService } from '../../../../../../services/messages-data.service';
 import { ActivatedRoute } from '@angular/router';
+import { DropdownComponent } from '../../../shared/dropdown/dropdown.component';
+import { ButtonComponent } from '../../../../../shared/button/button.component';
 
 @Component({
   selector: 'app-channel-edit-popup',
