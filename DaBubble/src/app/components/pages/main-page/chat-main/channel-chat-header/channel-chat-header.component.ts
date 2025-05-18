@@ -1,22 +1,21 @@
 import { Component, inject, ElementRef, HostListener } from '@angular/core';
-import { ButtonComponent } from '../../../../shared/button/button.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UsersService } from '../../../../../services/users.service';
 import { map, Observable, combineLatest, switchMap } from 'rxjs';
 import { AppUser } from '../../../../../types/types';
-import { arrayUnion } from '@angular/fire/firestore';
-import { FirestoreService } from '../../../../../services/firestore.service';
 import { MessagesDataService } from '../../../../../services/messages-data.service';
 import { ChannelsService } from '../../../../../services/channels.service';
 import { ActivatedRoute } from '@angular/router';
 import { ChannelEditPopupComponent } from './channel-edit-popup/channel-edit-popup.component';
+import { ChannelAdduserPopupComponent } from './channel-adduser-popup/channel-adduser-popup.component';
 
 @Component({
   selector: 'app-channel-chat-header',
   imports: [
-    ButtonComponent,
+
     ChannelEditPopupComponent,
+    ChannelAdduserPopupComponent,
     FormsModule,
     CommonModule,
   ],
@@ -28,7 +27,6 @@ export class ChannelChatHeaderComponent {
     console.log('channelChat user list' + this.usersList$);
   }
 
-  firestore = inject(FirestoreService);
   channelsService = inject(ChannelsService);
   channelHelper = inject(MessagesDataService);
   users: UsersService = inject(UsersService);
@@ -40,16 +38,8 @@ export class ChannelChatHeaderComponent {
   showChannelPopup = false;
   showUserPopup = false;
   channelName: string = '';
-  isFocused: boolean = false;
 
 
-onFocus() {
-  this.isFocused = true;
-}
-
-onBlur() {
-  this.isFocused = false;
-}
 
   ngOnInit() {
     this.initUsersNotInChannel();
@@ -125,26 +115,6 @@ onBlur() {
   }
 
   /**
-   * add user to channel
-   * @param id
-   */
-  async addUserToChannel(id: string) {
-    const channelId = this.route.snapshot.paramMap.get('id');
-    if (!channelId) {
-      return;
-    }
-
-    try {
-      await this.firestore.updateDoc('channels', channelId, {
-        userIds: arrayUnion(id),
-      });
-      console.log(`Benutzer ${id} wurde dem Channel ${channelId} hinzugefügt.`);
-    } catch (error) {
-      console.error('Fehler beim Hinzufügen des Benutzers zum Channel:', error);
-    }
-  }
-
-  /**
    * fills the channelName array with current channel name
    * @param channelId
    * @returns
@@ -186,6 +156,11 @@ onBlur() {
     );
   }
 
+  /**
+   * actually not used, maybe important later
+   * @param avatarId 
+   * @returns 
+   */
   getAvatar(avatarId: number) {
     switch (avatarId) {
       case 1:
