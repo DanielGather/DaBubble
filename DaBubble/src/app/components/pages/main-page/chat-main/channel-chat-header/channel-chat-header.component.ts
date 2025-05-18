@@ -141,6 +141,20 @@ export class ChannelChatHeaderComponent {
     this.showUserPopup = !this.showUserPopup;
   }
 
+    /**
+   * open channel edit
+   */
+  openChannelPopup() {
+    this.showChannelPopup = true;
+  }
+
+  /**
+   * close channel edit
+   */
+  closeChannelPopup() {
+    this.showChannelPopup = false;
+  }
+
   /**
    * get user from firebase and sort it
    * @returns
@@ -179,19 +193,7 @@ export class ChannelChatHeaderComponent {
     return 'img/user_1.png';
   }
 
-  /**
-   * open channel edit
-   */
-  openChannelPopup() {
-    this.showChannelPopup = true;
-  }
 
-  /**
-   * close channel edit
-   */
-  closeChannelPopup() {
-    this.showChannelPopup = false;
-  }
 
   /**
    * Closes open popups when a click occurs outside the component's DOM element.

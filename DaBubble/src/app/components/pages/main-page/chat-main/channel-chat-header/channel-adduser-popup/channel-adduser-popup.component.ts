@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { arrayUnion } from '@angular/fire/firestore';
@@ -22,6 +22,8 @@ export class ChannelAdduserPopupComponent {
   @Input() usersList$!: Observable<AppUser[]>;
   @Input() usersNotInChannel$!: Observable<AppUser[]>;
   @Input() userIds$!: Observable<string[]>;
+
+  @Output() closePopup = new EventEmitter<void>();
 
   firestore = inject(FirestoreService);
   isFocused: boolean = false;

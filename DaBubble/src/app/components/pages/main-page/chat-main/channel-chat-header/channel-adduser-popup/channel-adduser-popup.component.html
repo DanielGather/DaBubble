@@ -1,78 +1,68 @@
+<div
+  class="absolute top-full right-0 z-30 bg-white shadow-2xl p-10 w-96 rounded-standard rounded-tr-none"
+  (click)="$event.stopPropagation()"
+>
+  <div id="addUserWrapper" class="flex flex-col gap-2">
+    <div class="flex justify-between">
+      <h3>Leute hinzufügen</h3>
+      <img (click)="closePopup.emit()" src="img/close.svg" alt="" />
+    </div>
+    <div class="text-fc-purple flex justify-start"># {{ channelName }}</div>
 
-      <div
-        class="absolute top-full right-0 z-30 bg-white shadow-2xl p-10 w-96 rounded-standard rounded-tr-none"
-        (click)="$event.stopPropagation()"
+    <!-- user search input -->
+    <div>
+      <input
+        (focus)="onFocus()"
+        (blur)="onBlur()"
+        [ngClass]="{
+          'rounded-b-[2rem] border-b border-color-border': !isFocused,
+          'rounded-b-none border-b-0': isFocused
+        }"
+        class="w-full px-5 py-4 rounded-t-[2rem] border border-color-border focus:border-color-border outline-none focus:ring-0 focus:outline-none transition-all duration-200"
+        type="text"
+        placeholder="Name eingeben"
+      />
+      <ul
+        [ngClass]="{
+          'max-h-0 opacity-0 border-none rounded-t-[2rem]': !isFocused,
+          'max-h-64 opacity-100 rounded-t-none': isFocused
+        }"
+        *ngIf="usersNotInChannel$ | async as users"
+        class="overflow-y-auto border border-color-border rounded-b-[2rem] overflow-x-hidden transition-all duration-200"
       >
-        <div id="addUserWrapper" class="flex flex-col gap-2">
-          <div class="flex justify-between">
-            <h3>Leute hinzufügen</h3>
+        <li
+          *ngFor="let user of users"
+          (click)="addUserToChannel(user.id!)"
+          class="flex gap-4 items-center pl-4 pr-4 pt-2 pb-2 hover:cursor-pointer hover:bg-color-border"
+        >
+          <div class="relative w-10 h-10">
+            <img class="rounded-full" [src]="getAvatar(user.avatarId)" alt="" />
             <img
-              src="img/close.svg"
+              *ngIf="user.online; else offlineTpl"
+              class="absolute right-0 bottom-[-3px] rounded-full"
+              src="img/online.svg"
               alt=""
             />
+            <ng-template #offlineTpl>
+              <img
+                class="absolute right-0 bottom-[-3px] rounded-full"
+                src="img/offline.svg"
+                alt=""
+              />
+            </ng-template>
           </div>
-          <div class="text-fc-purple flex justify-start">
-            # {{ channelName }}
-          </div>
-
-          <!-- user search input -->
           <div>
-            <input
-              (focus)="onFocus()"
-              (blur)="onBlur()"
-              [ngClass]="{
-                'rounded-b-[2rem] border-b border-color-border': !isFocused,
-                'rounded-b-none border-b-0': isFocused
-              }"
-              class="w-full px-5 py-4 rounded-t-[2rem] border border-color-border focus:border-color-border outline-none focus:ring-0 focus:outline-none transition-all duration-200"
-              type="text"
-              placeholder="Name eingeben"
-            />
-            <ul
-              [ngClass]="{
-                'max-h-0 opacity-0 border-none rounded-t-[2rem]': !isFocused,
-                'max-h-64 opacity-100 rounded-t-none': isFocused
-              }"
-              *ngIf="usersNotInChannel$ | async as users"
-              class="overflow-y-auto border border-color-border rounded-b-[2rem] overflow-x-hidden transition-all duration-200"
-            >
-              <li
-                *ngFor="let user of users"
-                (click)="addUserToChannel(user.id!)"
-                class="flex gap-4 items-center pl-4 pr-4 pt-2 pb-2 hover:cursor-pointer hover:bg-color-border"
-              >
-                <div class="relative w-10 h-10">
-                  <img
-                    class="rounded-full"
-                    [src]="getAvatar(user.avatarId)"
-                    alt=""
-                  />
-                  <img
-                    *ngIf="user.online; else offlineTpl"
-                    class="absolute right-0 bottom-[-3px] rounded-full"
-                    src="img/online.svg"
-                    alt=""
-                  />
-                  <ng-template #offlineTpl>
-                    <img
-                      class="absolute right-0 bottom-[-3px] rounded-full"
-                      src="img/offline.svg"
-                      alt=""
-                    />
-                  </ng-template>
-                </div>
-                <div>
-                  <p class="whitespace-nowrap">
-                    {{ user.firstName }} {{ user.lastName }}
-                  </p>
-                </div>
-              </li>
-            </ul>
+            <p class="whitespace-nowrap">
+              {{ user.firstName }} {{ user.lastName }}
+            </p>
           </div>
-          <!-- user search input end -->
+        </li>
+      </ul>
+    </div>
+    <!-- user search input end -->
 
-          <div class="flex justify-end">
-            <app-button class="">Hinzufügen</app-button>
-          </div>
-        </div>
-      </div>
+    <div class="flex justify-end">
+      <app-button class="">Hinzufügen</app-button>
+    </div>
+  </div>
+</div>
