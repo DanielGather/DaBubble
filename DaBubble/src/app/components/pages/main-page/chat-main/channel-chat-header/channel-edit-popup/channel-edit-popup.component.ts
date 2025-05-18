@@ -38,6 +38,7 @@ doloremque.`;
   firestore = inject(FirestoreService);
   messageData = inject(MessagesDataService);
 
+  @Input() channelName!: string;
   @Input() visible: boolean = false;
   @Output() closed = new EventEmitter<void>();
 

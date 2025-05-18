@@ -4,7 +4,7 @@
   [cornerOverride]="'rounded-tl-none bg-white'"
 >
   <div class="flex justify-between">
-    <h2># Entwicklerteam</h2>
+    <h2># {{ channelName }}</h2>
     <img
       (click)="onCloseClick()"
       class="w-6 cursor-pointer"
@@ -22,7 +22,7 @@
     class="transition-all duration-100 ease-in-out"
   >
     <div class="flex justify-between">
-      <h3>Channel-Name</h3>
+      <h3>{{ channelName }}</h3>
       <div
         (click)="edit('edit')"
         class="text-fc-purple cursor-pointer font-bold"

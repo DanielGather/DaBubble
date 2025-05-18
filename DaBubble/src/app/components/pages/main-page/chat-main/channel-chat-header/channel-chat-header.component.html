@@ -118,6 +118,8 @@
 </div>
 
 <app-channel-edit-popup
+  *ngIf="showChannelPopup"
+  [channelName]="channelName"
   [visible]="showChannelPopup"
   (closed)="closeChannelPopup()"
 ></app-channel-edit-popup>
