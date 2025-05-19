@@ -1,15 +1,16 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { arrayUnion } from '@angular/fire/firestore';
 import { FirestoreService } from '../../../../../../services/firestore.service';
 import { ActivatedRoute } from '@angular/router';
 import { ButtonComponent } from '../../../../../shared/button/button.component';
 import { AppUser } from '../../../../../../types/types';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-channel-adduser-popup',
-  imports: [ButtonComponent, CommonModule],
+  imports: [ButtonComponent, CommonModule, FormsModule],
   templateUrl: './channel-adduser-popup.component.html',
   styleUrl: './channel-adduser-popup.component.scss',
 })
@@ -27,9 +28,12 @@ export class ChannelAdduserPopupComponent {
 
   firestore = inject(FirestoreService);
   isFocused: boolean = false;
+  filteredUsersNotInChannel$: Observable<AppUser[]> = of([]);
+  searchTerm: string = '';
 
   onFocus() {
     this.isFocused = true;
+    this.filterUserNotInChannelByNameInput();
   }
 
   onBlur() {
@@ -55,6 +59,18 @@ export class ChannelAdduserPopupComponent {
       console.error('Fehler beim Hinzufügen des Benutzers zum Channel:', error);
     }
   }
+
+filterUserNotInChannelByNameInput() {
+  this.filteredUsersNotInChannel$ = this.usersNotInChannel$.pipe(
+    map(users =>
+      users.filter(user =>
+        (user.firstName + ' ' + user.lastName)
+          .toLowerCase()
+          .includes(this.searchTerm.toLowerCase())
+      )
+    )
+  );
+}
 
   getAvatar(avatarId: number) {
     switch (avatarId) {

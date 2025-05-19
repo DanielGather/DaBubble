@@ -12,6 +12,8 @@
     <!-- user search input -->
     <div>
       <input
+        [(ngModel)]="searchTerm"
+        (keyup)="filterUserNotInChannelByNameInput()"
         (focus)="onFocus()"
         (blur)="onBlur()"
         [ngClass]="{
@@ -27,7 +29,7 @@
           'max-h-0 opacity-0 border-none rounded-t-[2rem]': !isFocused,
           'max-h-64 opacity-100 rounded-t-none': isFocused
         }"
-        *ngIf="usersNotInChannel$ | async as users"
+        *ngIf="filteredUsersNotInChannel$ | async as users"
         class="overflow-y-auto border border-color-border rounded-b-[2rem] overflow-x-hidden transition-all duration-200"
       >
         <li
