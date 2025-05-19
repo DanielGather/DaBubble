@@ -52,6 +52,7 @@ export class CreateChannelComponent {
       this.firestore.addDoc('channels', {
         channelName: this.channelForm.get('createChannel')?.value,
         description: this.channelForm.get('description')?.value,
+        channelCreatorId: userId,
         userIds: [userId],
       });
       this.closeModal();
