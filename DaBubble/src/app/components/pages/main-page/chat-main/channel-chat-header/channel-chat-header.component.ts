@@ -13,7 +13,6 @@ import { ChannelAdduserPopupComponent } from './channel-adduser-popup/channel-ad
 @Component({
   selector: 'app-channel-chat-header',
   imports: [
-
     ChannelEditPopupComponent,
     ChannelAdduserPopupComponent,
     FormsModule,
@@ -28,7 +27,9 @@ export class ChannelChatHeaderComponent {
   }
 
   channelsService = inject(ChannelsService);
+// get no call, is that needed here?
   channelHelper = inject(MessagesDataService);
+
   usersService: UsersService = inject(UsersService);
 
   usersList$: Observable<AppUser[]> = this.usersService.getSortedUser();
@@ -84,17 +85,6 @@ export class ChannelChatHeaderComponent {
   }
 
   /**
-   * get userId from channel
-   * @param channelId
-   * @returns
-   */
-  private getUserIdsForChannel$(channelId: string): Observable<string[]> {
-    return this.channelsService
-      .getChannelById$(channelId)
-      .pipe(map((channel) => channel.userIds));
-  }
-
-  /**
    * init users not in channel
    */
   private initUsersNotInChannel() {
@@ -108,7 +98,9 @@ export class ChannelChatHeaderComponent {
    */
   private initUserIds() {
     this.userIds$ = this.getChannelIdFromRouteUrl().pipe(
-      switchMap((channelId) => this.getUserIdsForChannel$(channelId))
+      switchMap((channelId) =>
+        this.usersService.getUserIdsForCurrentChannel$(channelId)
+      )
     );
   }
 
@@ -139,7 +131,7 @@ export class ChannelChatHeaderComponent {
     this.showUserPopup = !this.showUserPopup;
   }
 
-    /**
+  /**
    * open channel edit
    */
   openChannelPopup() {
@@ -153,12 +145,10 @@ export class ChannelChatHeaderComponent {
     this.showChannelPopup = false;
   }
 
-
-
   /**
    * actually not used, maybe important later
-   * @param avatarId 
-   * @returns 
+   * @param avatarId
+   * @returns
    */
   getAvatar(avatarId: number) {
     switch (avatarId) {

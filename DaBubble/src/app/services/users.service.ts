@@ -4,8 +4,8 @@ import { AppUser } from '../types/types';
 import { Observable, BehaviorSubject, map } from 'rxjs';
 import { onSnapshot } from 'firebase/firestore';
 import { UserData } from '../types/types';
-
 import { Firestore } from '@angular/fire/firestore';
+import { ChannelsService } from './channels.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,7 @@ export class UsersService {
 
   firestore: Firestore = inject(Firestore);
   firestoreService: FirestoreService = inject(FirestoreService);
-
+  channelsService = inject(ChannelsService);
   currentUserId: string | null = null;
   userInformation: AppUser | null = null;
   userChatDataObject!: UserData;
@@ -104,5 +104,18 @@ export class UsersService {
         )
       )
     );
+  }
+
+  /**
+   * get userId from channel
+   * @param channelId
+   * @returns
+   */
+  getUserIdsForCurrentChannel$(
+    channelId: string
+  ): Observable<string[]> {
+    return this.channelsService
+      .getChannelById$(channelId)
+      .pipe(map((channel) => channel.userIds));
   }
 }
