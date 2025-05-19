@@ -1,19 +1,11 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { FirestoreService } from './firestore.service';
-import {
-  AppUser,
-  CollectionResult,
-  ElementOf,
-  UserDoc,
-  ChannelsTest,
-  PrivateChat,
-  Threads,
-} from '../types/types';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { onSnapshot, getDocs } from 'firebase/firestore';
+import { AppUser } from '../types/types';
+import { Observable, BehaviorSubject, map } from 'rxjs';
+import { onSnapshot } from 'firebase/firestore';
 import { UserData } from '../types/types';
-import { Message } from '../types/types';
-import { Firestore, collection, where, query } from '@angular/fire/firestore';
+
+import { Firestore } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +15,7 @@ export class UsersService {
 
   firestore: Firestore = inject(Firestore);
   firestoreService: FirestoreService = inject(FirestoreService);
+
   currentUserId: string | null = null;
   userInformation: AppUser | null = null;
   userChatDataObject!: UserData;
@@ -97,5 +90,19 @@ export class UsersService {
     }
     this.setCurrentUser(null);
     this.currentUserId = null;
+  }
+
+  /**
+   * get user from firebase and sort it
+   * @returns
+   */
+  getSortedUser(): Observable<AppUser[]> {
+    return this.usersList$.pipe(
+      map((list) =>
+        [...list].sort((a, b) =>
+          a.firstName.localeCompare(b.firstName, 'de', { sensitivity: 'base' })
+        )
+      )
+    );
   }
 }

@@ -29,17 +29,15 @@ export class ChannelChatHeaderComponent {
 
   channelsService = inject(ChannelsService);
   channelHelper = inject(MessagesDataService);
-  users: UsersService = inject(UsersService);
+  usersService: UsersService = inject(UsersService);
 
-  usersList$: Observable<AppUser[]> = this.getSortedUser();
+  usersList$: Observable<AppUser[]> = this.usersService.getSortedUser();
   usersNotInChannel$!: Observable<AppUser[]>;
   userIds$!: Observable<string[]>;
 
   showChannelPopup = false;
   showUserPopup = false;
   channelName: string = '';
-
-
 
   ngOnInit() {
     this.initUsersNotInChannel();
@@ -155,20 +153,7 @@ export class ChannelChatHeaderComponent {
     this.showChannelPopup = false;
   }
 
-  /**
-   * get user from firebase and sort it
-   * @returns
-   */
-  getSortedUser() {
-    console.log('sorted', this.users.usersList$);
-    return this.users.usersList$.pipe(
-      map((list) =>
-        [...list].sort((a, b) =>
-          a.firstName.localeCompare(b.firstName, 'de', { sensitivity: 'base' })
-        )
-      )
-    );
-  }
+
 
   /**
    * actually not used, maybe important later
@@ -192,8 +177,6 @@ export class ChannelChatHeaderComponent {
     }
     return 'img/user_1.png';
   }
-
-
 
   /**
    * Closes open popups when a click occurs outside the component's DOM element.
