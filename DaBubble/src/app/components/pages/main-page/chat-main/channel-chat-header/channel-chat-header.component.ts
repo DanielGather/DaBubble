@@ -27,7 +27,8 @@ export class ChannelChatHeaderComponent {
   }
 
   channelsService = inject(ChannelsService);
-// get no call, is that needed here?
+
+  // gets no call, is that needed here?
   channelHelper = inject(MessagesDataService);
 
   usersService: UsersService = inject(UsersService);
@@ -42,13 +43,34 @@ export class ChannelChatHeaderComponent {
 
   ngOnInit() {
     this.initUsersNotInChannel();
-    this.initUserIds();
+    this.initUserIdsFromCurrentChannel();
     this.route.paramMap.subscribe((params) => {
       const channelId = params.get('id');
       if (channelId) {
         this.loadChannelName(channelId);
       }
     });
+  }
+
+  /**
+   * init user id, fill array userIds
+   *
+   */
+  private initUserIdsFromCurrentChannel() {
+    this.userIds$ = this.getChannelIdFromRouteUrl().pipe(
+      switchMap((channelId) =>
+        this.usersService.getUserIdsForCurrentChannel$(channelId)
+      )
+    );
+  }
+
+  /**
+   * init users not in channel
+   */
+  private initUsersNotInChannel() {
+    this.usersNotInChannel$ = this.getChannelIdFromRouteUrl().pipe(
+      switchMap((channelId) => this.getUsersNotInChannel$(channelId))
+    );
   }
 
   /**
@@ -81,26 +103,6 @@ export class ChannelChatHeaderComponent {
         }
         return channelId;
       })
-    );
-  }
-
-  /**
-   * init users not in channel
-   */
-  private initUsersNotInChannel() {
-    this.usersNotInChannel$ = this.getChannelIdFromRouteUrl().pipe(
-      switchMap((channelId) => this.getUsersNotInChannel$(channelId))
-    );
-  }
-
-  /**
-   * init user id
-   */
-  private initUserIds() {
-    this.userIds$ = this.getChannelIdFromRouteUrl().pipe(
-      switchMap((channelId) =>
-        this.usersService.getUserIdsForCurrentChannel$(channelId)
-      )
     );
   }
 
