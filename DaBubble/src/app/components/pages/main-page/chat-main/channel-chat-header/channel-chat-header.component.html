@@ -1,21 +1,24 @@
-<div class="flex h-24 justify-between items-center pl-8 pr-8">
+<div class="flex h-24 justify-between items-center pl-8 pr-8 relative">
   <div
-    (click)="openPopup()"
+    (click)="openChannelPopup()"
     class="flex gap-4 p-4 h-11 text-24 font-bold items-center cursor-pointer hover:bg-[rgb(240,241,254)] rounded-full"
   >
     <p>#</p>
-    <p>Entwicklerteam</p>
+    <p>{{ channelName }}</p>
     <img class="w-5 h-5" src="img/arrow_drop_down.svg" alt="" />
   </div>
+
+  <!-- user selection -->
   <div class="flex items-center gap-4">
     <div class="margin-left-img flex">
       <img class="w-7 h-7 rounded-full" src="img/user_1.png" alt="" />
-      <img class="w-7 h-7 rounded-full" src="img/user_1.png" alt="" />
-      <img class="w-7 h-7 rounded-full" src="img/user_1.png" alt="" />
     </div>
-    <p>3</p>
+
+    <p>{{ (userIds$ | async)?.length }}</p>
+
     <button
-      class="bg-[#eceefe] w-10 h-10 items-center justify-center flex rounded-full"
+      (click)="toggleAddUserToChannelPopUp()"
+      class="bg-[#eceefe] w-10 h-10 items-center justify-center flex rounded-full relative"
     >
       <svg
         width="22"
@@ -29,11 +32,24 @@
           fill="black"
         />
       </svg>
+
+      @if (showUserPopup) {
+      <app-channel-adduser-popup
+        *ngIf="showUserPopup"
+        [channelName]="channelName"
+        [usersList$]="usersList$"
+        [usersNotInChannel$]="usersNotInChannel$"
+        [userIds$]="userIds$"
+        (closePopup)="toggleAddUserToChannelPopUp()"
+      ></app-channel-adduser-popup>
+      }
     </button>
   </div>
 </div>
 
 <app-channel-edit-popup
-  [visible]="showPopup"
-  (closed)="closePopup()"
+  *ngIf="showChannelPopup"
+  [channelName]="channelName"
+  [visible]="showChannelPopup"
+  (closed)="closeChannelPopup()"
 ></app-channel-edit-popup>

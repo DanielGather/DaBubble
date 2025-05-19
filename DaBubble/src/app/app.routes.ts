@@ -28,7 +28,16 @@ export const routes: Routes = [
     path: '',
     component: MainLayoutComponent,
     children: [
-      { path: 'chat/:chatType', component: ChatMainComponent },
+      {
+        path: 'chat',
+        component: ChatMainComponent,
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'chat/:chatType/:id',
+        component: ChatMainComponent,
+        runGuardsAndResolvers: 'always',
+      },
     ],
   },
   {

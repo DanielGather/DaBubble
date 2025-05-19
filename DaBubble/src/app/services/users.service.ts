@@ -1,23 +1,41 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { FirestoreService } from './firestore.service';
-import { AppUser } from '../types/types';
+import {
+  AppUser,
+  CollectionResult,
+  ElementOf,
+  UserDoc,
+  ChannelsTest,
+  PrivateChat,
+  Threads,
+} from '../types/types';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { UserCredential } from 'firebase/auth';
-import { onSnapshot } from 'firebase/firestore';
+import { onSnapshot, getDocs } from 'firebase/firestore';
+import { UserData } from '../types/types';
+import { Message } from '../types/types';
+import { Firestore, collection, where, query } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
-  firestoreService: FirestoreService = inject(FirestoreService);
+  constructor() {}
 
+  firestore: Firestore = inject(Firestore);
+  firestoreService: FirestoreService = inject(FirestoreService);
   currentUserId: string | null = null;
-  userObject: AppUser | null = null;
+  userInformation: AppUser | null = null;
+  userChatDataObject!: UserData;
 
   /**
    * A behaviorsubject to manage the realtime data of the currentUser
    */
   private currentUserSubject = new BehaviorSubject<AppUser | null>(null);
+
+  /**
+   * this variable observes the snapShot of the user info doc
+   */
+  readonly currentUser$ = this.currentUserSubject.asObservable();
 
   /**
    * this variable is the unscribe mechanism of the snapShot wich will have the realtime connection of the currentUser information
@@ -26,23 +44,20 @@ export class UsersService {
    */
   private userUnsubscribe: (() => void) | null = null;
 
-  /**
-   * this variable observes the snapShot of the user info doc
-   */
-  readonly currentUser$ = this.currentUserSubject.asObservable();
+  // private _messagesSubject = new BehaviorSubject<Message[]>([]);
+  // messages$ = this._messagesSubject.asObservable();
 
   readonly usersList$: Observable<AppUser[]> =
     this.firestoreService.getCollectionData('users') as Observable<AppUser[]>;
 
-  constructor() {}
-
   /**
-   * A help
+   * A help function to set the data of the currentUser into the currentUserSubject.
+   * The observable to subscribe is called: currentUser$
+   *
    * @param user
    */
   setCurrentUser(user: AppUser | null) {
     this.currentUserSubject.next(user);
-    console.log('set current user to: ', user);
   }
 
   /**
@@ -55,9 +70,15 @@ export class UsersService {
     }
 
     const userDocRef = this.firestoreService.getSingleDocRef('users', userId);
+
     this.userUnsubscribe = onSnapshot(userDocRef, (docSnap) => {
       if (docSnap.exists()) {
-        const user = docSnap.data() as AppUser;
+        const user = {
+          ...(docSnap.data() as AppUser),
+          userId: docSnap.id,
+        };
+
+        console.log('user.userId:', user.userId);
         this.setCurrentUser(user);
       } else {
         this.setCurrentUser(null);

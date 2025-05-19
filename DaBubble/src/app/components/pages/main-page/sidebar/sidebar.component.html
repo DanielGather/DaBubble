@@ -30,29 +30,22 @@
             />
           </div>
         </div>
-        <ul
-          *ngIf="channelList$ | async as channels"
-          class="overflow-y-auto max-h-12rem"
+        @for(channel of channels(); track channel.id; let i = $index){
+        <div
+          (click)="openChannel(channel.id)"
+          id="channel"
+          class="flex flex-col gap-4 items-start hover:cursor-pointer"
         >
-          <li *ngFor="let channel of channels">
-            <div
-              (click)="openChannel(channel.id)"
-              id="channel"
-              class="flex flex-col gap-4 items-start hover:cursor-pointer"
-            >
-              @if(!foldState.channel.isRotated){
-              <div class="flex origin-top" @foldAnimation>
-                <p
-                  class="w-5 self-center justify-center flex font-bold text-[2xl]"
-                >
-                  #
-                </p>
-                <p>{{ channel.channelName }}</p>
-              </div>
-              }
-            </div>
-          </li>
-        </ul>
+          @if(!foldState.channel.isRotated){
+          <div class="flex origin-top" @foldAnimation>
+            <p class="w-5 self-center justify-center flex font-bold text-[2xl]">
+              #
+            </p>
+            <p>{{ channel.data.channelName }}</p>
+          </div>
+          }
+        </div>
+        }
 
         <div
           (click)="showModal = !showModal"

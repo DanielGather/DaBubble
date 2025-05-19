@@ -6,7 +6,8 @@ import { CommonModule, NgIf } from '@angular/common';
 import { AuthenticationService } from '../../../services/authentication.service';
 import { AppUser } from '../../../types/types';
 import { UsersService } from '../../../services/users.service';
-import { ProfileUserComponent } from './profile-user/profile-user.component';
+import { ProfileUserComponent } from '../../pages/main-page/shared/profile-user/profile-user.component';
+
 
 @Component({
   selector: 'app-header',

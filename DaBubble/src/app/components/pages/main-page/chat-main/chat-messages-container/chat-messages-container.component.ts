@@ -11,6 +11,7 @@ import { ChatMessage, ChatType, MessageType } from '../../../../../types/types';
 import { ChatInfoComponent } from './chat-info/chat-info.component';
 import { ChatMessageComponent } from './chat-message/chat-message.component';
 import { MessagesDataService } from '../../../../../services/messages-data.service';
+import { UsersService } from '../../../../../services/users.service';
 
 @Component({
   selector: 'app-chat-messages-container',
@@ -20,6 +21,7 @@ import { MessagesDataService } from '../../../../../services/messages-data.servi
 })
 export class ChatMessagesContainerComponent implements AfterViewInit {
   messageDataService = inject(MessagesDataService);
+  userService = inject(UsersService);
   chatType = ChatType;
   messageType = MessageType;
 
@@ -41,11 +43,11 @@ export class ChatMessagesContainerComponent implements AfterViewInit {
   @ViewChild('messageField') private messageField!: ElementRef;
 
   //test
-  userId = '123';
+  userId = this.userService.currentUserId;
   //testends
 
   ngAfterViewInit(): void {
-    this.scrollToBottom();
+    this.scrollToBottom();    
   }
 
   /**
@@ -54,5 +56,10 @@ export class ChatMessagesContainerComponent implements AfterViewInit {
   scrollToBottom(): void {
     this.messageField.nativeElement.scrollTop =
       this.messageField.nativeElement.scrollHeight;
+  }
+
+  logCreatorId(id:string) {
+    console.log(id);
+    
   }
 }

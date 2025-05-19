@@ -4,7 +4,7 @@
   [cornerOverride]="'rounded-tl-none bg-white'"
 >
   <div class="flex justify-between">
-    <h2># Entwicklerteam</h2>
+    <h2># {{ channelName }}</h2>
     <img
       (click)="onCloseClick()"
       class="w-6 cursor-pointer"
@@ -35,7 +35,7 @@
       class="rounded-standard border p-3 border-color-border w-full focus:outline-none transition-opacity duration-300 ease-in-out placeholder:text-4 font-bold"
       [ngClass]="editChannel ? 'opacity-100' : 'opacity-0'"
       type="text"
-      placeholder="# Entwicklerteam"
+      placeholder="# {{ channelName }}"
     />
 
     <div
@@ -43,7 +43,7 @@
       class="transition-opacity duration-300 ease-in-out text-4 font-bold"
       [ngClass]="!editChannel ? 'opacity-100' : 'opacity-0'"
     >
-      # Entwicklerteam
+      # {{ channelName }}
     </div>
   </div>
 
@@ -90,6 +90,6 @@
   </div>
 
   <div class="flex justify-end">
-    <app-button>Channel verlassen</app-button>
+    <app-button (click)="leaveChannel()">Channel verlassen</app-button>
   </div>
 </app-dropdown>

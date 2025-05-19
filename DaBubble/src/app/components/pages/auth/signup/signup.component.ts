@@ -107,7 +107,7 @@ export class SignupComponent {
       online: true,
     };
 
-    this.usersService.userObject = userObject;
+    this.usersService.userInformation = userObject;
     return userObject;
   }
 

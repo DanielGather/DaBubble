@@ -1,15 +1,13 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { DropdownComponent } from '../../shared/dropdown/dropdown.component';
-import { ButtonComponent } from '../../../../shared/button/button.component';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {
-  trigger,
-  state,
-  style,
-  transition,
-  animate,
-} from '@angular/animations';
+import { trigger, style, transition, animate } from '@angular/animations';
+import { arrayRemove } from '@angular/fire/firestore';
+import { FirestoreService } from '../../../../../../services/firestore.service';
+import { MessagesDataService } from '../../../../../../services/messages-data.service';
+import { ActivatedRoute } from '@angular/router';
+import { DropdownComponent } from '../../../shared/dropdown/dropdown.component';
+import { ButtonComponent } from '../../../../../shared/button/button.component';
 
 @Component({
   selector: 'app-channel-edit-popup',
@@ -29,14 +27,19 @@ import {
   ],
 })
 export class ChannelEditPopupComponent {
+  constructor(private route: ActivatedRoute) {}
+
   editChannel: boolean = false;
   editDescription: boolean = false;
   inputValue: string = `Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellat nobis
 voluptas non at consequuntur delectus accusamus veniam sit necessitatibus
 nisi temporibus deserunt nulla aliquam tenetur perspiciatis natus, ea
 doloremque.`;
+  firestore = inject(FirestoreService);
+  messageData = inject(MessagesDataService);
 
-  @Input() visible: boolean = false; // 👈 DAS ist wichtig
+  @Input() channelName!: string;
+  @Input() visible: boolean = false;
   @Output() closed = new EventEmitter<void>();
 
   onCloseClick() {
@@ -49,5 +52,17 @@ doloremque.`;
     } else {
       this.editDescription = !this.editDescription;
     }
+  }
+
+  async leaveChannel() {
+    const channelId = this.route.snapshot.paramMap.get('id');
+    const userId = localStorage.getItem('id');
+
+    if (!channelId || !userId) return;
+
+    await this.firestore.updateDoc('channels', channelId, {
+      userIds: arrayRemove(userId),
+    });
+    this.onCloseClick();
   }
 }
