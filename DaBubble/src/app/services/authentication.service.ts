@@ -18,26 +18,22 @@ export class AuthenticationService {
   firestoreService = inject(FirestoreService);
   loginError: string = '';
 
-
   /**
    * fraglich ob das noch verwendet wird, eventuell löschen
    */
   private userIdSignal = signal<string>('');
 
-
-    /**
+  /**
    * fraglich ob das noch verwendet wird, eventuell löschen
    */
   public userId = this.userIdSignal.asReadonly();
 
-  
   currentUserId: string = '';
-
 
   /**
    * werden die console logs noch gebraucht?
    * @param auth
-   * @param router 
+   * @param router
    */
   constructor(private auth: Auth, private router: Router) {
     console.log('in Auth userId: ' + this.userId);
@@ -61,11 +57,10 @@ export class AuthenticationService {
     });
   }
 
-
   /**
    * router? sollte zu chat leiten ohne private
    * @param email
-   * @param password 
+   * @param password
    */
   async login(email: string, password: string) {
     try {
@@ -79,10 +74,9 @@ export class AuthenticationService {
     }
   }
 
-
   /**
    * ist das noch in gebrauch, wenn ja, eventuell verschieben in user.service
-   * @returns 
+   * @returns
    */
   async setCurrentUser() {
     return this.firestoreService.getSingleCollection(
@@ -115,9 +109,13 @@ export class AuthenticationService {
   }
 
   async logoutService(): Promise<void> {
+    let userId = localStorage.getItem('id');
     try {
       await this.auth.signOut();
       this.usersService.clearCurrentUser();
+      this.firestoreService.updateDoc('users', userId!, {
+        online: false,
+      });
       await this.router.navigateByUrl('/login');
     } catch (error) {
       console.error('Logout error:', error);
