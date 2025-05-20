@@ -44,15 +44,19 @@ export class LoginComponent {
   }
 
   onSubmit(): void {
+    // DAS IST NEU
     let userId = localStorage.getItem('userId');
+    // DAS IST NEU
     if (this.loginForm.valid) {
       this.authService.login(
         this.loginForm.value.email,
         this.loginForm.value.password
       );
+      // DAS IST NEU
       this.firestoreService.updateDoc('users', userId!, {
         online: true,
       });
+      // DAS IST NEU
     } else {
       this.markFormGroupTouched(this.loginForm);
     }
