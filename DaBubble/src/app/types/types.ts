@@ -38,6 +38,7 @@ export interface AppUser {
 
 export interface Channels {
   id: string;
+  channelCreatorId: string;
   channelName: string;
   description: string;
   userIds: Array<string>;

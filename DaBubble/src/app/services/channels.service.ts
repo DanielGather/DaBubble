@@ -35,7 +35,7 @@ export class ChannelsService {
     if (!snap.exists()) return null;
 
     const data = snap.data();
-    return (data as any)['channeCreatorId'] || null;
+    return (data as any)['channelCreatorId'] || null;
   }
 
   /**

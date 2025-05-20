@@ -8,7 +8,6 @@ import {
   updateDoc,
   setDoc,
   addDoc,
-
 } from '@angular/fire/firestore';
 import { getDoc } from 'firebase/firestore';
 import { Observable, shareReplay } from 'rxjs';
@@ -69,26 +68,7 @@ export class FirestoreService {
     return doc(this.firestore, collectionId, docId);
   }
 
-
-
-
   /**
-   * bitte löschen falls nicht mehr benötigt
-   */
-
-  // async getSingleDoc(collectionId: string, docId: string) {
-  //   const docRef = this.getSingleDocRef(collectionId, docId);
-  //   const docSnap = await getDoc(docRef);
-  //   if (docSnap.exists()) {
-  //     return docSnap.data();
-  //   } else {
-  //     return null;
-  //   }
-  // }
-
-
-
-    /**
    * This function get a docsnap from a single document.
    * it is no datastream, it fetches the data only once.
    *
@@ -96,22 +76,17 @@ export class FirestoreService {
    * @param docId the id of the document
    * @returns
    */
-    async getSingleCollection(collectionId: string, docId: string) {
-    const docRef = this.getSingleDocRef(collectionId, docId);
-    const docSnap = await getDoc(docRef);
+async getSingleCollection<T>(collectionId: string, docId: string): Promise<T | undefined> {
+  const docRef = this.getSingleDocRef(collectionId, docId);
+  const docSnap = await getDoc(docRef);
 
-    if (docSnap.exists()) {
-      console.log('Document data:', docSnap.data());
-      console.log('Document data:', docSnap.id);
-      return docSnap.data();
-    } else {
-      console.log('No such document!');
-      return;
-    }
+  if (docSnap.exists()) {
+    const data = docSnap.data() as T;
+    return { ...data, id: docSnap.id }; // falls `id` mit rein soll
+  } else {
+    return undefined;
   }
-
-
-
+}
 
 
   /**
@@ -146,7 +121,7 @@ export class FirestoreService {
     await setDoc(doc(this.firestore, collectionName, docId), objekt);
   }
 
-/**
- * hier noch eine delete function erstellen
- */
+  /**
+   * hier noch eine delete function erstellen
+   */
 }
