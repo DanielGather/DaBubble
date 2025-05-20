@@ -50,6 +50,11 @@ export class ChatInputComponent implements OnInit, OnDestroy {
     userIds: new FormControl()
   })
 
+  /**
+   * closes the emoji menu, if user is clicking outside of .menu-container & .emoji-button
+   * 
+   * @param event just an event, it triggers if the user is clicking outside of .menu-container & .emoji-button
+   */
   @HostListener('document:click', ['$event'])
   onClickOutside(event: MouseEvent) {
     const target = event.target as HTMLElement;
@@ -77,12 +82,24 @@ export class ChatInputComponent implements OnInit, OnDestroy {
       console.warn("Form ist ungültig, sende trotzdem.");
     }
     else if (this.usersService.currentUserId && this.chatInputGroup.valid && this.urlService.currentParams.chatType != null) {
+
+      //adds a timestamp to the formcontrol
       this.chatInputGroup.get('timestamp')?.setValue(new Date().getTime());
+
       this.addNewMessageToFirestoreCollection();
+
+      //console log
       console.log("Absenden:", this.chatInputGroup.value);
     }
   }
 
+  /**
+   * subscribes the parameters of the url.
+   * if the chattype is private or channel, the case will set the chat-id in the right formcontrol.
+   * it also will set the userids array of the formcontrol, with the joined users in a channel.
+   * 
+   * future: (we need to think about updating this function in the future because it only sets the userids if it is a channel-chat) 
+   */
   setChatIdOfMessageObject() {
     this.urlService.urlParameter$
       .pipe(takeUntil(this.destroy$))
@@ -114,6 +131,9 @@ export class ChatInputComponent implements OnInit, OnDestroy {
       })
   }
 
+  /**
+   * sets the userid of the users object, to the formcontrol creatorid.
+   */
   setCreatorIdOfMessageObject() {
     this.usersService.currentUser$
       .pipe(takeUntil(this.destroy$))
@@ -124,6 +144,9 @@ export class ChatInputComponent implements OnInit, OnDestroy {
       });
   }
 
+  /**
+   * converts the formgroup to a json object and adds a new doc in the firestore collection 'messages'.
+   */
   addNewMessageToFirestoreCollection() {
     let formData = this.chatInputGroup.getRawValue();
     this.firestoreService.addDoc('messages', formData)
