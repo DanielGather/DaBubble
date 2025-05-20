@@ -14,7 +14,8 @@ import { ModalComponent } from '../../../shared/modal/modal.component';
 import { AuthenticationService } from '../../../../services/authentication.service';
 import { UsersService } from '../../../../services/users.service';
 import { AppUser } from '../../../../types/types';
-
+import { Firestore } from '@angular/fire/firestore';
+import { FirestoreService } from '../../../../services/firestore.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -33,6 +34,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   usersService = inject(UsersService);
   authService = inject(AuthenticationService);
+  firestoreService = inject(FirestoreService);
 
   constructor(private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
@@ -42,11 +44,15 @@ export class LoginComponent {
   }
 
   onSubmit(): void {
+    let userId = localStorage.getItem('userId');
     if (this.loginForm.valid) {
       this.authService.login(
         this.loginForm.value.email,
         this.loginForm.value.password
       );
+      this.firestoreService.updateDoc('users', userId!, {
+        online: true,
+      });
     } else {
       this.markFormGroupTouched(this.loginForm);
     }
