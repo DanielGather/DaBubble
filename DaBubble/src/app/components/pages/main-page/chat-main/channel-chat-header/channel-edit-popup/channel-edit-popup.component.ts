@@ -109,7 +109,7 @@ export class ChannelEditPopupComponent {
   async updateCurrentChannelDescription() {
     const channelId = this.route.snapshot.paramMap.get('id');
     this.firestore.updateDoc('channels', channelId!, {
-      describetion: this.inputValue,
+      describtion: this.inputValue,
     });
   }
 }
