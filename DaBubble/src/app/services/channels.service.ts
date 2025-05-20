@@ -1,6 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
 import { Injectable, signal, inject } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Channels, ChannelsTest, ChannelWithId } from '../types/types';
 import { doc, docData, Firestore, getDoc } from '@angular/fire/firestore';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
@@ -27,6 +27,15 @@ export class ChannelsService {
 
     const data = snap.data();
     return (data as any)['channelName'] || null;
+  }
+
+    async getChannelDescription(channelId: string): Promise<string | null> {
+    const ref = doc(this.firestore, 'channels', channelId);
+    const snap = await getDoc(ref);
+    if (!snap.exists()) return null;
+
+    const data = snap.data();
+    return (data as any)['description'] || null;
   }
 
     async getChannelCreatorId(channelId: string): Promise<string | null> {

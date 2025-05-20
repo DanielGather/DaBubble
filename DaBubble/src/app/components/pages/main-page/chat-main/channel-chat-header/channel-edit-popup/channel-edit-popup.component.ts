@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { trigger, style, transition, animate } from '@angular/animations';
-import { arrayRemove, getDoc } from '@angular/fire/firestore';
+import { arrayRemove } from '@angular/fire/firestore';
 import { FirestoreService } from '../../../../../../services/firestore.service';
 import { MessagesDataService } from '../../../../../../services/messages-data.service';
 import { ActivatedRoute } from '@angular/router';
@@ -30,16 +30,13 @@ import { AppUser } from '../../../../../../types/types';
 })
 export class ChannelEditPopupComponent {
   constructor(private route: ActivatedRoute) {
-    this.getCurrentChannelData();
+    this.getCurrentChannelCreatorData();
   }
   channelCreatorData: AppUser | null = null;
   creatorId: string = '';
-  editChannel: boolean = false;
-  editDescription: boolean = false;
-  inputValue: string = `Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellat nobis
-voluptas non at consequuntur delectus accusamus veniam sit necessitatibus
-nisi temporibus deserunt nulla aliquam tenetur perspiciatis natus, ea
-doloremque.`;
+  editChannelNameOpen: boolean = false;
+  editDescriptionOpen: boolean = false;
+  inputValue: string = ``;
   firestore = inject(FirestoreService);
   channelsService = inject(ChannelsService);
 
@@ -56,11 +53,17 @@ doloremque.`;
     this.closed.emit();
   }
 
-  edit(button: string) {
-    if (button == 'edit') {
-      this.editChannel = !this.editChannel;
-    } else {
-      this.editDescription = !this.editDescription;
+  editName() {
+    this.editChannelNameOpen = !this.editChannelNameOpen;
+    if (!this.editChannelNameOpen) {
+      this.updateCurrentChannelName();
+    }
+  }
+
+  editDescriptionFN() {
+        this.editDescriptionOpen = !this.editDescriptionOpen;
+    if (!this.editDescriptionOpen) {
+      this.updateCurrentChannelDescription();
     }
   }
 
@@ -82,7 +85,7 @@ doloremque.`;
       (await this.channelsService.getChannelCreatorId(channelId!)) ?? '';
   }
 
-  async getCurrentChannelData() {
+  async getCurrentChannelCreatorData() {
     await this.getCurrentChannelCreatorId();
 
     const data = await this.firestore.getSingleCollection<AppUser>(
@@ -94,5 +97,19 @@ doloremque.`;
     } else {
       console.warn('Creator not found!');
     }
+  }
+
+  async updateCurrentChannelName() {
+    const channelId = this.route.snapshot.paramMap.get('id');
+    this.firestore.updateDoc('channels', channelId!, {
+      channelName: this.inputValue,
+    });
+  }
+
+  async updateCurrentChannelDescription() {
+    const channelId = this.route.snapshot.paramMap.get('id');
+    this.firestore.updateDoc('channels', channelId!, {
+      describetion: this.inputValue,
+    });
   }
 }
