@@ -16,7 +16,6 @@ import { ActivatedRoute } from '@angular/router';
 import { MessagesDataService } from '../../../../services/messages-data.service';
 import { UsersService } from '../../../../services/users.service';
 import { AuthenticationService } from '../../../../services/authentication.service';
-import { ThreadsbarComponent } from '../chat-thread/threadsbar/threadsbar.component';
 import { DefaultComponent } from './default/default.component';
 import { FirestoreService } from '../../../../services/firestore.service';
 
@@ -28,7 +27,6 @@ import { FirestoreService } from '../../../../services/firestore.service';
     ChatMessagesContainerComponent,
     PrivateChatHeaderComponent,
     ChannelChatHeaderComponent,
-    ThreadsbarComponent,
     DefaultComponent,
   ],
   templateUrl: './chat-main.component.html',

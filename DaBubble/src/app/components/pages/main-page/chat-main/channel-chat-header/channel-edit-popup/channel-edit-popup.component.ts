@@ -36,6 +36,10 @@ voluptas non at consequuntur delectus accusamus veniam sit necessitatibus
 nisi temporibus deserunt nulla aliquam tenetur perspiciatis natus, ea
 doloremque.`;
   firestore = inject(FirestoreService);
+
+  /**
+   * is this needed?
+   */
   messageData = inject(MessagesDataService);
 
   @Input() channelName!: string;

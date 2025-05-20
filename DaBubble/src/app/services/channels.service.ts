@@ -29,6 +29,15 @@ export class ChannelsService {
     return (data as any)['channelName'] || null;
   }
 
+    async getChannelCreatorId(channelId: string): Promise<string | null> {
+    const ref = doc(this.firestore, 'channels', channelId);
+    const snap = await getDoc(ref);
+    if (!snap.exists()) return null;
+
+    const data = snap.data();
+    return (data as any)['channeCreatorId'] || null;
+  }
+
   /**
    * Retrieves the data of a specific channel from Firestore.
    *
