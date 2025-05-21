@@ -5,14 +5,12 @@ import {
   ViewChild,
   ElementRef,
   inject,
-  Inject,
 } from '@angular/core';
 import { ChatMessage, ChatType, MessageType } from '../../../../../types/types';
 import { ChatInfoComponent } from './chat-info/chat-info.component';
 import { ChatMessageComponent } from './chat-message/chat-message.component';
 import { MessagesDataService } from '../../../../../services/messages-data.service';
 import { UsersService } from '../../../../../services/users.service';
-import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-chat-messages-container',
@@ -44,15 +42,13 @@ export class ChatMessagesContainerComponent implements AfterViewInit {
   @ViewChild('messageField') private messageField!: ElementRef;
 
   /**
-   * a help variable to make things clearer. 
+   * a help variable to make things clearer.
    * contains, currentUserId.
    */
   userId = this.userService.currentUserId;
-  
 
   ngAfterViewInit(): void {
     this.scrollToBottom();
-
   }
 
   /**
@@ -62,7 +58,4 @@ export class ChatMessagesContainerComponent implements AfterViewInit {
     this.messageField.nativeElement.scrollTop =
       this.messageField.nativeElement.scrollHeight;
   }
-
-
-
 }

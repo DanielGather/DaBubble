@@ -27,10 +27,8 @@ export class ChannelChatHeaderComponent {
   }
 
   channelsService = inject(ChannelsService);
-
   // gets no call, is that needed here?
   channelHelper = inject(MessagesDataService);
-
   usersService: UsersService = inject(UsersService);
 
   usersList$: Observable<AppUser[]> = this.usersService.getSortedUser();
@@ -40,6 +38,7 @@ export class ChannelChatHeaderComponent {
   showChannelPopup = false;
   showUserPopup = false;
   channelName: string = '';
+  channelDescription: string = '';
 
   ngOnInit() {
     this.initUsersNotInChannel();
@@ -48,6 +47,7 @@ export class ChannelChatHeaderComponent {
       const channelId = params.get('id');
       if (channelId) {
         this.loadChannelName(channelId);
+         this.loadChannelDescription(channelId);
       }
     });
   }
@@ -126,6 +126,21 @@ export class ChannelChatHeaderComponent {
     }
   }
 
+  private async loadChannelDescription(channelId:string) {
+try {
+  const description = await this.channelsService.getChannelDescription(channelId);
+  if (!description) {
+    console.log('No description found');
+    return
+    
+  }
+  this.channelDescription = description;
+      console.log('Description-Name:', this.channelName);
+    } catch (error) {
+      console.error('Fehler beim Laden des Channel-Description:', error);
+    }
+  }
+
   /**
    * toggle popup
    */
@@ -174,7 +189,7 @@ export class ChannelChatHeaderComponent {
    * Closes open popups when a click occurs outside the component's DOM element.
    * @param event - The MouseEvent triggered by a click anywhere in the document.
    */
-  @HostListener('document:click', ['$event'])
+  @HostListener('document:mousedown', ['$event'])
   onDocumentClick(event: MouseEvent) {
     const clickedInside = this.elementRef.nativeElement.contains(event.target);
     if (!clickedInside && this.showUserPopup) {

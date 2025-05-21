@@ -1,4 +1,13 @@
-import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  inject,
+  signal,
+  computed,
+  
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { trigger, style, transition, animate } from '@angular/animations';
@@ -32,22 +41,28 @@ export class ChannelEditPopupComponent {
   constructor(private route: ActivatedRoute) {
     this.getCurrentChannelCreatorData();
   }
+  @Input() set channelName(value: string) {
+    this.channelNameSignal.set(value);
+  }
+  @Input() set channelDescription(value:string) {
+    this.channelDescriptionSignal.set(value)
+  }
+  @Input() visible: boolean = false;
+  @Output() closed = new EventEmitter<void>();
+
   channelCreatorData: AppUser | null = null;
   creatorId: string = '';
   editChannelNameOpen: boolean = false;
   editDescriptionOpen: boolean = false;
-  inputValue: string = ``;
   firestore = inject(FirestoreService);
   channelsService = inject(ChannelsService);
-
+  channelNameSignal = signal(''); // kommt per @Input()
+  channelNameWithHash = computed(() => `# ${this.channelNameSignal()}`);
+  channelDescriptionSignal = signal('');
   /**
    * is this needed?
    */
   messageData = inject(MessagesDataService);
-
-  @Input() channelName!: string;
-  @Input() visible: boolean = false;
-  @Output() closed = new EventEmitter<void>();
 
   onCloseClick() {
     this.closed.emit();
@@ -61,7 +76,7 @@ export class ChannelEditPopupComponent {
   }
 
   editDescriptionFN() {
-        this.editDescriptionOpen = !this.editDescriptionOpen;
+    this.editDescriptionOpen = !this.editDescriptionOpen;
     if (!this.editDescriptionOpen) {
       this.updateCurrentChannelDescription();
     }
@@ -87,7 +102,6 @@ export class ChannelEditPopupComponent {
 
   async getCurrentChannelCreatorData() {
     await this.getCurrentChannelCreatorId();
-
     const data = await this.firestore.getSingleCollection<AppUser>(
       'users',
       this.creatorId
@@ -101,15 +115,17 @@ export class ChannelEditPopupComponent {
 
   async updateCurrentChannelName() {
     const channelId = this.route.snapshot.paramMap.get('id');
-    this.firestore.updateDoc('channels', channelId!, {
-      channelName: this.inputValue,
+    const newName = this.channelNameSignal();
+    await this.firestore.updateDoc('channels', channelId!, {
+      channelName: newName,
     });
   }
 
-  async updateCurrentChannelDescription() {
-    const channelId = this.route.snapshot.paramMap.get('id');
-    this.firestore.updateDoc('channels', channelId!, {
-      describtion: this.inputValue,
-    });
-  }
+async updateCurrentChannelDescription() {
+  const channelId = this.route.snapshot.paramMap.get('id');
+  const newDescription = this.channelDescriptionSignal();
+  await this.firestore.updateDoc('channels', channelId!, {
+    description: newDescription,
+  });
+}
 }
