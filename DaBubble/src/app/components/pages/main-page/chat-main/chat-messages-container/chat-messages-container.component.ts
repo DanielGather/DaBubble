@@ -43,15 +43,16 @@ export class ChatMessagesContainerComponent implements AfterViewInit {
    */
   @ViewChild('messageField') private messageField!: ElementRef;
 
-  //test
+  /**
+   * a help variable to make things clearer. 
+   * contains, currentUserId.
+   */
   userId = this.userService.currentUserId;
-  //testends
+  
 
   ngAfterViewInit(): void {
     this.scrollToBottom();
 
-    //test
-    this.sortMessages();
   }
 
   /**
@@ -62,16 +63,6 @@ export class ChatMessagesContainerComponent implements AfterViewInit {
       this.messageField.nativeElement.scrollHeight;
   }
 
-  logCreatorId(id: string) {
-    console.log(id);
 
-  }
 
-  //test
-  sortMessages() {
-    const sorted = this.chatMessages.sort((a, b) => {
-      return parseInt(a.timestamp) - parseInt(b.timestamp);
-    });
-    this.chatMessages = sorted;
-  }
 }
