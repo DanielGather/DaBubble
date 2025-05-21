@@ -67,12 +67,16 @@ export class ChatMainComponent implements OnInit {
   newMessages = signal<Message[]>([]);
   currentChannelId = signal<string>('');
 
+
   chatTypeInputRoute!: string;
   constructor(private router: ActivatedRoute) {
     effect(() => {
       const allMessages = this.messageService.messages();
       const channelId = this.currentChannelId();
       const filtered = allMessages.filter((msg) => msg.channelId === channelId);
+      const sorted =  filtered.sort((a, b) => {
+                        return parseInt(a.timestamp) - parseInt(b.timestamp);
+                      })
 
       this.newMessages.set(filtered);
       this.chatMessages = this.newMessages();

@@ -12,6 +12,7 @@ import { ChatInfoComponent } from './chat-info/chat-info.component';
 import { ChatMessageComponent } from './chat-message/chat-message.component';
 import { MessagesDataService } from '../../../../../services/messages-data.service';
 import { UsersService } from '../../../../../services/users.service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-chat-messages-container',
@@ -47,7 +48,10 @@ export class ChatMessagesContainerComponent implements AfterViewInit {
   //testends
 
   ngAfterViewInit(): void {
-    this.scrollToBottom();    
+    this.scrollToBottom();
+
+    //test
+    this.sortMessages();
   }
 
   /**
@@ -58,8 +62,16 @@ export class ChatMessagesContainerComponent implements AfterViewInit {
       this.messageField.nativeElement.scrollHeight;
   }
 
-  logCreatorId(id:string) {
+  logCreatorId(id: string) {
     console.log(id);
-    
+
+  }
+
+  //test
+  sortMessages() {
+    const sorted = this.chatMessages.sort((a, b) => {
+      return parseInt(a.timestamp) - parseInt(b.timestamp);
+    });
+    this.chatMessages = sorted;
   }
 }

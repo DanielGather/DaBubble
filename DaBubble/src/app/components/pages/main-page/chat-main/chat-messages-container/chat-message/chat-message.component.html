@@ -26,7 +26,7 @@
         class="border absolute top-[-1.25rem] bg-white left-[50%] translate-x-[-50%] rounded-standard text-fontSizeChat border-[#ADB0D9] px-4 py-1"
       >
         <span class="[@media(max-width:440px)]:text-[14px] whitespace-nowrap">
-          Dienstag, 14 Januar
+          {{message.timestamp | date: 'EEEE, d MMMM' : undefined : 'en'}}
         </span>
       </div>
       }
@@ -75,7 +75,7 @@
           <span
             class="flex items-center justify-center gap-[0.3rem] text-[#686868]"
           >
-            <span>14:25</span>
+            <span> {{ message.timestamp | date: 'HH:mm' : undefined : 'en' }} </span>
             <span>Uhr</span>
           </span>
         </div>

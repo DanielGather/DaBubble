@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import {
   MessageType,
   ChatMessage,
@@ -36,4 +36,6 @@ export class ChatMessageComponent {
   @Input() answersCount: number | null = null;
   showMenu: boolean = false;
   showEmojiMenu: boolean = false;
+  
+  
 }
