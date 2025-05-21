@@ -37,7 +37,7 @@
           class="flex flex-col gap-4 items-start hover:cursor-pointer"
         >
           @if(!foldState.channel.isRotated){
-          <div class="flex origin-top" @foldAnimation>
+          <div class="flex origin-top">
             <p class="w-5 self-center justify-center flex font-bold text-[2xl]">
               #
             </p>
@@ -79,13 +79,14 @@
       </div>
 
       <div class="pr-4 gap-4 flex flex-col w-full flex-grow min-h-0 pb-4">
-        <ul *ngIf="usersList$ | async as users" class="overflow-y-auto">
+        <ul *ngIf="usersList$ | async as users" class="overflow-y-auto pl-8">
           <li
+            (click)="openDirectMessage(user.id!)"
             *ngFor="let user of users"
             class="flex gap-4 items-center pb-2 hover:cursor-pointer"
           >
             @if(!foldState.contacts.isRotated){
-            <div class="relative" @foldAnimation>
+            <div class="relative">
               <img
                 class="w-10 h-10 rounded-full"
                 [src]="getAvatar(user.avatarId)"

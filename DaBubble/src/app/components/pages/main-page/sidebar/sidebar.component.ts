@@ -14,6 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ChannelChatHeaderComponent } from '../chat-main/channel-chat-header/channel-chat-header.component';
 import { MessagesDataService } from '../../../../services/messages-data.service';
 import { ChannelsService } from '../../../../services/channels.service';
+import { PrivateMessageService } from '../../../../services/private-message.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -51,6 +52,9 @@ export class SidebarComponent {
   private userService: UsersService = inject(UsersService);
   private messageService: MessagesDataService = inject(MessagesDataService);
   private channelsService: ChannelsService = inject(ChannelsService);
+  private privateMessagesService: PrivateMessageService = inject(
+    PrivateMessageService
+  );
 
   online: boolean = true;
   clicked: boolean = true;
@@ -126,5 +130,30 @@ export class SidebarComponent {
 
   openChannel(channelId: string) {
     this.router.navigate(['/chat/channel', channelId]);
+  }
+
+  openDirectMessage(chatPartnerId: string) {
+    let userId = localStorage.getItem('id')!;
+    if (!this.privateChannelExist(chatPartnerId, userId)) {
+      this.firestoreService.addDoc('privateChats', {
+        creatorId: userId,
+        userIds: [userId, chatPartnerId],
+      });
+    }
+    this.router.navigate(['/chat/private', chatPartnerId]);
+  }
+
+  privateChannelExist(chatPartnerId: string, userId: string) {
+    let privateChannel = this.privateMessagesService
+      .privateMessages()
+      .find(
+        (channel) =>
+          channel.userIds.includes(chatPartnerId) &&
+          channel.userIds.includes(userId)
+      );
+    if (privateChannel) {
+      return true;
+    }
+    return false;
   }
 }
