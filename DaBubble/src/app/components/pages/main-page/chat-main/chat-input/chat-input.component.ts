@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, OnDestroy, HostListener, inject, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, inject, effect } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { UsersService } from '../../../../../services/users.service';
 import { ChatType } from '../../../../../types/types';
@@ -8,6 +8,7 @@ import { FirestoreService } from '../../../../../services/firestore.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ChannelsService } from '../../../../../services/channels.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 
 @Component({
@@ -39,6 +40,9 @@ export class ChatInputComponent implements OnInit, OnDestroy {
   //data storage variables
   channelData: any;
 
+  //signals
+  urlParamsSignal = toSignal(this.urlService.urlParameter$);
+
   //formgroup
   chatInputGroup = new FormGroup({
     channelId: new FormControl(''),
@@ -66,12 +70,15 @@ export class ChatInputComponent implements OnInit, OnDestroy {
   }
 
   constructor() {
-
+    effect(() => {
+      let params = this.urlParamsSignal();
+      this.setCreatorIdOfMessageObject();
+      this.setChatIdOfMessageObject();
+    })
   }
 
   ngOnInit(): void {
-    this.setCreatorIdOfMessageObject();
-    this.setChatIdOfMessageObject();
+
   }
 
   ngOnDestroy(): void {
@@ -108,11 +115,15 @@ export class ChatInputComponent implements OnInit, OnDestroy {
       .subscribe(params => {
         if (params.chatType && params.chatId) {
           switch (params.chatType) {
+            
             case 'private':
+              this.chatInputGroup.get('channelId')?.setValue('');
               this.chatInputGroup.get('privatChatId')?.setValue(params.chatId);
+              this.chatInputGroup.get('userIds')?.setValue([this.usersService.currentUserId, this.urlParamsSignal()?.chatId]);
               break;
 
             case 'channel':
+              this.chatInputGroup.get('privatChatId')?.setValue('');
               this.chatInputGroup.get('channelId')?.setValue(params.chatId);
               break;
 
@@ -129,6 +140,9 @@ export class ChatInputComponent implements OnInit, OnDestroy {
               });
           }
 
+          console.log('triggereeeeeeeeeeeeeeeeeeeeeeeeee');
+          
+
         }
       })
   }
@@ -144,8 +158,6 @@ export class ChatInputComponent implements OnInit, OnDestroy {
           this.chatInputGroup.get('creatorId')?.setValue(user.userId!);
           this.chatInputGroup.get('creatorName')?.setValue(`${user.firstName} ${user.lastName}`);
           this.chatInputGroup.get('creatorAvatarId')?.setValue(user.avatarId);
-          console.log('sssssssssssssssssssssss', user.avatarId
-          );
           
         }
       });

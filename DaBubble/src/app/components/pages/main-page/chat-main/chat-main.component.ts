@@ -5,8 +5,10 @@ import {
   inject,
   effect,
   signal,
+  computed
 } from '@angular/core';
 import { ChatInputComponent } from './chat-input/chat-input.component';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ChatType, Message } from '../../../../types/types';
 import { CommonModule } from '@angular/common';
 import { ChatMessagesContainerComponent } from './chat-messages-container/chat-messages-container.component';
@@ -18,6 +20,7 @@ import { UsersService } from '../../../../services/users.service';
 import { AuthenticationService } from '../../../../services/authentication.service';
 import { DefaultComponent } from './default/default.component';
 import { FirestoreService } from '../../../../services/firestore.service';
+import { GetUrlChatidService } from '../../../../services/get-url-chatid.service';
 
 @Component({
   selector: 'app-chat-main',
@@ -33,9 +36,11 @@ import { FirestoreService } from '../../../../services/firestore.service';
   styleUrl: './chat-main.component.html',
 })
 export class ChatMainComponent implements OnInit {
-  //test
+
+  //services
   messageDataService = inject(MessagesDataService);
-  //testend
+  urlService = inject(GetUrlChatidService);
+
 
   /**
    * service variables
@@ -62,42 +67,51 @@ export class ChatMainComponent implements OnInit {
    */
   chatMessages: Array<any> = [];
 
-  // newMessage: Message[] = [];
-
+  //signals
   newMessages = signal<Message[]>([]);
-  currentChannelId = signal<string>('');
-
+  currentChannelId = '';
+  urlParamsSignal = toSignal(this.urlService.urlParameter$);
+  chatTypeSignal = computed(() => this.urlParamsSignal()?.chatType);
 
   chatTypeInputRoute!: string;
   constructor(private router: ActivatedRoute) {
     effect(() => {
       const allMessages = this.messageService.messages();
-      const channelId = this.currentChannelId();
-      const filtered = allMessages.filter((msg) => msg.channelId === channelId);
-      const sorted =  filtered.sort((a, b) => {
-                        return parseInt(a.timestamp) - parseInt(b.timestamp);
-                      })
+      const channelId = this.urlParamsSignal()?.chatId
+      const chatType = this.chatTypeSignal();
+      
+      this.chatTypeInput = chatType!;
+      if(this.chatTypeInput == null) {
+        this.chatTypeInput = ChatType.default;
+      }
 
-      this.newMessages.set(filtered);
-      this.chatMessages = this.newMessages();
+      this.currentChannelId = this.urlParamsSignal()?.chatId!;
+      console.log('hiiiiiiiiiiiiiiiiiiiiiiiiiiierr chatpartnerid', this.currentChannelId);
+            
+
+      //if channel
+      if (this.chatTypeInput === ChatType.channel) {
+        const filtered = allMessages.filter((msg) => msg.channelId === channelId);
+        const sorted = this.filterMsgs(filtered);
+
+        this.newMessages.set(filtered);
+      }
+
+      //if private
+      else if (this.chatTypeInput === ChatType.private) {
+        const filtered = allMessages.filter((msg) => msg.privatChatId !== '' && msg.userIds.includes(channelId!));
+        const sorted = this.filterMsgs(filtered);
+
+        this.newMessages.set(filtered);
+      }
+
       console.log('effect signal newMessage', this.newMessages());
+      this.chatMessages = this.newMessages();
     });
   }
 
   ngOnInit(): void {
-    // Sofortige Initialisierung beim ersten Laden
-    const initialChannelId = this.router.snapshot.paramMap.get('id')!;
-    this.loadMessages(initialChannelId);
 
-    // Reagieren auf spätere Router-Änderungen (z. B. Tab-Wechsel)
-    this.router.paramMap.subscribe((params) => {
-      const newChannelId = params.get('id');
-      if (newChannelId && newChannelId !== this.currentChannelId()) {
-        this.loadMessages(newChannelId);
-      }
-    });
-
-    this.getChatTypeFromURL();
   }
 
   ngAfterViewInit() {
@@ -110,11 +124,13 @@ export class ChatMainComponent implements OnInit {
    * (noch umbauen auf geturlparams-service )
    */
   getChatTypeFromURL() {
-    this.chatTypeInput =
+    this.chatTypeInput = 
       this.router.snapshot.paramMap.get('chatType') || ChatType.default;
   }
 
-  loadMessages(channelId: string) {
-    this.currentChannelId.set(channelId);
+  filterMsgs(filtered: Message[]) {
+    filtered.sort((a, b) => {
+      return parseInt(a.timestamp) - parseInt(b.timestamp);
+    })
   }
 }

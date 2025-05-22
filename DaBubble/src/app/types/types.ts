@@ -79,6 +79,7 @@ export interface UserData {
 
 export interface Message {
   channelId: string;
+  privatChatId: string;
   message: string;
   timestamp: string;
   userIds: Array<string>;
