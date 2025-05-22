@@ -98,7 +98,6 @@ export class ChatMainComponent implements OnInit {
     });
 
     this.getChatTypeFromURL();
-    this.chatMessages = this.messageDataService.testMessages;
   }
 
   ngAfterViewInit() {
@@ -107,6 +106,8 @@ export class ChatMainComponent implements OnInit {
 
   /**
    * this function is used to set the type of the chat-main component equal the type of the URL-parameter.
+   * 
+   * (noch umbauen auf geturlparams-service )
    */
   getChatTypeFromURL() {
     this.chatTypeInput =

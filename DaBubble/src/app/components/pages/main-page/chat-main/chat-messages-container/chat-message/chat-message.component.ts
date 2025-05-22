@@ -1,4 +1,4 @@
-import { Component, Input} from '@angular/core';
+import { Component, Input, inject, OnInit, OnDestroy } from '@angular/core';
 import {
   MessageType,
   ChatMessage,
@@ -7,6 +7,8 @@ import {
 import { SingleEmojiComponent } from './single-emoji/single-emoji.component';
 import { CommonModule } from '@angular/common';
 import { PopOverComponent } from '../../../shared/pop-over/pop-over.component';
+import { UsersService } from '../../../../../../services/users.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-chat-message',
@@ -15,6 +17,7 @@ import { PopOverComponent } from '../../../shared/pop-over/pop-over.component';
   styleUrl: './chat-message.component.scss',
 })
 export class ChatMessageComponent {
+
   @Input() chatType: ChatType = ChatType.default;
   @Input() messageTypeInput: MessageType = MessageType.default;
   @Input() message: ChatMessage = {
@@ -22,6 +25,7 @@ export class ChatMessageComponent {
     name: '',
     timestamp: '',
     creatorId: '',
+    creatorName: '',
     userId: '',
     emojis: [
       {
@@ -36,6 +40,8 @@ export class ChatMessageComponent {
   @Input() answersCount: number | null = null;
   showMenu: boolean = false;
   showEmojiMenu: boolean = false;
-  
-  
+
+  constructor() {}
+
+
 }

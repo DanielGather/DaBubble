@@ -45,6 +45,7 @@ export class ChatInputComponent implements OnInit, OnDestroy {
     privatChatId: new FormControl(''),
     threadsId: new FormControl(''),
     creatorId: new FormControl(''),
+    creatorName: new FormControl(''),
     timestamp: new FormControl(0),
     message: new FormControl(''),
     userIds: new FormControl()
@@ -140,6 +141,9 @@ export class ChatInputComponent implements OnInit, OnDestroy {
       .subscribe(user => {
         if (user) {
           this.chatInputGroup.get('creatorId')?.setValue(user.userId!);
+          this.chatInputGroup.get('creatorName')?.setValue(`${user.firstName} ${user.lastName}`)
+          console.log('sssssssssssssssssssssss', user);
+          
         }
       });
   }

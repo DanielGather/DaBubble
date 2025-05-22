@@ -5,6 +5,8 @@ import {
   ViewChild,
   ElementRef,
   inject,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 import { ChatMessage, ChatType, MessageType } from '../../../../../types/types';
 import { ChatInfoComponent } from './chat-info/chat-info.component';
@@ -18,7 +20,7 @@ import { UsersService } from '../../../../../services/users.service';
   templateUrl: './chat-messages-container.component.html',
   styleUrl: './chat-messages-container.component.scss',
 })
-export class ChatMessagesContainerComponent implements AfterViewInit {
+export class ChatMessagesContainerComponent implements AfterViewInit, OnChanges {
   messageDataService = inject(MessagesDataService);
   userService = inject(UsersService);
   chatType = ChatType;
@@ -36,6 +38,7 @@ export class ChatMessagesContainerComponent implements AfterViewInit {
 
   @Input() isThread: boolean = false;
 
+
   /**
    * an elementreference to the message field. (messages are rendered in here)
    */
@@ -49,6 +52,12 @@ export class ChatMessagesContainerComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.scrollToBottom();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['chatMessages'] && changes['chatMessages'].currentValue) {
+      setTimeout(() => this.scrollToBottom(), 0);
+    }
   }
 
   /**
