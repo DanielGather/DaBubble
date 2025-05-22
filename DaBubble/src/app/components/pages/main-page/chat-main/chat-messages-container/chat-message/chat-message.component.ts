@@ -16,7 +16,15 @@ import { Subject, takeUntil } from 'rxjs';
   templateUrl: './chat-message.component.html',
   styleUrl: './chat-message.component.scss',
 })
-export class ChatMessageComponent {
+export class ChatMessageComponent implements OnInit, OnDestroy {
+  //services
+  userService = inject(UsersService);
+
+  //for html
+  user: any;
+
+  //unsubscribe variables
+  private destroy$ = new Subject<void>();
 
   @Input() chatType: ChatType = ChatType.default;
   @Input() messageTypeInput: MessageType = MessageType.default;
@@ -26,6 +34,7 @@ export class ChatMessageComponent {
     timestamp: '',
     creatorId: '',
     creatorName: '',
+    creatorAvatarId: 0,
     userId: '',
     emojis: [
       {
@@ -41,7 +50,17 @@ export class ChatMessageComponent {
   showMenu: boolean = false;
   showEmojiMenu: boolean = false;
 
-  constructor() {}
+  constructor() { }
 
+  ngOnInit(): void {
+    this.userService.currentUser$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(user => this.user = user);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
 }
