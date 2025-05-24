@@ -1,3 +1,5 @@
+<app-other-users-popup *ngIf="userPopupVisible"></app-other-users-popup>
+
 <app-dropdown
   *ngIf="visible"
   [cornerOverride]="'rounded-tl-none bg-white'"
@@ -80,7 +82,10 @@
     <div class="w-full h-px border"></div>
     <div>
       <h3>Erstellt von</h3>
-      <div class="text-fc-purple text-2xl cursor-pointer">
+      <div
+        (click)="openClickedUserPopup()"
+        class="text-fc-purple text-2xl cursor-pointer"
+      >
         {{ channelCreatorData?.firstName }} {{ channelCreatorData?.lastName }}
       </div>
     </div>

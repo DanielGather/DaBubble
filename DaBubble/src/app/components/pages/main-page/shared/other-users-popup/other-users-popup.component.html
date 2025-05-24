@@ -1,13 +1,13 @@
 <!-- Background-Overlay -->
 <div
-  class="absolute flex items-center justify-center top-0 left-0 w-full h-full bg-black/50 z-10"
+  class="absolute flex items-center justify-center top-0 left-0 w-full h-full bg-black/50 z-50"
   (click)="closeProfile()"
 >
   <!-- Click on closes profile -->
 
   <!-- Empty user profile-panel -->
   <div
-    class="bg-bg-component flex flex-col p-10 rounded-standard z-20"
+    class="bg-bg-component flex flex-col p-10 shadow-md rounded-standard z-20"
     (click)="$event.stopPropagation()"
   >
     <!-- User insight -->
@@ -16,7 +16,7 @@
       <div class="flex justify-between md:w-[420px] min-w-72">
         <p class="font-bold text-24">Profil</p>
         <img
-          (click)="closeProfile()"
+          (close)="closeProfile()"
           class="hover:cursor-pointer"
           src="img/close.svg"
           alt=""

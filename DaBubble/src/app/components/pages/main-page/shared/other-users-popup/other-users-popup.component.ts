@@ -33,7 +33,7 @@ export class OtherUsersPopupComponent {
   }
 
   /**
-   * Output event to notify the HeaderComponent to close the profile popup.
+   * Output event to notify the ChannelEditComponent to close the profile popup.
    */
   @Output() close = new EventEmitter<void>();
 

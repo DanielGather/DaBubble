@@ -18,10 +18,17 @@ import { DropdownComponent } from '../../../shared/dropdown/dropdown.component';
 import { ButtonComponent } from '../../../../../shared/button/button.component';
 import { ChannelsService } from '../../../../../../services/channels.service';
 import { AppUser } from '../../../../../../types/types';
+import { OtherUsersPopupComponent } from '../../../shared/other-users-popup/other-users-popup.component';
 
 @Component({
   selector: 'app-channel-edit-popup',
-  imports: [DropdownComponent, ButtonComponent, FormsModule, CommonModule],
+  imports: [
+    DropdownComponent,
+    ButtonComponent,
+    FormsModule,
+    CommonModule,
+    OtherUsersPopupComponent,
+  ],
   templateUrl: './channel-edit-popup.component.html',
   styleUrl: './channel-edit-popup.component.scss',
   animations: [
@@ -46,8 +53,11 @@ export class ChannelEditPopupComponent {
   @Input() set channelDescription(value: string) {
     this.channelDescriptionSignal.set(value);
   }
+
   @Input() visible: boolean = false;
   @Output() closed = new EventEmitter<void>();
+
+  userPopupVisible = false;
 
   channelCreatorData: AppUser | null = null;
   creatorId: string = '';
@@ -125,5 +135,9 @@ export class ChannelEditPopupComponent {
     await this.firestore.updateDoc('channels', channelId!, {
       description: newDescription,
     });
+  }
+
+  openClickedUserPopup() {
+    this.userPopupVisible = !this.userPopupVisible;
   }
 }
