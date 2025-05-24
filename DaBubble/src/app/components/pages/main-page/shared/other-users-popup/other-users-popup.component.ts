@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Output, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  inject,
+  SimpleChanges,
+} from '@angular/core';
 import { CommonModule, NgStyle } from '@angular/common';
 import { Observable } from 'rxjs';
 import { FormsModule } from '@angular/forms';
@@ -7,7 +14,6 @@ import { UsersService } from '../../../../../services/users.service';
 import { AppUser } from '../../../../../types/types';
 import { FirestoreService } from '../../../../../services/firestore.service';
 
-
 @Component({
   selector: 'app-other-users-popup',
   imports: [NgStyle, FormsModule, CommonModule, ButtonComponent],
@@ -15,21 +21,27 @@ import { FirestoreService } from '../../../../../services/firestore.service';
   styleUrl: './other-users-popup.component.scss',
 })
 export class OtherUsersPopupComponent {
+  @Input() creatorId: string = '';
+
   active: boolean = true;
-  editVisible = false;
   green = '#92c83e';
   userService = inject(UsersService);
   firestoreService = inject(FirestoreService);
   fullName: string = '';
   currentUser$: Observable<AppUser | null> = this.userService.currentUser$;
+  creatorData: AppUser | null = null;
 
   constructor() {
-    this.currentUser$.subscribe((user) => {
-      if (user) {
-        console.log('User:', user);
-        console.log('User-ID:', user.userId);
-      }
-    });
+    this.currentUser$.subscribe();
+  }
+
+  async ngOnChanges(changes: SimpleChanges) {
+    if (changes['creatorId'] && this.creatorId) {
+      this.creatorData = await this.firestoreService.getSingleSnapshot<AppUser>(
+        'users',
+        this.creatorId
+      );
+    }
   }
 
   /**
@@ -38,47 +50,10 @@ export class OtherUsersPopupComponent {
 
   @Output() closeUserPopup = new EventEmitter<void>();
   /**
-   * Sends a signal ("close") to the header component to close the user profile on click.
-   * Emits the `close` event to notify the parent component.
+   * Sends a signal ("closeUserPopup") to the header component to close the user profile on click.
+   * Emits the `closeUserPopup` event to notify the parent component.
    */
-  closeProfile() {
+  closeClickedUserProfile() {
     this.closeUserPopup.emit();
-    setTimeout(() => {
-      this.editVisible = false;
-    }, 500);
-  }
-
-  switchEditVisibility() {
-    this.currentUser$
-      .subscribe((user) => {
-        if (user) {
-          this.fullName = `${user.firstName} ${user.lastName}`;
-        }
-      })
-      .unsubscribe();
-    this.editVisible = !this.editVisible;
-  }
-
-  async saveUserName() {
-    console.log('funktion start');
-
-    const userId: string = localStorage.getItem('id')!;
-
-    if (!this.fullName || this.fullName.trim() === '') {
-      console.warn('Vollständiger Name fehlt.');
-      return;
-    }
-
-    // Trenne den eingegebenen Namen in Vor- und Nachname
-    const [firstName, ...lastNameParts] = this.fullName.trim().split(' ');
-    const lastName = lastNameParts.join(' ') || '';
-
-    await this.firestoreService.updateDoc('users', userId, {
-      firstName: firstName,
-      lastName: lastName,
-    });
-
-    console.log('Name erfolgreich aktualisiert!');
-    this.switchEditVisibility(); // zurück zur Ansicht
   }
 }

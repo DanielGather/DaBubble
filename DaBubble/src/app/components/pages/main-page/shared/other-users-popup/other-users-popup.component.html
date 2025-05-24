@@ -1,7 +1,7 @@
 <!-- Background-Overlay -->
 <div
   class="absolute flex items-center justify-center top-0 left-0 w-full h-full bg-black/50 z-50"
-  (click)="closeProfile()"
+  (click)="closeClickedUserProfile()"
 >
   <!-- Click on closes profile -->
 
@@ -11,12 +11,12 @@
     (click)="$event.stopPropagation()"
   >
     <!-- User insight -->
-    @if (!editVisible) {
+
     <div id="userInsightWrapper" class="flex flex-col gap-11">
       <div class="flex justify-between md:w-[420px] min-w-72">
         <p class="font-bold text-24">Profil</p>
         <img
-          (click)="closeProfile()"
+          (click)="closeClickedUserProfile()"
           class="hover:cursor-pointer"
           src="img/close.svg"
           alt=""
@@ -30,9 +30,9 @@
         />
       </div>
       <div class="flex justify-between items-center">
-        <div *ngIf="currentUser$ | async as user">
+        <div *ngIf="creatorData">
           <p class="text-24 font-bold">
-            {{ user.firstName }} {{ user.lastName }}
+            {{ creatorData.firstName }} {{ creatorData.lastName }}
           </p>
         </div>
       </div>
@@ -53,8 +53,12 @@
           <p class="row-start-1 col-start-2 text-lg font-bold">
             E‑Mail‑Adresse
           </p>
-          <div *ngIf="currentUser$ | async as user">
-            <p class="row-start-2 col-start-2 text-fc-email-blue cursor-pointer">{{ user.email }}</p>
+          <div *ngIf="creatorData">
+            <p
+              class="row-start-2 col-start-2 text-fc-email-blue cursor-pointer"
+            >
+              {{ creatorData.email }}
+            </p>
           </div>
         </div>
       </div>
@@ -68,6 +72,5 @@
         </app-button>
       </div>
     </div>
-    }
   </div>
 </div>

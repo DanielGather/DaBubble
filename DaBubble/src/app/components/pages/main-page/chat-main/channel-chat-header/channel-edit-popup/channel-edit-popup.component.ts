@@ -86,7 +86,7 @@ export class ChannelEditPopupComponent {
     }
   }
 
-  editDescriptionFN() {
+  editDescription() {
     this.editDescriptionOpen = !this.editDescriptionOpen;
     if (!this.editDescriptionOpen) {
       this.updateCurrentChannelDescription();

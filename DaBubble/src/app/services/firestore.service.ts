@@ -124,4 +124,13 @@ async getSingleCollection<T>(collectionId: string, docId: string): Promise<T | u
   /**
    * hier noch eine delete function erstellen
    */
+
+    async getSingleSnapshot<T>(collection: string, id: string): Promise<T | null> {
+    if (!collection || !id) return null;
+
+    const docRef = doc(this.firestore, `${collection}/${id}`);
+    const snap = await getDoc(docRef);
+
+    return snap.exists() ? (snap.data() as T) : null;
+  }
 }
