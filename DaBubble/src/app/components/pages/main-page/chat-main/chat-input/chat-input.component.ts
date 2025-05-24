@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ChannelsService } from '../../../../../services/channels.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 
 
 @Component({
@@ -16,7 +17,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
   selector: 'app-chat-input',
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PickerComponent
   ],
   templateUrl: './chat-input.component.html',
   styleUrl: './chat-input.component.scss',
@@ -139,10 +141,6 @@ export class ChatInputComponent implements OnInit, OnDestroy {
                 this.chatInputGroup.get('userIds')?.setValue(channel.userIds);
               });
           }
-
-          console.log('triggereeeeeeeeeeeeeeeeeeeeeeeeee');
-          
-
         }
       })
   }
@@ -171,4 +169,15 @@ export class ChatInputComponent implements OnInit, OnDestroy {
     this.firestoreService.addDoc('messages', formData)
       .then(() => { this.chatInputGroup.get('message')?.reset(); });
   }
+
+  /**
+   * this function adds the selcted emoji in the textarea
+   * 
+   * @param event contains infos about the clicked emoji
+   */
+  addEmoji(event: any) {
+  const emoji = event.emoji.native;
+  const current = this.chatInputGroup.get('message')?.value || '';
+  this.chatInputGroup.get('message')?.setValue(current + emoji);
+}
 }

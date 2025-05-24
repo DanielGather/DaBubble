@@ -21,8 +21,8 @@
 
             <label for="message"></label>
 
-            <textarea name="message" id="message" placeholder="Schreibe eine neue Nachricht."
-                formControlName="message" class="
+            <textarea name="message" id="message" placeholder="Schreibe eine neue Nachricht." formControlName="message"
+                class="
                 placeholder-[#686868]
                 w-full
                 h-auto
@@ -46,35 +46,8 @@
                 <!-- Emoji-Menu -->
                 @if(showEmojiMenu) {
                 <div (click)="$event.stopPropagation()"
-                    class="top-[0.25rem] left-[3.75rem] menu-container z-[3] max-w-[240px] max-h-[200px] overflow-y-auto flex-wrap rounded-br-standard translate-y-[-100%] translate-x-[-12%]">
-                    <!-- here we render the most recent used emojis of the user from the emoji library -->
-                    <div (click)="$event.stopPropagation()" class="option">
-                        <img src="img/emoji_example.svg" alt="">
-                    </div>
-                    <div (click)="$event.stopPropagation()" class="option">
-                        <img src="img/emoji_example.svg" alt="">
-                    </div>
-                    <div (click)="$event.stopPropagation()" class="option">
-                        <img src="img/emoji_example.svg" alt="">
-                    </div>
-                    <div (click)="$event.stopPropagation()" class="option">
-                        <img src="img/emoji_example.svg" alt="">
-                    </div>
-                    <div (click)="$event.stopPropagation()" class="option">
-                        <img src="img/emoji_example.svg" alt="">
-                    </div>
-                    <div (click)="$event.stopPropagation()" class="option">
-                        <img src="img/emoji_example.svg" alt="">
-                    </div>
-                    <div (click)="$event.stopPropagation()" class="option">
-                        <img src="img/emoji_example.svg" alt="">
-                    </div>
-                    <div (click)="$event.stopPropagation()" class="option">
-                        <img src="img/emoji_example.svg" alt="">
-                    </div>
-                    <div (click)="$event.stopPropagation()" class="option">
-                        <img src="img/emoji_example.svg" alt="">
-                    </div>
+                    class="top-[0.25rem] left-[3.75rem] menu-container z-[3] max-w-[240px]">
+                    <emoji-mart (emojiClick)="addEmoji($event)"></emoji-mart>
                 </div>
                 }
 

@@ -69,12 +69,12 @@ export class ChatMainComponent implements OnInit {
 
   //signals
   newMessages = signal<Message[]>([]);
-  currentChannelId = '';
   urlParamsSignal = toSignal(this.urlService.urlParameter$);
   chatTypeSignal = computed(() => this.urlParamsSignal()?.chatType);
 
   chatTypeInputRoute!: string;
   constructor(private router: ActivatedRoute) {
+    
     effect(() => {
       const allMessages = this.messageService.messages();
       const channelId = this.urlParamsSignal()?.chatId
@@ -84,15 +84,12 @@ export class ChatMainComponent implements OnInit {
       if(this.chatTypeInput == null) {
         this.chatTypeInput = ChatType.default;
       }
-
-      this.currentChannelId = this.urlParamsSignal()?.chatId!;
-      console.log('hiiiiiiiiiiiiiiiiiiiiiiiiiiierr chatpartnerid', this.currentChannelId);
             
 
       //if channel
       if (this.chatTypeInput === ChatType.channel) {
         const filtered = allMessages.filter((msg) => msg.channelId === channelId);
-        const sorted = this.filterMsgs(filtered);
+        const sorted = this.sortMsgs(filtered);
 
         this.newMessages.set(filtered);
       }
@@ -100,12 +97,11 @@ export class ChatMainComponent implements OnInit {
       //if private
       else if (this.chatTypeInput === ChatType.private) {
         const filtered = allMessages.filter((msg) => msg.privatChatId !== '' && msg.userIds.includes(channelId!));
-        const sorted = this.filterMsgs(filtered);
+        const sorted = this.sortMsgs(filtered);
 
         this.newMessages.set(filtered);
       }
 
-      console.log('effect signal newMessage', this.newMessages());
       this.chatMessages = this.newMessages();
     });
   }
@@ -118,17 +114,7 @@ export class ChatMainComponent implements OnInit {
     console.log('USER ID IST DA', this.authService.currentUserId);
   }
 
-  /**
-   * this function is used to set the type of the chat-main component equal the type of the URL-parameter.
-   * 
-   * (noch umbauen auf geturlparams-service )
-   */
-  getChatTypeFromURL() {
-    this.chatTypeInput = 
-      this.router.snapshot.paramMap.get('chatType') || ChatType.default;
-  }
-
-  filterMsgs(filtered: Message[]) {
+  sortMsgs(filtered: Message[]) {
     filtered.sort((a, b) => {
       return parseInt(a.timestamp) - parseInt(b.timestamp);
     })
