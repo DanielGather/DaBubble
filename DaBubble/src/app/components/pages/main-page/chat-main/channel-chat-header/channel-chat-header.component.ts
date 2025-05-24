@@ -9,7 +9,7 @@ import { ChannelsService } from '../../../../../services/channels.service';
 import { ActivatedRoute } from '@angular/router';
 import { ChannelEditPopupComponent } from './channel-edit-popup/channel-edit-popup.component';
 import { ChannelAdduserPopupComponent } from './channel-adduser-popup/channel-adduser-popup.component';
-import { ProfileUserComponent } from '../../shared/profile-user/profile-user.component';
+import { OtherUsersPopupComponent } from '../../shared/other-users-popup/other-users-popup.component';
 
 @Component({
   selector: 'app-channel-chat-header',
@@ -18,7 +18,7 @@ import { ProfileUserComponent } from '../../shared/profile-user/profile-user.com
     ChannelAdduserPopupComponent,
     FormsModule,
     CommonModule,
-    ProfileUserComponent
+    OtherUsersPopupComponent,
   ],
   templateUrl: './channel-chat-header.component.html',
   styleUrl: './channel-chat-header.component.scss',
@@ -49,7 +49,7 @@ export class ChannelChatHeaderComponent {
       const channelId = params.get('id');
       if (channelId) {
         this.loadChannelName(channelId);
-         this.loadChannelDescription(channelId);
+        this.loadChannelDescription(channelId);
       }
     });
   }
@@ -128,15 +128,16 @@ export class ChannelChatHeaderComponent {
     }
   }
 
-  private async loadChannelDescription(channelId:string) {
-try {
-  const description = await this.channelsService.getChannelDescription(channelId);
-  if (!description) {
-    console.log('No description found');
-    return
-    
-  }
-  this.channelDescription = description;
+  private async loadChannelDescription(channelId: string) {
+    try {
+      const description = await this.channelsService.getChannelDescription(
+        channelId
+      );
+      if (!description) {
+        console.log('No description found');
+        return;
+      }
+      this.channelDescription = description;
       console.log('Description-Name:', this.channelName);
     } catch (error) {
       console.error('Fehler beim Laden des Channel-Description:', error);

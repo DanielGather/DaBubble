@@ -56,12 +56,16 @@
       </div>
 
       <div
-        class="inline-grid gap-4 [grid-template-columns:repeat(2,min-content)] [grid-template-rows:repeat(2,auto)] items-center"
+        class="inline-grid gap-6 [grid-template-columns:repeat(2,min-content)] [grid-template-rows:repeat(2,auto)]"
       >
-        <img src="img/mail.svg" alt="" class="w-5 h-5" />
-        <p class="row-start-1 col-start-2 text-lg font-bold">E‑Mail‑Adresse</p>
-        <div *ngIf="currentUser$ | async as user">
-          <p class="row-start-2 col-start-2">{{ user.email }}</p>
+        <img src="img/mail.svg" alt="" class="w-5 mt-1.5" />
+        <div class="flex flex-col gap-4">
+          <p class="row-start-1 col-start-2 text-lg font-bold">
+            E‑Mail‑Adresse
+          </p>
+          <div *ngIf="currentUser$ | async as user">
+            <p class="row-start-2 col-start-2 text-fc-email-blue cursor-pointer">{{ user.email }}</p>
+          </div>
         </div>
       </div>
     </div>

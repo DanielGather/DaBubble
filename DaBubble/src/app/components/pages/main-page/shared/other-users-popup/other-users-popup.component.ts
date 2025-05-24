@@ -6,15 +6,15 @@ import { ButtonComponent } from '../../../../shared/button/button.component';
 import { UsersService } from '../../../../../services/users.service';
 import { AppUser } from '../../../../../types/types';
 import { FirestoreService } from '../../../../../services/firestore.service';
-import { firstValueFrom } from 'rxjs';
+
 
 @Component({
-  selector: 'app-profile-user',
+  selector: 'app-other-users-popup',
   imports: [NgStyle, FormsModule, CommonModule, ButtonComponent],
   templateUrl: './other-users-popup.component.html',
   styleUrl: './other-users-popup.component.scss',
 })
-export class ProfileUserComponent {
+export class OtherUsersPopupComponent {
   active: boolean = true;
   editVisible = false;
   green = '#92c83e';

@@ -14,6 +14,7 @@ module.exports = {
         "fc-dark-purple": "var(--font-color-dark-purple)",
         "fc-grey": "var(--font-color-grey)",
         "fc-error": "var(--font-color-error)",
+        "fc-email-blue": "var(--font-color-email-blue)",
         "color-border": "var(--color-border)",
       },
       fontSize: {
