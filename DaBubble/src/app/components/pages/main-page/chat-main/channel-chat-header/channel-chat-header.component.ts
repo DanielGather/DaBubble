@@ -9,7 +9,6 @@ import { ChannelsService } from '../../../../../services/channels.service';
 import { ActivatedRoute } from '@angular/router';
 import { ChannelEditPopupComponent } from './channel-edit-popup/channel-edit-popup.component';
 import { ChannelAdduserPopupComponent } from './channel-adduser-popup/channel-adduser-popup.component';
-import { OtherUsersPopupComponent } from '../../shared/other-users-popup/other-users-popup.component';
 
 @Component({
   selector: 'app-channel-chat-header',
@@ -18,7 +17,6 @@ import { OtherUsersPopupComponent } from '../../shared/other-users-popup/other-u
     ChannelAdduserPopupComponent,
     FormsModule,
     CommonModule,
-    OtherUsersPopupComponent,
   ],
   templateUrl: './channel-chat-header.component.html',
   styleUrl: './channel-chat-header.component.scss',
@@ -29,7 +27,7 @@ export class ChannelChatHeaderComponent {
   }
 
   channelsService = inject(ChannelsService);
-  // gets no call, is that needed here?
+  //channelHelper gets no call, is that needed here?
   channelHelper = inject(MessagesDataService);
   usersService: UsersService = inject(UsersService);
 

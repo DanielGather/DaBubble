@@ -19,6 +19,7 @@ import { ButtonComponent } from '../../../../../shared/button/button.component';
 import { ChannelsService } from '../../../../../../services/channels.service';
 import { AppUser } from '../../../../../../types/types';
 import { OtherUsersPopupComponent } from '../../../shared/other-users-popup/other-users-popup.component';
+import { ProfileUserComponent } from '../../../shared/profile-user/profile-user.component';
 
 @Component({
   selector: 'app-channel-edit-popup',
@@ -28,6 +29,7 @@ import { OtherUsersPopupComponent } from '../../../shared/other-users-popup/othe
     FormsModule,
     CommonModule,
     OtherUsersPopupComponent,
+    ProfileUserComponent
   ],
   templateUrl: './channel-edit-popup.component.html',
   styleUrl: './channel-edit-popup.component.scss',
@@ -77,7 +79,7 @@ export class ChannelEditPopupComponent {
     this.closed.emit();
   }
 
-  editName() {
+  editChannelName() {
     this.editChannelNameOpen = !this.editChannelNameOpen;
     if (!this.editChannelNameOpen) {
       this.updateCurrentChannelName();
@@ -137,7 +139,7 @@ export class ChannelEditPopupComponent {
     });
   }
 
-  openClickedUserPopup() {
+  toggleClickedUserPopup() {
     this.userPopupVisible = !this.userPopupVisible;
   }
 }

@@ -1,4 +1,10 @@
-<app-other-users-popup *ngIf="userPopupVisible"></app-other-users-popup>
+<app-other-users-popup
+  *ngIf="userPopupVisible"
+  (closeUserPopup)="toggleClickedUserPopup()"
+></app-other-users-popup>
+
+<!-- not done yet -->
+<app-profile-user *ngIf="false"></app-profile-user>
 
 <app-dropdown
   *ngIf="visible"
@@ -25,7 +31,7 @@
   >
     <div class="flex justify-between">
       <h3>Channel-Name</h3>
-      <div (click)="editName()" class="text-fc-purple cursor-pointer font-bold">
+      <div (click)="editChannelName()" class="text-fc-purple cursor-pointer font-bold">
         {{ editChannelNameOpen ? "Speichern" : "Bearbeiten" }}
       </div>
     </div>
@@ -83,7 +89,7 @@
     <div>
       <h3>Erstellt von</h3>
       <div
-        (click)="openClickedUserPopup()"
+        (click)="toggleClickedUserPopup()"
         class="text-fc-purple text-2xl cursor-pointer"
       >
         {{ channelCreatorData?.firstName }} {{ channelCreatorData?.lastName }}

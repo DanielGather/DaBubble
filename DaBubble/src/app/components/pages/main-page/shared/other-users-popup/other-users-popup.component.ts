@@ -35,14 +35,14 @@ export class OtherUsersPopupComponent {
   /**
    * Output event to notify the ChannelEditComponent to close the profile popup.
    */
-  @Output() close = new EventEmitter<void>();
 
+  @Output() closeUserPopup = new EventEmitter<void>();
   /**
    * Sends a signal ("close") to the header component to close the user profile on click.
    * Emits the `close` event to notify the parent component.
    */
   closeProfile() {
-    this.close.emit();
+    this.closeUserPopup.emit();
     setTimeout(() => {
       this.editVisible = false;
     }, 500);
