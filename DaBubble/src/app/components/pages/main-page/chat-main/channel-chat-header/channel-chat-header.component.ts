@@ -9,6 +9,7 @@ import { ChannelsService } from '../../../../../services/channels.service';
 import { ActivatedRoute } from '@angular/router';
 import { ChannelEditPopupComponent } from './channel-edit-popup/channel-edit-popup.component';
 import { ChannelAdduserPopupComponent } from './channel-adduser-popup/channel-adduser-popup.component';
+import { ProfileUserComponent } from '../../shared/profile-user/profile-user.component';
 
 @Component({
   selector: 'app-channel-chat-header',
@@ -17,6 +18,7 @@ import { ChannelAdduserPopupComponent } from './channel-adduser-popup/channel-ad
     ChannelAdduserPopupComponent,
     FormsModule,
     CommonModule,
+    ProfileUserComponent
   ],
   templateUrl: './channel-chat-header.component.html',
   styleUrl: './channel-chat-header.component.scss',

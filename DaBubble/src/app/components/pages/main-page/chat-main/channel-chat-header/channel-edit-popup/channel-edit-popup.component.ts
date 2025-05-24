@@ -85,13 +85,10 @@ export class ChannelEditPopupComponent {
     const channelId = this.route.snapshot.paramMap.get('id');
     const userId = localStorage.getItem('id');
     if (!channelId || !userId) return;
-
     await this.firestore.updateDoc('channels', channelId, {
       userIds: arrayRemove(userId),
     });
-
     this.onCloseClick();
-
     this.router.navigate(['/chat']);
   }
 

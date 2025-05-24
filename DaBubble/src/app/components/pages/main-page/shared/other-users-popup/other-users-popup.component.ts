@@ -11,8 +11,8 @@ import { firstValueFrom } from 'rxjs';
 @Component({
   selector: 'app-profile-user',
   imports: [NgStyle, FormsModule, CommonModule, ButtonComponent],
-  templateUrl: './profile-user.component.html',
-  styleUrl: './profile-user.component.scss',
+  templateUrl: './other-users-popup.component.html',
+  styleUrl: './other-users-popup.component.scss',
 })
 export class ProfileUserComponent {
   active: boolean = true;
