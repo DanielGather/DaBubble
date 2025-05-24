@@ -6,7 +6,6 @@ import {
   inject,
   signal,
   computed,
-  
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -14,7 +13,7 @@ import { trigger, style, transition, animate } from '@angular/animations';
 import { arrayRemove } from '@angular/fire/firestore';
 import { FirestoreService } from '../../../../../../services/firestore.service';
 import { MessagesDataService } from '../../../../../../services/messages-data.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DropdownComponent } from '../../../shared/dropdown/dropdown.component';
 import { ButtonComponent } from '../../../../../shared/button/button.component';
 import { ChannelsService } from '../../../../../../services/channels.service';
@@ -38,14 +37,14 @@ import { AppUser } from '../../../../../../types/types';
   ],
 })
 export class ChannelEditPopupComponent {
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private router: Router) {
     this.getCurrentChannelCreatorData();
   }
   @Input() set channelName(value: string) {
     this.channelNameSignal.set(value);
   }
-  @Input() set channelDescription(value:string) {
-    this.channelDescriptionSignal.set(value)
+  @Input() set channelDescription(value: string) {
+    this.channelDescriptionSignal.set(value);
   }
   @Input() visible: boolean = false;
   @Output() closed = new EventEmitter<void>();
@@ -85,13 +84,15 @@ export class ChannelEditPopupComponent {
   async leaveChannel() {
     const channelId = this.route.snapshot.paramMap.get('id');
     const userId = localStorage.getItem('id');
-
     if (!channelId || !userId) return;
 
     await this.firestore.updateDoc('channels', channelId, {
       userIds: arrayRemove(userId),
     });
+
     this.onCloseClick();
+
+    this.router.navigate(['/chat']);
   }
 
   async getCurrentChannelCreatorId() {
@@ -121,11 +122,11 @@ export class ChannelEditPopupComponent {
     });
   }
 
-async updateCurrentChannelDescription() {
-  const channelId = this.route.snapshot.paramMap.get('id');
-  const newDescription = this.channelDescriptionSignal();
-  await this.firestore.updateDoc('channels', channelId!, {
-    description: newDescription,
-  });
-}
+  async updateCurrentChannelDescription() {
+    const channelId = this.route.snapshot.paramMap.get('id');
+    const newDescription = this.channelDescriptionSignal();
+    await this.firestore.updateDoc('channels', channelId!, {
+      description: newDescription,
+    });
+  }
 }
