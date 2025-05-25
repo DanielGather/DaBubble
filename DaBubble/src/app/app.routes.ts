@@ -10,6 +10,7 @@ import { ResetPasswordComponent } from './components/pages/auth/reset-password/r
 import { SetPasswordComponent } from './components/pages/auth/set-password/set-password.component';
 import { SignupComponent } from './components/pages/auth/signup/signup.component';
 import { ChatMainComponent } from './components/pages/main-page/chat-main/chat-main.component';
+import { ThreadsbarComponent } from './components/pages/main-page/chat-thread/threadsbar/threadsbar.component';
 
 export const routes: Routes = [
   {
@@ -36,7 +37,10 @@ export const routes: Routes = [
       {
         path: 'chat/:chatType/:id',
         component: ChatMainComponent,
-        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'chat/:chatType/:id/thread/:threadId',
+        component: ChatMainComponent, // Gleiche Komponente, aber mit Thread-Parameter
       },
     ],
   },

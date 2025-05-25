@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { ChatInputComponent } from '../../chat-main/chat-input/chat-input.component';
 import { CommonModule } from '@angular/common';
 import { ChatMessagesContainerComponent } from '../../chat-main/chat-messages-container/chat-messages-container.component';
 import { MessagesDataService } from '../../../../../services/messages-data.service';
 import { ChatMessage } from '../../../../../types/types';
+import { ThreadService } from '../../../../../services/thread.service';
 
 @Component({
   selector: 'app-threadsbar',
@@ -12,10 +13,16 @@ import { ChatMessage } from '../../../../../types/types';
   styleUrl: './threadsbar.component.scss',
 })
 export class ThreadsbarComponent {
+  @Input() chatMessages: Array<ChatMessage> = [];
+
   isOpen: boolean = true;
   currentThreadMessageId: string = '';
 
+  threadbarService = inject(ThreadService);
+
   constructor(public messageDataService: MessagesDataService) {}
 
-  @Input() chatMessages: Array<ChatMessage> = [];
+  closeThread() {
+    this.threadbarService.closeThread();
+  }
 }

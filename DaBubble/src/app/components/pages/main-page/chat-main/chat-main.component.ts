@@ -5,7 +5,7 @@ import {
   inject,
   effect,
   signal,
-  computed
+  computed,
 } from '@angular/core';
 import { ChatInputComponent } from './chat-input/chat-input.component';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -21,6 +21,8 @@ import { AuthenticationService } from '../../../../services/authentication.servi
 import { DefaultComponent } from './default/default.component';
 import { FirestoreService } from '../../../../services/firestore.service';
 import { GetUrlChatidService } from '../../../../services/get-url-chatid.service';
+import { ThreadsbarComponent } from '../chat-thread/threadsbar/threadsbar.component';
+import { ThreadService } from '../../../../services/thread.service';
 
 @Component({
   selector: 'app-chat-main',
@@ -31,16 +33,20 @@ import { GetUrlChatidService } from '../../../../services/get-url-chatid.service
     PrivateChatHeaderComponent,
     ChannelChatHeaderComponent,
     DefaultComponent,
+    ThreadsbarComponent,
   ],
   templateUrl: './chat-main.component.html',
   styleUrl: './chat-main.component.html',
 })
 export class ChatMainComponent implements OnInit {
-
   //services
   messageDataService = inject(MessagesDataService);
   urlService = inject(GetUrlChatidService);
+  threadbarService = inject(ThreadService);
 
+  readonly isActive = this.threadbarService.threadState;
+
+  readonly isThreadbarOpen = computed(() => this.isActive().isOpen);
 
   /**
    * service variables
@@ -73,22 +79,22 @@ export class ChatMainComponent implements OnInit {
   chatTypeSignal = computed(() => this.urlParamsSignal()?.chatType);
 
   chatTypeInputRoute!: string;
-  constructor(private router: ActivatedRoute) {
-    
+  constructor(private route: ActivatedRoute) {
     effect(() => {
       const allMessages = this.messageService.messages();
-      const channelId = this.urlParamsSignal()?.chatId
+      const channelId = this.urlParamsSignal()?.chatId;
       const chatType = this.chatTypeSignal();
-      
+
       this.chatTypeInput = chatType!;
-      if(this.chatTypeInput == null) {
+      if (this.chatTypeInput == null) {
         this.chatTypeInput = ChatType.default;
       }
-            
 
       //if channel
       if (this.chatTypeInput === ChatType.channel) {
-        const filtered = allMessages.filter((msg) => msg.channelId === channelId);
+        const filtered = allMessages.filter(
+          (msg) => msg.channelId === channelId
+        );
         const sorted = this.sortMsgs(filtered);
 
         this.newMessages.set(filtered);
@@ -96,7 +102,9 @@ export class ChatMainComponent implements OnInit {
 
       //if private
       else if (this.chatTypeInput === ChatType.private) {
-        const filtered = allMessages.filter((msg) => msg.privatChatId !== '' && msg.userIds.includes(channelId!));
+        const filtered = allMessages.filter(
+          (msg) => msg.privatChatId !== '' && msg.userIds.includes(channelId!)
+        );
         const sorted = this.sortMsgs(filtered);
 
         this.newMessages.set(filtered);
@@ -107,7 +115,13 @@ export class ChatMainComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    // this.route.paramMap.subscribe((params) => {
+    //   const threadId = params.get('threadId');
+    //   if (threadId) {
+    //     // Threadsbar anzeigen
+    //     this.threadbarService.threadbarOpen.set(true);
+    //   }
+    // });
   }
 
   ngAfterViewInit() {
@@ -117,6 +131,6 @@ export class ChatMainComponent implements OnInit {
   sortMsgs(filtered: Message[]) {
     filtered.sort((a, b) => {
       return parseInt(a.timestamp) - parseInt(b.timestamp);
-    })
+    });
   }
 }

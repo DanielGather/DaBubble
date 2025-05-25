@@ -18,6 +18,7 @@ export interface ChatMessage {
   creatorId: string;
   creatorName: string;
   creatorAvatarId: number;
+  threadsId: string;
   userId: string;
   emojis: Array<ChatMessaggeEmoji>;
   thread: Array<ChatMessage>;
@@ -104,4 +105,11 @@ export interface PrivateChat {
 
 export interface Threads {
   userIds: Array<string>;
+}
+
+export interface ThreadState {
+  isOpen: boolean;
+  currentThreadId: string | null;
+  currentChannelId: string | null;
+  threadData: any;
 }

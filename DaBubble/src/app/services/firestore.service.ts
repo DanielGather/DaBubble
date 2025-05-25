@@ -76,18 +76,20 @@ export class FirestoreService {
    * @param docId the id of the document
    * @returns
    */
-async getSingleCollection<T>(collectionId: string, docId: string): Promise<T | undefined> {
-  const docRef = this.getSingleDocRef(collectionId, docId);
-  const docSnap = await getDoc(docRef);
+  async getSingleCollection<T>(
+    collectionId: string,
+    docId: string
+  ): Promise<T | undefined> {
+    const docRef = this.getSingleDocRef(collectionId, docId);
+    const docSnap = await getDoc(docRef);
 
-  if (docSnap.exists()) {
-    const data = docSnap.data() as T;
-    return { ...data, id: docSnap.id }; // falls `id` mit rein soll
-  } else {
-    return undefined;
+    if (docSnap.exists()) {
+      const data = docSnap.data() as T;
+      return { ...data, id: docSnap.id }; // falls `id` mit rein soll
+    } else {
+      return undefined;
+    }
   }
-}
-
 
   /**
    * this function allows to update an exsisting document in a specific collection.
@@ -109,6 +111,7 @@ async getSingleCollection<T>(collectionId: string, docId: string): Promise<T | u
     const collRef = collection(this.firestore, collectionName);
     const docRef = await addDoc(collRef, objekt);
     console.log('Neues Dokument angelegt mit ID', docRef.id);
+    return docRef.id;
   }
 
   /**
@@ -125,7 +128,10 @@ async getSingleCollection<T>(collectionId: string, docId: string): Promise<T | u
    * hier noch eine delete function erstellen
    */
 
-    async getSingleSnapshot<T>(collection: string, id: string): Promise<T | null> {
+  async getSingleSnapshot<T>(
+    collection: string,
+    id: string
+  ): Promise<T | null> {
     if (!collection || !id) return null;
 
     const docRef = doc(this.firestore, `${collection}/${id}`);

@@ -1,6 +1,7 @@
 <div
   id="threadsbar-wrapper"
-  class="flex flex-col w-96 h-full bg-white rounded-standard overflow-hidden transition-all duration-300" [ngClass]="{'mr-4': isOpen}"
+  class="flex flex-col w-96 h-full bg-white rounded-standard overflow-hidden transition-all duration-300"
+  [ngClass]="{ 'mr-4': isOpen }"
   [class.w-96]="isOpen"
   [class.w-0]="!isOpen"
   [class.ml-0]="!isOpen"
@@ -21,7 +22,7 @@
       <img
         src="img/close.svg"
         alt=""
-        (click)="isOpen = false"
+        (click)="closeThread()"
         class="cursor-pointer"
       />
     </div>

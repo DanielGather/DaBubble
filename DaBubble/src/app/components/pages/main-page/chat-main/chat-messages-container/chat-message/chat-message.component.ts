@@ -1,4 +1,12 @@
-import { Component, Input, inject, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  Input,
+  inject,
+  OnInit,
+  OnDestroy,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import {
   MessageType,
   ChatMessage,
@@ -9,6 +17,10 @@ import { CommonModule } from '@angular/common';
 import { PopOverComponent } from '../../../shared/pop-over/pop-over.component';
 import { UsersService } from '../../../../../../services/users.service';
 import { Subject, takeUntil } from 'rxjs';
+import { ThreadService } from '../../../../../../services/thread.service';
+import { FirestoreService } from '../../../../../../services/firestore.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ChannelsService } from '../../../../../../services/channels.service';
 
 @Component({
   selector: 'app-chat-message',
@@ -19,13 +31,15 @@ import { Subject, takeUntil } from 'rxjs';
 export class ChatMessageComponent implements OnInit, OnDestroy {
   //services
   userService = inject(UsersService);
+  threadbarService = inject(ThreadService);
+  firestoreService = inject(FirestoreService);
+  channelsService = inject(ChannelsService);
 
   //for html
   user: any;
 
   //unsubscribe variables
   private destroy$ = new Subject<void>();
-
   @Input() chatType: ChatType = ChatType.default;
   @Input() messageTypeInput: MessageType = MessageType.default;
   @Input() message: ChatMessage = {
@@ -36,6 +50,7 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
     creatorName: '',
     creatorAvatarId: 0,
     userId: '',
+    threadsId: 'mc2IP401tJgUTqQsr7jD',
     emojis: [
       {
         emojiId: '',
@@ -50,12 +65,14 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
   showMenu: boolean = false;
   showEmojiMenu: boolean = false;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
+    console.log('TEST', this.chatType);
+
     this.userService.currentUser$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(user => this.user = user);
+      .subscribe((user) => (this.user = user));
   }
 
   ngOnDestroy(): void {
@@ -63,4 +80,39 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  async openThreadBar(message: any) {
+    let channelId = this.route.snapshot.paramMap.get('id');
+    let threadId: string;
+
+    if (message.threadId) {
+      threadId = message.threadId;
+      console.log('Öffne bestehenden Thread:', threadId);
+    } else {
+      // Neuen Thread erstellen
+      let channels = this.channelsService.channels();
+      let rightChannel = channels.find((channel) => channel.id === channelId);
+
+      threadId = await this.firestoreService.addDoc('threads', {
+        channelId: channelId,
+        userIds: rightChannel?.data.userIds,
+        originalMessageId: '0eKdA6SEm7A5zMCSVKfa', // Referenz zur ursprünglichen Nachricht
+        createdAt: new Date(),
+      });
+
+      // Thread-ID in der ursprünglichen Nachricht speichern
+      await this.firestoreService.updateDoc(
+        'messages',
+        '0eKdA6SEm7A5zMCSVKfa',
+        {
+          threadId: threadId,
+        }
+      );
+
+      console.log('Neuer Thread erstellt:', threadId);
+    }
+
+    // Navigation und UI-State
+    this.router.navigate(['/chat', 'channel', channelId, 'thread', threadId]);
+    this.threadbarService.openThread(threadId, channelId!);
+  }
 }

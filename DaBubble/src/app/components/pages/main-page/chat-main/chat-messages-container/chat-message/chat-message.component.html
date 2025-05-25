@@ -26,7 +26,7 @@
         class="border absolute top-[-1.25rem] bg-white left-[50%] translate-x-[-50%] rounded-standard text-fontSizeChat border-[#ADB0D9] px-4 py-1"
       >
         <span class="[@media(max-width:440px)]:text-[14px] whitespace-nowrap">
-          {{message.timestamp | date: 'EEEE, d MMMM' : undefined : 'en'}}
+          {{ message.timestamp | date : "EEEE, d MMMM" : undefined : "en" }}
         </span>
       </div>
       }
@@ -75,7 +75,9 @@
           <span
             class="flex items-center justify-center gap-[0.3rem] text-[#686868]"
           >
-            <span> {{ message.timestamp | date: 'HH:mm' : undefined : 'en' }} </span>
+            <span>
+              {{ message.timestamp | date : "HH:mm" : undefined : "en" }}
+            </span>
             <span>Uhr</span>
           </span>
         </div>
@@ -103,9 +105,9 @@
             <div class="option option-hover" #emojiMenuBtn>
               <img src="img/add_reaction.svg" alt="Add reaction button" />
             </div>
-            @if(chatType === 'channel') {
-            <div class="option" #answerBtn>
-              <img src="img/comment.svg" alt="" />
+            @if(chatType === 'private') {
+            <div (click)="openThreadBar(message)" class="option" #answerBtn>
+              <img src="img/comment.svg" alt="Open Threadbar" />
             </div>
             } @if(messageTypeInput === 'own') {
             <div class="option" #editOptionBtn>
