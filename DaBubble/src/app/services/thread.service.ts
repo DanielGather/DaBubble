@@ -27,15 +27,12 @@ export class ThreadService {
   }
 
   closeThread() {
-    console.log('kommen wi rhier rien');
-
     this._threadState.set({
       isOpen: false,
       currentThreadId: null,
       currentChannelId: null,
       threadData: null,
     });
-    console.log('asdasd', this.threadState());
   }
 
   constructor() {}
