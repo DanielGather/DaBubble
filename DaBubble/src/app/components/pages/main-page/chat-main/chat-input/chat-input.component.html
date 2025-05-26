@@ -46,8 +46,8 @@
                 <!-- Emoji-Menu -->
                 @if(showEmojiMenu) {
                 <div (click)="$event.stopPropagation()"
-                    class="top-[0.25rem] left-[3.75rem] menu-container z-[3] max-w-[240px]">
-                    <emoji-mart (emojiClick)="addEmoji($event)"></emoji-mart>
+                    class="top-[0] z-[3] absolute left-0">
+                    <emoji-mart style="width: 350px; height: 80rem;" (emojiClick)="addEmoji($event)"></emoji-mart>
                 </div>
                 }
 

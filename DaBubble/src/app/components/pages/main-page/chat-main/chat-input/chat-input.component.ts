@@ -47,6 +47,7 @@ export class ChatInputComponent implements OnInit, OnDestroy {
 
   //formgroup
   chatInputGroup = new FormGroup({
+    messageId: new FormControl(''),
     channelId: new FormControl(''),
     privatChatId: new FormControl(''),
     threadsId: new FormControl(''),
@@ -117,7 +118,7 @@ export class ChatInputComponent implements OnInit, OnDestroy {
       .subscribe(params => {
         if (params.chatType && params.chatId) {
           switch (params.chatType) {
-            
+
             case 'private':
               this.chatInputGroup.get('channelId')?.setValue('');
               this.chatInputGroup.get('privatChatId')?.setValue(params.chatId);
@@ -156,7 +157,6 @@ export class ChatInputComponent implements OnInit, OnDestroy {
           this.chatInputGroup.get('creatorId')?.setValue(user.userId!);
           this.chatInputGroup.get('creatorName')?.setValue(`${user.firstName} ${user.lastName}`);
           this.chatInputGroup.get('creatorAvatarId')?.setValue(user.avatarId);
-          
         }
       });
   }
@@ -164,10 +164,17 @@ export class ChatInputComponent implements OnInit, OnDestroy {
   /**
    * converts the formgroup to a json object and adds a new doc in the firestore collection 'messages'.
    */
-  addNewMessageToFirestoreCollection() {
+  async addNewMessageToFirestoreCollection() {
     let formData = this.chatInputGroup.getRawValue();
-    this.firestoreService.addDoc('messages', formData)
-      .then(() => { this.chatInputGroup.get('message')?.reset(); });
+
+    let testId = await this.firestoreService.addDoc('messages', formData)
+    
+    this.firestoreService.updateDoc('messages', `${testId}`, {
+      messageId: testId
+    });
+
+    this.chatInputGroup.get('message')?.reset();
+
   }
 
   /**
@@ -176,8 +183,8 @@ export class ChatInputComponent implements OnInit, OnDestroy {
    * @param event contains infos about the clicked emoji
    */
   addEmoji(event: any) {
-  const emoji = event.emoji.native;
-  const current = this.chatInputGroup.get('message')?.value || '';
-  this.chatInputGroup.get('message')?.setValue(current + emoji);
-}
+    const emoji = event.emoji.native;
+    const current = this.chatInputGroup.get('message')?.value || '';
+    this.chatInputGroup.get('message')?.setValue(current + emoji);
+  }
 }
