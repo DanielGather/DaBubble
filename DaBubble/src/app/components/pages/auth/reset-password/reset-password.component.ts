@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import {
@@ -11,6 +11,7 @@ import {
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { FormInputComponent } from '../../../shared/form-input/form-input.component';
 import { ModalComponent } from '../../../shared/modal/modal.component';
+import { AuthenticationService } from '../../../../services/authentication.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -29,6 +30,7 @@ import { ModalComponent } from '../../../shared/modal/modal.component';
 export class ResetPasswordComponent {
   resetForm: FormGroup;
   emailSent: boolean = false;
+  authService = inject(AuthenticationService);
 
   constructor(private fb: FormBuilder) {
     this.resetForm = this.fb.group({
@@ -38,8 +40,7 @@ export class ResetPasswordComponent {
 
   onSubmit(): void {
     if (this.resetForm.valid) {
-      console.log(this.resetForm.value);
-      // Hier Logik für das Zurücksetzen des Passworts
+      this.authService.resetPassword(this.resetForm.value.email);
       this.emailSent = true;
     } else {
       this.markFormGroupTouched(this.resetForm);

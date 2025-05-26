@@ -1,5 +1,10 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { Auth, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
+import {
+  Auth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  sendPasswordResetEmail,
+} from '@angular/fire/auth';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -57,6 +62,12 @@ export class AuthenticationService {
     });
   }
 
+  async resetPassword(email: string) {
+    try {
+      await sendPasswordResetEmail(this.auth, email);
+    } catch {}
+  }
+
   /**
    * router? sollte zu chat leiten ohne private
    * @param email
@@ -69,7 +80,7 @@ export class AuthenticationService {
     } catch (error: any) {
       if (error.code == 'auth/invalid-credential') {
         this.loginError =
-          'User existiert nicht oder Passwort ist nicht korrekt.';
+          'Falsche Anmeldedaten oder User wurde über Google registriert.';
       }
     }
   }
