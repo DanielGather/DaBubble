@@ -1,1 +1,15 @@
-<router-outlet></router-outlet>
+<div class="w-full h-full bg-bg-main">
+  <!-- <div id="mobile-logo-wrapper" class="flex lg:hidden justify-center">
+    <app-da-bubble-logo></app-da-bubble-logo>
+  </div> -->
+
+  <div id="desktop-logo-wrapper" class="hidden lg:block absolute left-8 top-8">
+    <app-da-bubble-logo></app-da-bubble-logo>
+  </div>
+
+  <router-outlet></router-outlet>
+
+  <app-legal-links
+    class="absolute bottom-12 left-1/2 transform -translate-x-1/2"
+  ></app-legal-links>
+</div>

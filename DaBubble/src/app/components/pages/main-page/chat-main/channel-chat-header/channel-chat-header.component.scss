@@ -1,0 +1,22 @@
+.margin-left-img {
+  img {
+    &:not(:first-child) {
+      margin-left: -0.5rem;
+    }
+  }
+}
+
+button:hover {
+  svg {
+    scale: 1.045;
+    rect {
+      stroke: #535af1;
+      scale: 1.0025;
+    }
+    path {
+      stroke-width: 0.5px;
+      stroke: #535af1;
+      fill: #535af1;
+    }
+  }
+}

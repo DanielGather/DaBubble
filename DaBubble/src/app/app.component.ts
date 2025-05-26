@@ -1,24 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { FirestoreTestComponent } from './components/firestore-test/firestore-test.component'; //test
-import { AuthLayoutComponent } from './components/layouts/auth-layout/auth-layout.component';
-import { PrivateChatComponent } from './components/pages/main-page/private-chat/private-chat.component';
-import { SidebarComponent } from './components/pages/main-page/sidebar/sidebar.component';
-import { HeaderComponent } from './components/shared/header/header.component';
+import { AuthenticationService } from './services/authentication.service';
+import { PrivateMessageService } from './services/private-message.service';
+import { MessagesDataService } from './services/messages-data.service';
+import { ChannelsService } from './services/channels.service';
 
 @Component({
   selector: 'app-root',
-  imports: [
-    RouterOutlet,
-    FirestoreTestComponent, //test
-    HeaderComponent,
-    SidebarComponent,
-    AuthLayoutComponent,
-    PrivateChatComponent,
-  ],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'DaBubble';
+
+  private privateMessageService: PrivateMessageService = inject(
+    PrivateMessageService
+  );
+  private messageService: MessagesDataService = inject(MessagesDataService);
+  private channelsService: ChannelsService = inject(ChannelsService);
+
+  constructor(private authService: AuthenticationService) {}
+
+  ngOnInit(): void {
+    let userId = localStorage.getItem('id')!;
+    this.authService.observeAuthState();
+    this.privateMessageService.subscribeToPrivateMessage(userId);
+    this.messageService.subscribeToMessages(userId);
+    this.channelsService.subscribeToChannels(userId);
+  }
 }

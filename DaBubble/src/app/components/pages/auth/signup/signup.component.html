@@ -1,64 +1,100 @@
-<app-modal>
-  <div
-    id="signup-content-wrapper"
-    class="flex flex-col text-center gap-0 lg:gap-2"
-  >
-    <div
-      id="signup-title-wrapper"
-      class="flex relative justify-center items-center"
-    >
-      <img
-        src="/img/arrow_left_black.svg"
-        alt=""
-        class="absolute left-0 cursor-pointer"
-      />
-      <span
-        id="signup-title"
-        class="text-fontSizeAuthTitle font-bold text-fc-dark-purple mx-5 leading-tight"
-        >Konto erstellen</span
-      >
-    </div>
-
-    <p>
-      Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues
-      DABubble-Konto.
-    </p>
-    <form action="" class="flex flex-col gap-0 lg:gap-2">
-      <app-form-input
-        type="user"
-        placeholder="Name und Nachname"
-        class="mt-2"
-      ></app-form-input>
-
-      <app-form-input
-        type="email"
-        placeholder="beispielname@email.com"
-        class="mt-6"
-      ></app-form-input>
-
-      <app-form-input
-        type="password"
-        placeholder="Passwort"
-        class="mt-6"
-      ></app-form-input>
-
-      <div id="privacy-wrapper" class="flex gap-2 mt-6 items-center">
-        <input
-          type="checkbox"
-          class="w-4 h-4 appearance-none border-2 border-gray-500 rounded focus:outline-none cursor-pointer checked:bg-fc-purple checked:border-fc-purple transition-all duration-300 ease-in-out"
-        />
-        <div id="privacy-text-wrapper">
-          <span>Ich stimme der</span>
-          <a href="#" class="text-fc-purple"> Datenschutzerklärung </a>
-          <span>zu.</span>
-        </div>
-      </div>
-
-      <div id="buttons-wrapper" class="flex gap-4 mt-6 justify-end">
-        <app-button type="blueButton">
-          <span>Weiter</span>
-        </app-button>
-      </div>
-    </form>
+<div
+  id="auth-layout-wrapper"
+  class="h-screen flex flex-col justify-center items-center p-4 gap-6"
+>
+  <div id="mobile-logo-wrapper" class="flex lg:hidden items-center gap-4 w-fit">
+    <img class="h-14 w-14" src="img/logo.svg" alt="" />
+    <span class="font-bold text-fontSizeAuthTitle">DABubble</span>
   </div>
-</app-modal>
+
+  <app-modal>
+    <div
+      id="signup-content-wrapper"
+      class="flex flex-col text-center gap-0 lg:gap-2"
+    >
+      <div
+        id="signup-title-wrapper"
+        class="flex relative justify-center items-center"
+      >
+        <a routerLink="/" class="flex justify-center items-center">
+          <img
+            src="/img/arrow_left_black.svg"
+            alt=""
+            class="absolute left-0 cursor-pointer"
+          />
+        </a>
+        <span
+          id="signup-title"
+          class="text-fontSizeAuthTitle font-bold text-fc-dark-purple mx-5 leading-tight"
+          >Konto erstellen</span
+        >
+      </div>
+
+      <p>
+        Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues
+        DABubble-Konto.
+      </p>
+      <form
+        [formGroup]="signupForm"
+        (ngSubmit)="onSubmit()"
+        class="flex flex-col gap-0 lg:gap-2"
+      >
+        <app-form-input
+          type="user"
+          placeholder="Name und Nachname"
+          formControlName="fullName"
+          [errorMessage]="getFullNameErrorMessage()"
+          class="mt-2"
+        ></app-form-input>
+
+        <app-form-input
+          type="email"
+          placeholder="beispielname@email.com"
+          formControlName="email"
+          [errorMessage]="getEmailErrorMessage()"
+          class="mt-6"
+        ></app-form-input>
+
+        <app-form-input
+          type="password"
+          placeholder="Passwort"
+          formControlName="password"
+          [errorMessage]="getPasswordErrorMessage()"
+          class="mt-6"
+        ></app-form-input>
+
+        <div id="privacy-wrapper" class="flex gap-2 mt-6 items-start">
+          <input
+            type="checkbox"
+            formControlName="privacyPolicy"
+            class="w-4 h-4 appearance-none border-2 border-gray-500 rounded focus:outline-none cursor-pointer checked:bg-fc-purple checked:border-fc-purple transition-all duration-300 ease-in-out mt-1"
+          />
+          <div id="privacy-text-wrapper" class="text-left">
+            <span>Ich stimme der</span>
+            <a routerLink="/privacy-policy" class="text-fc-purple">
+              Datenschutzerklärung
+            </a>
+            <span>zu.</span>
+            <div
+              *ngIf="getPrivacyPolicyErrorMessage()"
+              class="text-fc-error text-sm min-h-[1.5rem]"
+            >
+              {{ getPrivacyPolicyErrorMessage() }}
+            </div>
+          </div>
+        </div>
+
+        <div id="buttons-wrapper" class="flex gap-4 mt-6 justify-end">
+          <button type="submit">
+            <app-button
+              [type]="signupForm.valid ? 'blueButton' : 'greyButton'"
+              [disabled]="!signupForm.valid"
+            >
+              <span>Weiter</span>
+            </app-button>
+          </button>
+        </div>
+      </form>
+    </div>
+  </app-modal>
+</div>

@@ -1,14 +1,15 @@
 import { Injectable, inject } from '@angular/core';
+import { Channels } from '../types/types';
 import {
   Firestore,
   collection,
   collectionData,
-  getDocs,
   doc,
   updateDoc,
+  setDoc,
+  addDoc,
 } from '@angular/fire/firestore';
-import { RouterModule } from '@angular/router';
-import { DocumentReference, getDoc } from 'firebase/firestore';
+import { getDoc } from 'firebase/firestore';
 import { Observable, shareReplay } from 'rxjs';
 
 @Injectable({
@@ -19,13 +20,23 @@ export class FirestoreService {
    * firestore service
    */
   firestore: Firestore = inject(Firestore);
-  channelsArray: string[] = ['Entwicklerteam'];
+  // usersService: UsersService = inject(UsersService);
+
+  /**
+   * Observable that loads all documents from the Firestore 'channels' collection at application start.
+   * The data is cached using `shareReplay(1)`, so multiple subscribers receive the same data
+   * without triggering additional Firestore reads.
+   *
+   */
+  readonly channelsList$: Observable<Channels[]> = this.getCollectionData(
+    'channels'
+  ) as Observable<Channels[]>;
 
   constructor() {}
 
   /**
    * this function returns the specific collection-reference of the firestore database.
-   *
+   * it is needed to get collection data
    * @returns collection-reference
    */
   getCollectionRef(collectionKey: string) {
@@ -35,6 +46,7 @@ export class FirestoreService {
   /**
    * this function returns the key specific collection.
    * it is used to get the collection data.
+   * it also returns every id from the collectionData
    *
    * @param collectionKey the name/key of the collection
    * @returns the collection itself. it contains a list of documents.
@@ -57,6 +69,29 @@ export class FirestoreService {
   }
 
   /**
+   * This function get a docsnap from a single document.
+   * it is no datastream, it fetches the data only once.
+   *
+   * @param collectionId the id of the collection to search in
+   * @param docId the id of the document
+   * @returns
+   */
+  async getSingleCollection<T>(
+    collectionId: string,
+    docId: string
+  ): Promise<T | undefined> {
+    const docRef = this.getSingleDocRef(collectionId, docId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data() as T;
+      return { ...data, id: docSnap.id }; // falls `id` mit rein soll
+    } else {
+      return undefined;
+    }
+  }
+
+  /**
    * this function allows to update an exsisting document in a specific collection.
    *
    * @param collectionId collection id as a string
@@ -68,46 +103,40 @@ export class FirestoreService {
   }
 
   /**
-   * Fetches all messages from the `messages` subcollection of the room
-   * that contains the specified user (`userId`).
-   *
-   * The function first queries the `rooms` collection to find a room
-   * whose `userIds` array includes the given `userId`. If a matching
-   * document is found, it retrieves all messages from the
-   * `rooms/{roomId}/messages` subcollection and returns them as an array.
-   *
-   * @async
-   * @function fetchRoomsAndMessages
-   * @param {number} userId - The ID of the user to search for in rooms.
-   * @returns {Promise<any[]|undefined>} A promise that resolves to an array
-   *   of message data objects (`any[]`), or `undefined` if no room containing
-   *   the userId is found.
+   * create a new document
+   * @param collectionName
+   * @param objekt
    */
-
-  async fetchUserMessages(userId: number) {
-    const roomsSnapshot = await getDocs(collection(this.firestore, 'channels'));
-    const matchingDoc = roomsSnapshot.docs.filter((doc, index) =>
-      doc.data()['userIds'][index].includes(userId)
-    );
-    if (matchingDoc) {
-      let subCollectionArray = await this.getSubCollection(matchingDoc);
-      return subCollectionArray;
-    } else {
-      console.log('No channels found for userId', userId);
-      return;
-    }
+  async addDoc(collectionName: string, objekt: {}) {
+    const collRef = collection(this.firestore, collectionName);
+    const docRef = await addDoc(collRef, objekt);
+    console.log('Neues Dokument angelegt mit ID', docRef.id);
+    return docRef.id;
   }
 
-  async getSubCollection(matchingDoc: any) {
-    console.log('Found Document', matchingDoc.id, matchingDoc.data());
-    let Array: any[] = [];
-    const querySnapshot = await getDocs(
-      collection(this.firestore, 'channels', matchingDoc.id, 'messages')
-    );
-    querySnapshot.forEach((doc) => {
-      Array.push(doc.data());
-      console.log(doc.id);
-    });
-    return Array;
+  /**
+   * updates or create a new document
+   * @param collectionName
+   * @param docId
+   * @param objekt
+   */
+  async setDoc(collectionName: string, docId: string, objekt: {}) {
+    await setDoc(doc(this.firestore, collectionName, docId), objekt);
+  }
+
+  /**
+   * hier noch eine delete function erstellen
+   */
+
+  async getSingleSnapshot<T>(
+    collection: string,
+    id: string
+  ): Promise<T | null> {
+    if (!collection || !id) return null;
+
+    const docRef = doc(this.firestore, `${collection}/${id}`);
+    const snap = await getDoc(docRef);
+
+    return snap.exists() ? (snap.data() as T) : null;
   }
 }
