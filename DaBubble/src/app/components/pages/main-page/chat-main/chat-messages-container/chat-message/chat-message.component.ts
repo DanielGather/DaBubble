@@ -95,18 +95,14 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
       threadId = await this.firestoreService.addDoc('threads', {
         channelId: channelId,
         userIds: rightChannel?.data.userIds,
-        originalMessageId: '0eKdA6SEm7A5zMCSVKfa', // Referenz zur ursprünglichen Nachricht
+        originalMessageId: message.messageId, // Referenz zur ursprünglichen Nachricht
         createdAt: new Date(),
       });
 
       // Thread-ID in der ursprünglichen Nachricht speichern
-      await this.firestoreService.updateDoc(
-        'messages',
-        '0eKdA6SEm7A5zMCSVKfa',
-        {
-          threadId: threadId,
-        }
-      );
+      await this.firestoreService.updateDoc('messages', message.messageId, {
+        threadId: threadId,
+      });
 
       console.log('Neuer Thread erstellt:', threadId);
     }
