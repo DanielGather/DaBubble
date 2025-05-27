@@ -1,4 +1,11 @@
-import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { map, Observable, of } from 'rxjs';
 import { arrayUnion } from '@angular/fire/firestore';
@@ -15,8 +22,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './channel-adduser-popup.component.scss',
 })
 export class ChannelAdduserPopupComponent {
-  constructor(private route: ActivatedRoute) {
-  }
+  constructor(private route: ActivatedRoute) {}
 
   @Input() channelName!: string;
   @Input() usersList$!: Observable<AppUser[]>;
@@ -24,9 +30,10 @@ export class ChannelAdduserPopupComponent {
   @Input() userIds$!: Observable<string[]>;
   @Input() fillUserPopupWithAddPeopleClicked!: boolean;
   @Input() fillUserPopupWithShowAddedUser!: boolean;
+  @Input() usersInChannel$!: Observable<AppUser[]>;
 
   @Output() closePopup = new EventEmitter<void>();
-
+@Output() openAddUserPopup = new EventEmitter<void>();
   firestore = inject(FirestoreService);
   isFocused: boolean = false;
   filteredUsersNotInChannel$: Observable<AppUser[]> = of([]);
@@ -36,13 +43,18 @@ export class ChannelAdduserPopupComponent {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['fillUserPopupWithAddPeopleClicked']) {
-      console.log('fillUserPopupWithAddPeopleClicked:', this.fillUserPopupWithAddPeopleClicked);
+      console.log(
+        'fillUserPopupWithAddPeopleClicked:',
+        this.fillUserPopupWithAddPeopleClicked
+      );
     }
     if (changes['fillUserPopupWithShowAddedUser']) {
-      console.log('fillUserPopupWithShowAddedUser:', this.fillUserPopupWithShowAddedUser);
+      console.log(
+        'fillUserPopupWithShowAddedUser:',
+        this.fillUserPopupWithShowAddedUser
+      );
     }
   }
-
 
   onFocus() {
     this.isFocused = true;

@@ -30,6 +30,7 @@ export class ChannelChatHeaderComponent {
   usersInChannel$!: Observable<AppUser[]>;
   usersNotInChannel$!: Observable<AppUser[]>;
   userIds$!: Observable<string[]>;
+  
 
   showChannelPopup = false;
 
