@@ -21,14 +21,13 @@ import { ChannelAdduserPopupComponent } from './channel-adduser-popup/channel-ad
   styleUrl: './channel-chat-header.component.scss',
 })
 export class ChannelChatHeaderComponent {
-  constructor(private elementRef: ElementRef, private route: ActivatedRoute) {
-    console.log('channelChat user list' + this.usersList$);
-  }
+  constructor(private elementRef: ElementRef, private route: ActivatedRoute) {}
 
   channelsService = inject(ChannelsService);
   usersService: UsersService = inject(UsersService);
 
   usersList$: Observable<AppUser[]> = this.usersService.getSortedUser();
+  usersInChannel$!: Observable<AppUser[]>;
   usersNotInChannel$!: Observable<AppUser[]>;
   userIds$!: Observable<string[]>;
 
@@ -42,7 +41,9 @@ export class ChannelChatHeaderComponent {
 
   ngOnInit() {
     this.initUsersNotInChannel();
+    this.initUsersInChannel();
     this.initUserIdsFromCurrentChannel();
+
     this.route.paramMap.subscribe((params) => {
       const channelId = params.get('id');
       if (channelId) {
@@ -60,6 +61,21 @@ export class ChannelChatHeaderComponent {
     this.userIds$ = this.getChannelIdFromRouteUrl().pipe(
       switchMap((channelId) =>
         this.usersService.getUserIdsForCurrentChannel$(channelId)
+      )
+    );
+  }
+
+  private initUsersInChannel() {
+    this.usersInChannel$ = this.getChannelIdFromRouteUrl().pipe(
+      switchMap((channelId) =>
+        combineLatest([
+          this.usersList$,
+          this.channelsService.getChannelById$(channelId),
+        ]).pipe(
+          map(([users, channel]) =>
+            users.filter((user) => user.id && channel.userIds.includes(user.id))
+          )
+        )
       )
     );
   }

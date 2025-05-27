@@ -12,18 +12,35 @@
   <div class="flex items-center gap-4">
     <div
       (click)="openShowAddedUserPopup()"
-      class="margin-left-img flex cursor-pointer"
+      class="flex cursor-pointer items-center bg-white hover:bg-bg-main text-black rounded-standard h-12 w-fit pl-4 pr-4 gap-4"
     >
-      <img class="w-7 h-7 rounded-full" src="img/user_1.png" alt="" />
-      <img class="w-7 h-7 rounded-full" src="img/user_1.png" alt="" />
-      <img class="w-7 h-7 rounded-full" src="img/user_1.png" alt="" />
+      <ng-container *ngIf="usersInChannel$ | async as usersInChannel">
+        <div class="flex -space-x-2 items-center">
+          <ng-container *ngFor="let user of usersInChannel; let i = index">
+            <ng-container *ngIf="i < 5">
+              <img
+                class="w-10 h-10 rounded-full border-2 border-white"
+                [src]="getAvatar(user.avatarId)"
+                alt="avatar"
+              />
+            </ng-container>
+          </ng-container>
+
+          <div
+            *ngIf="usersInChannel.length > 5"
+            class="w-10 h-10 rounded-full border-2 border-white bg-bg-main text-sm text-black flex items-center justify-center font-medium"
+          >
+            +{{ usersInChannel.length - 5 }}
+          </div>
+        </div>
+      </ng-container>
     </div>
 
     <p>{{ (userIds$ | async)?.length }}</p>
 
     <button
       (click)="openAddUserToChannelPopUp()"
-      class="bg-[#eceefe] w-10 h-10 items-center justify-center flex rounded-full relative group"
+      class="bg-[#eceefe] w-9 h-9 items-center justify-center flex rounded-full relative group"
     >
       <img src="img/person_add_gray_bg.svg" class="absolute" />
       <img
