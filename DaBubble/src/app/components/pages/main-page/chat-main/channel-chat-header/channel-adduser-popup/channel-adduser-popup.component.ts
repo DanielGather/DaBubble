@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { map, Observable, of } from 'rxjs';
 import { arrayUnion } from '@angular/fire/firestore';
@@ -16,13 +16,14 @@ import { FormsModule } from '@angular/forms';
 })
 export class ChannelAdduserPopupComponent {
   constructor(private route: ActivatedRoute) {
-    console.log('channelChat user list' + this.usersList$);
   }
 
   @Input() channelName!: string;
   @Input() usersList$!: Observable<AppUser[]>;
   @Input() usersNotInChannel$!: Observable<AppUser[]>;
   @Input() userIds$!: Observable<string[]>;
+  @Input() fillUserPopupWithAddPeopleClicked!: boolean;
+  @Input() fillUserPopupWithShowAddedUser!: boolean;
 
   @Output() closePopup = new EventEmitter<void>();
 
@@ -30,6 +31,18 @@ export class ChannelAdduserPopupComponent {
   isFocused: boolean = false;
   filteredUsersNotInChannel$: Observable<AppUser[]> = of([]);
   searchTerm: string = '';
+
+  @Input() mode: 'add' | 'show' | null = null;
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['fillUserPopupWithAddPeopleClicked']) {
+      console.log('fillUserPopupWithAddPeopleClicked:', this.fillUserPopupWithAddPeopleClicked);
+    }
+    if (changes['fillUserPopupWithShowAddedUser']) {
+      console.log('fillUserPopupWithShowAddedUser:', this.fillUserPopupWithShowAddedUser);
+    }
+  }
+
 
   onFocus() {
     this.isFocused = true;
@@ -60,17 +73,17 @@ export class ChannelAdduserPopupComponent {
     }
   }
 
-filterUserNotInChannelByNameInput() {
-  this.filteredUsersNotInChannel$ = this.usersNotInChannel$.pipe(
-    map(users =>
-      users.filter(user =>
-        (user.firstName + ' ' + user.lastName)
-          .toLowerCase()
-          .includes(this.searchTerm.toLowerCase())
+  filterUserNotInChannelByNameInput() {
+    this.filteredUsersNotInChannel$ = this.usersNotInChannel$.pipe(
+      map((users) =>
+        users.filter((user) =>
+          (user.firstName + ' ' + user.lastName)
+            .toLowerCase()
+            .includes(this.searchTerm.toLowerCase())
+        )
       )
-    )
-  );
-}
+    );
+  }
 
   getAvatar(avatarId: number) {
     switch (avatarId) {

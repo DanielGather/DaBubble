@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { UsersService } from '../../../../../services/users.service';
 import { map, Observable, combineLatest, switchMap } from 'rxjs';
 import { AppUser } from '../../../../../types/types';
-import { MessagesDataService } from '../../../../../services/messages-data.service';
 import { ChannelsService } from '../../../../../services/channels.service';
 import { ActivatedRoute } from '@angular/router';
 import { ChannelEditPopupComponent } from './channel-edit-popup/channel-edit-popup.component';
@@ -27,8 +26,6 @@ export class ChannelChatHeaderComponent {
   }
 
   channelsService = inject(ChannelsService);
-  //channelHelper gets no call, is that needed here?
-  channelHelper = inject(MessagesDataService);
   usersService: UsersService = inject(UsersService);
 
   usersList$: Observable<AppUser[]> = this.usersService.getSortedUser();
@@ -36,7 +33,10 @@ export class ChannelChatHeaderComponent {
   userIds$!: Observable<string[]>;
 
   showChannelPopup = false;
-  showUserPopup = false;
+
+  showUserPopupContainer = false;
+  popupMode: 'add' | 'show' | null = null;
+
   channelName: string = '';
   channelDescription: string = '';
 
@@ -145,8 +145,19 @@ export class ChannelChatHeaderComponent {
   /**
    * toggle popup
    */
-  toggleAddUserToChannelPopUp() {
-    this.showUserPopup = !this.showUserPopup;
+  openAddUserToChannelPopUp() {
+    this.popupMode = 'add';
+    this.showUserPopupContainer = true;
+  }
+
+  openShowAddedUserPopup() {
+    this.popupMode = 'show';
+    this.showUserPopupContainer = true;
+  }
+
+  closeUserPopupContainer() {
+    this.popupMode = null;
+    this.showUserPopupContainer = false;
   }
 
   /**
@@ -193,8 +204,8 @@ export class ChannelChatHeaderComponent {
   @HostListener('document:mousedown', ['$event'])
   onDocumentClick(event: MouseEvent) {
     const clickedInside = this.elementRef.nativeElement.contains(event.target);
-    if (!clickedInside && this.showUserPopup) {
-      this.showUserPopup = false;
+    if (!clickedInside && this.showUserPopupContainer) {
+      this.showUserPopupContainer = false;
     }
     if (!clickedInside && this.showChannelPopup) {
       this.showChannelPopup = false;
