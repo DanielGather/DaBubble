@@ -1,8 +1,13 @@
-@if (mode === 'add') {
 <div
-  class="absolute top-full right-0 z-30 bg-white shadow-2xl p-10 w-96 rounded-standard rounded-tr-none"
+  class="absolute top-full right-0 z-30 bg-white shadow-2xl p-10 w-96 rounded-standard rounded-tr-none transition-all duration-300 ease-in-out overflow-hidden"
   (click)="$event.stopPropagation()"
+  [ngClass]="{
+    'h-[450px]': mode === 'add',
+    'h-[240px]': mode === 'show'
+  }"
 >
+  @if (mode === 'add') {
+
   <div id="addUserWrapper" class="flex flex-col gap-2">
     <div class="flex justify-between">
       <h3>Leute hinzufügen</h3>
@@ -65,23 +70,27 @@
     <!-- user search input end -->
 
     <div class="flex justify-end">
-      <app-button class="">Hinzufügen</app-button>
+      <app-button>Hinzufügen</app-button>
     </div>
   </div>
+
+  } @else if (mode === 'show') {
+
+  <div id="addUserWrapper" class="flex flex-col gap-2">
+    <div class="flex justify-between">
+      <h3>Mitglieder</h3>
+      <img (click)="closePopup.emit()" src="img/close.svg" alt="" />
+    </div>
+
+    <div class="flex justify-start">
+      <button
+        class="bg-white hover:bg-bg-main text-black rounded-standard h-12 w-fit pl-4 pr-4 flex items-center gap-4"
+      >
+        <img src="img/person_add_gray_bg.svg" alt="" />
+        <div>Mitglieder hinzufügen</div>
+      </button>
+    </div>
+  </div>
+
+  }
 </div>
-}
-
-@else if (mode === 'show') {
-  <div>test</div>
-  <div>test</div>
-  <div>test</div>
-  <div>test</div>
-  <div>test</div>
-  <div>test</div>
-  <div>test</div>
-  <div>test</div>
-  <div>test</div>
-  <div>test</div>
-
-  
-}
