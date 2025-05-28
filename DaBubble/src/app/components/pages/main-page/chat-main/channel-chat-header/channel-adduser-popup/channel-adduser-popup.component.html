@@ -55,7 +55,7 @@
       <li
         *ngFor="let user of users"
         (mousedown)="addUserToChannel(user.id!)"
-        class="flex gap-4 items-center pl-4 pr-4 pt-2 pb-2 hover:cursor-pointer hover:bg-color-border"
+        class="flex gap-4 items-center pl-4 pr-4 pt-2 pb-2 hover:cursor-pointer hover:bg-bg-main"
       >
         <div class="relative w-10 h-10">
           <img class="rounded-full" [src]="getAvatar(user.avatarId)" alt="" />
@@ -86,7 +86,7 @@
       <div
         (click)="toggleClickedUserPopup()"
         *ngFor="let user of usersInChannel"
-        class="flex items-center gap-4 pl-4 pr-4 pt-2 pb-2 rounded-standard hover:cursor-pointer hover:bg-color-border"
+        class="flex items-center gap-4 pl-4 pr-4 pt-2 pb-2 rounded-standard hover:cursor-pointer hover:bg-bg-main"
       >
         <div class="relative w-10 h-10">
           <img
