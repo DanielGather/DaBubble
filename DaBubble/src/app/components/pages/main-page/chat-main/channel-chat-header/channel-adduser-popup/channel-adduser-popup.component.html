@@ -2,6 +2,7 @@
 
 <app-other-users-popup
   *ngIf="showUserPopupVisible"
+  [userData]="selectedUser"
   (closeUserPopup)="toggleClickedUserPopup()"
 ></app-other-users-popup>
 
@@ -86,6 +87,7 @@
       <div
         (click)="toggleClickedUserPopup()"
         *ngFor="let user of usersInChannel"
+        (click)="onUserClicked(user.id!)"
         class="flex items-center gap-4 pl-4 pr-4 pt-2 pb-2 rounded-standard hover:cursor-pointer hover:bg-bg-main"
       >
         <div class="relative w-10 h-10">

@@ -7,7 +7,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { map, Observable, of } from 'rxjs';
+import { map, Observable, of, take } from 'rxjs';
 import { arrayUnion } from '@angular/fire/firestore';
 import { FirestoreService } from '../../../../../../services/firestore.service';
 import { ActivatedRoute } from '@angular/router';
@@ -46,6 +46,9 @@ export class ChannelAdduserPopupComponent {
   searchTerm: string = '';
   showUserPopupVisible = false;
 
+selectedUser: AppUser | null = null;
+
+
   @Input() mode: 'add' | 'show' | null = null;
 
   ngOnChanges(changes: SimpleChanges) {
@@ -62,6 +65,16 @@ export class ChannelAdduserPopupComponent {
       );
     }
   }
+
+onUserClicked(userId: string) {
+  this.usersInChannel$.pipe(take(1)).subscribe(users => {
+    const foundUser = users.find(user => user.id === userId);
+    if (foundUser) {
+      this.selectedUser = foundUser;
+      this.showUserPopupVisible = true;
+    }
+  });
+}
 
   onFocus() {
     this.isFocused = true;

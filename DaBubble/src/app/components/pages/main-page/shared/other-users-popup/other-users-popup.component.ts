@@ -21,7 +21,7 @@ import { FirestoreService } from '../../../../../services/firestore.service';
   styleUrl: './other-users-popup.component.scss',
 })
 export class OtherUsersPopupComponent {
-  @Input() creatorId: string = '';
+  @Input() userData: AppUser | null = null;
 
   active: boolean = true;
   green = '#92c83e';
@@ -29,19 +29,9 @@ export class OtherUsersPopupComponent {
   firestoreService = inject(FirestoreService);
   fullName: string = '';
   currentUser$: Observable<AppUser | null> = this.userService.currentUser$;
-  creatorData: AppUser | null = null;
 
   constructor() {
     this.currentUser$.subscribe();
-  }
-
-  async ngOnChanges(changes: SimpleChanges) {
-    if (changes['creatorId'] && this.creatorId) {
-      this.creatorData = await this.firestoreService.getSingleSnapshot<AppUser>(
-        'users',
-        this.creatorId
-      );
-    }
   }
 
   /**

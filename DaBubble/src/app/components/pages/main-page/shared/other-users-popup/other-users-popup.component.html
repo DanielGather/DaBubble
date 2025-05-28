@@ -30,9 +30,9 @@
         />
       </div>
       <div class="flex justify-between items-center">
-        <div *ngIf="creatorData">
+        <div *ngIf="userData">
           <p class="text-24 font-bold">
-            {{ creatorData.firstName }} {{ creatorData.lastName }}
+             {{ userData.firstName }} {{ userData.lastName }}
           </p>
         </div>
       </div>
@@ -53,11 +53,11 @@
           <p class="row-start-1 col-start-2 text-lg font-bold">
             E‑Mail‑Adresse
           </p>
-          <div *ngIf="creatorData">
+          <div *ngIf="userData">
             <p
               class="row-start-2 col-start-2 text-fc-email-blue cursor-pointer"
             >
-              {{ creatorData.email }}
+                 {{ userData.email }}
             </p>
           </div>
         </div>
