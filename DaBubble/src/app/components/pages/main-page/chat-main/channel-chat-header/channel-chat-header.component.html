@@ -47,23 +47,23 @@
         src="img/person_add_colored_bg.svg"
         class="absolute opacity-0 group-hover:opacity-100 transition-opacity duration-200"
       />
-
-      @if (showUserPopupContainer) {
-      <app-channel-adduser-popup
-        *ngIf="showUserPopupContainer"
-        [channelName]="channelName"
-        [usersList$]="usersList$"
-        [usersNotInChannel$]="usersNotInChannel$"
-        [usersInChannel$]="usersInChannel$"
-        [userIds$]="userIds$"
-        [mode]="popupMode"
-        (closePopup)="closeUserPopupContainer()"
-        (openAddUserPopup)="openAddUserToChannelPopUp()"
-      ></app-channel-adduser-popup>
-      }
     </button>
   </div>
 </div>
+
+@if (showUserPopupContainer) {
+<app-channel-adduser-popup
+  *ngIf="showUserPopupContainer"
+  [channelName]="channelName"
+  [usersList$]="usersList$"
+  [usersNotInChannel$]="usersNotInChannel$"
+  [usersInChannel$]="usersInChannel$"
+  [userIds$]="userIds$"
+  [mode]="popupMode"
+  (closePopup)="closeUserPopupContainer()"
+  (openAddUserPopup)="openAddUserToChannelPopUp()"
+></app-channel-adduser-popup>
+}
 
 <app-channel-edit-popup
   *ngIf="showChannelPopup"

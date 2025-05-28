@@ -1,5 +1,12 @@
+<!-- USER POPUP -->
+
+<app-other-users-popup
+  *ngIf="showUserPopupVisible"
+  (closeUserPopup)="toggleClickedUserPopup()"
+></app-other-users-popup>
+
 <div
-  class="absolute top-full right-0 z-30 bg-white shadow-2xl w-96 rounded-standard rounded-tr-none p-6 flex flex-col max-h-[800px] overflow-hidden"
+  class="absolute right-4 z-30 bg-white shadow-2xl w-96 rounded-standard rounded-tr-none p-6 flex flex-col max-h-[800px] overflow-hidden"
   (click)="$event.stopPropagation()"
 >
   <!-- HEADER -->
@@ -47,7 +54,7 @@
     >
       <li
         *ngFor="let user of users"
-        (click)="addUserToChannel(user.id!)"
+        (mousedown)="addUserToChannel(user.id!)"
         class="flex gap-4 items-center pl-4 pr-4 pt-2 pb-2 hover:cursor-pointer hover:bg-color-border"
       >
         <div class="relative w-10 h-10">
@@ -77,6 +84,7 @@
     <!-- MITGLIEDER-LISTE -->
     <ng-container *ngIf="usersInChannel$ | async as usersInChannel">
       <div
+        (click)="toggleClickedUserPopup()"
         *ngFor="let user of usersInChannel"
         class="flex items-center gap-4 pl-4 pr-4 pt-2 pb-2 rounded-standard hover:cursor-pointer hover:bg-color-border"
       >
@@ -130,3 +138,5 @@
     </button>
   </div>
 </div>
+
+

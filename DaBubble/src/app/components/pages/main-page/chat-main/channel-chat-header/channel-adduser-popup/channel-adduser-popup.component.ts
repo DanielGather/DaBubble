@@ -14,10 +14,16 @@ import { ActivatedRoute } from '@angular/router';
 import { ButtonComponent } from '../../../../../shared/button/button.component';
 import { AppUser } from '../../../../../../types/types';
 import { FormsModule } from '@angular/forms';
+import { OtherUsersPopupComponent } from '../../../shared/other-users-popup/other-users-popup.component';
 
 @Component({
   selector: 'app-channel-adduser-popup',
-  imports: [ButtonComponent, CommonModule, FormsModule],
+  imports: [
+    ButtonComponent,
+    CommonModule,
+    FormsModule,
+    OtherUsersPopupComponent,
+  ],
   templateUrl: './channel-adduser-popup.component.html',
   styleUrl: './channel-adduser-popup.component.scss',
 })
@@ -33,11 +39,12 @@ export class ChannelAdduserPopupComponent {
   @Input() usersInChannel$!: Observable<AppUser[]>;
 
   @Output() closePopup = new EventEmitter<void>();
-@Output() openAddUserPopup = new EventEmitter<void>();
+  @Output() openAddUserPopup = new EventEmitter<void>();
   firestore = inject(FirestoreService);
   isFocused: boolean = false;
   filteredUsersNotInChannel$: Observable<AppUser[]> = of([]);
   searchTerm: string = '';
+  showUserPopupVisible = false;
 
   @Input() mode: 'add' | 'show' | null = null;
 
@@ -113,5 +120,9 @@ export class ChannelAdduserPopupComponent {
         return 'img/user_6.png';
     }
     return 'img/user_1.png';
+  }
+
+  toggleClickedUserPopup() {
+    this.showUserPopupVisible = !this.showUserPopupVisible;
   }
 }
