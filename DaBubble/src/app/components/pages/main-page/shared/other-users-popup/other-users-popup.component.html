@@ -24,8 +24,9 @@
       </div>
       <div class="flex items-center justify-center">
         <img
+         *ngIf="userData"
           class="w-[128px] h-[128px] md:w-48 md:h-48 rounded-full"
-          src="img/user_1.png"
+          [src]="getAvatar(userData.avatarId)"
           alt=""
         />
       </div>

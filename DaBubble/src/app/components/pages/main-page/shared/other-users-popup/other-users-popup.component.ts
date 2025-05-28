@@ -46,4 +46,22 @@ export class OtherUsersPopupComponent {
   closeClickedUserProfile() {
     this.closeUserPopup.emit();
   }
+
+    getAvatar(avatarId: number) {
+    switch (avatarId) {
+      case 1:
+        return 'img/user_1.png';
+      case 2:
+        return 'img/user_2.png';
+      case 3:
+        return 'img/user_3.png';
+      case 4:
+        return 'img/user_4.png';
+      case 5:
+        return 'img/user_5.png';
+      case 6:
+        return 'img/user_6.png';
+    }
+    return 'img/user_1.png';
+  }
 }
