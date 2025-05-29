@@ -2,6 +2,7 @@ export enum ChatType {
   default = 'default',
   private = 'private',
   channel = 'channel',
+  thread = 'thread',
   self = 'self',
 }
 

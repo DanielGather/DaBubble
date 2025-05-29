@@ -32,6 +32,12 @@
         [chatMessages]="chatMessages"
         [chatTypeInput]="chatType.channel"
       ></app-chat-messages-container>
+      } @else if (chatTypeInput === chatType.thread){
+      <app-chat-messages-container
+        class="w-full overflow-auto h-full"
+        [chatMessages]="chatMessages"
+        [chatTypeInput]="chatType.thread"
+      ></app-chat-messages-container>
       }
 
       <!-- Chatinput-->

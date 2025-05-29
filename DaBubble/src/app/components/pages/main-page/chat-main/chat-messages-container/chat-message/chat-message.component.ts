@@ -50,7 +50,7 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
     creatorName: '',
     creatorAvatarId: 0,
     userId: '',
-    threadsId: 'mc2IP401tJgUTqQsr7jD',
+    threadsId: '',
     emojis: [
       {
         emojiId: '',

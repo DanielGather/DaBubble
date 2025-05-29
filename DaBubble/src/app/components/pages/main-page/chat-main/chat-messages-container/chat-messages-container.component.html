@@ -1,7 +1,6 @@
 <div
   class="w-full flex flex-col items-start justify-between relative z-[2] h-full"
 >
-
   <div
     class="w-full h-full overflow-y-auto pt-[1.5rem]"
     #messageField
@@ -33,10 +32,10 @@
       [messageTypeInput]="messageType.own"
       [isThread]="isThread"
       [isTopMessage]="true"
-      [answersCount]="
-        chatMessages[messageDataService.getCurrentThreadId()].thread.length"
     ></app-chat-message>
 
+    <!-- [answersCount]="
+      chatMessages[messageDataService.getCurrentThreadId()].thread.length" -->
     @for(message of
     chatMessages[messageDataService.getCurrentThreadId()].thread; track $index)
     { @if(message.creatorId === userId) {
