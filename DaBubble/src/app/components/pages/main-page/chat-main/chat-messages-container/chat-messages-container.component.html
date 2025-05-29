@@ -25,20 +25,23 @@
     ></app-chat-message>
 
     <!-- Thread messages. -->
-    } } } @if(chatMessages && isThread) {
+    } } } @if(chatMessages && isThread) { @for(message of chatMessages; track
+    message; let index = $index){
     <app-chat-message
-      [chatType]="chatType.channel"
-      [message]="chatMessages[messageDataService.getCurrentThreadId()]"
+      [chatType]="chatType.thread"
+      [message]="message"
       [messageTypeInput]="messageType.own"
       [isThread]="isThread"
       [isTopMessage]="true"
     ></app-chat-message>
 
+    }
+
     <!-- [answersCount]="
       chatMessages[messageDataService.getCurrentThreadId()].thread.length" -->
-    @for(message of
-    chatMessages[messageDataService.getCurrentThreadId()].thread; track $index)
-    { @if(message.creatorId === userId) {
+
+    @for(message of chatMessages; track $index) { @if(message.creatorId ===
+    userId) {
     <app-chat-message
       [chatType]="chatType.channel"
       [message]="message"

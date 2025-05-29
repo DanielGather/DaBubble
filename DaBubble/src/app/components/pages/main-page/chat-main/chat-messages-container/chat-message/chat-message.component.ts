@@ -50,14 +50,13 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
     creatorName: '',
     creatorAvatarId: 0,
     userId: '',
-    threadsId: '',
+    threadId: '',
     emojis: [
       {
         emojiId: '',
         userIdCount: [],
       },
     ],
-    thread: [],
   };
   @Input() isThread: boolean = false;
   @Input() isTopMessage: boolean = false;
@@ -68,7 +67,7 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
-    console.log('TEST', this.chatType);
+    console.log('TEST', this.message);
 
     this.userService.currentUser$
       .pipe(takeUntil(this.destroy$))
@@ -83,7 +82,6 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
   async openThreadBar(message: any) {
     let channelId = this.route.snapshot.paramMap.get('id');
     let threadId: string;
-
     if (message.threadId) {
       threadId = message.threadId;
       console.log('Öffne bestehenden Thread:', threadId);
@@ -108,7 +106,7 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
     }
 
     // Navigation und UI-State
-    this.router.navigate(['/chat', 'channel', channelId, 'thread', threadId]);
     this.threadbarService.openThread(threadId, channelId!);
+    this.router.navigate(['/chat', 'channel', channelId, 'thread', threadId]);
   }
 }
