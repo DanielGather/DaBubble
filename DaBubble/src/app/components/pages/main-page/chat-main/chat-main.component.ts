@@ -58,6 +58,8 @@ export class ChatMainComponent implements OnInit {
 
   unsubscribeMessages: any;
 
+
+  
   /**
    * variable to use the enum ChatType in the html-template.
    */

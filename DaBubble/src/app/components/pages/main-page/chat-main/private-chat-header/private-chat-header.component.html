@@ -1,10 +1,14 @@
 <div
   class="flex items-center justify-start flex-row md:px-[2.8rem] px-[1rem] py-5 gap-3"
+  *ngIf="chatPartnerData"
 >
   <div class="flex flex-row relative">
     <div class="h-[3.125rem] w-[3.125rem]">
-      <img class="w-full h-full rounded-[50%]" src="img/user_1.png" alt="" />
-
+      <img
+        class="w-full h-full rounded-[50%]"
+        [src]="'img/user_' + chatPartnerData.avatarId + '.png'"
+        alt=""
+      />
       <img
         [src]="online ? 'img/online.svg' : 'img/offline.svg'"
         alt=""
@@ -12,5 +16,7 @@
       />
     </div>
   </div>
-  <span class="text-24 font-[700]"> A name </span>
+  <span class="text-24 font-[700]">
+    {{ chatPartnerData.firstName }} {{ chatPartnerData.lastName }}
+  </span>
 </div>

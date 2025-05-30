@@ -137,6 +137,7 @@ export class SidebarComponent {
     if (!this.privateChannelExist(chatPartnerId, userId)) {
       this.firestoreService.addDoc('privateChats', {
         creatorId: userId,
+        chatPartnerId: chatPartnerId,
         userIds: [userId, chatPartnerId],
       });
     }
