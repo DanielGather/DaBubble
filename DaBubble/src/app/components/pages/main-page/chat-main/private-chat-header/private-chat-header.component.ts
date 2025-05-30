@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-private-chat-header',
   templateUrl: './private-chat-header.component.html',
-    imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule],
   styleUrl: './private-chat-header.component.scss',
   standalone: true,
 })
@@ -17,7 +17,7 @@ export class PrivateChatHeaderComponent {
   chatPartnerId: string | null = null;
   chatPartnerData: AppUser | null = null; // ⬅️ Das war der Fehler!
 
-  online: boolean = true;
+  online: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,13 +31,14 @@ export class PrivateChatHeaderComponent {
     });
   }
 
-  async loadChatPartnerData(id: string) {
-    const user = await this.firestore.getSingleCollection<AppUser>('users', id);
-    if (user) {
-      this.chatPartnerData = user;
-      console.log('Chat-Partner-Daten:', this.chatPartnerData);
-    } else {
-      console.warn('User nicht gefunden!');
-    }
+async loadChatPartnerData(id: string) {
+  const user = await this.firestore.getSingleCollection<AppUser>('users', id);
+  if (user) {
+    this.chatPartnerData = user;
+    this.online = !!user.online;
+    console.log('Chat-Partner-Daten:', this.chatPartnerData);
+  } else {
+    console.warn('User nicht gefunden!');
   }
+}
 }
