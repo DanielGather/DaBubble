@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
 })
 export class PrivateChatHeaderComponent {
   chatPartnerId: string | null = null;
-  chatPartnerData: AppUser | null = null; // ⬅️ Das war der Fehler!
+  chatPartnerData: AppUser | null = null;
 
   online: boolean = false;
 
