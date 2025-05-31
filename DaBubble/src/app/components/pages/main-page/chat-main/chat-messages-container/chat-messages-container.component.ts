@@ -22,7 +22,9 @@ import { UsersService } from '../../../../../services/users.service';
   templateUrl: './chat-messages-container.component.html',
   styleUrl: './chat-messages-container.component.scss',
 })
-export class ChatMessagesContainerComponent implements AfterViewInit, OnChanges {
+export class ChatMessagesContainerComponent
+  implements AfterViewInit, OnChanges
+{
   messageDataService = inject(MessagesDataService);
   userService = inject(UsersService);
   chatType = ChatType;
@@ -39,7 +41,6 @@ export class ChatMessagesContainerComponent implements AfterViewInit, OnChanges 
   @Input() chatMessages: Array<ChatMessage> = [];
 
   @Input() isThread: boolean = false;
-
 
   /**
    * an elementreference to the message field. (messages are rendered in here)

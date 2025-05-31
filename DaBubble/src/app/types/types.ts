@@ -2,6 +2,7 @@ export enum ChatType {
   default = 'default',
   private = 'private',
   channel = 'channel',
+  thread = 'thread',
   self = 'self',
 }
 
@@ -18,10 +19,9 @@ export interface ChatMessage {
   creatorId: string;
   creatorName: string;
   creatorAvatarId: number;
-  threadsId: string;
+  threadId: string;
   userId: string;
   emojis: Array<ChatMessaggeEmoji>;
-  thread: Array<ChatMessage>;
 }
 
 export interface ChatMessaggeEmoji {

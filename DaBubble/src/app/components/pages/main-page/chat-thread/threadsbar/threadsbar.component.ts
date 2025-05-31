@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject, computed } from '@angular/core';
 import { ChatInputComponent } from '../../chat-main/chat-input/chat-input.component';
 import { CommonModule } from '@angular/common';
 import { ChatMessagesContainerComponent } from '../../chat-main/chat-messages-container/chat-messages-container.component';
@@ -15,12 +15,23 @@ import { ThreadService } from '../../../../../services/thread.service';
 export class ThreadsbarComponent {
   @Input() chatMessages: Array<ChatMessage> = [];
 
+  threadMessage = computed(() => {
+    return this.chatMessages.filter(
+      (message) => message.threadId === this.threadbarService.currentThreadId()
+    );
+  });
+
+  messageDataService = inject(MessagesDataService);
   isOpen: boolean = true;
   currentThreadMessageId: string = '';
 
   threadbarService = inject(ThreadService);
 
-  constructor(public messageDataService: MessagesDataService) {}
+  constructor() {}
+
+  ngOnInit() {
+    console.log('threadmessages', this.threadMessage());
+  }
 
   closeThread() {
     this.threadbarService.closeThread();

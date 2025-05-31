@@ -34,4 +34,9 @@ export class PrivateMessageService {
   unsubscribeFromPrivateChats(): void {
     this.unsubscribeFn?.();
   }
+
+  getChatPartnerId(chat: PrivateChat, currentUserId: string): string | null {
+  if (!chat.userIds || chat.userIds.length !== 2) return null;
+  return chat.userIds.find((id) => id !== currentUserId) || null;
+}
 }

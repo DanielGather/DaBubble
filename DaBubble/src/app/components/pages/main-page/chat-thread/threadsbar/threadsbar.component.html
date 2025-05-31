@@ -30,8 +30,8 @@
     <div id="chat-wrapper" class="min-h-0 flex-grow flex flex-col">
       <app-chat-messages-container
         class="overflow-auto"
-        style="display: flex; flex-grow:1;"
-        [chatMessages]="chatMessages"
+        style="display: flex; flex-grow: 1"
+        [chatMessages]="threadMessage()"
         [isThread]="true"
       ></app-chat-messages-container>
 

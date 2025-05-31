@@ -58,6 +58,8 @@ export class ChatMainComponent implements OnInit {
 
   unsubscribeMessages: any;
 
+
+  
   /**
    * variable to use the enum ChatType in the html-template.
    */
@@ -109,6 +111,12 @@ export class ChatMainComponent implements OnInit {
 
         this.newMessages.set(filtered);
       }
+      // if thread
+      // else if (this.chatTypeInput === ChatType.thread) {
+      //   const filtered = allMessages.filter(() => {
+      //     console.log('filtered', filtered);
+      //   });
+      // }
 
       this.chatMessages = this.newMessages();
     });

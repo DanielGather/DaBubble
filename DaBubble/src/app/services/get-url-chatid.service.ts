@@ -3,10 +3,10 @@ import { Router, NavigationEnd, ActivatedRouteSnapshot } from '@angular/router';
 import { BehaviorSubject, filter } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GetUrlChatidService {
-private urlParameterSubject = new BehaviorSubject<{
+  private urlParameterSubject = new BehaviorSubject<{
     chatType: string | null;
     chatId: string | null;
     threadsId?: string | null;
@@ -27,18 +27,20 @@ private urlParameterSubject = new BehaviorSubject<{
 
         const chatType = routeParams?.params['chatType'] || null;
         const chatId = routeParams?.params['id'] || null;
-        const threadsId = routeParams?.params['threadsId'] || null; // falls später ergänzt
+        const threadsId = routeParams?.params['threadId'] || null; // falls später ergänzt
 
         this.urlParameterSubject.next({
           chatType,
           chatId,
-          threadsId
+          threadsId,
         });
       });
   }
 
   // Rekursiv zur tiefsten Route mit Params
-  private findDeepestChildWithParams(route: ActivatedRouteSnapshot): ActivatedRouteSnapshot | null {
+  private findDeepestChildWithParams(
+    route: ActivatedRouteSnapshot
+  ): ActivatedRouteSnapshot | null {
     while (route.firstChild) {
       route = route.firstChild;
     }
