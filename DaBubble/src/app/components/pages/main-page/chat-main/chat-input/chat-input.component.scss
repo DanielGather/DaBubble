@@ -5,6 +5,39 @@
 
 emoji-mart {
     height: 100%;
-    border: inherit;
+    border: none;
     border-radius: 0;
+    overflow: hidden;
+}
+
+.emoji-picker-container {
+    display: grid;
+    grid-template-rows: 0fr;
+    overflow: hidden;
+}
+
+.close-emoji-picker {
+    animation: close-emoji-picker ease-in-out 300ms forwards;
+}
+
+.open-emoji-picker {
+    animation: open-emoji-picker ease-in-out 300ms forwards;
+}
+
+@keyframes open-emoji-picker {
+    0%{
+        grid-template-rows: 0fr;
+    }
+    100% {
+        grid-template-rows: 1fr;
+    }
+}
+
+@keyframes close-emoji-picker {
+    0% {
+        grid-template-rows: 1fr;
+    }
+    100% {
+        grid-template-rows: 0fr;
+    }
 }

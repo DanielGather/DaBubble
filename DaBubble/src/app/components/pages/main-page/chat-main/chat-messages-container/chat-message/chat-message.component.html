@@ -74,7 +74,7 @@
             <div class="option option-hover" #emjoThumbsUp>
               <img src="img/emoji_example.svg" alt="Thumbs up emoji" />
             </div>
-            <div class="option option-hover" #emojiMenuBtn>
+            <div (click)="emojiService.toggleEmojiMenu($event)" class="option option-hover" #emojiMenuBtn>
               <img src="img/add_reaction.svg" alt="Add reaction button" />
             </div>
             @if(chatType === 'private') {
@@ -115,7 +115,7 @@
             </div>
 
             <!-- Emoji-Menu-Btn -->
-            <div (click)="showEmojiMenu = !showEmojiMenu; $event.stopPropagation()" id="open-emoji-menu-btn"
+            <div (click)="emojiService.toggleEmojiMenu($event)" id="open-emoji-menu-btn"
               class="h-8 w-8 shrink-0">
               <img src="img/add_reaction.svg" alt="Open emoji menu" class="h-full w-full cursor-pointer" />
             </div>

@@ -22,6 +22,7 @@ import { ThreadService } from '../../../../../../services/thread.service';
 import { FirestoreService } from '../../../../../../services/firestore.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChannelsService } from '../../../../../../services/channels.service';
+import { EmojiService } from '../../../../../../services/emoji.service';
 
 @Component({
   selector: 'app-chat-message',
@@ -35,6 +36,7 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
   threadbarService = inject(ThreadService);
   firestoreService = inject(FirestoreService);
   channelsService = inject(ChannelsService);
+  emojiService = inject(EmojiService);
 
   //for html
   user: any;

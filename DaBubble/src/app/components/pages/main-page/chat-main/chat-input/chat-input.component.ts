@@ -18,7 +18,7 @@ import { ChannelsService } from '../../../../../services/channels.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
-
+import { EmojiService } from '../../../../../services/emoji.service';
 
 @Component({
   standalone: true,
@@ -26,8 +26,8 @@ import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-     PickerComponent, 
-     EmojiModule
+    PickerComponent,
+    EmojiModule
   ],
   templateUrl: './chat-input.component.html',
   styleUrl: './chat-input.component.scss',
@@ -38,12 +38,14 @@ export class ChatInputComponent implements OnInit, OnDestroy {
   urlService = inject(GetUrlChatidService);
   firestoreService = inject(FirestoreService);
   channelService = inject(ChannelsService);
+  emojiService = inject(EmojiService);
 
   //unsubscribe variables
   private destroy$ = new Subject<void>();
 
   //state booleans
-  showEmojiMenu: boolean = false;
+  showEmojiMenu: boolean = this.emojiService.showEmojiMenu;
+  hasInteracted: boolean = this.emojiService.showEmojiMenu;
 
   //chattype
   chatType: ChatType = ChatType.default;
@@ -78,9 +80,11 @@ export class ChatInputComponent implements OnInit, OnDestroy {
     const target = event.target as HTMLElement;
     if (
       !target.closest('.menu-container') &&
-      !target.closest('.emoji-button')
+      !target.closest('.emoji-button') &&
+      !target.closest('emoji-mart') &&
+      !target.closest('.text-area')
     ) {
-      this.showEmojiMenu = false;
+      this.emojiService.showEmojiMenu = false;
     }
   }
 
@@ -89,10 +93,10 @@ export class ChatInputComponent implements OnInit, OnDestroy {
       let params = this.urlParamsSignal();
       this.setCreatorIdOfMessageObject();
       this.setChatIdOfMessageObject();
-    });
+    });    
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -195,9 +199,10 @@ export class ChatInputComponent implements OnInit, OnDestroy {
     this.chatInputGroup.get('message')?.reset();
   }
 
-    addReaction(event: any) {
+//muss dann in den emoji service rein
+  addReaction(event: any) {
     console.log(event);
-    
+
   }
 
   // /**

@@ -59,7 +59,7 @@ export class ChatMessagesContainerComponent
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['chatMessages'] && changes['chatMessages'].currentValue) {
-      setTimeout(() => this.scrollToBottom(), 0);
+      setTimeout(() => this.scrollToBottom(), 0);      
     }
   }
 
