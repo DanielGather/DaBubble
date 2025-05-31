@@ -1,9 +1,9 @@
-// #message-field {
-//     max-height:calc(100vh - (379.226px + 2rem));
-// }
-
-// @media (min-width: 767px) {
-//     #message-field {
-//         max-height:calc(100vh - (379.226px + 4rem));
-//     }
-// }
+::ng-deep .custom-emoji-picker {
+  position: absolute;
+  top: 0;
+  left: 2.8rem;
+  bottom: 0;
+  right: 2.8rem;
+  z-index: 9999;
+  display: block;
+}

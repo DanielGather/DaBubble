@@ -1,4 +1,8 @@
 <div>
+    <div class="bg-black h-[16rem] w-full flex flex-col">
+        <emoji-mart [style]="{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', paddingInline:'2.8rem'}" [darkMode]="false"></emoji-mart>
+    </div>
+
     <form [formGroup]="chatInputGroup" (ngSubmit)="onSubmit()" class="
         pt-5
         pb-[2rem]
@@ -42,14 +46,6 @@
             w-full
             relative
         ">
-
-                <!-- Emoji-Menu -->
-                @if(showEmojiMenu) {
-                <div (click)="$event.stopPropagation()"
-                    class="top-[0] z-[3] absolute left-0">
-                    <emoji-mart style="width: 350px; height: 80rem;" (emojiClick)="addEmoji($event)"></emoji-mart>
-                </div>
-                }
 
                 <div class="
                     flex

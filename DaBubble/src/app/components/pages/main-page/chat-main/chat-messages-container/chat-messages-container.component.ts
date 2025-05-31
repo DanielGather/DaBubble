@@ -14,9 +14,11 @@ import { ChatMessageComponent } from './chat-message/chat-message.component';
 import { MessagesDataService } from '../../../../../services/messages-data.service';
 import { UsersService } from '../../../../../services/users.service';
 
+
+
 @Component({
   selector: 'app-chat-messages-container',
-  imports: [ChatInfoComponent, ChatMessageComponent],
+  imports: [ChatInfoComponent, ChatMessageComponent,],
   templateUrl: './chat-messages-container.component.html',
   styleUrl: './chat-messages-container.component.scss',
 })
@@ -67,4 +69,6 @@ export class ChatMessagesContainerComponent implements AfterViewInit, OnChanges 
     this.messageField.nativeElement.scrollTop =
       this.messageField.nativeElement.scrollHeight;
   }
+
+
 }

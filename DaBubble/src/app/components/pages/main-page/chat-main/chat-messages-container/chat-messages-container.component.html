@@ -1,58 +1,28 @@
-<div
-  class="w-full flex flex-col items-start justify-between relative z-[2] h-full"
->
+<div class="w-full flex flex-col items-start justify-between relative z-[2] h-full">
 
-  <div
-    class="w-full h-full overflow-y-auto pt-[1.5rem]"
-    #messageField
-    id="message-field"
-  >
+  <div class="w-full h-full overflow-y-auto pt-[1.5rem] relative" #messageField id="message-field">
     @if(chatMessages && !isThread) { @for(message of chatMessages; track
     message; let index = $index) { @if(message.creatorId === userId) {
-    <app-chat-message
-      [chatType]="chatType.private"
-      [message]="message"
-      [messageTypeInput]="messageType.own"
-      [isThread]="isThread"
-      (click)="messageDataService.setCurrentThreadId(index)"
-    ></app-chat-message>
+    <app-chat-message [chatType]="chatType.private" [message]="message" [messageTypeInput]="messageType.own"
+      [isThread]="isThread" (click)="messageDataService.setCurrentThreadId(index)"></app-chat-message>
     } @else{
-    <app-chat-message
-      [chatType]="chatType.private"
-      [message]="message"
-      [messageTypeInput]="messageType.other"
-      [isThread]="isThread"
-      (click)="messageDataService.setCurrentThreadId(index)"
-    ></app-chat-message>
+    <app-chat-message [chatType]="chatType.private" [message]="message" [messageTypeInput]="messageType.other"
+      [isThread]="isThread" (click)="messageDataService.setCurrentThreadId(index)"></app-chat-message>
 
     <!-- Thread messages. -->
     } } } @if(chatMessages && isThread) {
-    <app-chat-message
-      [chatType]="chatType.channel"
-      [message]="chatMessages[messageDataService.getCurrentThreadId()]"
-      [messageTypeInput]="messageType.own"
-      [isThread]="isThread"
-      [isTopMessage]="true"
-      [answersCount]="
-        chatMessages[messageDataService.getCurrentThreadId()].thread.length"
-    ></app-chat-message>
+    <app-chat-message [chatType]="chatType.channel" [message]="chatMessages[messageDataService.getCurrentThreadId()]"
+      [messageTypeInput]="messageType.own" [isThread]="isThread" [isTopMessage]="true" [answersCount]="
+        chatMessages[messageDataService.getCurrentThreadId()].thread.length"></app-chat-message>
 
     @for(message of
     chatMessages[messageDataService.getCurrentThreadId()].thread; track $index)
     { @if(message.creatorId === userId) {
-    <app-chat-message
-      [chatType]="chatType.channel"
-      [message]="message"
-      [messageTypeInput]="messageType.own"
-      [isThread]="isThread"
-    ></app-chat-message>
+    <app-chat-message [chatType]="chatType.channel" [message]="message" [messageTypeInput]="messageType.own"
+      [isThread]="isThread"></app-chat-message>
     } @else{
-    <app-chat-message
-      [chatType]="chatType.private"
-      [message]="message"
-      [messageTypeInput]="messageType.other"
-      [isThread]="isThread"
-    ></app-chat-message>
+    <app-chat-message [chatType]="chatType.private" [message]="message" [messageTypeInput]="messageType.other"
+      [isThread]="isThread"></app-chat-message>
     } } }
   </div>
 
@@ -61,4 +31,6 @@
     <app-chat-info [chatTypeInput]="chatTypeInput"></app-chat-info>
   </div>
   }
+
+
 </div>
