@@ -24,10 +24,12 @@ export class ChatInfoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.loadChatPartnerData(id);
-    }
+    this.route.paramMap.subscribe((params) => {
+      const id = params.get('id');
+      if (id) {
+        this.loadChatPartnerData(id);
+      }
+    });
   }
 
   async loadChatPartnerData(id: string) {
