@@ -11,9 +11,9 @@
 
       <!--  headers-->
       @if(chatTypeInput === chatType.private) {
-      <app-private-chat-header class="w-full shadow"></app-private-chat-header>
+      <app-private-chat-header class="w-full [box-shadow:0px_2px_10px_rgba(0,0,0,0.08)]"></app-private-chat-header>
       } @else if(chatTypeInput === chatType.channel) {
-      <app-channel-chat-header class="w-full shadow"></app-channel-chat-header>
+      <app-channel-chat-header class="w-full [box-shadow:0px_2px_10px_rgba(0,0,0,0.08)]"></app-channel-chat-header>
       }
 
       <!-- Messager container private -->
