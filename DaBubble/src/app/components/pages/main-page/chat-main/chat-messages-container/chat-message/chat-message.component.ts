@@ -12,6 +12,7 @@ import {
   MessageType,
   ChatMessage,
   ChatType,
+  EmojiFnRegulator,
 } from '../../../../../../types/types';
 import { SingleEmojiComponent } from './single-emoji/single-emoji.component';
 import { CommonModule } from '@angular/common';
@@ -37,6 +38,9 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
   firestoreService = inject(FirestoreService);
   channelsService = inject(ChannelsService);
   emojiService = inject(EmojiService);
+
+  //types
+  emojiFnRegulator = EmojiFnRegulator;
 
   //for html
   user: any;
@@ -64,31 +68,15 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
   @Input() isThread: boolean = false;
   @Input() isTopMessage: boolean = false;
   @Input() answersCount: number | null = null;
-  showMenu: boolean = false;
-  showEmojiMenu: boolean = false;
 
   /**
-   * closes the emoji menu, if user is clicking outside of .menu-container & .emoji-button
-   *
-   * @param event just an event, it triggers if the user is clicking outside of .menu-container & .emoji-button
+   * message-interactions menu state boolean
    */
-  @HostListener('document:click', ['$event'])
-  onClickOutside(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    if (
-      !target.closest('.menu-container') &&
-      !target.closest('.emoji-button')
-    ) {
-      this.showEmojiMenu = false;
-    }
-  }
+  showMenu: boolean = false;
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
-    //test
-    console.log('TEST', this.chatType);
-    //testends
     this.userService.currentUser$
       .pipe(takeUntil(this.destroy$))
       .subscribe((user) => (this.user = user));

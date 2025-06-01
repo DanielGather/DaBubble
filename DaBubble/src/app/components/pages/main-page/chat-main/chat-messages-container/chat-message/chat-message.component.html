@@ -1,5 +1,4 @@
 <div
-  (click)="showEmojiMenu = false"
   class="px-4 overflow-x-clip"
   [ngClass]="{ 'hover-over-message-other': messageTypeInput === 'other' }"
   (mouseenter)="showMenu = true"
@@ -103,7 +102,7 @@
               <img src="img/emoji_example.svg" alt="Thumbs up emoji" />
             </div>
             <div
-              (click)="emojiService.toggleEmojiMenu($event)"
+              (click)="emojiService.toggleEmojiMenu($event, emojiFnRegulator.addReaction)"
               class="option option-hover"
               #emojiMenuBtn
             >
@@ -157,7 +156,7 @@
 
             <!-- Emoji-Menu-Btn -->
             <div
-              (click)="emojiService.toggleEmojiMenu($event)"
+              (click)="emojiService.toggleEmojiMenu($event, emojiFnRegulator.addReaction)"
               id="open-emoji-menu-btn"
               class="h-8 w-8 shrink-0"
             >

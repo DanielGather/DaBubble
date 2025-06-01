@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { UsersService } from '../../../../../services/users.service';
-import { ChatType } from '../../../../../types/types';
+import { ChatType, EmojiFnRegulator } from '../../../../../types/types';
 import { GetUrlChatidService } from '../../../../../services/get-url-chatid.service';
 import { FirestoreService } from '../../../../../services/firestore.service';
 import { Subject } from 'rxjs';
@@ -43,8 +43,9 @@ export class ChatInputComponent implements OnInit, OnDestroy {
   //unsubscribe variables
   private destroy$ = new Subject<void>();
 
-  //chattype
+  //types
   chatType: ChatType = ChatType.default;
+  emojiFnRegulator = EmojiFnRegulator;
 
   //data storage variables
   channelData: any;
@@ -193,11 +194,5 @@ export class ChatInputComponent implements OnInit, OnDestroy {
     });
 
     this.chatInputGroup.get('message')?.reset();
-  }
-
-//muss dann in den emoji service rein
-  addReaction(event: any) {
-    console.log(event);
-
   }
 }

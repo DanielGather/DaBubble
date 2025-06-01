@@ -113,3 +113,8 @@ export interface ThreadState {
   currentChannelId: string | null;
   threadData: any;
 }
+
+export enum EmojiFnRegulator {
+  addReaction = 'addReaction',
+  addEmojiToText = 'addEmojiToText'
+}
