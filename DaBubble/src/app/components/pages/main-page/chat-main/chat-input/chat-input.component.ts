@@ -43,10 +43,6 @@ export class ChatInputComponent implements OnInit, OnDestroy {
   //unsubscribe variables
   private destroy$ = new Subject<void>();
 
-  //state booleans
-  showEmojiMenu: boolean = this.emojiService.showEmojiMenu;
-  hasInteracted: boolean = this.emojiService.showEmojiMenu;
-
   //chattype
   chatType: ChatType = ChatType.default;
 
@@ -84,7 +80,7 @@ export class ChatInputComponent implements OnInit, OnDestroy {
       !target.closest('emoji-mart') &&
       !target.closest('.text-area')
     ) {
-      this.emojiService.showEmojiMenu = false;
+      this.emojiService.showEmojiMenu.set(false);
     }
   }
 

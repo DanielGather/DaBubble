@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, WritableSignal, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -6,8 +6,8 @@ import { Injectable } from '@angular/core';
 export class EmojiService {
 
   //state booleans
-  showEmojiMenu: boolean = false;
-  hasInteracted: boolean = false;
+  showEmojiMenu: WritableSignal<boolean> = signal(false);
+  hasInteracted: WritableSignal<boolean> = signal(false);
 
   constructor() { }
 
@@ -18,8 +18,8 @@ export class EmojiService {
  */
   toggleEmojiMenu(event: MouseEvent): void {
     event.stopPropagation();
-    this.hasInteracted = true;
-    this.showEmojiMenu = !this.showEmojiMenu;
+    this.hasInteracted.set(true);
+    this.showEmojiMenu.set(!this.showEmojiMenu());
   }
 
   /**
@@ -31,6 +31,6 @@ export class EmojiService {
    const emoji = event.emoji.native;
     const current = chatInputGroup.get('message')?.value || '';
     chatInputGroup.get('message')?.setValue(current + emoji);
-    this.showEmojiMenu = false;
+    this.showEmojiMenu.set(false);
   }
 }
