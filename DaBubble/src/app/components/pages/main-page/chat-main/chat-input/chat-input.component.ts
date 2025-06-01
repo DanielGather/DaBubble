@@ -204,16 +204,4 @@ export class ChatInputComponent implements OnInit, OnDestroy {
     console.log(event);
 
   }
-
-  // /**
-  //  * this function adds the selcted emoji in the textarea
-  //  * 
-  //  * @param event contains infos about the clicked emoji
-  //  */
-  // addEmoji(event: any) {
-  //   const emoji = event.emoji.native;
-  //   const current = this.chatInputGroup.get('message')?.value || '';
-  //   this.chatInputGroup.get('message')?.setValue(current + emoji);
-  //   this.showEmojiMenu = false;
-  // }
 }

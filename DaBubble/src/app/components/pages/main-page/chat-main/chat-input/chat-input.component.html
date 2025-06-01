@@ -4,7 +4,9 @@
         class="w-full flex flex-col emoji-picker-container">
         <emoji-mart
             [style]="{ width: '100%', height: '16rem', display: 'flex', flexDirection: 'column', paddingInline:'2.8rem'}"
-            [darkMode]="false">
+            [darkMode]="false"
+            (emojiClick)="emojiService.addEmoji($event, chatInputGroup)"
+        >
         </emoji-mart>
     </div>
     

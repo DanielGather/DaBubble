@@ -11,8 +11,9 @@ emoji-mart {
 }
 
 .emoji-picker-container {
-    display: grid;
-    grid-template-rows: 0fr;
+    //display: grid;
+    //grid-template-rows: 0fr;
+    height: 0;
     overflow: hidden;
 }
 
@@ -26,18 +27,22 @@ emoji-mart {
 
 @keyframes open-emoji-picker {
     0%{
-        grid-template-rows: 0fr;
+        //grid-template-rows: 0fr;
+        height: 0rem;
     }
     100% {
-        grid-template-rows: 1fr;
+        //grid-template-rows: 1fr;
+        height: 16rem;
     }
 }
 
 @keyframes close-emoji-picker {
     0% {
-        grid-template-rows: 1fr;
+        //grid-template-rows: 1fr;
+        height: 16rem;
     }
     100% {
-        grid-template-rows: 0fr;
+        //grid-template-rows: 0fr;
+        height: 0rem;
     }
 }
