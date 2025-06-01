@@ -58,8 +58,6 @@ export class ChatMainComponent implements OnInit {
 
   unsubscribeMessages: any;
 
-
-  
   /**
    * variable to use the enum ChatType in the html-template.
    */
@@ -111,26 +109,13 @@ export class ChatMainComponent implements OnInit {
 
         this.newMessages.set(filtered);
       }
-      // if thread
-      // else if (this.chatTypeInput === ChatType.thread) {
-      //   const filtered = allMessages.filter(() => {
-      //     console.log('filtered', filtered);
-      //   });
-      // }
+      console.log('NEW MESSAGES', this.newMessages());
 
       this.chatMessages = this.newMessages();
     });
   }
 
-  ngOnInit(): void {
-    // this.route.paramMap.subscribe((params) => {
-    //   const threadId = params.get('threadId');
-    //   if (threadId) {
-    //     // Threadsbar anzeigen
-    //     this.threadbarService.threadbarOpen.set(true);
-    //   }
-    // });
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit() {
     console.log('USER ID IST DA', this.authService.currentUserId);

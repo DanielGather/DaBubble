@@ -67,15 +67,18 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
   showMenu: boolean = false;
   showEmojiMenu: boolean = false;
 
-    /**
+  /**
    * closes the emoji menu, if user is clicking outside of .menu-container & .emoji-button
-   * 
+   *
    * @param event just an event, it triggers if the user is clicking outside of .menu-container & .emoji-button
    */
   @HostListener('document:click', ['$event'])
   onClickOutside(event: MouseEvent) {
     const target = event.target as HTMLElement;
-    if (!target.closest('.menu-container') && !target.closest('.emoji-button')) {
+    if (
+      !target.closest('.menu-container') &&
+      !target.closest('.emoji-button')
+    ) {
       this.showEmojiMenu = false;
     }
   }
@@ -99,6 +102,8 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
   async openThreadBar(message: any) {
     let channelId = this.route.snapshot.paramMap.get('id');
     let threadId: string;
+    console.log(message.messageId);
+
     if (message.threadId) {
       threadId = message.threadId;
       console.log('Öffne bestehenden Thread:', threadId);
@@ -110,18 +115,14 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
       threadId = await this.firestoreService.addDoc('threads', {
         channelId: channelId,
         userIds: rightChannel?.data.userIds,
-        originalMessageId: '0eKdA6SEm7A5zMCSVKfa', // Referenz zur ursprünglichen Nachricht
+        originalMessageId: message.messageId, // Referenz zur ursprünglichen Nachricht
         createdAt: new Date(),
       });
 
       // Thread-ID in der ursprünglichen Nachricht speichern
-      await this.firestoreService.updateDoc(
-        'messages',
-        '0eKdA6SEm7A5zMCSVKfa',
-        {
-          threadId: threadId,
-        }
-      );
+      await this.firestoreService.updateDoc('messages', message.messageId, {
+        threadId: threadId,
+      });
 
       console.log('Neuer Thread erstellt:', threadId);
     }
@@ -130,5 +131,4 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
     this.threadbarService.openThread(threadId, channelId!);
     this.router.navigate(['/chat', 'channel', channelId, 'thread', threadId]);
   }
-
 }

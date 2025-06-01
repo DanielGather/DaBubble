@@ -11,9 +11,13 @@
 
       <!--  headers-->
       @if(chatTypeInput === chatType.private) {
-      <app-private-chat-header class="w-full [box-shadow:0px_2px_10px_rgba(0,0,0,0.08)]"></app-private-chat-header>
+      <app-private-chat-header
+        class="w-full [box-shadow:0px_2px_10px_rgba(0,0,0,0.08)]"
+      ></app-private-chat-header>
       } @else if(chatTypeInput === chatType.channel) {
-      <app-channel-chat-header class="w-full [box-shadow:0px_2px_10px_rgba(0,0,0,0.08)]"></app-channel-chat-header>
+      <app-channel-chat-header
+        class="w-full [box-shadow:0px_2px_10px_rgba(0,0,0,0.08)]"
+      ></app-channel-chat-header>
       }
 
       <!-- Messager container private -->
@@ -33,11 +37,11 @@
         [chatTypeInput]="chatType.channel"
       ></app-chat-messages-container>
       } @else if (chatTypeInput === chatType.thread){
-      <app-chat-messages-container
+      <!-- <app-chat-messages-container
         class="w-full overflow-auto h-full"
         [chatMessages]="chatMessages"
         [chatTypeInput]="chatType.thread"
-      ></app-chat-messages-container>
+      ></app-chat-messages-container> -->
       }
 
       <!-- Chatinput-->
@@ -45,7 +49,7 @@
     </div>
   </div>
 
-  @if(isThreadbarOpen()){ @if(chatTypeInput === 'channel') {
+  @if(isThreadbarOpen()){
   <app-threadsbar [chatMessages]="chatMessages"></app-threadsbar>
-  } }
+  }
 </section>
