@@ -1,16 +1,17 @@
 <div>
 
-    <div [ngClass]="emojiService.hasInteracted() ? (emojiService.showEmojiMenu() ? 'open-emoji-picker' : 'close-emoji-picker') : ''"
-        class="w-full flex flex-col emoji-picker-container">
+
+    @if(emojiService.hasInteracted() && emojiService.showEmojiMenu()) {
+    <!-- [ngClass]="emojiService.hasInteracted() ? (emojiService.showEmojiMenu() ? 'open-emoji-picker' : 'close-emoji-picker') : ''"
+        //kommt in die untere div
+    -->
+    <div class="w-full flex flex-col emoji-picker-container">
         <emoji-mart
             [style]="{ width: '100%', height: '16rem', display: 'flex', flexDirection: 'column', paddingInline:'2.8rem'}"
-            [darkMode]="false"
-            (emojiClick)="emojiService.handleEmojiAction($event, chatInputGroup)"
-        >
+            [darkMode]="false" (emojiClick)="emojiService.handleEmojiAction($event, chatInputGroup)">
         </emoji-mart>
     </div>
-    
-
+    }
 
     <form [formGroup]="chatInputGroup" (ngSubmit)="onSubmit()" class="
         pt-5
