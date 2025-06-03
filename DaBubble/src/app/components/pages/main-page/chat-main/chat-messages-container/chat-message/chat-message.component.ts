@@ -69,6 +69,8 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
   @Input() isTopMessage: boolean = false;
   @Input() answersCount: number | null = null;
 
+@Output() openUserPopup = new EventEmitter<string>();
+
   /**
    * message-interactions menu state boolean
    */
