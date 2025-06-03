@@ -18,7 +18,7 @@
         }
         }
 
-                <!-- channel messages -->
+        <!-- channel messages -->
         @if(chatMessages && !isThread && chatTypeInput === chatType.channel) {
         @for(message of chatMessages; track $index) { 
         @if(message.creatorId === userId) {
