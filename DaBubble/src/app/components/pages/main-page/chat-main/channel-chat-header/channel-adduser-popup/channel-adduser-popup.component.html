@@ -1,0 +1,144 @@
+<!-- USER POPUP -->
+
+<app-other-users-popup
+  *ngIf="showUserPopupVisible"
+  [userData]="selectedUser"
+  (closeUserPopup)="toggleClickedUserPopup()"
+></app-other-users-popup>
+
+<div
+  class="absolute right-4 z-30 bg-white shadow-2xl w-96 rounded-standard rounded-tr-none p-6 flex flex-col max-h-[800px] overflow-hidden"
+  (click)="$event.stopPropagation()"
+>
+  <!-- HEADER -->
+  <div class="flex justify-between mb-2">
+    <h3 *ngIf="mode === 'add'">Leute hinzufügen</h3>
+    <h3 *ngIf="mode === 'show'">Mitglieder</h3>
+    <img
+      (click)="closePopup.emit()"
+      src="img/close.svg"
+      alt=""
+      class="cursor-pointer"
+    />
+  </div>
+
+  <!-- Sub-Header -->
+  <div *ngIf="mode === 'add'" class="text-fc-purple flex justify-start mb-2">
+    # {{ channelName }}
+  </div>
+
+  <!-- SCROLLBAR-INHALT (flex-1 sorgt für dynamische Höhe) -->
+  <div class="flex-1 overflow-auto mb-4">
+    @if (mode === 'add') {
+    <!-- USER-SUCHE + LISTE -->
+    <input
+      [(ngModel)]="searchTerm"
+      (keyup)="filterUserNotInChannelByNameInput()"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+      [ngClass]="{
+        'rounded-b-[2rem] border-b border-color-border': !isFocused,
+        'rounded-b-none border-b-0': isFocused
+      }"
+      class="w-full px-5 py-4 rounded-t-[2rem] border border-color-border focus:outline-none transition-all duration-200 mb-2"
+      type="text"
+      placeholder="Name eingeben"
+    />
+
+    <ul
+      [ngClass]="{
+        'max-h-0 opacity-0 border-none rounded-t-[2rem]': !isFocused,
+        'max-h-64 opacity-100 rounded-t-none': isFocused
+      }"
+      *ngIf="filteredUsersNotInChannel$ | async as users"
+      class="overflow-y-auto border border-color-border rounded-b-[2rem] overflow-x-hidden transition-all duration-200"
+    >
+      <li
+        *ngFor="let user of users"
+        (mousedown)="addUserToChannel(user.id!)"
+        class="flex gap-4 items-center pl-4 pr-4 pt-2 pb-2 hover:cursor-pointer hover:bg-bg-main"
+      >
+        <div class="relative w-10 h-10">
+          <img class="rounded-full" [src]="getAvatar(user.avatarId)" alt="" />
+          <img
+            *ngIf="user.online; else offlineTpl"
+            class="absolute right-0 bottom-[-3px] rounded-full"
+            src="img/online.svg"
+            alt=""
+          />
+          <ng-template #offlineTpl>
+            <img
+              class="absolute right-0 bottom-[-3px] rounded-full"
+              src="img/offline.svg"
+              alt=""
+            />
+          </ng-template>
+        </div>
+        <div>
+          <p class="whitespace-nowrap">
+            {{ user.firstName }} {{ user.lastName }}
+          </p>
+        </div>
+      </li>
+    </ul>
+    } @else if (mode === 'show') {
+    <!-- MITGLIEDER-LISTE -->
+    <ng-container *ngIf="usersInChannel$ | async as usersInChannel">
+      <div
+        (click)="toggleClickedUserPopup()"
+        *ngFor="let user of usersInChannel"
+        (click)="onUserClicked(user.id!)"
+        class="flex items-center gap-4 pl-4 pr-4 pt-2 pb-2 rounded-standard hover:cursor-pointer hover:bg-bg-main"
+      >
+        <div class="relative w-10 h-10">
+          <img
+            class="rounded-full w-full h-full"
+            [src]="getAvatar(user.avatarId)"
+            alt=""
+          />
+          <img
+            *ngIf="user.online; else offlineTpl"
+            class="absolute right-0 bottom-[-3px] rounded-full"
+            src="img/online.svg"
+            alt=""
+          />
+          <ng-template #offlineTpl>
+            <img
+              class="absolute right-0 bottom-[-3px] rounded-full"
+              src="img/offline.svg"
+              alt=""
+            />
+          </ng-template>
+        </div>
+        <div>
+          <p class="whitespace-nowrap">
+            {{ user.firstName }} {{ user.lastName }}
+          </p>
+        </div>
+      </div>
+    </ng-container>
+    }
+  </div>
+
+  <!-- FOOTER -->
+  <div
+    class="flex"
+    [ngClass]="{
+      'justify-end': mode === 'add',
+      'justify-start': mode === 'show'
+    }"
+  >
+    <app-button *ngIf="mode === 'add'">Hinzufügen</app-button>
+
+    <button
+      (click)="openAddUserPopup.emit()"
+      *ngIf="mode === 'show'"
+      class="bg-white hover:bg-bg-main text-black rounded-standard h-12 w-fit pl-4 pr-4 flex items-center gap-4"
+    >
+      <img src="img/person_add_gray_bg.svg" alt="" />
+      <div>Mitglieder hinzufügen</div>
+    </button>
+  </div>
+</div>
+
+

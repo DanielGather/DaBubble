@@ -1,0 +1,47 @@
+import { Component, Input, OnInit } from '@angular/core';
+import { ChatType, AppUser } from '../../../../../../types/types';
+import { ActivatedRoute } from '@angular/router';
+import { FirestoreService } from '../../../../../../services/firestore.service';
+import { OtherUsersPopupComponent } from '../../../shared/other-users-popup/other-users-popup.component';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-chat-info',
+  imports: [OtherUsersPopupComponent, CommonModule],
+  templateUrl: './chat-info.component.html',
+  styleUrl: './chat-info.component.scss',
+  standalone: true,
+})
+export class ChatInfoComponent implements OnInit {
+  @Input() chatTypeInput: ChatType = ChatType.default;
+
+  chatPartnerData: AppUser | null = null;
+  showUserPopupVisible = false;
+
+  constructor(
+    private route: ActivatedRoute,
+    private firestore: FirestoreService
+  ) {}
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      const id = params.get('id');
+      if (id) {
+        this.loadChatPartnerData(id);
+      }
+    });
+  }
+
+  async loadChatPartnerData(id: string) {
+    const user = await this.firestore.getSingleCollection<AppUser>('users', id);
+    if (user) {
+      this.chatPartnerData = user;
+    } else {
+      console.warn('User nicht gefunden!');
+    }
+  }
+
+  toggleClickedUserPopup() {
+    this.showUserPopupVisible = !this.showUserPopupVisible;
+  }
+}

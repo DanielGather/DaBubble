@@ -1,0 +1,23 @@
+<div id="input-error-wrapper" class="flex relative flex-col items-start my-1">
+  <div
+    id="input-wrapper"
+    class="flex w-full bg-bg-main h-formInputHeight px-4 sm:px-7 rounded-standard gap-3 sm:gap-6"
+  >
+    <img class="w-6" [src]="iconSrc" alt="" />
+    <input
+      type="{{ type }}"
+      placeholder="{{ placeholder }}"
+      class="w-full bg-transparent focus:outline-none"
+      [value]="value"
+      [disabled]="disabled"
+      (input)="onInputChange($event)"
+      (blur)="onTouched()"
+    />
+  </div>
+  <div
+    id="error-message"
+    class="absolute text-fc-error bottom-[-24px] left-[24px]"
+  >
+    {{ errorMessage || "&nbsp;" }}
+  </div>
+</div>

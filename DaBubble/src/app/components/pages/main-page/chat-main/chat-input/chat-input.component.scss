@@ -1,0 +1,16 @@
+.hover-scale-svg:hover svg {
+    transform: scale(1.05);
+    transition: transform ease-in-out 170ms;
+}
+
+emoji-mart {
+    height: 100%;
+    border: none;
+    border-radius: 0;
+    overflow: hidden;
+}
+
+.emoji-picker-container {
+    height: auto;
+    overflow: hidden;
+}
