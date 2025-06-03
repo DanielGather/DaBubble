@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { ChatInputComponent } from './chat-input/chat-input.component';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ChatType, Message } from '../../../../types/types';
+import { ChatType, Message, EmojiMenuChatType } from '../../../../types/types';
 import { CommonModule } from '@angular/common';
 import { ChatMessagesContainerComponent } from './chat-messages-container/chat-messages-container.component';
 import { PrivateChatHeaderComponent } from './private-chat-header/private-chat-header.component';
@@ -39,6 +39,9 @@ import { ThreadService } from '../../../../services/thread.service';
   styleUrl: './chat-main.component.html',
 })
 export class ChatMainComponent implements OnInit {
+  //type
+  emojiMenuChatType = EmojiMenuChatType;
+
   //services
   messageDataService = inject(MessagesDataService);
   urlService = inject(GetUrlChatidService);

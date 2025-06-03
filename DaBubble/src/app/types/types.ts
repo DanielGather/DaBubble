@@ -118,3 +118,8 @@ export enum EmojiFnRegulator {
   addReaction = 'addReaction',
   addEmojiToText = 'addEmojiToText'
 }
+
+export enum EmojiMenuChatType {
+  fromThread = 'fromThread',
+  fromMain = 'fromMain'
+}

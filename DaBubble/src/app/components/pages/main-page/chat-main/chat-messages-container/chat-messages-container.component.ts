@@ -27,6 +27,8 @@ export class ChatMessagesContainerComponent
 {
   messageDataService = inject(MessagesDataService);
   userService = inject(UsersService);
+
+  //types
   chatType = ChatType;
   messageType = MessageType;
 

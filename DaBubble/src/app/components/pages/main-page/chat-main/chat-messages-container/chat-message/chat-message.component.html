@@ -108,7 +108,7 @@
             >
               <img src="img/add_reaction.svg" alt="Add reaction button" />
             </div>
-            @if(chatType === 'private') {
+            @if(chatType === 'channel') {
             <div (click)="openThreadBar(message)" class="option" #answerBtn>
               <img src="img/comment.svg" alt="Open Threadbar" />
             </div>
@@ -167,13 +167,6 @@
               />
             </div>
 
-            <!-- Emoji-Menu
-            @if(showEmojiMenu) {
-            <div style="position: absolute; height: auto; ">
-              <emoji-mart class="custom-emoji-picker" (emojiClick)="addReaction($event)"></emoji-mart>
-            </div> 
-
-            }-->
           </div>
         </div>
       </div>

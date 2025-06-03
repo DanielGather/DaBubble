@@ -1,24 +1,34 @@
 import { Injectable, WritableSignal, effect, signal } from '@angular/core';
-import { EmojiFnRegulator } from '../types/types';
+import { EmojiFnRegulator, EmojiMenuChatType } from '../types/types';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmojiService {
 
-  //state signal booleans
+  //signals
   showEmojiMenu: WritableSignal<boolean> = signal(false);
   hasInteracted: WritableSignal<boolean> = signal(false);
-  emojiFnRegulator: WritableSignal<EmojiFnRegulator> = signal(EmojiFnRegulator.addEmojiToText)
 
+  /**
+   * a variable wich regulates the handleEmojiAction()
+   */
+  emojiFnRegulator: WritableSignal<EmojiFnRegulator> = signal(EmojiFnRegulator.addEmojiToText);
+
+  //test
+  /**
+   * a variable that changes and determines in which chat type the emoji menu was opened
+   */
+  emojiMenuChatType: WritableSignal<EmojiMenuChatType> = signal(EmojiMenuChatType.fromMain);
+  //testend
 
   constructor() { }
 
   /**
- * toggles the emoji picker
- * 
- * @param event mouseclick event
- */
+  * toggles the emoji picker
+  * 
+  * @param event mouseclick event
+  */
   toggleEmojiMenu(event: MouseEvent, emojiFnRegulatorInput: EmojiFnRegulator): void {
     event.stopPropagation();
     this.hasInteracted.set(true);
@@ -51,11 +61,11 @@ export class EmojiService {
    * @param event emoji object
    * @param chatInputGroup optional: the chatInputGroup of chat-input-component 
    */
-  handleEmojiAction(event:any, chatInputGroup?: any): void {
-    if(this.emojiFnRegulator() === EmojiFnRegulator.addReaction) {
+  handleEmojiAction(event: any, chatInputGroup?: any): void {
+    if (this.emojiFnRegulator() === EmojiFnRegulator.addReaction) {
       this.addReaction(event);
     }
-    else if(this.emojiFnRegulator() === EmojiFnRegulator.addEmojiToText) {
+    else if (this.emojiFnRegulator() === EmojiFnRegulator.addEmojiToText) {
       this.addEmoji(event, chatInputGroup);
     }
   }

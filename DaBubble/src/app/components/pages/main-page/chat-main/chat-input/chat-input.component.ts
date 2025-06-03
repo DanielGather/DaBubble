@@ -6,10 +6,11 @@ import {
   HostListener,
   inject,
   effect,
+  Input,
 } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { UsersService } from '../../../../../services/users.service';
-import { ChatType, EmojiFnRegulator } from '../../../../../types/types';
+import { ChatType, EmojiFnRegulator, EmojiMenuChatType } from '../../../../../types/types';
 import { GetUrlChatidService } from '../../../../../services/get-url-chatid.service';
 import { FirestoreService } from '../../../../../services/firestore.service';
 import { Subject } from 'rxjs';
@@ -27,7 +28,7 @@ import { EmojiService } from '../../../../../services/emoji.service';
     CommonModule,
     ReactiveFormsModule,
     PickerComponent,
-    EmojiModule
+    EmojiModule,
   ],
   templateUrl: './chat-input.component.html',
   styleUrl: './chat-input.component.scss',
@@ -40,12 +41,16 @@ export class ChatInputComponent implements OnInit, OnDestroy {
   channelService = inject(ChannelsService);
   emojiService = inject(EmojiService);
 
+  //input
+  @Input() emojiMenuChatTypeInput: EmojiMenuChatType = EmojiMenuChatType.fromMain;
+
   //unsubscribe variables
   private destroy$ = new Subject<void>();
 
   //types
   chatType: ChatType = ChatType.default;
   emojiFnRegulator = EmojiFnRegulator;
+  emojiMenuChatType = EmojiMenuChatType;
 
   //data storage variables
   channelData: any;
@@ -195,4 +200,6 @@ export class ChatInputComponent implements OnInit, OnDestroy {
 
     this.chatInputGroup.get('message')?.reset();
   }
+
+
 }

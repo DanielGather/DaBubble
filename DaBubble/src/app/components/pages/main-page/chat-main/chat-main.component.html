@@ -36,16 +36,10 @@
         [chatMessages]="chatMessages"
         [chatTypeInput]="chatType.channel"
       ></app-chat-messages-container>
-      } @else if (chatTypeInput === chatType.thread){
-      <!-- <app-chat-messages-container
-        class="w-full overflow-auto h-full"
-        [chatMessages]="chatMessages"
-        [chatTypeInput]="chatType.thread"
-      ></app-chat-messages-container> -->
-      }
+      } 
 
       <!-- Chatinput-->
-      <app-chat-input class="w-full"></app-chat-input>
+      <app-chat-input [emojiMenuChatTypeInput]="emojiMenuChatType.fromMain" class="w-full"></app-chat-input>
     </div>
   </div>
 

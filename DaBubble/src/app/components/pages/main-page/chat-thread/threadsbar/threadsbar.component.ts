@@ -11,7 +11,7 @@ import { ChatInputComponent } from '../../chat-main/chat-input/chat-input.compon
 import { CommonModule } from '@angular/common';
 import { ChatMessagesContainerComponent } from '../../chat-main/chat-messages-container/chat-messages-container.component';
 import { MessagesDataService } from '../../../../../services/messages-data.service';
-import { ChatMessage } from '../../../../../types/types';
+import { ChatMessage, EmojiMenuChatType, ChatType } from '../../../../../types/types';
 import { ThreadService } from '../../../../../services/thread.service';
 
 @Component({
@@ -21,11 +21,32 @@ import { ThreadService } from '../../../../../services/thread.service';
   styleUrl: './threadsbar.component.scss',
 })
 export class ThreadsbarComponent {
+  //types
+  emojiMenuChatType = EmojiMenuChatType;
+
+  //state boolean
+  isOpen: boolean = true;
+
+  //input
   @Input() chatMessages: Array<ChatMessage> = [];
 
-  private _chatMessagesSignal = signal<Array<ChatMessage>>([]);
+  //inject
+  threadbarService = inject(ThreadService);
+  messageDataService = inject(MessagesDataService);
+  chatType= ChatType;
 
-  constructor() {}
+  //signal
+  private _chatMessagesSignal = signal<Array<ChatMessage>>([]);
+  threadMessage = computed(() => {
+    const currentId = this.threadbarService.currentThreadId();
+    const messages = this._chatMessagesSignal;
+    return messages().filter((message) => message.threadId === currentId);
+  });
+
+  //other
+  currentThreadMessageId: string = '';
+
+  constructor() { }
 
   ngOnInit() {
     console.log('threadmessages', this.threadMessage());
@@ -36,19 +57,8 @@ export class ThreadsbarComponent {
     }
   }
 
-  threadMessage = computed(() => {
-    const currentId = this.threadbarService.currentThreadId();
-    const messages = this._chatMessagesSignal;
-    return messages().filter((message) => message.threadId === currentId);
-  });
-
-  messageDataService = inject(MessagesDataService);
-  isOpen: boolean = true;
-  currentThreadMessageId: string = '';
-
-  threadbarService = inject(ThreadService);
-
   closeThread() {
     this.threadbarService.closeThread();
   }
+
 }

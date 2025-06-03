@@ -33,8 +33,9 @@
         style="display: flex; flex-grow: 1"
         [chatMessages]="threadMessage()"
         [isThread]="true"
+        [chatTypeInput]="chatType.thread"
       ></app-chat-messages-container>
-      <app-chat-input class="flex-shrink-0"></app-chat-input>
+      <app-chat-input [emojiMenuChatTypeInput]="emojiMenuChatType.fromThread" class="flex-shrink-0"></app-chat-input>
     </div>
   </div>
 </div>
