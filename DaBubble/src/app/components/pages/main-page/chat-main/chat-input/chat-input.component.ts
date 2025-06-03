@@ -7,10 +7,16 @@ import {
   inject,
   effect,
   Input,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { UsersService } from '../../../../../services/users.service';
-import { ChatType, EmojiFnRegulator, EmojiMenuChatType } from '../../../../../types/types';
+import {
+  ChatType,
+  EmojiFnRegulator,
+  EmojiMenuChatType,
+} from '../../../../../types/types';
 import { GetUrlChatidService } from '../../../../../services/get-url-chatid.service';
 import { FirestoreService } from '../../../../../services/firestore.service';
 import { Subject } from 'rxjs';
@@ -24,12 +30,7 @@ import { EmojiService } from '../../../../../services/emoji.service';
 @Component({
   standalone: true,
   selector: 'app-chat-input',
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    PickerComponent,
-    EmojiModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, PickerComponent, EmojiModule],
   templateUrl: './chat-input.component.html',
   styleUrl: './chat-input.component.scss',
 })
@@ -42,7 +43,10 @@ export class ChatInputComponent implements OnInit, OnDestroy {
   emojiService = inject(EmojiService);
 
   //input
-  @Input() emojiMenuChatTypeInput: EmojiMenuChatType = EmojiMenuChatType.fromMain;
+  @Input() emojiMenuChatTypeInput: EmojiMenuChatType =
+    EmojiMenuChatType.fromMain;
+
+  @Output() openUserListPopup = new EventEmitter<void>();
 
   //unsubscribe variables
   private destroy$ = new Subject<void>();
@@ -72,6 +76,10 @@ export class ChatInputComponent implements OnInit, OnDestroy {
     userIds: new FormControl(),
   });
 
+isSendHovered: boolean = false;
+isEmailHovered = false;
+isEmojiHovered = false;
+
   /**
    * closes the emoji menu, if user is clicking outside of .menu-container & .emoji-button
    *
@@ -95,10 +103,10 @@ export class ChatInputComponent implements OnInit, OnDestroy {
       let params = this.urlParamsSignal();
       this.setCreatorIdOfMessageObject();
       this.setChatIdOfMessageObject();
-    });    
+    });
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -200,6 +208,4 @@ export class ChatInputComponent implements OnInit, OnDestroy {
 
     this.chatInputGroup.get('message')?.reset();
   }
-
-
 }

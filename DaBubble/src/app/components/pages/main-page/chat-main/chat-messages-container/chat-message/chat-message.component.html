@@ -68,7 +68,10 @@
         <div
           class="flex justify-center items-center gap-4 name-and-time-mobile-respo"
         >
-          <span class="font-[700] text-fontSizeChat text-center">
+          <span
+            class="font-[700] text-fontSizeChat text-center cursor-pointer hover:text-[#535AF1]"
+            (click)="openUserPopup.emit(message.creatorId)"
+          >
             {{ message.creatorName }}
           </span>
           <span
@@ -102,7 +105,12 @@
               <img src="img/emoji_example.svg" alt="Thumbs up emoji" />
             </div>
             <div
-              (click)="emojiService.toggleEmojiMenu($event, emojiFnRegulator.addReaction)"
+              (click)="
+                emojiService.toggleEmojiMenu(
+                  $event,
+                  emojiFnRegulator.addReaction
+                )
+              "
               class="option option-hover"
               #emojiMenuBtn
             >
@@ -156,7 +164,12 @@
 
             <!-- Emoji-Menu-Btn -->
             <div
-              (click)="emojiService.toggleEmojiMenu($event, emojiFnRegulator.addReaction)"
+              (click)="
+                emojiService.toggleEmojiMenu(
+                  $event,
+                  emojiFnRegulator.addReaction
+                )
+              "
               id="open-emoji-menu-btn"
               class="h-8 w-8 shrink-0"
             >
@@ -166,7 +179,6 @@
                 class="h-full w-full cursor-pointer"
               />
             </div>
-
           </div>
         </div>
       </div>

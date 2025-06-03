@@ -24,7 +24,7 @@
       </div>
       <div class="flex items-center justify-center">
         <img
-         *ngIf="userData"
+          *ngIf="userData"
           class="w-[128px] h-[128px] md:w-48 md:h-48 rounded-full"
           [src]="getAvatar(userData.avatarId)"
           alt=""
@@ -33,7 +33,7 @@
       <div class="flex justify-between items-center">
         <div *ngIf="userData">
           <p class="text-24 font-bold">
-             {{ userData.firstName }} {{ userData.lastName }}
+            {{ userData.firstName }} {{ userData.lastName }}
           </p>
         </div>
       </div>
@@ -55,11 +55,12 @@
             E‑Mail‑Adresse
           </p>
           <div *ngIf="userData">
-            <p
+            <a
+              [href]="'mailto:' + userData.email"
               class="row-start-2 col-start-2 text-fc-email-blue cursor-pointer"
             >
-                 {{ userData.email }}
-            </p>
+              {{ userData.email }}
+            </a>
           </div>
         </div>
       </div>

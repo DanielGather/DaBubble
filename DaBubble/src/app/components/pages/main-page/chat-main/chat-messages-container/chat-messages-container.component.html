@@ -1,3 +1,4 @@
+
 <div class="w-full flex flex-col items-start justify-between relative z-[2] h-full">
   <div class="w-full h-full overflow-y-auto pt-[1.5rem] relative" #messageField id="message-field">
     <div class="w-full flex flex-col items-start justify-between relative z-[2] h-full">
@@ -8,11 +9,11 @@
         @for(message of chatMessages; track message; let index = $index) {
         @if(message.creatorId === userId) {
         <app-chat-message [chatType]="chatType.private" [message]="message" [messageTypeInput]="messageType.own"
-          [isThread]="isThread" (click)="messageDataService.setCurrentThreadId(index)"></app-chat-message>
+          [isThread]="isThread" (click)="messageDataService.setCurrentThreadId(index)" (openUserPopup)="loadUserData($event)"></app-chat-message>
         }
         @else{
         <app-chat-message [chatType]="chatType.private" [message]="message" [messageTypeInput]="messageType.other"
-          [isThread]="isThread" (click)="messageDataService.setCurrentThreadId(index)"></app-chat-message>
+          [isThread]="isThread" (click)="messageDataService.setCurrentThreadId(index)" (openUserPopup)="loadUserData($event)"></app-chat-message>
         }
         }
         }
@@ -22,10 +23,10 @@
         @for(message of chatMessages; track $index) { 
         @if(message.creatorId === userId) {
         <app-chat-message [chatType]="chatType.channel" [message]="message" [messageTypeInput]="messageType.own"
-          [isThread]="isThread"></app-chat-message>
+          [isThread]="isThread" (openUserPopup)="loadUserData($event)"></app-chat-message>
         } @else{
         <app-chat-message [chatType]="chatType.channel" [message]="message" [messageTypeInput]="messageType.other"
-          [isThread]="isThread"></app-chat-message>
+          [isThread]="isThread" (openUserPopup)="loadUserData($event)"></app-chat-message>
         } 
         } 
         }
@@ -34,7 +35,7 @@
         @if(chatMessages && isThread && chatTypeInput === chatType.thread) {
         @for(message of chatMessages; track message; let index = $index) {
         <app-chat-message [chatType]="chatType.thread" [message]="message" [messageTypeInput]="messageType.own"
-          [isThread]="isThread" [isTopMessage]="index === 0"></app-chat-message>
+          [isThread]="isThread" [isTopMessage]="index === 0" (openUserPopup)="loadUserData($event)"></app-chat-message>
         }
         }
 
@@ -54,3 +55,9 @@
     </div>
   </div>
 </div>
+
+<app-other-users-popup
+  *ngIf="showUserPopupVisible && clickedUserData"
+  [userData]="clickedUserData"
+  (closeUserPopup)="showUserPopupVisible = false"
+/>
