@@ -114,7 +114,9 @@ export class AuthenticationService {
       } else {
         this.usersService.currentUserId = null;
         this.usersService.clearCurrentUser();
-        await this.router.navigateByUrl('/login');
+        if (!this.router.url.includes('set-password')) {
+          await this.router.navigateByUrl('/login');
+        }
       }
     });
   }
