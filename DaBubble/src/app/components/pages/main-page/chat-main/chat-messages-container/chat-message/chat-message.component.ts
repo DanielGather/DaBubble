@@ -14,7 +14,6 @@ import {
   EmojiFnRegulator,
   Message,
 } from '../../../../../../types/types';
-import { SingleEmojiComponent } from './single-emoji/single-emoji.component';
 import { CommonModule } from '@angular/common';
 import { PopOverComponent } from '../../../shared/pop-over/pop-over.component';
 import { UsersService } from '../../../../../../services/users.service';
@@ -26,8 +25,9 @@ import { ChannelsService } from '../../../../../../services/channels.service';
 import { EmojiService } from '../../../../../../services/emoji.service';
 
 @Component({
+
   selector: 'app-chat-message',
-  imports: [SingleEmojiComponent, CommonModule, PopOverComponent],
+  imports: [ CommonModule, PopOverComponent],
   templateUrl: './chat-message.component.html',
   styleUrl: './chat-message.component.scss',
 })
