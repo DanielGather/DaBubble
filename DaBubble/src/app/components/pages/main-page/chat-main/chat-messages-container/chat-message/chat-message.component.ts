@@ -10,9 +10,9 @@ import {
 } from '@angular/core';
 import {
   MessageType,
-  ChatMessage,
   ChatType,
   EmojiFnRegulator,
+  Message,
 } from '../../../../../../types/types';
 import { SingleEmojiComponent } from './single-emoji/single-emoji.component';
 import { CommonModule } from '@angular/common';
@@ -52,21 +52,19 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
   //inputs
   @Input() chatType: ChatType = ChatType.default;
   @Input() messageTypeInput: MessageType = MessageType.default;
-  @Input() message: ChatMessage = {
-    message: '',
-    name: '',
-    timestamp: '',
+  @Input() message: Message = {
+    channelId: '',
+    creatorAvatarId: 0,
     creatorId: '',
     creatorName: '',
-    creatorAvatarId: 0,
-    userId: '',
+    isThreadMessage: false,
+    hasAThread: false,
+    message: '',
+    messageId: '',
+    privateChatId: '',
     threadId: '',
-    emojis: [
-      {
-        emojiId: '',
-        userIdCount: [],
-      },
-    ],
+    timestamp: '',
+    userIds: []
   };
   @Input() isThread: boolean = false;
   @Input() isTopMessage: boolean = false;
@@ -116,7 +114,7 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
 
       // Thread-ID in der ursprünglichen Nachricht speichern
       await this.firestoreService.updateDoc('messages', message.messageId, {
-        threadId: threadId,
+        threadId: threadId, isThreadMessage: true, hasAThread: true
       });
 
       console.log('Neuer Thread erstellt:', threadId);

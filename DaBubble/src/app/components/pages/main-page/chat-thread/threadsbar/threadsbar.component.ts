@@ -10,8 +10,7 @@ import {
 import { ChatInputComponent } from '../../chat-main/chat-input/chat-input.component';
 import { CommonModule } from '@angular/common';
 import { ChatMessagesContainerComponent } from '../../chat-main/chat-messages-container/chat-messages-container.component';
-import { MessagesDataService } from '../../../../../services/messages-data.service';
-import { ChatMessage, EmojiMenuChatType, ChatType } from '../../../../../types/types';
+import { ChatInputType, ChatType, Message } from '../../../../../types/types';
 import { ThreadService } from '../../../../../services/thread.service';
 
 @Component({
@@ -22,21 +21,20 @@ import { ThreadService } from '../../../../../services/thread.service';
 })
 export class ThreadsbarComponent {
   //types
-  emojiMenuChatType = EmojiMenuChatType;
+  chatInputType = ChatInputType;
 
   //state boolean
   isOpen: boolean = true;
 
   //input
-  @Input() chatMessages: Array<ChatMessage> = [];
+  @Input() chatMessages: Array<Message> = [];
 
   //inject
   threadbarService = inject(ThreadService);
-  messageDataService = inject(MessagesDataService);
   chatType = ChatType;
 
   //signal
-  private _chatMessagesSignal = signal<Array<ChatMessage>>([]);
+  private _chatMessagesSignal = signal<Array<Message>>([]);
   threadMessage = computed(() => {
     const currentId = this.threadbarService.currentThreadId();
     const messages = this._chatMessagesSignal;

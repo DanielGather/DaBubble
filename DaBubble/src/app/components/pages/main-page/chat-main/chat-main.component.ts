@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { ChatInputComponent } from './chat-input/chat-input.component';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ChatType, Message, EmojiMenuChatType } from '../../../../types/types';
+import { ChatType, Message, ChatInputType } from '../../../../types/types';
 import { CommonModule } from '@angular/common';
 import { ChatMessagesContainerComponent } from './chat-messages-container/chat-messages-container.component';
 import { PrivateChatHeaderComponent } from './private-chat-header/private-chat-header.component';
@@ -40,7 +40,7 @@ import { ThreadService } from '../../../../services/thread.service';
 })
 export class ChatMainComponent implements OnInit {
   //type
-  emojiMenuChatType = EmojiMenuChatType;
+  chatInputType = ChatInputType;
 
   //services
   messageDataService = inject(MessagesDataService);
@@ -106,7 +106,7 @@ export class ChatMainComponent implements OnInit {
       //if private
       else if (this.chatTypeInput === ChatType.private) {
         const filtered = allMessages.filter(
-          (msg) => msg.privatChatId !== '' && msg.userIds.includes(channelId!)
+          (msg) => msg.privateChatId !== '' && msg.userIds.includes(channelId!)
         );
         const sorted = this.sortMsgs(filtered);
 

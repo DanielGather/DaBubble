@@ -1,5 +1,4 @@
 import { Injectable, signal, inject } from '@angular/core';
-import { ChatMessage } from '../types/types';
 import { FirestoreService } from './firestore.service';
 import { Firestore, collection, where, query } from '@angular/fire/firestore';
 import { getDocs, onSnapshot } from 'firebase/firestore';

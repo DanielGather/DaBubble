@@ -1,5 +1,5 @@
 import { Injectable, WritableSignal, effect, signal } from '@angular/core';
-import { EmojiFnRegulator, EmojiMenuChatType } from '../types/types';
+import { EmojiFnRegulator, ChatInputType } from '../types/types';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class EmojiService {
   /**
    * a variable that changes and determines in which chat type the emoji menu was opened
    */
-  emojiMenuChatType: WritableSignal<EmojiMenuChatType> = signal(EmojiMenuChatType.fromMain);
+  chatInputType: WritableSignal<ChatInputType> = signal(ChatInputType.fromMain);
   //testend
 
   constructor() { }

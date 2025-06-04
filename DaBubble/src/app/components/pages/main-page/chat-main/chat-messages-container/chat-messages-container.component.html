@@ -22,10 +22,10 @@
         <!-- channel messages -->
         @if(chatMessages && !isThread && chatTypeInput === chatType.channel) {
         @for(message of chatMessages; track $index) {
-        @if(message.creatorId === userId) {
+        @if(message.creatorId === userId && message.isThreadMessage === false || message.creatorId === userId && message.isThreadMessage === true && message.hasAThread === true ) {
         <app-chat-message [chatType]="chatType.channel" [message]="message" [messageTypeInput]="messageType.own"
           [isThread]="isThread" (openUserPopup)="loadUserData($event)"></app-chat-message>
-        } @else{
+        } @else if(message.isThreadMessage === false || message.isThreadMessage === true && message.hasAThread === true ){
         <app-chat-message [chatType]="chatType.channel" [message]="message" [messageTypeInput]="messageType.other"
           [isThread]="isThread" (openUserPopup)="loadUserData($event)"></app-chat-message>
         }
@@ -35,8 +35,13 @@
         <!-- Thread messages. -->
         @if(chatMessages && isThread && chatTypeInput === chatType.thread) {
         @for(message of chatMessages; track message; let index = $index) {
+        @if(message.creatorId === userId && message.isThreadMessage === true) {
         <app-chat-message [chatType]="chatType.thread" [message]="message" [messageTypeInput]="messageType.own"
           [isThread]="isThread" [isTopMessage]="index === 0" (openUserPopup)="loadUserData($event)"></app-chat-message>
+        } @else if(message.isThreadMessage === true){
+        <app-chat-message [chatType]="chatType.thread" [message]="message" [messageTypeInput]="messageType.other"
+          [isThread]="isThread" [isTopMessage]="index === 0" (openUserPopup)="loadUserData($event)"></app-chat-message>
+        }
         }
         }
 

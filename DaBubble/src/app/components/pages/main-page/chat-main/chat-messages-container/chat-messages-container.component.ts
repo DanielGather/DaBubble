@@ -9,10 +9,10 @@ import {
     SimpleChanges,
 } from '@angular/core';
 import {
-    ChatMessage,
     ChatType,
     MessageType,
     AppUser,
+    Message
 } from '../../../../../types/types';
 import { ChatInfoComponent } from './chat-info/chat-info.component';
 import { ChatMessageComponent } from './chat-message/chat-message.component';
@@ -48,7 +48,7 @@ export class ChatMessagesContainerComponent implements AfterViewInit, OnChanges 
     /**
      * this is the array that contains the chat messages
      */
-    @Input() chatMessages: Array<ChatMessage> = [];
+    @Input() chatMessages: Array<Message> = [];
 
     @Input() isThread: boolean = false;
 

@@ -12,18 +12,6 @@ export enum MessageType {
   other = 'other',
 }
 
-export interface ChatMessage {
-  message: string;
-  name: string;
-  timestamp: string;
-  creatorId: string;
-  creatorName: string;
-  creatorAvatarId: number;
-  threadId: string;
-  userId: string;
-  emojis: Array<ChatMessaggeEmoji>;
-}
-
 export interface ChatMessaggeEmoji {
   emojiId: string;
   userIdCount: Array<string>;
@@ -80,11 +68,17 @@ export interface UserData {
 
 export interface Message {
   channelId: string;
-  privatChatId: string;
   message: string;
   timestamp: string;
   userIds: Array<string>;
   creatorId: string;
+  creatorAvatarId: number;
+  creatorName: string;
+  isThreadMessage: boolean;
+  hasAThread: boolean,
+  messageId: string;
+  privateChatId: string;
+  threadId: string;
 }
 
 export interface ChannelsTest {
@@ -119,7 +113,7 @@ export enum EmojiFnRegulator {
   addEmojiToText = 'addEmojiToText'
 }
 
-export enum EmojiMenuChatType {
+export enum ChatInputType {
   fromThread = 'fromThread',
   fromMain = 'fromMain'
 }

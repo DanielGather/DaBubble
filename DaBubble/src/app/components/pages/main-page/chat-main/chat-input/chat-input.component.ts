@@ -15,7 +15,7 @@ import { UsersService } from '../../../../../services/users.service';
 import {
   ChatType,
   EmojiFnRegulator,
-  EmojiMenuChatType,
+  ChatInputType,
 } from '../../../../../types/types';
 import { GetUrlChatidService } from '../../../../../services/get-url-chatid.service';
 import { FirestoreService } from '../../../../../services/firestore.service';
@@ -43,8 +43,7 @@ export class ChatInputComponent implements OnInit, OnDestroy {
   emojiService = inject(EmojiService);
 
   //input
-  @Input() emojiMenuChatTypeInput: EmojiMenuChatType =
-    EmojiMenuChatType.fromMain;
+  @Input() chatInputTypeInput: ChatInputType = ChatInputType.fromMain;
 
   @Output() openUserListPopup = new EventEmitter<void>();
 
@@ -54,7 +53,7 @@ export class ChatInputComponent implements OnInit, OnDestroy {
   //types
   chatType: ChatType = ChatType.default;
   emojiFnRegulator = EmojiFnRegulator;
-  emojiMenuChatType = EmojiMenuChatType;
+  chatInputType = ChatInputType;
 
   //data storage variables
   channelData: any;
@@ -67,18 +66,20 @@ export class ChatInputComponent implements OnInit, OnDestroy {
     messageId: new FormControl(''),
     channelId: new FormControl(''),
     privatChatId: new FormControl(''),
-    threadsId: new FormControl(''),
+    threadId: new FormControl(''),
     creatorId: new FormControl(''),
     creatorName: new FormControl(''),
     creatorAvatarId: new FormControl<number>(0),
     timestamp: new FormControl(0),
     message: new FormControl(''),
     userIds: new FormControl(),
+    isThreadMessage: new FormControl(false),
+    hasAThread: new FormControl(false)
   });
 
-isSendHovered: boolean = false;
-isEmailHovered = false;
-isEmojiHovered = false;
+  isSendHovered: boolean = false;
+  isEmailHovered = false;
+  isEmojiHovered = false;
 
   /**
    * closes the emoji menu, if user is clicking outside of .menu-container & .emoji-button
@@ -102,11 +103,12 @@ isEmojiHovered = false;
     effect(() => {
       let params = this.urlParamsSignal();
       this.setCreatorIdOfMessageObject();
+      this.setUserIds(params);
       this.setChatIdOfMessageObject();
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -142,7 +144,7 @@ isEmojiHovered = false;
     this.urlService.urlParameter$
       .pipe(takeUntil(this.destroy$))
       .subscribe((params) => {
-        if (params.chatType && params.chatId) {
+        if (params.chatType && params.chatId && this.chatInputTypeInput === this.chatInputType.fromMain) {
           switch (params.chatType) {
             case 'private':
               this.chatInputGroup.get('channelId')?.setValue('');
@@ -165,16 +167,31 @@ isEmojiHovered = false;
           }
 
           if (params.chatType === 'channel' && params.chatId) {
-            this.channelService
-              .getChannelById$(params.chatId)
-              .pipe(takeUntil(this.destroy$))
-              .subscribe((channel) => {
-                this.channelData = channel;
-                this.chatInputGroup.get('userIds')?.setValue(channel.userIds);
-              });
+            this.setUserIds(params);
           }
+        } else if (params.threadsId != null) {
+          this.chatInputGroup.get('privatChatId')?.setValue('');
+          this.chatInputGroup.get('isThreadMessage')?.setValue(true);
+          this.chatInputGroup.get('channelId')?.setValue(params.chatId);
+          this.chatInputGroup.get('threadId')?.setValue(params.threadsId);
+          this.setUserIds(params);
         }
       });
+  }
+
+  /**
+   * subscribes the channel data
+   */
+  setUserIds(params: any) {
+    if (params.chatType === 'channel') {
+      this.channelService
+        .getChannelById$(params.chatId!)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((channel) => {
+          this.channelData = channel;
+          this.chatInputGroup.get('userIds')?.setValue(channel.userIds);
+        });
+    }
   }
 
   /**
