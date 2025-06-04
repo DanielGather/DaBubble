@@ -29,11 +29,13 @@ app-root > * {
   --font-color-dark-purple: #535af1;
   --font-color-error: rgba(237, 30, 121, 1);
   --font-color-grey: rgba(104, 104, 104, 1);
-  --font-color-email-blue: rgba(19,129,255, 1);
+  --font-color-email-blue: rgba(19, 129, 255, 1);
   --bg-component: #ffffff;
   --bg-button-blue: #444df2;
   --bg-button-grey: #686868;
   --bg-button-purple: #797ef3;
+  --bg-online: rgba(146, 200, 62, 1);
+  --bg-offline: rgba(104, 104, 104, 1);
   --bg-button-transparent: transparent;
   --font-size-bold: 24px;
   --font-size-chat: 18px;
@@ -48,7 +50,7 @@ app-pop-over {
 }
 
 .emoji-mart-preview {
-  height: 48px!important;
+  height: 48px !important;
 }
 
 .option {

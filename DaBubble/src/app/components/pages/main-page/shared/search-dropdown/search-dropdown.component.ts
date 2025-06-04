@@ -7,10 +7,11 @@ import {
   input,
   Output,
 } from '@angular/core';
+import { UserElementComponent } from '../../../../shared/user-element/user-element.component';
 
 @Component({
   selector: 'app-search-dropdown',
-  imports: [],
+  imports: [UserElementComponent],
   templateUrl: './search-dropdown.component.html',
   styleUrl: './search-dropdown.component.scss',
 })

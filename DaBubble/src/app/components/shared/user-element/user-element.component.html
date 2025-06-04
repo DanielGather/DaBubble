@@ -1,0 +1,16 @@
+<div
+  (click)="openUserProfile('uidgoesinhere')"
+  class="flex gap-4 items-center p-1 hover:cursor-pointer bg-white hover:bg-slate-300"
+>
+  <div class="relative">
+    <img class="w-10 h-10 rounded-full" [src]="avatarSrc" alt="" />
+    <div
+      id="onlineCircle"
+      [ngClass]="[
+        'absolute w-[14px] h-[14px] right-0 bottom-0 rounded-full border-2 border-white box-border',
+        isOnline ? 'bg-bg-online' : 'bg-bg-offline'
+      ]"
+    ></div>
+  </div>
+  <p>{{ name }}</p>
+</div>
