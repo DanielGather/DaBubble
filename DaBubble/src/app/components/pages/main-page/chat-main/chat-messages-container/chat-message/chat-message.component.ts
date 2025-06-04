@@ -32,6 +32,7 @@ import { EmojiService } from '../../../../../../services/emoji.service';
   styleUrl: './chat-message.component.scss',
 })
 export class ChatMessageComponent implements OnInit, OnDestroy {
+  
   //services
   userService = inject(UsersService);
   threadbarService = inject(ThreadService);
@@ -47,6 +48,8 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
 
   //unsubscribe variables
   private destroy$ = new Subject<void>();
+
+  //inputs
   @Input() chatType: ChatType = ChatType.default;
   @Input() messageTypeInput: MessageType = MessageType.default;
   @Input() message: ChatMessage = {
@@ -69,14 +72,16 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
   @Input() isTopMessage: boolean = false;
   @Input() answersCount: number | null = null;
 
-@Output() openUserPopup = new EventEmitter<string>();
+  //outputs
+  @Output() openUserPopup = new EventEmitter<string>();
 
+  //state booleans
   /**
    * message-interactions menu state boolean
    */
   showMenu: boolean = false;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.userService.currentUser$

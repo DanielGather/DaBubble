@@ -33,7 +33,7 @@ export class ThreadsbarComponent {
   //inject
   threadbarService = inject(ThreadService);
   messageDataService = inject(MessagesDataService);
-  chatType= ChatType;
+  chatType = ChatType;
 
   //signal
   private _chatMessagesSignal = signal<Array<ChatMessage>>([]);
