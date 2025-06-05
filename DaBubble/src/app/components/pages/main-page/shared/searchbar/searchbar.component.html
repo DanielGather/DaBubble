@@ -13,5 +13,11 @@
     src="img/search_icon.svg"
     alt=""
   />
-  <app-search-dropdown [(visible)]="isModalOpen"></app-search-dropdown>
+
+  <app-search-dropdown
+    [(visible)]="isModalOpen"
+    [searchUser]="searchUser"
+    [searchChannel]="searchChannel"
+    [searchTerm]="searchTerm"
+  ></app-search-dropdown>
 </div>

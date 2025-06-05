@@ -1,19 +1,17 @@
-@if (visible) {
-<div id="search-dropdown-wrapper" class="h-10 w-48 bg-white">
+@if (visible){
+<div id="search-dropdown-wrapper" class="h-10 w-48 bg-white flex flex-col">
+  @if (searchUser) { @if (usersList$ | async; as users) { @for (user of users;
+  track $index) {
   <app-user-element
-    [name]="'David Beran'"
-    [isOnline]="false"
-    [avatarSrc]="'img/user_3.png'"
+    [name]="user.firstName + ' ' + user.lastName"
+    [isOnline]="user.online"
+    [avatarSrc]="'img/user_' + user.avatarId + '.png'"
   ></app-user-element>
-  <app-user-element
-    [name]="'David Beran'"
-    [isOnline]="false"
-    [avatarSrc]="'img/user_3.png'"
-  ></app-user-element>
-  <app-user-element
-    [name]="'David Beran'"
-    [isOnline]="false"
-    [avatarSrc]="'img/user_3.png'"
-  ></app-user-element>
+  } }} @if (searchChannel) { @for (channel of channels(); track $index) {
+  <div id="channelElement" (click)="openChannel(channel.id)">
+    <span>#{{ channel.data.channelName }}</span>
+  </div>
+
+  } }
 </div>
 }

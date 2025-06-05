@@ -13,6 +13,7 @@ export class SearchbarComponent {
   isModalOpen = false;
   searchUser = false;
   searchChannel = false;
+  searchTerm: string = '';
 
   openModal() {
     this.isModalOpen = true;
@@ -29,12 +30,18 @@ export class SearchbarComponent {
     if (event.target.value.charAt(0) == '@') {
       this.searchUser = true;
       this.searchChannel = false;
+      this.searchTerm =
+        event.target.value.length > 0 ? event.target.value.substring(1) : '';
     } else if (event.target.value.charAt(0) == '#') {
       this.searchChannel = true;
       this.searchUser = false;
+      this.searchTerm =
+        event.target.value.length > 0 ? event.target.value.substring(1) : '';
     } else {
       this.searchUser = false;
       this.searchChannel = false;
+      this.searchTerm = event.target.value;
     }
+    console.log('danach wird gesucht', this.searchTerm);
   }
 }
