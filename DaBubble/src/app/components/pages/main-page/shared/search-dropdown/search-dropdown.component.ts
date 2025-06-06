@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   effect,
   ElementRef,
   EventEmitter,
@@ -17,10 +18,11 @@ import { UsersService } from '../../../../../services/users.service';
 import { CommonModule } from '@angular/common';
 import { ChannelsService } from '../../../../../services/channels.service';
 import { Router } from '@angular/router';
+import { OtherUsersPopupComponent } from '../other-users-popup/other-users-popup.component';
 
 @Component({
   selector: 'app-search-dropdown',
-  imports: [UserElementComponent, CommonModule],
+  imports: [UserElementComponent, CommonModule, OtherUsersPopupComponent],
   templateUrl: './search-dropdown.component.html',
   styleUrl: './search-dropdown.component.scss',
 })
@@ -31,7 +33,13 @@ export class SearchDropdownComponent {
   @Input() searchTerm: string = '';
   @Output() visibleChange = new EventEmitter<boolean>();
 
-  channels = signal<ChannelWithId[]>([]);
+  get channels() {
+    return computed(() =>
+      this.channelsService
+        .channels()
+        .filter((channel) => channel.data.channelName.includes(this.searchTerm))
+    );
+  }
 
   usersService: UsersService = inject(UsersService);
   channelsService: ChannelsService = inject(ChannelsService);
@@ -49,12 +57,7 @@ export class SearchDropdownComponent {
     );
   }
 
-  constructor(private elementRef: ElementRef, private router: Router) {
-    effect(() => {
-      console.log('CHANNELS IN DER SIDEBAR', this.channelsService.channels());
-      this.channels.set(this.channelsService.channels());
-    });
-  }
+  constructor(private elementRef: ElementRef, private router: Router) {}
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {

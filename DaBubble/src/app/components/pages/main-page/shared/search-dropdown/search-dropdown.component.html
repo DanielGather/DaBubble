@@ -1,5 +1,12 @@
+<!-- <app-other-users-popup
+  class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[90000000000]"
+></app-other-users-popup> -->
 @if (visible){
-<div id="search-dropdown-wrapper" class="h-10 w-48 bg-white flex flex-col">
+
+<div
+  id="search-dropdown-wrapper"
+  class="max-h-80 w-80 bg-white flex flex-col gap-2 overflow-y-auto overflow-x-hidden p-2 border border-[rgba(173, 176, 217, 1)] rounded-2xl rounded-tl-[0px] relative"
+>
   @if (searchUser) { @if (usersList$ | async; as users) { @for (user of users;
   track $index) {
   <app-user-element
@@ -8,8 +15,13 @@
     [avatarSrc]="'img/user_' + user.avatarId + '.png'"
   ></app-user-element>
   } }} @if (searchChannel) { @for (channel of channels(); track $index) {
-  <div id="channelElement" (click)="openChannel(channel.id)">
-    <span>#{{ channel.data.channelName }}</span>
+  <div
+    id="channelElement"
+    class="flex items-center gap-2 text-lg bg-white"
+    (click)="openChannel(channel.id)"
+  >
+    <span class="font-bold text-xl">#</span>
+    <span>{{ channel.data.channelName }}</span>
   </div>
 
   } }

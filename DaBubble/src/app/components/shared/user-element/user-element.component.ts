@@ -11,8 +11,4 @@ export class UserElementComponent {
   @Input() name: string = '';
   @Input() isOnline: boolean = false;
   @Input() avatarSrc: string = '';
-
-  openUserProfile(uid: string) {
-    console.log('cuser is clicked!', uid);
-  }
 }

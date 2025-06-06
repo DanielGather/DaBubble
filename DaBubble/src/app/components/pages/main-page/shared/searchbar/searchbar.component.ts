@@ -1,10 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { SearchDropdownComponent } from '../search-dropdown/search-dropdown.component';
+import { OtherUsersPopupComponent } from '../other-users-popup/other-users-popup.component';
 
 @Component({
   selector: 'app-searchbar',
-  imports: [CommonModule, SearchDropdownComponent, SearchDropdownComponent],
+  imports: [
+    CommonModule,
+    SearchDropdownComponent,
+    SearchDropdownComponent,
+    OtherUsersPopupComponent,
+  ],
   templateUrl: './searchbar.component.html',
   styleUrl: './searchbar.component.scss',
 })
