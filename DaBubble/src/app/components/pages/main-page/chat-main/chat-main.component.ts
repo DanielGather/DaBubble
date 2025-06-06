@@ -6,6 +6,7 @@ import {
   effect,
   signal,
   computed,
+  WritableSignal
 } from '@angular/core';
 import { ChatInputComponent } from './chat-input/chat-input.component';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -47,8 +48,8 @@ export class ChatMainComponent implements OnInit {
   urlService = inject(GetUrlChatidService);
   threadbarService = inject(ThreadService);
 
+  //thread boolean states
   readonly isActive = this.threadbarService.threadState;
-
   readonly isThreadbarOpen = computed(() => this.isActive().isOpen);
 
   /**
@@ -76,12 +77,14 @@ export class ChatMainComponent implements OnInit {
    */
   chatMessages: Array<any> = [];
 
+  //other
+  cachedChatId: WritableSignal<string> = signal('');
+
   //signals
   newMessages = signal<Message[]>([]);
   urlParamsSignal = toSignal(this.urlService.urlParameter$);
   chatTypeSignal = computed(() => this.urlParamsSignal()?.chatType);
 
-  chatTypeInputRoute!: string;
   constructor(private route: ActivatedRoute) {
     effect(() => {
       const allMessages = this.messageService.messages();
@@ -100,7 +103,7 @@ export class ChatMainComponent implements OnInit {
         );
         const sorted = this.sortMsgs(filtered);
 
-        this.newMessages.set(filtered);
+        this.newMessages.set(sorted);
       }
 
       //if private
@@ -110,22 +113,31 @@ export class ChatMainComponent implements OnInit {
         );
         const sorted = this.sortMsgs(filtered);
 
-        this.newMessages.set(filtered);
+        this.newMessages.set(sorted);
       }
       console.log('NEW MESSAGES', this.newMessages());
 
       this.chatMessages = this.newMessages();
     });
+
+    // effect(() => {
+    //   //if params change, close thread // hier ist die funktion die irgendwie immer triggert
+    //   const currentChatId = this.urlService.currentParams.chatId!;
+    //   const cachedId = this.cachedChatId();
+
+    //   if (currentChatId !== cachedId) {
+    //     this.threadbarService.closeThread();
+    //     this.cachedChatId.set(currentChatId);
+    //   }
+    // })
   }
 
-  ngOnInit(): void {}
-
-  ngAfterViewInit() {
-    console.log('USER ID IST DA', this.authService.currentUserId);
+  ngOnInit(): void {
+    this.cachedChatId.set(this.urlService.currentParams.threadsId!);
   }
 
   sortMsgs(filtered: Message[]) {
-    filtered.sort((a, b) => {
+    return filtered.sort((a, b) => {
       return parseInt(a.timestamp) - parseInt(b.timestamp);
     });
   }

@@ -105,7 +105,6 @@ export interface ThreadState {
   isOpen: boolean;
   currentThreadId: string | null;
   currentChannelId: string | null;
-  threadData: any;
 }
 
 export enum EmojiFnRegulator {

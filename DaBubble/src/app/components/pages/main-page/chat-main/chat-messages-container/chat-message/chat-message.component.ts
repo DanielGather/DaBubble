@@ -6,7 +6,6 @@ import {
   OnDestroy,
   Output,
   EventEmitter,
-  HostListener,
 } from '@angular/core';
 import {
   MessageType,
@@ -95,7 +94,6 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
   async openThreadBar(message: any) {
     let channelId = this.route.snapshot.paramMap.get('id');
     let threadId: string;
-    console.log(message.messageId);
 
     if (message.threadId) {
       threadId = message.threadId;
@@ -116,8 +114,6 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
       await this.firestoreService.updateDoc('messages', message.messageId, {
         threadId: threadId, isThreadMessage: true, hasAThread: true
       });
-
-      console.log('Neuer Thread erstellt:', threadId);
     }
 
     // Navigation und UI-State

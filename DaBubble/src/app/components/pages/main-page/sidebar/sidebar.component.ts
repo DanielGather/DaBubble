@@ -7,14 +7,13 @@ import { trigger, style, transition, animate } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { UsersService } from '../../../../services/users.service';
 import { map } from 'rxjs';
-import { AppUser, ChannelsTest, ChannelWithId } from '../../../../types/types';
-import { Channels } from '../../../../types/types';
+import { AppUser, ChannelWithId } from '../../../../types/types';
 import { FoldItemState, FoldKey, FoldState } from '../../../../types/types';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ChannelChatHeaderComponent } from '../chat-main/channel-chat-header/channel-chat-header.component';
 import { MessagesDataService } from '../../../../services/messages-data.service';
 import { ChannelsService } from '../../../../services/channels.service';
 import { PrivateMessageService } from '../../../../services/private-message.service';
+import { ThreadService } from '../../../../services/thread.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -22,7 +21,6 @@ import { PrivateMessageService } from '../../../../services/private-message.serv
     CommonModule,
     SearchbarComponent,
     CreateChannelComponent,
-    ChannelChatHeaderComponent,
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
@@ -52,9 +50,9 @@ export class SidebarComponent {
   private userService: UsersService = inject(UsersService);
   private messageService: MessagesDataService = inject(MessagesDataService);
   private channelsService: ChannelsService = inject(ChannelsService);
-  private privateMessagesService: PrivateMessageService = inject(
-    PrivateMessageService
-  );
+  private privateMessagesService: PrivateMessageService = inject(PrivateMessageService);
+  private threadService: ThreadService = inject(ThreadService);
+
 
   online: boolean = true;
   clicked: boolean = true;
@@ -130,6 +128,7 @@ export class SidebarComponent {
 
   openChannel(channelId: string) {
     this.router.navigate(['/chat/channel', channelId]);
+    this.threadService.closeThread();
   }
 
   openDirectMessage(chatPartnerId: string) {

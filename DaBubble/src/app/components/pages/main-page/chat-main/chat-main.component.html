@@ -43,7 +43,7 @@
     </div>
   </div>
 
-  @if(isThreadbarOpen()){
+  @if(isThreadbarOpen() && chatTypeInput != 'private'){
   <app-threadsbar [chatMessages]="chatMessages"></app-threadsbar>
   }
 </section>

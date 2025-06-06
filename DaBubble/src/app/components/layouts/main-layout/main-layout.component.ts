@@ -4,10 +4,10 @@ import { SidebarComponent } from '../../pages/main-page/sidebar/sidebar.componen
 import { RouterOutlet } from '@angular/router';
 import { AuthenticationService } from '../../../services/authentication.service';
 import { UsersService } from '../../../services/users.service';
-import { ThreadsbarComponent } from "../../pages/main-page/chat-thread/threadsbar/threadsbar.component";
+
 @Component({
   selector: 'app-main-layout',
-  imports: [HeaderComponent, SidebarComponent, RouterOutlet, ThreadsbarComponent],
+  imports: [HeaderComponent, SidebarComponent, RouterOutlet],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss',
 })

@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { effect, Injectable, signal } from '@angular/core';
 import { ThreadState } from '../types/types';
 @Injectable({
   providedIn: 'root',
@@ -8,7 +8,6 @@ export class ThreadService {
     isOpen: false,
     currentThreadId: null,
     currentChannelId: null,
-    threadData: null,
   });
 
   threadState = this._threadState.asReadonly();
@@ -17,12 +16,11 @@ export class ThreadService {
   currentThreadId = () => this._threadState().currentThreadId;
   currentChannelId = () => this._threadState().currentChannelId;
 
-  openThread(threadId: string, channelId: string, threadData?: any) {
+  openThread(threadId: string, channelId: string) {
     this._threadState.set({
       isOpen: true,
       currentThreadId: threadId,
       currentChannelId: channelId,
-      threadData: threadData || null,
     });
   }
 
@@ -31,9 +29,14 @@ export class ThreadService {
       isOpen: false,
       currentThreadId: null,
       currentChannelId: null,
-      threadData: null,
     });
   }
 
-  constructor() {}
+  constructor() {
+    effect( () => {
+      if(this._threadState()) {
+        this.closeThread
+      }
+    })
+  }
 }
