@@ -70,11 +70,14 @@ export class ChatMessagesContainerComponent implements AfterViewInit, OnChanges 
 
     ngAfterViewInit(): void {
         this.scrollToBottom();
+        setTimeout(() => {
+           this.scrollToBottom(); 
+        }, 0);
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['chatMessages'] && changes['chatMessages'].currentValue) {
-            setTimeout(() => this.scrollToBottom(), 0);
+            setTimeout(() => this.scrollToBottom(), 200);
         }
     }
 
@@ -82,7 +85,11 @@ export class ChatMessagesContainerComponent implements AfterViewInit, OnChanges 
      * is used to scroll to the bottom of the message container to see the newest messages
      */
     scrollToBottom(): void {
-        this.messageField.nativeElement.scrollTop = this.messageField.nativeElement.scrollHeight;
+        const el = this.messageField?.nativeElement;
+        if (el) {
+            el.scrollTop = el.scrollHeight;
+            console.log('scroll HEIGHT: ', el.scrollHeight, el.scrollTop);
+        }
     }
 
     async loadUserData(id: string) {

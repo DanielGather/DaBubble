@@ -119,17 +119,6 @@ export class ChatMainComponent implements OnInit {
 
       this.chatMessages = this.newMessages();
     });
-
-    // effect(() => {
-    //   //if params change, close thread // hier ist die funktion die irgendwie immer triggert
-    //   const currentChatId = this.urlService.currentParams.chatId!;
-    //   const cachedId = this.cachedChatId();
-
-    //   if (currentChatId !== cachedId) {
-    //     this.threadbarService.closeThread();
-    //     this.cachedChatId.set(currentChatId);
-    //   }
-    // })
   }
 
   ngOnInit(): void {
