@@ -4,6 +4,7 @@ import { SidebarComponent } from '../../pages/main-page/sidebar/sidebar.componen
 import { RouterOutlet } from '@angular/router';
 import { AuthenticationService } from '../../../services/authentication.service';
 import { UsersService } from '../../../services/users.service';
+import { ResponsiveService } from '../../../services/responsive.service';
 
 @Component({
   selector: 'app-main-layout',
@@ -16,13 +17,15 @@ export class MainLayoutComponent implements OnInit {
    * authentication service variable
    */
   authService = inject(AuthenticationService);
-
+  responsiveService = inject(ResponsiveService);
   /**
    * usersservice variable
    */
   usersService = inject(UsersService);
 
   async ngOnInit(): Promise<void> {
+    console.log('OBSERVER', this.responsiveService.breakpointObserver);
+
     if (
       !this.usersService.currentUser$ ||
       this.usersService.currentUser$ == null
