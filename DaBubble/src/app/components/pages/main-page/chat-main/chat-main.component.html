@@ -1,4 +1,8 @@
 <section class="flex h-full">
+  @if(responsiveService.isSmall() && !threadbarService.threadState().isOpen ||
+  responsiveService.isMedium() && !threadbarService.threadState().isOpen ||
+  responsiveService.isLarge()) {
+
   <div
     class="bg-white [@media(min-width:767px)]:rounded-standard overflow-hidden flex flex-col justify-between h-full md:mx-4"
     style="width: -webkit-fill-available"
@@ -36,14 +40,19 @@
         [chatMessages]="chatMessages"
         [chatTypeInput]="chatType.channel"
       ></app-chat-messages-container>
-      } 
+      }
 
       <!-- Chatinput-->
-      <app-chat-input [chatInputTypeInput]="chatInputType.fromMain" class="w-full"></app-chat-input>
+      <app-chat-input
+        [chatInputTypeInput]="chatInputType.fromMain"
+        class="w-full"
+      ></app-chat-input>
     </div>
   </div>
-
-  @if(isThreadbarOpen() && chatTypeInput != 'private'){
-  <app-threadsbar [chatMessages]="chatMessages"></app-threadsbar>
+  } @if(isThreadbarOpen() && chatTypeInput != 'private'){
+  <app-threadsbar
+    class="w-full lg:w-auto"
+    [chatMessages]="chatMessages"
+  ></app-threadsbar>
   }
 </section>

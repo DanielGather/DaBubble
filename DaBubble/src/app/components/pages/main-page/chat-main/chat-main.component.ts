@@ -6,7 +6,7 @@ import {
   effect,
   signal,
   computed,
-  WritableSignal
+  WritableSignal,
 } from '@angular/core';
 import { ChatInputComponent } from './chat-input/chat-input.component';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -24,6 +24,7 @@ import { FirestoreService } from '../../../../services/firestore.service';
 import { GetUrlChatidService } from '../../../../services/get-url-chatid.service';
 import { ThreadsbarComponent } from '../chat-thread/threadsbar/threadsbar.component';
 import { ThreadService } from '../../../../services/thread.service';
+import { ResponsiveService } from '../../../../services/responsive.service';
 
 @Component({
   selector: 'app-chat-main',
@@ -47,6 +48,7 @@ export class ChatMainComponent implements OnInit {
   messageDataService = inject(MessagesDataService);
   urlService = inject(GetUrlChatidService);
   threadbarService = inject(ThreadService);
+  responsiveService = inject(ResponsiveService);
 
   //thread boolean states
   readonly isActive = this.threadbarService.threadState;

@@ -1,6 +1,6 @@
 <div
   id="threadsbar-wrapper"
-  class="flex flex-col w-96 h-full bg-white rounded-standard overflow-hidden transition-all duration-300"
+  class="flex flex-col w-full h-full bg-white rounded-standard overflow-hidden transition-all duration-300 lg:w-96"
   [ngClass]="{ 'mr-4': isOpen }"
   [class.w-96]="isOpen"
   [class.w-0]="!isOpen"
@@ -35,7 +35,10 @@
         [isThread]="true"
         [chatTypeInput]="chatType.thread"
       ></app-chat-messages-container>
-      <app-chat-input [chatInputTypeInput]="chatInputType.fromThread" class="flex-shrink-0"></app-chat-input>
+      <app-chat-input
+        [chatInputTypeInput]="chatInputType.fromThread"
+        class="flex-shrink-0"
+      ></app-chat-input>
     </div>
   </div>
 </div>
