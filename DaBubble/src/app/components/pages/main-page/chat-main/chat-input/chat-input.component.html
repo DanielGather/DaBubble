@@ -42,6 +42,7 @@
 
 
 <button
+  type="button"
   class="p-2 rounded-[50%] cursor-pointer transition-colors ease-in-out duration-[200ms] hover:bg-bg-main"
   (click)="emojiService.toggleEmojiMenu($event, emojiFnRegulator.addEmojiToText)"
   (mouseenter)="isEmojiHovered = true"
@@ -71,6 +72,7 @@
 
 
 <button
+  type="button"
   class="p-2 rounded-[50%] cursor-pointer transition-all ease-in-out duration-[200ms] hover:bg-bg-main"
   (mouseenter)="isEmailHovered = true"
   (mouseleave)="isEmailHovered = false"

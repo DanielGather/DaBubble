@@ -223,6 +223,9 @@ export class ChatInputComponent implements OnInit, OnDestroy {
       messageId: testId,
     });
 
+    console.log('trigger!!!!');
+    
+
     this.chatInputGroup.get('message')?.reset();
   }
 }
