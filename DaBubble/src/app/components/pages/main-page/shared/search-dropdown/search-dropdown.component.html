@@ -26,8 +26,9 @@
 
   } }@else { @for (message of messages(); track $index) {
 
-  <div id="name-wrapper" class="" (click)="redirectToChannel()">
+  <div id="name-wrapper" class="" (click)="redirectToChannel(message)">
     {{ message.creatorName }}: {{ message.message }}
+    {{ message.timestamp | date : "short" }}
   </div>
   } }
 </div>

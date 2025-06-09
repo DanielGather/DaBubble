@@ -12,7 +12,7 @@ import {
   signal,
 } from '@angular/core';
 import { UserElementComponent } from '../../../../shared/user-element/user-element.component';
-import { AppUser, ChannelWithId } from '../../../../../types/types';
+import { AppUser, ChannelWithId, Message } from '../../../../../types/types';
 import { map, Observable } from 'rxjs';
 import { UsersService } from '../../../../../services/users.service';
 import { CommonModule } from '@angular/common';
@@ -88,7 +88,18 @@ export class SearchDropdownComponent {
     this.router.navigate(['/chat/channel', channelId]);
   }
 
-  redirectToChannel() {
-    console.log('redirecting');
+  redirectToChannel(message: any) {
+    if (message.privatChatId.length != '') {
+      console.log('is private main');
+      this.router.navigate(['/chat/private', message.privatChatId]);
+    }
+    if (message.privatChatId.length == 0 && !message.isThreadMessage) {
+      console.log('is channel main');
+      this.router.navigate(['/chat/channel', message.channelId]);
+    }
+    if (message.privatChatId.length == 0 && message.isThreadMessage) {
+      console.log('is channel thread');
+      this.router.navigate(['/chat/channel', message.channelId]);
+    }
   }
 }
