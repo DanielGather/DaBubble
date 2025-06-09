@@ -19,6 +19,7 @@ import { CommonModule } from '@angular/common';
 import { ChannelsService } from '../../../../../services/channels.service';
 import { Router } from '@angular/router';
 import { OtherUsersPopupComponent } from '../other-users-popup/other-users-popup.component';
+import { MessagesDataService } from '../../../../../services/messages-data.service';
 
 @Component({
   selector: 'app-search-dropdown',
@@ -32,6 +33,18 @@ export class SearchDropdownComponent {
   @Input() searchChannel: boolean = false;
   @Input() searchTerm: string = '';
   @Output() visibleChange = new EventEmitter<boolean>();
+
+  messageService = inject(MessagesDataService);
+
+  get messages() {
+    return computed(() => {
+      const searchTerm = this.searchTerm;
+      const messages = this.messageService.messages();
+      console.log('gurk', messages);
+
+      return messages.filter((message) => message.message.includes(searchTerm));
+    });
+  }
 
   get channels() {
     return computed(() =>
@@ -73,5 +86,9 @@ export class SearchDropdownComponent {
 
   openChannel(channelId: string) {
     this.router.navigate(['/chat/channel', channelId]);
+  }
+
+  redirectToChannel() {
+    console.log('redirecting');
   }
 }

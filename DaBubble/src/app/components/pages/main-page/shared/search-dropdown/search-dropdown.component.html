@@ -24,6 +24,11 @@
     <span>{{ channel.data.channelName }}</span>
   </div>
 
+  } }@else { @for (message of messages(); track $index) {
+
+  <div id="name-wrapper" class="" (click)="redirectToChannel()">
+    {{ message.creatorName }}: {{ message.message }}
+  </div>
   } }
 </div>
 }
