@@ -89,6 +89,8 @@ export class ChatMessagesContainerComponent implements AfterViewInit, OnChanges 
         if (el) {
             el.scrollTop = el.scrollHeight;
             console.log('scroll HEIGHT: ', el.scrollHeight, el.scrollTop);
+            console.log(el);
+            
         }
     }
 
