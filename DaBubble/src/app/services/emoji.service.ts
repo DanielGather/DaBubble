@@ -1,13 +1,20 @@
 import { Injectable, WritableSignal, effect, signal } from '@angular/core';
-import { EmojiFnRegulator, ChatInputType } from '../types/types';
+import { EmojiFnRegulator, ChatInputType, ToggleEmojiMenuObject } from '../types/types';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmojiService {
+  //test 
+  toggleEmojiMenuObject: ToggleEmojiMenuObject = {
+    inputType: ChatInputType.fromMain,
+    isOpen: null
+  }
+
+  //testend
 
   //signals
-  showEmojiMenu: WritableSignal<boolean> = signal(false);
+  showEmojiMenu: WritableSignal<ToggleEmojiMenuObject> = signal(this.toggleEmojiMenuObject);
   hasInteracted: WritableSignal<boolean> = signal(false);
 
   /**
@@ -15,12 +22,12 @@ export class EmojiService {
    */
   emojiFnRegulator: WritableSignal<EmojiFnRegulator> = signal(EmojiFnRegulator.addEmojiToText);
 
-  //test
   /**
    * a variable that changes and determines in which chat type the emoji menu was opened
    */
   chatInputType: WritableSignal<ChatInputType> = signal(ChatInputType.fromMain);
-  //testend
+
+
 
   constructor() { }
 
@@ -29,10 +36,19 @@ export class EmojiService {
   * 
   * @param event mouseclick event
   */
-  toggleEmojiMenu(event: MouseEvent, emojiFnRegulatorInput: EmojiFnRegulator): void {
+  toggleEmojiMenu(event: MouseEvent, emojiFnRegulatorInput: EmojiFnRegulator, toggleEmojiMenuObject: ToggleEmojiMenuObject): void {
+
+    if (this.showEmojiMenu().inputType !== toggleEmojiMenuObject.inputType) {
+      this.showEmojiMenu.set(toggleEmojiMenuObject)
+    }
+
+    let isOpen = this.showEmojiMenu().isOpen;
     event.stopPropagation();
     this.hasInteracted.set(true);
-    this.showEmojiMenu.set(!this.showEmojiMenu());
+    this.showEmojiMenu.set({
+      ...this.showEmojiMenu(),
+      isOpen: !isOpen
+    });
     this.emojiFnRegulator.set(emojiFnRegulatorInput);
   }
 
@@ -45,14 +61,22 @@ export class EmojiService {
   addEmoji(event: any, chatInputGroup: any): void {
     const emoji = event.emoji.native;
     const current = chatInputGroup.get('message')?.value || '';
+    let isOpen = this.showEmojiMenu().isOpen;
     chatInputGroup.get('message')?.setValue(current + emoji);
-    this.showEmojiMenu.set(false);
+    this.showEmojiMenu.set({
+      ...this.showEmojiMenu(),
+      isOpen: !isOpen
+    });
   }
 
   //hier kommt noch die dunktion rein die emojis zu den nachrichten added
   addReaction(event: any): void {
     console.log('addReaction trigger: ', event);
-    this.showEmojiMenu.set(false);
+    let isOpen = this.showEmojiMenu().isOpen;
+    this.showEmojiMenu.set({
+      ...this.showEmojiMenu(),
+      isOpen: !isOpen
+    });
   }
 
   /**

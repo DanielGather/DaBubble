@@ -16,6 +16,7 @@ import {
   ChatType,
   EmojiFnRegulator,
   ChatInputType,
+  ToggleEmojiMenuObject
 } from '../../../../../types/types';
 import { GetUrlChatidService } from '../../../../../services/get-url-chatid.service';
 import { FirestoreService } from '../../../../../services/firestore.service';
@@ -78,31 +79,12 @@ export class ChatInputComponent implements OnInit, OnDestroy {
     hasAThread: new FormControl(false)
   });
 
-  /**
-   * hover listener
-   */
+  //other
   isSendHovered: boolean = false;
   isEmailHovered = false;
   isEmojiHovered = false;
-
-
-
-
-
-
-
   searchUserDropdownVisible = false;
-searchTerm = '';
-
-onMentionClick() {
-  this.searchUserDropdownVisible = !this.searchUserDropdownVisible;
-  this.searchTerm = ''; // leer starten
-}
-
-
-
-
-
+  searchTerm = '';
 
   /**
    * closes the emoji menu, if user is clicking outside of .menu-container & .emoji-button
@@ -118,7 +100,10 @@ onMentionClick() {
       !target.closest('emoji-mart') &&
       !target.closest('.text-area')
     ) {
-      this.emojiService.showEmojiMenu.set(false);
+      this.emojiService.showEmojiMenu.set({
+        ...this.emojiService.showEmojiMenu(),
+        isOpen: false,
+      });;
     }
   }
 
@@ -154,6 +139,12 @@ onMentionClick() {
       //console log
       console.log('Absenden:', this.chatInputGroup.value);
     }
+  }
+
+  //bitte noch kommentieren
+  onMentionClick() {
+    this.searchUserDropdownVisible = !this.searchUserDropdownVisible;
+    this.searchTerm = ''; // leer starten
   }
 
   /**
@@ -246,9 +237,23 @@ onMentionClick() {
       messageId: testId,
     });
 
-    console.log('trigger!!!!');
-    
-
     this.chatInputGroup.get('message')?.reset();
+  }
+
+  returnToggleEmojiObject(): ToggleEmojiMenuObject{
+    let object:ToggleEmojiMenuObject;
+    if(this.chatInputTypeInput === this.chatInputType.fromMain) {
+      object = {
+        inputType: ChatInputType.fromMain,
+        isOpen: false
+      }
+    }
+    else if(this.chatInputTypeInput === this.chatInputType.fromThread) {
+      object = {
+        inputType: ChatInputType.fromThread,
+        isOpen: false
+      }
+    }
+    return object!;
   }
 }

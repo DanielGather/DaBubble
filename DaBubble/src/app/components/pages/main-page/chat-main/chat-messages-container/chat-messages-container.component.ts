@@ -12,7 +12,9 @@ import {
     ChatType,
     MessageType,
     AppUser,
-    Message
+    Message,
+    ToggleEmojiMenuObject,
+    ChatInputType
 } from '../../../../../types/types';
 import { ChatInfoComponent } from './chat-info/chat-info.component';
 import { ChatMessageComponent } from './chat-message/chat-message.component';
@@ -68,10 +70,21 @@ export class ChatMessagesContainerComponent implements AfterViewInit, OnChanges 
     clickedUserData: AppUser | null = null;
     showUserPopupVisible: boolean = false;
 
+    //toggleEmojiObjects
+    defaultEmojiToggle: ToggleEmojiMenuObject = {
+        inputType: ChatInputType.fromMain,
+        isOpen: false
+    }
+
+    threadEmojiToggle: ToggleEmojiMenuObject = {
+        inputType: ChatInputType.fromThread,
+        isOpen: false
+    }
+
     ngAfterViewInit(): void {
         this.scrollToBottom();
         setTimeout(() => {
-           this.scrollToBottom(); 
+            this.scrollToBottom();
         }, 0);
     }
 
@@ -90,7 +103,7 @@ export class ChatMessagesContainerComponent implements AfterViewInit, OnChanges 
             el.scrollTop = el.scrollHeight;
             console.log('scroll HEIGHT: ', el.scrollHeight, el.scrollTop);
             console.log(el);
-            
+
         }
     }
 

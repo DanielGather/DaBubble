@@ -12,6 +12,8 @@ import {
   ChatType,
   EmojiFnRegulator,
   Message,
+  ToggleEmojiMenuObject,
+  ChatInputType
 } from '../../../../../../types/types';
 import { CommonModule } from '@angular/common';
 import { PopOverComponent } from '../../../shared/pop-over/pop-over.component';
@@ -68,6 +70,10 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
   @Input() isThread: boolean = false;
   @Input() isTopMessage: boolean = false;
   @Input() answersCount: number | null = null;
+  @Input() toggleEmojiObjectInput:ToggleEmojiMenuObject = {
+    inputType: ChatInputType.fromMain,
+    isOpen: false
+  }
 
   //outputs
   @Output() openUserPopup = new EventEmitter<string>();

@@ -116,3 +116,8 @@ export enum ChatInputType {
   fromThread = 'fromThread',
   fromMain = 'fromMain'
 }
+
+export interface ToggleEmojiMenuObject {
+  inputType: ChatInputType,
+  isOpen: boolean | null
+}
