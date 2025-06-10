@@ -26,23 +26,30 @@
     [name]="user.firstName + ' ' + user.lastName"
     [isOnline]="user.online"
     [avatarSrc]="'img/user_' + user.avatarId + '.png'"
-     (click)="onUserClicked(user)"
+    (click)="onUserClicked(user)"
   ></app-user-element>
   } }} @if (searchChannel) { @for (channel of channels(); track $index) {
   <div
     id="channelElement"
-    class="flex items-center gap-2 text-lg bg-white"
+    class="flex items-center gap-2 text-lg bg-white p-2 rounded-xl hover:bg-slate-300"
     (click)="openChannel(channel.id)"
   >
     <span class="font-bold text-xl">#</span>
     <span>{{ channel.data.channelName }}</span>
   </div>
 
-  } }@else { @for (message of messages(); track $index) {
+  } }@if (searchText) { @for (message of messages(); track $index) {
 
-  <div id="name-wrapper" class="" (click)="redirectToChannel(message)">
-    {{ message.creatorName }}: {{ message.message }}
-    {{ message.timestamp | date : "short" }}
+  <div
+    id="message-wrapper"
+    class="hover:bg-slate-300 p-4 rounded-xl"
+    (click)="redirectToChannel(message)"
+  >
+    <div id="name-and-date-wrapper">
+      <span class="font-bold">{{ message.creatorName }} </span>
+      <span class="text-xs">{{ message.timestamp | date : "short" }}</span>
+    </div>
+    {{ message.message }}
   </div>
   } }
 </div>

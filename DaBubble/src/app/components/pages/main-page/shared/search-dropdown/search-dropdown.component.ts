@@ -30,6 +30,7 @@ export class SearchDropdownComponent {
   @Input() searchUser: boolean = false;
   @Input() searchChannel: boolean = false;
   @Input() searchTerm: string = '';
+  @Input() searchText: boolean = false;
   @Output() visibleChange = new EventEmitter<boolean>();
 
   messageService = inject(MessagesDataService);
@@ -42,7 +43,9 @@ export class SearchDropdownComponent {
       const searchTerm = this.searchTerm;
       const messages = this.messageService.messages();
 
-      return messages.filter((message) => message.message.includes(searchTerm));
+      return messages.filter((message) =>
+        message.message.toLowerCase().includes(searchTerm.toLowerCase())
+      );
     });
   }
 
