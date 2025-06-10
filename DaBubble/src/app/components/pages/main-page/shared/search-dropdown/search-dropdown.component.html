@@ -1,3 +1,16 @@
+<div
+  *ngIf="showUserPopupVisible && selectedUser"
+  class="fixed inset-0 z-[100] bg-black bg-opacity-30 flex items-center justify-center"
+  (click)="closeUserPopup()"
+>
+  <div (click)="$event.stopPropagation()">
+    <app-other-users-popup
+      [userData]="selectedUser"
+      (closeUserPopup)="closeUserPopup()"
+    ></app-other-users-popup>
+  </div>
+</div>
+
 <!-- <app-other-users-popup
   class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[90000000000]"
 ></app-other-users-popup> -->
@@ -13,6 +26,7 @@
     [name]="user.firstName + ' ' + user.lastName"
     [isOnline]="user.online"
     [avatarSrc]="'img/user_' + user.avatarId + '.png'"
+     (click)="onUserClicked(user)"
   ></app-user-element>
   } }} @if (searchChannel) { @for (channel of channels(); track $index) {
   <div

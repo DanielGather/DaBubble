@@ -1,15 +1,12 @@
 import {
   Component,
   computed,
-  effect,
   ElementRef,
   EventEmitter,
   HostListener,
   inject,
   Input,
-  input,
   Output,
-  signal,
 } from '@angular/core';
 import { UserElementComponent } from '../../../../shared/user-element/user-element.component';
 import { AppUser, ChannelWithId, Message } from '../../../../../types/types';
@@ -35,6 +32,8 @@ export class SearchDropdownComponent {
   @Output() visibleChange = new EventEmitter<boolean>();
 
   messageService = inject(MessagesDataService);
+  selectedUser: AppUser | null = null;
+  showUserPopupVisible: boolean = false;
 
   get messages() {
     return computed(() => {
@@ -101,5 +100,14 @@ export class SearchDropdownComponent {
       console.log('is channel thread');
       this.router.navigate(['/chat/channel', message.channelId]);
     }
+  }
+
+  onUserClicked(user: AppUser) {
+    this.selectedUser = user;
+    this.showUserPopupVisible = true;
+  }
+
+  closeUserPopup() {
+    this.showUserPopupVisible = false;
   }
 }
