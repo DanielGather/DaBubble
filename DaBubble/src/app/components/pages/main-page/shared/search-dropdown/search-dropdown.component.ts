@@ -17,6 +17,7 @@ import { ChannelsService } from '../../../../../services/channels.service';
 import { Router } from '@angular/router';
 import { OtherUsersPopupComponent } from '../other-users-popup/other-users-popup.component';
 import { MessagesDataService } from '../../../../../services/messages-data.service';
+import { ThreadService } from '../../../../../services/thread.service';
 
 @Component({
   selector: 'app-search-dropdown',
@@ -34,12 +35,12 @@ export class SearchDropdownComponent {
   messageService = inject(MessagesDataService);
   selectedUser: AppUser | null = null;
   showUserPopupVisible: boolean = false;
+  threadService = inject(ThreadService);
 
   get messages() {
     return computed(() => {
       const searchTerm = this.searchTerm;
       const messages = this.messageService.messages();
-      console.log('gurk', messages);
 
       return messages.filter((message) => message.message.includes(searchTerm));
     });
@@ -89,16 +90,19 @@ export class SearchDropdownComponent {
 
   redirectToChannel(message: any) {
     if (message.privatChatId.length != '') {
-      console.log('is private main');
       this.router.navigate(['/chat/private', message.privatChatId]);
     }
     if (message.privatChatId.length == 0 && !message.isThreadMessage) {
-      console.log('is channel main');
       this.router.navigate(['/chat/channel', message.channelId]);
     }
     if (message.privatChatId.length == 0 && message.isThreadMessage) {
-      console.log('is channel thread');
-      this.router.navigate(['/chat/channel', message.channelId]);
+      this.router.navigate([
+        '/chat/channel',
+        message.channelId,
+        'thread',
+        message.threadId,
+      ]);
+      this.threadService.openThread(message.threadId, message.channelId);
     }
   }
 
