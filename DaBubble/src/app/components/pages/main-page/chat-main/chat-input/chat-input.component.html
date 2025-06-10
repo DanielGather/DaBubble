@@ -39,63 +39,77 @@
 
       <div class="flex flex-row items-center justify-between w-full relative">
         <div class="flex flex-row items-center justify-center gap-2">
+          <button
+            type="button"
+            class="p-2 rounded-[50%] cursor-pointer transition-colors ease-in-out duration-[200ms] hover:bg-bg-main"
+            (click)="
+              emojiService.toggleEmojiMenu(
+                $event,
+                emojiFnRegulator.addEmojiToText
+              )
+            "
+            (mouseenter)="isEmojiHovered = true"
+            (mouseleave)="isEmojiHovered = false"
+          >
+            <img
+              *ngIf="!isEmojiHovered && !isEmailHovered"
+              src="img/sentiment_satisfied_gray.svg"
+              alt="Emoji Gray"
+              class="w-6 h-6"
+            />
+            <img
+              *ngIf="isEmailHovered"
+              src="img/sentiment_satisfied_black.svg"
+              alt="Emoji Black"
+              class="w-6 h-6"
+            />
+            <img
+              *ngIf="isEmojiHovered && !isEmailHovered"
+              src="img/sentiment_satisfied_purple.svg"
+              alt="Emoji Purple"
+              class="w-6 h-6"
+            />
+          </button>
 
+          <button
+            type="button"
+            class="p-2 rounded-[50%] cursor-pointer transition-all ease-in-out duration-[200ms] hover:bg-bg-main"
+            (click)="onMentionClick()"
+            (mouseenter)="isEmailHovered = true"
+            (mouseleave)="isEmailHovered = false"
+          >
+            <img
+              *ngIf="!isEmailHovered && !isEmojiHovered"
+              src="img/alternate_email_gray.svg"
+              alt="Email Gray"
+              class="w-6 h-6"
+            />
+            <img
+              *ngIf="isEmojiHovered"
+              src="img/alternate_email_black.svg"
+              alt="Email Black"
+              class="w-6 h-6"
+            />
+            <img
+              *ngIf="isEmailHovered && !isEmojiHovered"
+              src="img/alternate_email_purple.svg"
+              alt="Email Purple"
+              class="w-6 h-6"
+            />
+          </button>
 
-<button
-  type="button"
-  class="p-2 rounded-[50%] cursor-pointer transition-colors ease-in-out duration-[200ms] hover:bg-bg-main"
-  (click)="emojiService.toggleEmojiMenu($event, emojiFnRegulator.addEmojiToText)"
-  (mouseenter)="isEmojiHovered = true"
-  (mouseleave)="isEmojiHovered = false"
->
-  <img
-    *ngIf="!isEmojiHovered && !isEmailHovered"
-    src="img/sentiment_satisfied_gray.svg"
-    alt="Emoji Gray"
-    class="w-6 h-6"
-  />
-  <img
-    *ngIf="isEmailHovered"
-    src="img/sentiment_satisfied_black.svg"
-    alt="Emoji Black"
-    class="w-6 h-6"
-  />
-  <img
-    *ngIf="isEmojiHovered && !isEmailHovered"
-    src="img/sentiment_satisfied_purple.svg"
-    alt="Emoji Purple"
-    class="w-6 h-6"
-  />
-</button>
-
-
-
-
-<button
-  type="button"
-  class="p-2 rounded-[50%] cursor-pointer transition-all ease-in-out duration-[200ms] hover:bg-bg-main"
-  (mouseenter)="isEmailHovered = true"
-  (mouseleave)="isEmailHovered = false"
->
-  <img
-    *ngIf="!isEmailHovered && !isEmojiHovered"
-    src="img/alternate_email_gray.svg"
-    alt="Email Gray"
-    class="w-6 h-6"
-  />
-  <img
-    *ngIf="isEmojiHovered"
-    src="img/alternate_email_black.svg"
-    alt="Email Black"
-    class="w-6 h-6"
-  />
-  <img
-    *ngIf="isEmailHovered && !isEmojiHovered"
-    src="img/alternate_email_purple.svg"
-    alt="Email Purple"
-    class="w-6 h-6"
-  />
-</button>
+  <div
+    *ngIf="searchUserDropdownVisible"
+    class="absolute bottom-full mb-2 z-50"
+  >
+    <app-search-dropdown
+      [visible]="searchUserDropdownVisible"
+      [searchUser]="true"
+      [searchChannel]="false"
+      [searchTerm]="searchTerm"
+      (visibleChange)="searchUserDropdownVisible = $event"
+    ></app-search-dropdown>
+  </div>
         </div>
 
         <button

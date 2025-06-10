@@ -26,11 +26,12 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { EmojiService } from '../../../../../services/emoji.service';
+import { SearchDropdownComponent } from '../../shared/search-dropdown/search-dropdown.component';
 
 @Component({
   standalone: true,
   selector: 'app-chat-input',
-  imports: [CommonModule, ReactiveFormsModule, PickerComponent, EmojiModule],
+  imports: [CommonModule, ReactiveFormsModule, PickerComponent, EmojiModule, SearchDropdownComponent],
   templateUrl: './chat-input.component.html',
   styleUrl: './chat-input.component.scss',
 })
@@ -77,9 +78,31 @@ export class ChatInputComponent implements OnInit, OnDestroy {
     hasAThread: new FormControl(false)
   });
 
+  /**
+   * hover listener
+   */
   isSendHovered: boolean = false;
   isEmailHovered = false;
   isEmojiHovered = false;
+
+
+
+
+
+
+
+  searchUserDropdownVisible = false;
+searchTerm = '';
+
+onMentionClick() {
+  this.searchUserDropdownVisible = !this.searchUserDropdownVisible;
+  this.searchTerm = ''; // leer starten
+}
+
+
+
+
+
 
   /**
    * closes the emoji menu, if user is clicking outside of .menu-container & .emoji-button
