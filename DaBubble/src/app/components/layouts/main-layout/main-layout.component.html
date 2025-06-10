@@ -1,10 +1,14 @@
 <main class="min-w-full h-full md:py-4 flex flex-col bg-[rgb(236,238,254)]">
   <app-header></app-header>
   <div id="content" class="flex flex-grow justify-center items-start min-h-0">
-    <app-sidebar></app-sidebar>
-
+    <app-sidebar
+      [ngClass]="sidebarVisible ? 'w-full' : 'w-0'"
+      class="md:w-auto"
+    ></app-sidebar>
+    @if(!responsiveService.goBack()){
     <div id="roouter-outlet-wrap" class="flex-grow min-h-0 h-full md:pt-4">
       <router-outlet></router-outlet>
     </div>
+    }
   </div>
 </main>

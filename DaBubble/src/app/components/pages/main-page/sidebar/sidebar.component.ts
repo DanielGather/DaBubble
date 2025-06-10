@@ -14,14 +14,11 @@ import { MessagesDataService } from '../../../../services/messages-data.service'
 import { ChannelsService } from '../../../../services/channels.service';
 import { PrivateMessageService } from '../../../../services/private-message.service';
 import { ThreadService } from '../../../../services/thread.service';
+import { ResponsiveService } from '../../../../services/responsive.service';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [
-    CommonModule,
-    SearchbarComponent,
-    CreateChannelComponent,
-  ],
+  imports: [CommonModule, SearchbarComponent, CreateChannelComponent],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
   animations: [
@@ -39,8 +36,11 @@ import { ThreadService } from '../../../../services/thread.service';
 export class SidebarComponent {
   constructor(private router: Router, private route: ActivatedRoute) {
     effect(() => {
-      console.log('CHANNELS IN DER SIDEBAR', this.channelsService.channels());
+      this.clicked = this.responsiveService.showSidebar();
+      console.log('CLICKED', this.clicked);
+
       this.channels.set(this.channelsService.channels());
+      // console.log('CHANNELS IN DER SIDEBAR', this.channelsService.channels());
     });
   }
 
@@ -50,16 +50,16 @@ export class SidebarComponent {
   private userService: UsersService = inject(UsersService);
   private messageService: MessagesDataService = inject(MessagesDataService);
   private channelsService: ChannelsService = inject(ChannelsService);
-  private privateMessagesService: PrivateMessageService = inject(PrivateMessageService);
+  private privateMessagesService: PrivateMessageService = inject(
+    PrivateMessageService
+  );
   private threadService: ThreadService = inject(ThreadService);
+  private responsiveService = inject(ResponsiveService);
 
-
+  users: UsersService = inject(UsersService);
   online: boolean = true;
   clicked: boolean = true;
   showModal: boolean = false;
-
-  users: UsersService = inject(UsersService);
-
   channels = signal<ChannelWithId[]>([]);
 
   usersList$: Observable<AppUser[]> = this.getSortedUser();
@@ -80,6 +80,10 @@ export class SidebarComponent {
   async ngOnInit() {
     let userData = await this.messageService.getUserData();
     this.userService.userChatDataObject = userData;
+    effect(() => {
+      let back = this.responsiveService.goBack;
+      console.log('back', back());
+    });
   }
 
   toggleFold(key: FoldKey) {

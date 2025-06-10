@@ -37,6 +37,10 @@ export class GetUrlChatidService {
       });
   }
 
+  get urlParameters() {
+    return this.urlParameterSubject.getValue();
+  }
+
   // Rekursiv zur tiefsten Route mit Params
   private findDeepestChildWithParams(
     route: ActivatedRouteSnapshot

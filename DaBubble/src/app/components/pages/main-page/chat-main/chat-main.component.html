@@ -1,7 +1,7 @@
 <section class="flex h-full">
   @if(responsiveService.isSmall() && !threadbarService.threadState().isOpen ||
   responsiveService.isMedium() && !threadbarService.threadState().isOpen ||
-  responsiveService.isLarge()) {
+  responsiveService.isLarge() || !responsiveService.isSmall() ) {
 
   <div
     class="bg-white [@media(min-width:767px)]:rounded-standard overflow-hidden flex flex-col justify-between h-full md:mx-4"
@@ -49,10 +49,13 @@
       ></app-chat-input>
     </div>
   </div>
-  } @if(isThreadbarOpen() && chatTypeInput != 'private'){
+
+  } @if(responsiveService.isSmall() && isThreadbarOpen() ||
+  !responsiveService.isSmall()){@if(isThreadbarOpen() && chatTypeInput !=
+  'private'){
   <app-threadsbar
-    class="w-full pl-4 lg:w-auto lg:pl-0"
+    class="w-full pl-0 lg:w-auto md:pl-0"
     [chatMessages]="chatMessages"
   ></app-threadsbar>
-  }
+  } }
 </section>

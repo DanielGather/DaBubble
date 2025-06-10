@@ -1,7 +1,7 @@
 <nav class="h-full" [ngClass]="{ 'ml-4': clicked }">
   @if(clicked){
   <app-searchbar class="block md:hidden"></app-searchbar>
-  <div class="pt-4 w-80 relative h-full flex flex-col">
+  <div class="pt-4 pr-4 w-full relative h-full flex flex-col md:w-auto md:pr-0">
     <div
       class="flex pl-4 gap-4 pt-8 relative bg-bg-component rounded-tl-standard rounded-tr-standard"
     >
@@ -116,7 +116,7 @@
   }
   <div
     (click)="navBarClicked()"
-    class="hoverWorkspace z-[9999] p-3 gap-2 absolute flex items-center justify-center left-0 bottom-16 -rotate-90 origin-top-left rounded-br-standard rounded-bl-standard bg-white shadow [@media(max-width:480px)]:hidden"
+    class="hoverWorkspace z-[9999] p-3 gap-2 absolute flex items-center justify-center left-0 bottom-16 -rotate-90 origin-top-left rounded-br-standard rounded-bl-standard bg-white shadow [@media(max-width:768px)]:hidden"
   >
     <p class="bg-white font-bold">Workspace-Menü schließen</p>
     <svg
