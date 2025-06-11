@@ -11,18 +11,20 @@ import {
   Threads,
   ChannelsTest,
   PrivateChat,
+  ChatMessaggeEmoji,
 } from '../types/types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MessagesDataService {
-  constructor() {}
+  constructor() { }
   private firestore: Firestore = inject(Firestore);
   private firestoreService = inject(FirestoreService);
   private _currentThreadId = signal<number>(0);
   private unsubscribeFn: (() => void) | null = null;
   private _messages = signal<Message[]>([]);
+  private _emojis = signal<ChatMessaggeEmoji[]>([]);
   public readonly messages = this._messages.asReadonly();
   private collections: Array<keyof UserData> = [
     'channels',
@@ -41,21 +43,46 @@ export class MessagesDataService {
   }
 
   /**
-   * auslagern in message service
    * subscribed messages assing it to userId
+   *
    * @param userId
    */
   subscribeToMessages(userId: string): void {
+
+
+    this.unsubscribeFn = onSnapshot(this.messageQuery(userId), (snapshot) => {
+      const messages = snapshot.docs.map((doc) => doc.data() as Message);
+      this._messages.set(messages);
+      console.log('messages subscribed:', messages);
+    });
+  }
+
+  /**
+   * 
+   * @param userId user id of currentuser
+   * @returns a query wich is used to filter onSnapshot
+   */
+  messageQuery( userId:string ) {
     const q = query(
       collection(this.firestoreService.firestore, 'messages'),
       where('userIds', 'array-contains', userId)
     );
 
-    this.unsubscribeFn = onSnapshot(q, (snapshot) => {
-      const messages = snapshot.docs.map((doc) => doc.data() as Message);
-      this._messages.set(messages);
-      console.log('messages subscribed:', messages);
-    });
+    return q;
+  }
+
+    /**
+   * 
+   * @param userId user id of currentuser
+   * @returns a query wich is used to filter onSnapshot
+   */
+  emojiQuery( userId:string ) {
+    const q = query(
+      collection(this.firestoreService.firestore, 'emojis'),
+      where('userId', 'array-contains', userId)
+    );
+
+    return q;
   }
 
   /**

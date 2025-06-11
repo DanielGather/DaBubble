@@ -10,7 +10,7 @@
         paddingInline: '2.8rem'
       }"
       [darkMode]="false"
-      (emojiClick)="emojiService.handleEmojiAction($event, chatInputGroup)"
+      (emojiClick)="emojiService.handleEmojiAction($event, chatInputGroup, emojiService.message)"
     >
     </emoji-mart>
   </div>
@@ -27,7 +27,7 @@
         paddingInline: '2.8rem'
       }"
       [darkMode]="false"
-      (emojiClick)="emojiService.handleEmojiAction($event, chatInputGroup)"
+      (emojiClick)="emojiService.handleEmojiAction($event, chatInputGroup, emojiService.message)"
     >
     </emoji-mart>
   </div>

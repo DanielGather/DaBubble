@@ -26,6 +26,7 @@ import { ThreadsbarComponent } from '../chat-thread/threadsbar/threadsbar.compon
 import { ThreadService } from '../../../../services/thread.service';
 import { ResponsiveService } from '../../../../services/responsive.service';
 
+
 @Component({
   selector: 'app-chat-main',
   imports: [
@@ -54,13 +55,12 @@ export class ChatMainComponent implements OnInit {
   readonly isActive = this.threadbarService.threadState;
   readonly isThreadbarOpen = computed(() => this.isActive().isOpen);
 
-  /**
-   * service variables
-   */
+  //inejcts
   usersService = inject(UsersService);
   authService = inject(AuthenticationService);
   firestoreService = inject(FirestoreService);
   messageService = inject(MessagesDataService);
+
 
   unsubscribeMessages: any;
 

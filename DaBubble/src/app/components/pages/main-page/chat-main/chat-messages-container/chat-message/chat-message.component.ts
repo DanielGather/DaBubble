@@ -90,6 +90,7 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
     this.userService.currentUser$
       .pipe(takeUntil(this.destroy$))
       .subscribe((user) => (this.user = user));
+      
   }
 
   ngOnDestroy(): void {

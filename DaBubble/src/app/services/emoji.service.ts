@@ -1,21 +1,27 @@
-import { Injectable, WritableSignal, effect, signal } from '@angular/core';
-import { EmojiFnRegulator, ChatInputType, ToggleEmojiMenuObject } from '../types/types';
+import { Injectable, inject, WritableSignal, effect, signal } from '@angular/core';
+import { EmojiFnRegulator, ChatInputType, ToggleEmojiMenuObject, ChatMessaggeEmoji, AppUser, Message } from '../types/types';
+import { FirestoreService } from './firestore.service';
+import { UsersService } from './users.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmojiService {
-  //test 
+
   toggleEmojiMenuObject: ToggleEmojiMenuObject = {
     inputType: ChatInputType.fromMain,
     isOpen: null
   }
 
-  //testend
+  //injects
+  firestoreService: FirestoreService = inject(FirestoreService);
+  usersService: UsersService = inject(UsersService);
 
   //signals
   showEmojiMenu: WritableSignal<ToggleEmojiMenuObject> = signal(this.toggleEmojiMenuObject);
   hasInteracted: WritableSignal<boolean> = signal(false);
+  readonly currentUserSignal = toSignal(this.usersService.currentUser$);
 
   /**
    * a variable wich regulates the handleEmojiAction()
@@ -26,30 +32,54 @@ export class EmojiService {
    * a variable that changes and determines in which chat type the emoji menu was opened
    */
   chatInputType: WritableSignal<ChatInputType> = signal(ChatInputType.fromMain);
+  
+  //others
 
+  /**
+   * a variable wich stores the currentUser
+   */
+  user:any;
 
+  /**
+   * this variable stores the clicked message to add an reaction to
+   */
+  message!:Message;
 
-  constructor() { }
+  constructor() {
+    effect(() => {
+      this.user = this.currentUserSignal();
+    })
+  }
 
   /**
   * toggles the emoji picker
   * 
   * @param event mouseclick event
   */
-  toggleEmojiMenu(event: MouseEvent, emojiFnRegulatorInput: EmojiFnRegulator, toggleEmojiMenuObject: ToggleEmojiMenuObject): void {
+  toggleEmojiMenu(event: MouseEvent, emojiFnRegulatorInput: EmojiFnRegulator, toggleEmojiMenuObject: ToggleEmojiMenuObject, message?:Message): void {
 
     if (this.showEmojiMenu().inputType !== toggleEmojiMenuObject.inputType) {
       this.showEmojiMenu.set(toggleEmojiMenuObject)
     }
-
-    let isOpen = this.showEmojiMenu().isOpen;
     event.stopPropagation();
     this.hasInteracted.set(true);
+    this.toggleEmojiMenuHelper();
+    this.emojiFnRegulator.set(emojiFnRegulatorInput);
+
+    if (message) {
+      this.message = message;
+    }
+  }
+
+  /**
+   * reverses the isOpen-key of emojiToggleObject
+   */
+  toggleEmojiMenuHelper() {
+    let isOpen = this.showEmojiMenu().isOpen;
     this.showEmojiMenu.set({
       ...this.showEmojiMenu(),
       isOpen: !isOpen
     });
-    this.emojiFnRegulator.set(emojiFnRegulatorInput);
   }
 
   /**
@@ -61,22 +91,36 @@ export class EmojiService {
   addEmoji(event: any, chatInputGroup: any): void {
     const emoji = event.emoji.native;
     const current = chatInputGroup.get('message')?.value || '';
-    let isOpen = this.showEmojiMenu().isOpen;
     chatInputGroup.get('message')?.setValue(current + emoji);
-    this.showEmojiMenu.set({
-      ...this.showEmojiMenu(),
-      isOpen: !isOpen
-    });
+
+    this.toggleEmojiMenuHelper();
   }
 
-  //hier kommt noch die dunktion rein die emojis zu den nachrichten added
-  addReaction(event: any): void {
-    console.log('addReaction trigger: ', event);
-    let isOpen = this.showEmojiMenu().isOpen;
-    this.showEmojiMenu.set({
-      ...this.showEmojiMenu(),
-      isOpen: !isOpen
-    });
+  /**
+   * adds a new document to firestore with the emoji-reaction-object as value in the collection emojis
+   * 
+   * @param event the emoji event
+   * @param messageId the id of the message wich should be getting an emoji-reaction
+   */
+  addReaction(event: any, message:Message): void {
+    this.firestoreService.addDoc('emojis', this.createEmojiObject(event, message));
+
+    this.toggleEmojiMenuHelper();
+  }
+
+  /**
+   * creates the emoji object, this object contains the value of the doc in the emoji-collection on firestore
+   * 
+   * @param event the emoji event
+   * @param messageId the id of the message wich should be getting an emoji-reaction
+   * @returns the emoji objekt
+   */
+  createEmojiObject(event: any, message: Message): ChatMessaggeEmoji {
+    return {
+      emoji: event.emoji.native,
+      messageId: message.messageId,
+      userIds: message.userIds
+    }
   }
 
   /**
@@ -85,9 +129,9 @@ export class EmojiService {
    * @param event emoji object
    * @param chatInputGroup optional: the chatInputGroup of chat-input-component 
    */
-  handleEmojiAction(event: any, chatInputGroup?: any): void {
+  handleEmojiAction(event: any, chatInputGroup?: any, message?:Message): void {
     if (this.emojiFnRegulator() === EmojiFnRegulator.addReaction) {
-      this.addReaction(event);
+      this.addReaction(event, message!);
     }
     else if (this.emojiFnRegulator() === EmojiFnRegulator.addEmojiToText) {
       this.addEmoji(event, chatInputGroup);

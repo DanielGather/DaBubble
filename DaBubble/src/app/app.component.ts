@@ -4,6 +4,7 @@ import { AuthenticationService } from './services/authentication.service';
 import { PrivateMessageService } from './services/private-message.service';
 import { MessagesDataService } from './services/messages-data.service';
 import { ChannelsService } from './services/channels.service';
+import { EmojiSubscribeService } from './services/emoji-subscribe.service';
 
 @Component({
   selector: 'app-root',
@@ -14,11 +15,13 @@ import { ChannelsService } from './services/channels.service';
 export class AppComponent implements OnInit {
   title = 'DaBubble';
 
+  //injects
   private privateMessageService: PrivateMessageService = inject(
     PrivateMessageService
   );
   private messageService: MessagesDataService = inject(MessagesDataService);
   private channelsService: ChannelsService = inject(ChannelsService);
+  private emojiSubscribeService: EmojiSubscribeService = inject(EmojiSubscribeService);
 
   constructor(private authService: AuthenticationService) {}
 

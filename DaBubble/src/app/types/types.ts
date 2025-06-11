@@ -13,8 +13,9 @@ export enum MessageType {
 }
 
 export interface ChatMessaggeEmoji {
-  emojiId: string;
-  userIdCount: Array<string>;
+  emoji: string;
+  messageId: string;
+  userIds: Array<string>;
 }
 
 export interface AppUser {

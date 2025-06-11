@@ -9,6 +9,8 @@ import {
   Input,
   Output,
   EventEmitter,
+  signal,
+  WritableSignal,
 } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { UsersService } from '../../../../../services/users.service';
@@ -29,6 +31,7 @@ import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { EmojiService } from '../../../../../services/emoji.service';
 import { SearchDropdownComponent } from '../../shared/search-dropdown/search-dropdown.component';
 
+
 @Component({
   standalone: true,
   selector: 'app-chat-input',
@@ -47,6 +50,7 @@ export class ChatInputComponent implements OnInit, OnDestroy {
   //input
   @Input() chatInputTypeInput: ChatInputType = ChatInputType.fromMain;
 
+  //output
   @Output() openUserListPopup = new EventEmitter<void>();
 
   //unsubscribe variables
