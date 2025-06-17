@@ -1,5 +1,8 @@
 <div>
-  @if(emojiService.hasInteracted() && emojiService.showEmojiMenu() && emojiService.showEmojiMenu().inputType === chatInputType.fromMain && emojiService.showEmojiMenu().isOpen === true && chatInputTypeInput === chatInputType.fromMain) {
+  @if(emojiService.hasInteracted() && emojiService.showEmojiMenu() &&
+  emojiService.showEmojiMenu().inputType === chatInputType.fromMain &&
+  emojiService.showEmojiMenu().isOpen === true && chatInputTypeInput ===
+  chatInputType.fromMain) {
   <div class="w-full flex flex-col emoji-picker-container">
     <emoji-mart
       [style]="{
@@ -10,13 +13,20 @@
         paddingInline: '2.8rem'
       }"
       [darkMode]="false"
-      (emojiClick)="emojiService.handleEmojiAction($event, chatInputGroup, emojiService.message)"
+      (emojiClick)="
+        emojiService.handleEmojiAction(
+          $event,
+          chatInputGroup,
+          emojiService.message
+        )
+      "
     >
     </emoji-mart>
   </div>
-  }
-
-  @if(emojiService.hasInteracted() && emojiService.showEmojiMenu() && emojiService.showEmojiMenu().inputType === chatInputType.fromThread && emojiService.showEmojiMenu().isOpen === true && chatInputTypeInput === chatInputType.fromThread) {
+  } @if(emojiService.hasInteracted() && emojiService.showEmojiMenu() &&
+  emojiService.showEmojiMenu().inputType === chatInputType.fromThread &&
+  emojiService.showEmojiMenu().isOpen === true && chatInputTypeInput ===
+  chatInputType.fromThread) {
   <div class="w-full flex flex-col emoji-picker-container">
     <emoji-mart
       [style]="{
@@ -27,7 +37,13 @@
         paddingInline: '2.8rem'
       }"
       [darkMode]="false"
-      (emojiClick)="emojiService.handleEmojiAction($event, chatInputGroup, emojiService.message)"
+      (emojiClick)="
+        emojiService.handleEmojiAction(
+          $event,
+          chatInputGroup,
+          emojiService.message
+        )
+      "
     >
     </emoji-mart>
   </div>
@@ -52,7 +68,7 @@
       ></textarea>
 
       <div class="flex flex-row items-center justify-between w-full relative">
-        <div class="flex flex-row items-center justify-center gap-2">
+        <div class="flex flex-row items-center justify-center gap-2 relative">
           <button
             type="button"
             class="p-2 rounded-[50%] cursor-pointer transition-colors ease-in-out duration-[200ms] hover:bg-bg-main"
@@ -113,18 +129,19 @@
             />
           </button>
 
-  <div
-    *ngIf="searchUserDropdownVisible"
-    class="absolute bottom-full mb-2 z-50"
-  >
-    <app-search-dropdown
-      [visible]="searchUserDropdownVisible"
-      [searchUser]="true"
-      [searchChannel]="false"
-      [searchTerm]="searchTerm"
-      (visibleChange)="searchUserDropdownVisible = $event"
-    ></app-search-dropdown>
-  </div>
+          <div
+            *ngIf="searchUserDropdownVisible"
+            class="fixed bottom-96 z-50"
+          >
+            <app-search-dropdown
+              [visible]="searchUserDropdownVisible"
+              [searchUser]="true"
+              [searchChannel]="false"
+              [searchTerm]="searchTerm"
+              [dropdownDirection]="'up'"
+              (visibleChange)="searchUserDropdownVisible = $event"
+            ></app-search-dropdown>
+          </div>
         </div>
 
         <button

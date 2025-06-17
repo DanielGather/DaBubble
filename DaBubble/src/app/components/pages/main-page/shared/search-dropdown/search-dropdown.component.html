@@ -18,7 +18,11 @@
 
 <div
   id="search-dropdown-wrapper"
-  class="max-h-80 w-80 bg-white flex flex-col gap-2 overflow-y-auto overflow-x-hidden p-2 border border-[rgba(173, 176, 217, 1)] rounded-2xl rounded-tl-[0px] relative"
+  class="max-h-80 w-80 bg-white flex flex-col gap-2 overflow-y-auto overflow-x-hidden p-2 border border-[rgba(173, 176, 217, 1)] rounded-2xl rounded-tl-[0px] relative z-[999]"
+  [ngClass]="{
+    'absolute bottom-full mb-2 rounded-tl-2xl': dropdownDirection === 'up',
+    'absolute top-full mt-2': dropdownDirection === 'down'
+  }"
 >
   @if (searchUser) { @if (usersList$ | async; as users) { @for (user of users;
   track $index) {

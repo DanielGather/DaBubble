@@ -32,6 +32,7 @@ export class SearchDropdownComponent {
   @Input() searchTerm: string = '';
   @Input() searchText: boolean = false;
   @Output() visibleChange = new EventEmitter<boolean>();
+@Input() dropdownDirection: 'up' | 'down' = 'down';
 
   messageService = inject(MessagesDataService);
   selectedUser: AppUser | null = null;
