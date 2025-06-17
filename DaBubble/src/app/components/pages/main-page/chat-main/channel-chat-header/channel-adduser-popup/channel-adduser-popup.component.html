@@ -40,7 +40,7 @@
         'rounded-b-[2rem] border-b border-color-border': !isFocused,
         'rounded-b-none border-b-0': isFocused
       }"
-      class="w-full px-5 py-4 rounded-t-[2rem] border border-color-border focus:outline-none transition-all duration-200 mb-2"
+      class="w-full px-5 py-4 rounded-t-[2rem] border border-color-border focus:outline-none transition-all duration-200 mb-0"
       type="text"
       placeholder="Name eingeben"
     />
@@ -128,7 +128,7 @@
       'justify-start': mode === 'show'
     }"
   >
-    <app-button *ngIf="mode === 'add'">Hinzufügen</app-button>
+    <!-- <app-button *ngIf="mode === 'add'">Hinzufügen</app-button> -->
 
     <button
       (click)="openAddUserPopup.emit()"
