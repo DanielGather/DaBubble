@@ -13,7 +13,8 @@ import {
   EmojiFnRegulator,
   Message,
   ToggleEmojiMenuObject,
-  ChatInputType
+  ChatInputType,
+  MergedMessage
 } from '../../../../../../types/types';
 import { CommonModule } from '@angular/common';
 import { PopOverComponent } from '../../../shared/pop-over/pop-over.component';
@@ -53,20 +54,7 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
   //inputs
   @Input() chatType: ChatType = ChatType.default;
   @Input() messageTypeInput: MessageType = MessageType.default;
-  @Input() message: Message = {
-    channelId: '',
-    creatorAvatarId: 0,
-    creatorId: '',
-    creatorName: '',
-    isThreadMessage: false,
-    hasAThread: false,
-    message: '',
-    messageId: '',
-    privateChatId: '',
-    threadId: '',
-    timestamp: '',
-    userIds: []
-  };
+  @Input() message!: MergedMessage;
   @Input() isThread: boolean = false;
   @Input() isTopMessage: boolean = false;
   @Input() answersCount: number | null = null;
@@ -84,7 +72,9 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
    */
   showMenu: boolean = false;
 
-  constructor(private route: ActivatedRoute, private router: Router) { }
+  constructor(private route: ActivatedRoute, private router: Router) {
+                      console.log('channel spezifische cha<tmessages --------> : ',this.message);    
+   }
 
   ngOnInit(): void {
     this.userService.currentUser$

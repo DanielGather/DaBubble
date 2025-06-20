@@ -237,7 +237,7 @@ export class ChatInputComponent implements OnInit, OnDestroy {
 
     let testId = await this.firestoreService.addDoc('messages', formData);
 
-    this.firestoreService.updateDoc('messages', `${testId}`, {
+    await this.firestoreService.updateDoc('messages', `${testId}`, {
       messageId: testId,
     });
 

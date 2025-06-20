@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
     this.authService.observeAuthState();
     this.privateMessageService.subscribeToPrivateMessage(userId);
     this.messageService.subscribeToMessages(userId);
+    this.messageService.subscribeToEmojis(userId);
     this.channelsService.subscribeToChannels(userId);
   }
 }

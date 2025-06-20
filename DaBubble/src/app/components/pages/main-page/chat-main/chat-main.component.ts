@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { ChatInputComponent } from './chat-input/chat-input.component';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ChatType, Message, ChatInputType } from '../../../../types/types';
+import { ChatType, Message, ChatInputType, MergedMessage } from '../../../../types/types';
 import { CommonModule } from '@angular/common';
 import { ChatMessagesContainerComponent } from './chat-messages-container/chat-messages-container.component';
 import { PrivateChatHeaderComponent } from './private-chat-header/private-chat-header.component';
@@ -77,19 +77,19 @@ export class ChatMainComponent implements OnInit {
   /**
    * the array of chatmessages wich should be rendered
    */
-  chatMessages: Array<any> = [];
+  chatMessages: Array<MergedMessage> = [];
 
   //other
   cachedChatId: WritableSignal<string> = signal('');
 
   //signals
-  newMessages = signal<Message[]>([]);
+  newMessages = signal<Array<MergedMessage>>([]);
   urlParamsSignal = toSignal(this.urlService.urlParameter$);
   chatTypeSignal = computed(() => this.urlParamsSignal()?.chatType);
 
   constructor(private route: ActivatedRoute) {
     effect(() => {
-      const allMessages = this.messageService.messages();
+      const allMessages = this.messageService._mergedMessages();
       const channelId = this.urlParamsSignal()?.chatId;
       const chatType = this.chatTypeSignal();
 
@@ -127,9 +127,9 @@ export class ChatMainComponent implements OnInit {
     this.cachedChatId.set(this.urlService.currentParams.threadsId!);
   }
 
-  sortMsgs(filtered: Message[]) {
+  sortMsgs(filtered: Array<MergedMessage>) {
     return filtered.sort((a, b) => {
-      return parseInt(a.timestamp) - parseInt(b.timestamp);
+      return a.timestamp - b.timestamp;
     });
   }
 }

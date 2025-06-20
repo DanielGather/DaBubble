@@ -1,4 +1,4 @@
-import { Injectable, signal, inject } from '@angular/core';
+import { Injectable, signal, inject, effect } from '@angular/core';
 import { FirestoreService } from './firestore.service';
 import { Firestore, collection, where, query } from '@angular/fire/firestore';
 import { getDocs, onSnapshot } from 'firebase/firestore';
@@ -12,26 +12,65 @@ import {
   ChannelsTest,
   PrivateChat,
   ChatMessaggeEmoji,
+  MergedMessage
 } from '../types/types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MessagesDataService {
-  constructor() { }
+
   private firestore: Firestore = inject(Firestore);
   private firestoreService = inject(FirestoreService);
   private _currentThreadId = signal<number>(0);
-  private unsubscribeFn: (() => void) | null = null;
+  private unsubscribeMsgs: (() => void) | null = null;
+  private unsubscribeEmojis: (() => void) | null = null;
   private _messages = signal<Message[]>([]);
   private _emojis = signal<ChatMessaggeEmoji[]>([]);
   public readonly messages = this._messages.asReadonly();
+  public _mergedMessages = signal<Array<MergedMessage>>([])
   private collections: Array<keyof UserData> = [
     'channels',
     'privateChats',
     'threads',
     'messages',
   ];
+
+  constructor() {
+    effect(() => {
+      let emojis: Array<ChatMessaggeEmoji> = this._emojis();
+     
+        this.mergeEmojisWithMessages(emojis);
+        console.log('hier sind die neuen messages: ---> ', this._mergedMessages());
+     
+    })
+  }
+
+  mergeEmojisWithMessages(emojis: Array<ChatMessaggeEmoji>) {
+    const messages = this._messages();
+
+    // Emojis gruppieren nach messageId
+    const emojiMap = this.generateEmojiObjectReadyToMerge(emojis);
+
+    // Neue Nachrichten-Liste mit den Emojis
+    const mergedMessages = messages.map(message => ({
+      ...message,
+      emojis: emojiMap![message.messageId] || []
+    }));
+
+    // Signal updaten
+    this._mergedMessages.set(mergedMessages);
+  }
+
+  generateEmojiObjectReadyToMerge(emojis: Array<ChatMessaggeEmoji>) {
+    return emojis.reduce((endObject, emoji: ChatMessaggeEmoji) => {
+      if (!endObject[emoji.messageId]) {
+        endObject[emoji.messageId] = [];
+      }
+      endObject[emoji.messageId].push(emoji);
+      return endObject;
+    }, {} as Record<string, ChatMessaggeEmoji[]>);
+  }
 
   setCurrentThreadId(threadId: number) {
     this._currentThreadId.set(threadId);
@@ -48,9 +87,7 @@ export class MessagesDataService {
    * @param userId
    */
   subscribeToMessages(userId: string): void {
-
-
-    this.unsubscribeFn = onSnapshot(this.messageQuery(userId), (snapshot) => {
+    this.unsubscribeMsgs = onSnapshot(this.query(userId, 'messages'), (snapshot) => {
       const messages = snapshot.docs.map((doc) => doc.data() as Message);
       this._messages.set(messages);
       console.log('messages subscribed:', messages);
@@ -58,28 +95,29 @@ export class MessagesDataService {
   }
 
   /**
-   * 
-   * @param userId user id of currentuser
-   * @returns a query wich is used to filter onSnapshot
-   */
-  messageQuery( userId:string ) {
-    const q = query(
-      collection(this.firestoreService.firestore, 'messages'),
-      where('userIds', 'array-contains', userId)
-    );
-
-    return q;
+ * subscribed emojis assing it to userId
+ *
+ * @param userId
+ */
+  subscribeToEmojis(userId: string): void {
+    this.unsubscribeEmojis = onSnapshot(this.query(userId, 'emojis'), (snapshot) => {
+      const emojis = snapshot.docs.map((doc) => doc.data() as ChatMessaggeEmoji);
+      this._emojis.set(emojis);
+      console.log('Emojis subscribed -----> : ', emojis);
+    });
   }
 
-    /**
-   * 
+
+
+  /**
    * @param userId user id of currentuser
+   * 
    * @returns a query wich is used to filter onSnapshot
    */
-  emojiQuery( userId:string ) {
+  query(userId: string, category: string) { //category either messages or emojis
     const q = query(
-      collection(this.firestoreService.firestore, 'emojis'),
-      where('userId', 'array-contains', userId)
+      collection(this.firestoreService.firestore, `${category}`),
+      where('userIds', 'array-contains', userId)
     );
 
     return q;
@@ -89,7 +127,14 @@ export class MessagesDataService {
    * close the message observer
    */
   unsubscribeFromMessages(): void {
-    this.unsubscribeFn?.();
+    this.unsubscribeMsgs?.();
+  }
+
+  /**
+   * close the emojis observer
+   */
+  unsubscribeFromEmojis(): void {
+    this.unsubscribeEmojis?.();
   }
 
   /**
@@ -169,9 +214,8 @@ export class MessagesDataService {
    *   (`channels`, `privateChats`, `threads`, `messages`) contains the
    *   mapped document data for that collection.
    */
-  async createUserObject(
-    results: CollectionResult<keyof UserData>[]
-  ): Promise<UserData> {
+  async createUserObject(results: CollectionResult<keyof UserData>[]): Promise<UserData> {
+
     const userData: UserData = {
       channels: [],
       privateChats: [],

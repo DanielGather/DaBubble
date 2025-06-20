@@ -16,6 +16,7 @@ export interface ChatMessaggeEmoji {
   emoji: string;
   messageId: string;
   userIds: Array<string>;
+  creatorId: string;
 }
 
 export interface AppUser {
@@ -70,7 +71,7 @@ export interface UserData {
 export interface Message {
   channelId: string;
   message: string;
-  timestamp: string;
+  timestamp: number;
   userIds: Array<string>;
   creatorId: string;
   creatorAvatarId: number;
@@ -121,4 +122,8 @@ export enum ChatInputType {
 export interface ToggleEmojiMenuObject {
   inputType: ChatInputType,
   isOpen: boolean | null
+}
+
+export interface MergedMessage extends Message {
+  emojis: Array<ChatMessaggeEmoji>,
 }

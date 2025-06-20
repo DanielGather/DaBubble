@@ -21,7 +21,7 @@ export class EmojiService {
   //signals
   showEmojiMenu: WritableSignal<ToggleEmojiMenuObject> = signal(this.toggleEmojiMenuObject);
   hasInteracted: WritableSignal<boolean> = signal(false);
-  readonly currentUserSignal = toSignal(this.usersService.currentUser$);
+  currentUserSignal = toSignal(this.usersService.currentUser$);
 
   /**
    * a variable wich regulates the handleEmojiAction()
@@ -47,7 +47,7 @@ export class EmojiService {
 
   constructor() {
     effect(() => {
-      this.user = this.currentUserSignal();
+      this.user = this.currentUserSignal();      
     })
   }
 
@@ -116,10 +116,13 @@ export class EmojiService {
    * @returns the emoji objekt
    */
   createEmojiObject(event: any, message: Message): ChatMessaggeEmoji {
+    console.log('das ist die message fr das emoji object: ----->', message);
+    
     return {
       emoji: event.emoji.native,
       messageId: message.messageId,
-      userIds: message.userIds
+      userIds: message.userIds,
+      creatorId: this.user.userId
     }
   }
 
@@ -130,6 +133,8 @@ export class EmojiService {
    * @param chatInputGroup optional: the chatInputGroup of chat-input-component 
    */
   handleEmojiAction(event: any, chatInputGroup?: any, message?:Message): void {
+    console.log('message from ahndleemoji', message);
+    
     if (this.emojiFnRegulator() === EmojiFnRegulator.addReaction) {
       this.addReaction(event, message!);
     }

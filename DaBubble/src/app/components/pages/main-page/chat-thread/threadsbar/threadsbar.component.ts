@@ -10,7 +10,7 @@ import {
 import { ChatInputComponent } from '../../chat-main/chat-input/chat-input.component';
 import { CommonModule } from '@angular/common';
 import { ChatMessagesContainerComponent } from '../../chat-main/chat-messages-container/chat-messages-container.component';
-import { ChatInputType, ChatType, Message } from '../../../../../types/types';
+import { ChatInputType, ChatType, MergedMessage, Message } from '../../../../../types/types';
 import { ThreadService } from '../../../../../services/thread.service';
 
 @Component({
@@ -27,14 +27,14 @@ export class ThreadsbarComponent {
   isOpen: boolean = true;
 
   //input
-  @Input() chatMessages: Array<Message> = [];
+  @Input() chatMessages: Array<MergedMessage> = [];
 
   //inject
   threadbarService = inject(ThreadService);
   chatType = ChatType;
 
   //signal
-  private _chatMessagesSignal = signal<Array<Message>>([]);
+  private _chatMessagesSignal = signal<Array<MergedMessage>>([]);
   threadMessage = computed(() => {
     const currentId = this.threadbarService.currentThreadId();
     const messages = this._chatMessagesSignal;
