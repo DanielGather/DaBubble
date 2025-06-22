@@ -1,9 +1,11 @@
-<nav class="h-full" [ngClass]="{ 'ml-4': clicked }">
+<nav class="h-full" [ngClass]="{ 'ml-0': clicked }">
   @if(clicked){
   <app-searchbar class="block md:hidden"></app-searchbar>
-  <div class="pt-4 pr-4 w-full relative h-full flex flex-col md:w-auto md:pr-0">
+  <div
+    class="pt-4 md:ml-4 w-full relative h-screen flex flex-col md:w-auto md:pr-0"
+  >
     <div
-      class="flex pl-4 gap-4 pt-8 relative bg-bg-component rounded-tl-standard rounded-tr-standard"
+      class="flex pl-4 gap-4 pt-8 relative bg-bg-component md:rounded-tl-standard md:rounded-tr-standard"
     >
       <div class="items-start flex justify-center pt-2">
         <img
