@@ -91,6 +91,8 @@ export class HeaderComponent implements OnInit {
     }
     if (chatId && !threadId) {
       this.router.navigate(['/chat']);
+      this.responsiveService.goBack.set(true);
+      this.responsiveService.channelOpen.set(false);
     }
     if (!threadId && !chatId) {
       this.responsiveService.goBack.set(true);

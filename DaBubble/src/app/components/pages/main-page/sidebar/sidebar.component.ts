@@ -131,6 +131,10 @@ export class SidebarComponent {
   }
 
   openChannel(channelId: string) {
+    this.responsiveService.goBack.set(false);
+    this.responsiveService.channelOpen.set(true);
+    console.log(this.responsiveService.channelOpen());
+
     this.router.navigate(['/chat/channel', channelId]);
     this.threadService.closeThread();
   }
