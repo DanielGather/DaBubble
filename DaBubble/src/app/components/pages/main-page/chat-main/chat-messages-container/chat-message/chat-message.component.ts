@@ -6,12 +6,12 @@ import {
   OnDestroy,
   Output,
   EventEmitter,
+  AfterViewInit
 } from '@angular/core';
 import {
   MessageType,
   ChatType,
   EmojiFnRegulator,
-  Message,
   ToggleEmojiMenuObject,
   ChatInputType,
   MergedMessage
@@ -33,7 +33,7 @@ import { EmojiService } from '../../../../../../services/emoji.service';
   templateUrl: './chat-message.component.html',
   styleUrl: './chat-message.component.scss',
 })
-export class ChatMessageComponent implements OnInit, OnDestroy {
+export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
   
   //services
   userService = inject(UsersService);
@@ -73,7 +73,7 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
   showMenu: boolean = false;
 
   constructor(private route: ActivatedRoute, private router: Router) {
-                      console.log('channel spezifische cha<tmessages --------> : ',this.message);    
+    
    }
 
   ngOnInit(): void {
@@ -81,6 +81,10 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((user) => (this.user = user));
       
+  }
+
+  ngAfterViewInit(): void {
+    console.log('channel spezifische cha<tmessages --------> : ', this.message);  
   }
 
   ngOnDestroy(): void {

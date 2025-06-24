@@ -45,8 +45,6 @@ export class MainLayoutComponent implements OnInit {
   async ngAfterViewInit() {}
 
   get sidebarVisible(): boolean {
-    console.log(this.responsiveService.showSidebar());
-
     return this.responsiveService.showSidebar();
   }
 }
