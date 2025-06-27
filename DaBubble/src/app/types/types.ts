@@ -125,5 +125,5 @@ export interface ToggleEmojiMenuObject {
 }
 
 export interface MergedMessage extends Message {
-  emojis: Array<ChatMessaggeEmoji>,
+  emojis: Array<any>, //Array<ChatMessaggeEmoji>
 }

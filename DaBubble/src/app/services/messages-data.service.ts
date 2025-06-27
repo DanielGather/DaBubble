@@ -46,21 +46,33 @@ export class MessagesDataService {
     })
   }
 
-  mergeEmojisWithMessages(emojis: Array<ChatMessaggeEmoji>) {
-    const messages = this._messages();
+mergeEmojisWithMessages(emojis: Array<ChatMessaggeEmoji>) {
+  const messages = this._messages();
+  const emojiMap = this.generateEmojiObjectReadyToMerge(emojis);
 
-    // Emojis gruppieren nach messageId
-    const emojiMap = this.generateEmojiObjectReadyToMerge(emojis);
+  const mergedMessages = messages.map(message => {
+    const messageEmojis = emojiMap![message.messageId] || [];
 
-    // Neue Nachrichten-Liste mit den Emojis
-    const mergedMessages = messages.map(message => ({
+    // Emojis mit gleichem emoji-Wert gruppieren
+    const groupedEmojis = Object.values(
+      messageEmojis.reduce((groups, emoji) => {
+        const key = emoji.emoji; // z.B. "👍"
+        if (!groups[key]) {
+          groups[key] = [];
+        }
+        groups[key].push(emoji);
+        return groups;
+      }, {} as Record<string, ChatMessaggeEmoji[]>)
+    );
+
+    return {
       ...message,
-      emojis: emojiMap![message.messageId] || []
-    }));
+      emojis: groupedEmojis
+    };
+  });
 
-    // Signal updaten
-    this._mergedMessages.set(mergedMessages);
-  }
+  this._mergedMessages.set(mergedMessages);
+}
 
   generateEmojiObjectReadyToMerge(emojis: Array<ChatMessaggeEmoji>) {
     return emojis.reduce((endObject, emoji: ChatMessaggeEmoji) => {
