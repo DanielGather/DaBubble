@@ -32,7 +32,7 @@ export class SearchDropdownComponent {
   @Input() searchTerm: string = '';
   @Input() searchText: boolean = false;
   @Output() visibleChange = new EventEmitter<boolean>();
-@Input() dropdownDirection: 'up' | 'down' = 'down';
+  @Input() dropdownDirection: 'up' | 'down' = 'down';
 
   messageService = inject(MessagesDataService);
   selectedUser: AppUser | null = null;
@@ -90,6 +90,7 @@ export class SearchDropdownComponent {
 
   openChannel(channelId: string) {
     this.router.navigate(['/chat/channel', channelId]);
+    this.close();
   }
 
   redirectToChannel(message: any) {
@@ -113,6 +114,7 @@ export class SearchDropdownComponent {
   onUserClicked(user: AppUser) {
     this.selectedUser = user;
     this.showUserPopupVisible = true;
+    this.close();
   }
 
   closeUserPopup() {
