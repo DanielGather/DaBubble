@@ -8,6 +8,10 @@ import {
   updateDoc,
   setDoc,
   addDoc,
+  getDocs,
+  query,
+  where,
+  QueryConstraint
 } from '@angular/fire/firestore';
 import { getDoc } from 'firebase/firestore';
 import { Observable, shareReplay } from 'rxjs';
@@ -32,7 +36,7 @@ export class FirestoreService {
     'channels'
   ) as Observable<Channels[]>;
 
-  constructor() {}
+  constructor() { }
 
   /**
    * this function returns the specific collection-reference of the firestore database.
@@ -139,4 +143,31 @@ export class FirestoreService {
 
     return snap.exists() ? (snap.data() as T) : null;
   }
+
+  /**
+ * Führt eine Abfrage auf eine Collection mit Bedingungen aus (z. B. für Emoji-Reaktionen).
+ * Gibt eine Liste von Dokumenten zurück, die die Bedingungen erfüllen.
+ *
+ * @param collectionKey Name der Collection
+ * @param conditions Array aus Bedingungen: { field, operator, value }
+ * @returns Promise mit Liste der passenden Dokumente (inkl. IDs)
+ */
+  async queryDocs<T = any>(collectionKey: string, conditions: { field: string; operator: any; value: any }[]): Promise<(T & { id: string })[]> 
+    {
+
+    const colRef = this.getCollectionRef(collectionKey);
+
+    const constraints: QueryConstraint[] = conditions.map(cond =>
+      where(cond.field, cond.operator, cond.value)
+    );
+
+    const q = query(colRef, ...constraints);
+    const snapshot = await getDocs(q);
+
+    return snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    })) as (T & { id: string })[];
+  }
+
 }

@@ -118,7 +118,7 @@
           <div id="emoji-container" class="flex items-start justify-end w-full gap-2 mt-2 relative">
             <div class="flex flex-wrap items-end justify-end gap-2" id="emoji-render-container">
               @for(emojiArray of message.emojis; track $index) {
-              <div class="border-[1px] border-[#ADB0D9] rounded-standard w-[3rem] flex justify-center items-center py-[0.1rem] hover:border-[#797EF3]">
+              <div class="border-[1px] border-[#ADB0D9] rounded-standard w-[3rem] flex justify-center items-center py-[0.1rem] hover:border-[#797EF3] cursor-pointer">
                 {{emojiArray[0].emoji}} {{emojiArray.length}}
               </div>
               }

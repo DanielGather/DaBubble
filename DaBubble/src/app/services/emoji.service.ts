@@ -32,22 +32,22 @@ export class EmojiService {
    * a variable that changes and determines in which chat type the emoji menu was opened
    */
   chatInputType: WritableSignal<ChatInputType> = signal(ChatInputType.fromMain);
-  
+
   //others
 
   /**
    * a variable wich stores the currentUser
    */
-  user:any;
+  user: any;
 
   /**
    * this variable stores the clicked message to add an reaction to
    */
-  message!:Message;
+  message!: Message;
 
   constructor() {
     effect(() => {
-      this.user = this.currentUserSignal();      
+      this.user = this.currentUserSignal();
     })
   }
 
@@ -56,7 +56,7 @@ export class EmojiService {
   * 
   * @param event mouseclick event
   */
-  toggleEmojiMenu(event: MouseEvent, emojiFnRegulatorInput: EmojiFnRegulator, toggleEmojiMenuObject: ToggleEmojiMenuObject, message?:Message): void {
+  toggleEmojiMenu(event: MouseEvent, emojiFnRegulatorInput: EmojiFnRegulator, toggleEmojiMenuObject: ToggleEmojiMenuObject, message?: Message): void {
 
     if (this.showEmojiMenu().inputType !== toggleEmojiMenuObject.inputType) {
       this.showEmojiMenu.set(toggleEmojiMenuObject)
@@ -96,17 +96,50 @@ export class EmojiService {
     this.toggleEmojiMenuHelper();
   }
 
+  //alt
   /**
    * adds a new document to firestore with the emoji-reaction-object as value in the collection emojis
    * 
    * @param event the emoji event
    * @param messageId the id of the message wich should be getting an emoji-reaction
    */
-  addReaction(event: any, message:Message): void {
+  addReactionOld(event: any, message: Message): void {
+
     this.firestoreService.addDoc('emojis', this.createEmojiObject(event, message));
 
     this.toggleEmojiMenuHelper();
   }
+  //alt end
+
+  //test
+  async addReaction(event: any, message: Message): Promise<void> {
+    const creatorId = this.user.userId;
+    const messageId = message.messageId;
+
+    // Emoji-Objekt erzeugen
+    const emojiObject = this.createEmojiObject(event, message);
+
+    // 1. Prüfen, ob bereits eine Reaktion von diesem User auf diese Nachricht existiert
+    const existingReactions = await this.firestoreService.queryDocs('emojis', [
+      { field: 'creatorId', operator: '==', value: creatorId },
+      { field: 'messageId', operator: '==', value: messageId },
+    ]);
+
+    if (existingReactions.length > 0) {
+      // 2. Wenn ja → die erste gefundene Reaktion updaten
+      const existingReactionId = existingReactions[0].id;
+      await this.firestoreService.updateDoc('emojis', existingReactionId, emojiObject);
+      console.log(`Emoji-Reaktion aktualisiert: ${existingReactionId}`);
+    } else {
+      // 3. Wenn keine existiert → neue Reaktion speichern
+      await this.firestoreService.addDoc('emojis', emojiObject);
+      console.log('Neue Emoji-Reaktion gespeichert');
+    }
+
+    // Menü schließen
+    this.toggleEmojiMenuHelper();
+  }
+  //testend
 
   /**
    * creates the emoji object, this object contains the value of the doc in the emoji-collection on firestore
@@ -117,7 +150,7 @@ export class EmojiService {
    */
   createEmojiObject(event: any, message: Message): ChatMessaggeEmoji {
     console.log('das ist die message fr das emoji object: ----->', message);
-    
+
     return {
       emoji: event.emoji.native,
       messageId: message.messageId,
@@ -132,9 +165,9 @@ export class EmojiService {
    * @param event emoji object
    * @param chatInputGroup optional: the chatInputGroup of chat-input-component 
    */
-  handleEmojiAction(event: any, chatInputGroup?: any, message?:Message): void {
+  handleEmojiAction(event: any, chatInputGroup?: any, message?: Message): void {
     console.log('message from ahndleemoji', message);
-    
+
     if (this.emojiFnRegulator() === EmojiFnRegulator.addReaction) {
       this.addReaction(event, message!);
     }
