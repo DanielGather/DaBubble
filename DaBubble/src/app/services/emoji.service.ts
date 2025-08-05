@@ -96,50 +96,39 @@ export class EmojiService {
     this.toggleEmojiMenuHelper();
   }
 
-  //alt
   /**
-   * adds a new document to firestore with the emoji-reaction-object as value in the collection emojis
+   * this function adds a reaction to a message.
+   * if current user has reacted to the message and reacts again, 
+   * the reaction document in firestore, will be updated with the new reaction.
    * 
-   * @param event the emoji event
-   * @param messageId the id of the message wich should be getting an emoji-reaction
+   * @param event emoji event
+   * @param message message wich will be reacted to
    */
-  addReactionOld(event: any, message: Message): void {
-
-    this.firestoreService.addDoc('emojis', this.createEmojiObject(event, message));
-
-    this.toggleEmojiMenuHelper();
-  }
-  //alt end
-
-  //test
   async addReaction(event: any, message: Message): Promise<void> {
     const creatorId = this.user.userId;
     const messageId = message.messageId;
 
-    // Emoji-Objekt erzeugen
+    // creates Emoji-Objekt
     const emojiObject = this.createEmojiObject(event, message);
 
-    // 1. Prüfen, ob bereits eine Reaktion von diesem User auf diese Nachricht existiert
+    // proofs reactions if creatorId and messageId is existing
     const existingReactions = await this.firestoreService.queryDocs('emojis', [
       { field: 'creatorId', operator: '==', value: creatorId },
       { field: 'messageId', operator: '==', value: messageId },
     ]);
 
     if (existingReactions.length > 0) {
-      // 2. Wenn ja → die erste gefundene Reaktion updaten
+      // if a reaction exists with the messageId and the userId than the reactiondoc will be updated.
       const existingReactionId = existingReactions[0].id;
       await this.firestoreService.updateDoc('emojis', existingReactionId, emojiObject);
-      console.log(`Emoji-Reaktion aktualisiert: ${existingReactionId}`);
     } else {
-      // 3. Wenn keine existiert → neue Reaktion speichern
+      // if no reaction was found a new one will be created
       await this.firestoreService.addDoc('emojis', emojiObject);
-      console.log('Neue Emoji-Reaktion gespeichert');
     }
 
-    // Menü schließen
+    // close Menu
     this.toggleEmojiMenuHelper();
   }
-  //testend
 
   /**
    * creates the emoji object, this object contains the value of the doc in the emoji-collection on firestore
